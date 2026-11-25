@@ -819,7 +819,7 @@ body.nores #kpi,body.nores #eqw,body.nores #aside,body.nores #notes,body.nores #
 // Pin: mô phỏng SOC theo giờ, DoD 90%, PCS 0,5C. Điện lưới chỉ nạp giờ thấp điểm để xả vào giờ cao điểm.
 const K={volt:'Trên 1 kV đến 35 kV',idle:0.2,sGood:0.4,mGood:1.35,sCloud:0.25,roofPerKwp:6,minRoof:30,minSelfUse:0.65,
   capex:9.5e6,om:83338,omGrow:0.05,degr:0.005,grow:0.02,invPct:0.096,invYear:11,tax:0.2,depYears:12,lossYears:5,wacc:0.1122,
-  bessCapex:4.5e6,bessRT:0.9,dod:0.9,cRate:0.5,bessDegr:0.025,bessOm:0.01,bessRepYear:12,bessRepPct:0.5,
+  bessCapex:4.5e6,bessRT:0.85,dod:0.9,cRate:0.5,bessDegr:0.025,bessOm:0.01,bessRepYear:12,bessRepPct:0.5,
   esco:0.10,escoYears:15,escoIrrMin:0.12};
 function irr(cf){let lo=-0.99,hi=2,f=r=>cf.reduce((s,c,i)=>s+c/Math.pow(1+r,i),0);
   if(f(lo)*f(hi)>0)return null;for(let i=0;i<200;i++){const m=(lo+hi)/2;if(f(lo)*f(m)<=0)hi=m;else lo=m}return (lo+hi)/2}
@@ -838,6 +838,7 @@ function calc2(D,x0){
   let den=0,sf=0;for(const t of types){for(let h=0;h<24;h++){den+=t.N*t.f[h]*t.price[h];sf+=t.N*t.f[h]}}
   const k=12*x.bill/den,kwh=k*sf;
   types.forEach(t=>t.L=t.f.map(v=>k*v));
+  const Lmax=Math.max(...types.map(t=>Math.max(...t.L)));// phụ tải lớn nhất trong tuần, xem như công suất trạm biến áp
   const pvo=D.prov.find(p=>p[0]===x.prov)[1];
   const s1=x.sGood,s3=x.sCloud,s2=1-s1-s3,m3=s3?(1-s1*x.mGood-s2)/s3:1;
   const sh=[s1,s2,s3],mu=[x.mGood,1,m3];
@@ -855,7 +856,7 @@ function calc2(D,x0){
       const gTarget=Math.max(0,Math.min(Eu,pkAll/eta)-Math.min(Eu,solEst));// lượng lưu cần nạp từ lưới
       let sS=0,sG=0;
       for(let h=0;h<24;h++){
-        if(offH[h]&&sG<gTarget){let rem=0;for(let q=h;q<24&&offH[q];q++)rem++;const inp=Math.min(Pc,(gTarget-sG)/eta/rem,(Eu-sS-sG)/eta);if(inp>0){sG+=inp*eta;gc[h]=inp;gIn+=inp;gCost+=inp*t.price[h]}}
+        if(offH[h]&&sG<gTarget){let rem=0;for(let q=h;q<24&&offH[q];q++)rem++;const inp=Math.min(Pc,Math.max(0,Lmax-t.L[h]),(gTarget-sG)/eta/rem,(Eu-sS-sG)/eta);if(inp>0){sG+=inp*eta;gc[h]=inp;gIn+=inp;gCost+=inp*t.price[h]}}
         if(sur[h]>0){const inp=Math.min(sur[h],Pc,(Eu-sS-sG)/eta);if(inp>0)sS+=inp*eta}
         if(def[h]>0&&!offH[h]){const f=fpk(t,h),cap=Math.min(def[h],Pc);
           const disPk=c=>{const g=Math.min(c,sG*eta);sG-=g/eta;c-=g;dG+=g;vG+=g*pk;bd[h]+=g;
@@ -1017,7 +1018,7 @@ function bomRows(r,p){
    ['mount','Khung đỡ','Nhôm hoặc thép mạ kẽm nhúng nóng',`Chọn theo loại mái và tải gió. Diện tích mái cần khoảng ${fmt(P*6)} m².`,'Theo mái'],
    ['ground','Tiếp địa, chống sét','Hệ nối đất và cắt sét lan truyền','Nối đất khung, tấm pin, tủ điện theo tiêu chuẩn.','Trọn gói']];
   if(big)rows.push(['station','Nhà trạm và SCADA','Nhà trạm biến tần, SCADA/EMS','Giám sát và điều khiển tập trung, sàn thao tác, thang lồng.','Theo thiết kế']);
-  if(p&&p.E)rows.push(['bess','Pin lưu trữ BESS','Hệ thống pin lưu trữ và bộ biến đổi',`Dung lượng ${fmt(p.E)} kWh, hiệu suất vòng nạp xả 90%, một chu kỳ mỗi ngày. Nạp từ điện mặt trời dư và từ lưới giờ thấp điểm (0h đến 6h), xả vào giờ có giá điện cao nhất. Hãng và model chốt khi báo giá.`,`${fmt(p.E)} kWh`]);
+  if(p&&p.E)rows.push(['bess','Pin lưu trữ BESS','Hệ thống pin lưu trữ và bộ biến đổi',`Dung lượng ${fmt(p.E)} kWh, hiệu suất vòng nạp xả 85% (thông số Bộ Công Thương dùng khi tính khung giá BESS), một chu kỳ mỗi ngày. Nạp từ điện mặt trời dư và từ lưới giờ thấp điểm (0h đến 6h), xả vào giờ có giá điện cao nhất. Hãng và model chốt khi báo giá.`,`${fmt(p.E)} kWh`]);
   rows.push(['service','Dịch vụ','Thiết kế, thi công, nghiệm thu','Đăng ký với Điện lực theo Nghị định 58/2025/NĐ-CP (điện mặt trời tự sản tự tiêu, không bán lên lưới).','Trọn gói']);
   return rows}
 
@@ -1099,7 +1100,8 @@ function run(){
   const esco0=S.mode==='esco',an=S.anim;
   const escoNo=esco0&&r.p2&&!r.p2EscoOk,P2=escoNo?null:r.p2,recI=P2?(esco0?r.rec.esco:r.rec.epc):1;
   {const anyOn=Object.values(sched).some(d=>d.on&&d.shifts.length),lowE=esco0&&(r.p1.escoIrr==null||r.p1.escoIrr<r.escoIrrMin);
-   if(!anyOn){w.hidden=false;w.textContent=`Chưa có ca hoạt động nào. Mô hình đang tính tải duy trì ${Math.round(S.idle*100)}% cả tuần.`}
+   if(r.kwhMonth<2000){w.hidden=false;w.textContent=`Điện tiêu thụ ước tính khoảng ${fmt(r.kwhMonth)} kWh/tháng, dưới 2.000 kWh/tháng: doanh nghiệp có thể chưa thuộc diện áp giá ba khung giờ (cần máy biến áp riêng từ 25 kVA hoặc dùng bình quân từ 2.000 kWh/tháng). Kết quả chỉ mang tính tham khảo.`}
+   else if(!anyOn){w.hidden=false;w.textContent=`Chưa có ca hoạt động nào. Mô hình đang tính tải duy trì ${Math.round(S.idle*100)}% cả tuần.`}
    else if(lowE){w.hidden=false;w.textContent=`Lưu ý ESCO tại ${$('prov').value}: với mức giảm ${fmt(K.esco*100)}% so với giá EVN, suất sinh lời dự kiến của bên đầu tư khoảng ${r.p1.escoIrr==null?'dưới 0':fmt(r.p1.escoIrr*100,1)+'%/năm'}, thấp hơn ngưỡng ${fmt(r.escoIrrMin*100,0)}%. Mức giảm giá điện thực tế sẽ được thương lượng lại sau khảo sát.`}}
   if(!S.userSel)S.sel=recI;
   if(!P2&&S.sel===2)S.sel=1;
@@ -1152,7 +1154,7 @@ function run(){
    'Gói 1 không có pin, chống phát ngược: chọn công suất cho NPV cao nhất, với ít nhất 65% điện mặt trời phát ra được dùng ngay. Gói 2 thử vài mức công suất từ gói 1 đến mức tối đa theo mái (6 m² cho mỗi kWp, đã gồm lối đi kỹ thuật, không vượt tổng điện tiêu thụ) cùng vài cỡ pin, rồi chọn phương án có NPV cao nhất. Phương án pin có trên 80% điện nạp từ lưới mà suất sinh lời dưới chi phí vốn bị loại.',
    'Dòng tiền sau thuế thu nhập doanh nghiệp 20%, khấu hao 12 năm. Chi phí thay biến tần năm 11 và thay pin năm 12 được khấu hao đến năm 20, lỗ được chuyển tối đa 5 năm.'];
   if(P2){const b=P2,gs=b.bessGrid/(b.bessGrid+b.bessSolar||1);
-   nt.push('Pin lưu trữ BESS tính theo giả định 4,5 triệu đồng/kWh, hiệu suất vòng nạp xả 90%, độ xả sâu 90%, công suất nạp xả tối đa 0,5C, suy giảm 2,5%/năm, thay 50% giá trị pin ở năm 12 và phục hồi dung lượng sau thay. Mô phỏng trạng thái pin theo từng giờ, tách riêng nửa giờ cao điểm ở khung 17h và 22h. Điện mặt trời dư được nạp miễn phí và ưu tiên giữ cho giờ cao điểm. Điện lưới chỉ nạp lúc 0h đến 6h, và chỉ để xả vào giờ cao điểm thứ Hai đến thứ Bảy. Cỡ pin được thử gồm: điện mặt trời dư vừa đủ cho giờ cao điểm, chứa hết điện mặt trời dư dùng được, vừa đủ cắt giờ cao điểm, và mức ở giữa; không xét phương án dưới 50 kWh hoặc dưới 0,1 kWh cho mỗi kWp. Biểu đồ ngày vẽ ngày nắng trung bình, ngày nắng tốt pin nạp nhiều hơn từ điện mặt trời và ít hơn từ lưới.');
+   nt.push('Pin lưu trữ BESS tính theo giả định 4,5 triệu đồng/kWh, hiệu suất vòng nạp xả 85%, độ xả sâu 90%, công suất nạp xả tối đa 0,5C, công suất nạp từ lưới không làm tải vượt mức phụ tải lớn nhất (giả định công suất trạm biến áp), suy giảm 2,5%/năm, thay 50% giá trị pin ở năm 12 và phục hồi dung lượng sau thay. Mô phỏng trạng thái pin theo từng giờ, tách riêng nửa giờ cao điểm ở khung 17h và 22h. Điện mặt trời dư được nạp miễn phí và ưu tiên giữ cho giờ cao điểm. Điện lưới chỉ nạp lúc 0h đến 6h, và chỉ để xả vào giờ cao điểm thứ Hai đến thứ Bảy. Cỡ pin được thử gồm: điện mặt trời dư vừa đủ cho giờ cao điểm, chứa hết điện mặt trời dư dùng được, vừa đủ cắt giờ cao điểm, và mức ở giữa; không xét phương án dưới 50 kWh hoặc dưới 0,1 kWh cho mỗi kWp. Biểu đồ ngày vẽ ngày nắng trung bình, ngày nắng tốt pin nạp nhiều hơn từ điện mặt trời và ít hơn từ lưới.');
    if(!esco){const pc=v=>v==null?'không xác định':fmt(v*100,1)+'%/năm';
      nt.push(`Riêng phần pin ${fmt(b.E)} kWh${b.extraP>0?` (so với cùng ${fmt(b.P)} kWp không pin)`:''}: vốn ${mi(b.bessCapex)}, tiết kiệm thêm ${mi(b.savMonth-b.baseSavMonth)}/tháng, hoàn vốn riêng khoảng ${yr(b.payBess)}, suất sinh lời ${pc(b.irrBess)}. Khoảng ${fmt(gs*100,0)}% điện pin xả ra được nạp từ lưới giờ thấp điểm.`);
      if(b.extraP>0)nt.push(`Nâng từ gói 1 lên gói 2 (thêm ${fmt(b.extraP)} kWp và ${fmt(b.E)} kWh pin): vốn thêm ${mi(b.capex-r.p1.capex)}, tiết kiệm thêm ${mi(b.savMonth-r.p1.savMonth)}/tháng, hoàn vốn phần nâng cấp khoảng ${yr(b.payUp)}, suất sinh lời ${pc(b.irrUp)}.`);
