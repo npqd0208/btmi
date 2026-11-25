@@ -675,6 +675,15 @@ html{-webkit-text-size-adjust:100%;text-rendering:optimizeLegibility;-webkit-fon
 .kpi td{color:var(--navy);font-weight:600}
 .kpi tr:last-child td{border-bottom:0}
 @media(max-width:700px){.kpi th,.kpi td{padding:10px 12px}.kpi table{font-size:12.5px;min-width:0}}
+
+body.nores #kpi,body.nores #eqw,body.nores #aside,body.nores #notes,body.nores #ct,body.nores .ctop,body.nores #ctt,body.nores #hstat,body.nores #mbar,body.nores .tar,body.nores .tline{display:none!important}
+.pl{display:flex;align-items:center;flex-wrap:wrap;gap:8px;align-self:flex-start}.pl .pill{margin:0}
+.vwg{display:inline-block;padding:6px 11px;border-radius:999px;font:700 11px "Be Vietnam Pro",system-ui,sans-serif;letter-spacing:.04em;background:#e7ebfd;color:var(--acc);vertical-align:middle}
+.pc.rec .vwg{background:rgba(255,255,255,.14);color:#fff}
+.vwg::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:currentColor;margin-right:6px;vertical-align:1px;animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.3}}
+.ctt{margin:-4px 0 18px;font-size:14px;color:var(--mute)}
+.ctt b{color:var(--navy)}
 </style></head>
 <body>
 <div class="prog" id="prog"></div><span id="top"></span><i class="bgb b1"></i><i class="bgb b2"></i>
@@ -724,7 +733,7 @@ html{-webkit-text-size-adjust:100%;text-rendering:optimizeLegibility;-webkit-fon
 <div class="fsec"><div class="cl">Doanh nghiệp</div>
 <div class="fg">
 <div><label for="group">Nhóm giá điện</label><select id="group"><option>Sản xuất</option><option>Thương mại</option></select></div>
-<div><label for="bill">Tiền điện mỗi tháng (triệu đồng, chưa VAT)</label><input id="bill" type="text" inputmode="numeric" autocomplete="off" value="450"></div>
+<div><label for="bill">Tiền điện mỗi tháng (triệu đồng, chưa VAT)</label><input id="bill" type="text" inputmode="decimal" autocomplete="off" value="450"></div>
 <div><label for="roof">Diện tích mái có thể lắp (m²)</label><input id="roof" type="text" inputmode="numeric" autocomplete="off" value="8.000"></div>
 <div><label for="prov">Tỉnh, thành lắp đặt</label><select id="prov"></select></div>
 </div></div>
@@ -755,7 +764,8 @@ html{-webkit-text-size-adjust:100%;text-rendering:optimizeLegibility;-webkit-fon
 <div class="card brands"><span>Thiết bị chính</span><img src="logos/tcl.png" alt="TCL Solar"><img src="logos/sungrow.png" alt="Sungrow"><img src="logos/chint.png" alt="Chint"><img src="logos/cadivi.png" alt="Cadivi"></div>
 
 <div class="sec" id="s3"><span class="no">03</span><h2>Phương án hợp tác</h2><p>Các hạng mục chính dự kiến trong hợp đồng. Nội dung chi tiết và số liệu cuối cùng được chốt sau khảo sát, có thể thương lượng.</p></div>
-<div class="ctop"><div class="seg" id="modeSeg2"><button data-m="epc" class="on">Hợp đồng EPC<small>Tự đầu tư</small></button><button data-m="esco">Hợp đồng ESCO<small>Đầu tư 0 đồng</small></button></div></div>
+<div class="ctop"><div class="seg" id="modeSeg2"><button data-m="epc" class="on">Hợp đồng EPC<small>Tự đầu tư</small></button><button data-m="esco">Hợp đồng ESCO<small>Đầu tư 0 đồng</small></button></div><div class="seg" id="pkSeg"></div></div>
+<p class="ctt" id="ctt"></p>
 <div class="ctr" id="ct"></div>
 
 <div class="sec" id="s4"><span class="no">04</span><h2>Quy trình triển khai và thủ tục pháp lý</h2><p>Mỗi giai đoạn thi công đi kèm thủ tục pháp lý tương ứng: bên trái là tiến độ theo tuần, bên phải là thủ tục cần làm ở giai đoạn đó.</p></div>
@@ -822,24 +832,27 @@ function calc2(D,x0){
   const sh=[s1,s2,s3],mu=[x.mGood,1,m3];
   const sp=D.pv.reduce((a,b)=>a+b,0),pvh=D.pv.map(v=>pvo/365*v/sp);
   const eta=Math.sqrt(x.bessRT),offH=D.off.map(v=>v>=1);
-  const isPk=(t,h)=>t.n!=='sun'&&D.pk[h]>0;
+  const fpk=(t,h)=>t.n==='sun'?0:D.pk[h],isPk=(t,h)=>fpk(t,h)>0;
   // mô phỏng một ngày theo giờ, có trạng thái SOC
   function day(P,E,m,t){const a=pvh.map(v=>P*m*v),dir=[],sur=[],def=[];
     for(let h=0;h<24;h++){const d=Math.min(a[h],t.L[h]);dir.push(d);sur.push(a[h]-d);def.push(t.L[h]-d)}
     const bd=Array(24).fill(0),gc=Array(24).fill(0);let dS=0,dG=0,gIn=0,gCost=0,vS=0,vG=0;
     if(E>0){const Eu=E*x.dod,Pc=E*x.cRate;
-      const pkNeed=[];for(let h=23,acc=0;h>=0;h--){pkNeed[h]=acc;if(isPk(t,h))acc+=Math.min(def[h],Pc)}// điện cần xả ở các giờ cao điểm sau h
-      const pkAll=[...Array(24).keys()].reduce((q,h)=>q+(isPk(t,h)?Math.min(def[h],Pc):0),0);
+      const pkNeed=[];for(let h=23,acc=0;h>=0;h--){pkNeed[h]=acc;acc+=Math.min(def[h],Pc)*fpk(t,h)}// điện cần xả ở các giờ cao điểm sau h
+      const pkAll=[...Array(24).keys()].reduce((q,h)=>q+Math.min(def[h],Pc)*fpk(t,h),0);
       let solEst=0;for(let h=0;h<24;h++){if(isPk(t,h))break;solEst+=Math.min(sur[h],Pc)*eta}
       const gTarget=Math.max(0,Math.min(Eu,pkAll/eta)-Math.min(Eu,solEst));// lượng lưu cần nạp từ lưới
       let sS=0,sG=0;
       for(let h=0;h<24;h++){
         if(offH[h]&&sG<gTarget){let rem=0;for(let q=h;q<24&&offH[q];q++)rem++;const inp=Math.min(Pc,(gTarget-sG)/eta/rem,(Eu-sS-sG)/eta);if(inp>0){sG+=inp*eta;gc[h]=inp;gIn+=inp;gCost+=inp*t.price[h]}}
         if(sur[h]>0){const inp=Math.min(sur[h],Pc,(Eu-sS-sG)/eta);if(inp>0)sS+=inp*eta}
-        if(def[h]>0&&!offH[h]){let cap=Math.min(def[h],Pc);
-          if(isPk(t,h)){const g=Math.min(cap,sG*eta);sG-=g/eta;cap-=g;dG+=g;vG+=g*t.price[h];bd[h]+=g;
-            const s=Math.min(cap,sS*eta);sS-=s/eta;dS+=s;vS+=s*t.price[h];bd[h]+=s}
-          else{const reserve=Math.max(0,pkNeed[h]/eta-sG),s=Math.min(cap,Math.max(0,sS-reserve)*eta);sS-=s/eta;dS+=s;vS+=s*t.price[h];bd[h]+=s}}}}
+        if(def[h]>0&&!offH[h]){const f=fpk(t,h);
+          if(f>0){// phần cao điểm: điện lưới rồi điện mặt trời
+            let cap=Math.min(def[h],Pc)*f;const g=Math.min(cap,sG*eta);sG-=g/eta;cap-=g;dG+=g;vG+=g*pk;bd[h]+=g;
+            const s=Math.min(cap,sS*eta);sS-=s/eta;dS+=s;vS+=s*pk;bd[h]+=s}
+          if(f<1){// phần giờ bình thường: chỉ điện mặt trời vượt mức cần giữ cho cao điểm phía sau
+            const cap=Math.min(def[h],Pc)*(1-f),reserve=Math.max(0,(pkNeed[h])/eta-sG),s=Math.min(cap,Math.max(0,sS-reserve)*eta);
+            sS-=s/eta;dS+=s;vS+=s*(f>0?nor:t.price[h]);bd[h]+=s}}}}
     let useD=0,savD=0,gen=a.reduce((s,v)=>s+v,0);for(let h=0;h<24;h++){useD+=dir[h];savD+=dir[h]*t.price[h]}
     return {a,dir,sur,def,bd,gc,gen,useD,savD,useB:dS,useG:dG,gIn,savBs:vS,savBg:vG-gCost}}
   function ann(P,E){const o={useD:0,savD:0,useB:0,useG:0,gIn:0,savBs:0,savBg:0,gen:0};
@@ -859,14 +872,14 @@ function calc2(D,x0){
   const defAfter=fs<0?0:dw.def.reduce((q,v,h)=>q+(h>fs&&!offH[h]?v:0),0);
   const Esur=Math.min(surT*eta,defAfter/eta)/x.dod;
   const Epk=dw.def.reduce((q,v,h)=>q+(isPk(tw,h)?v*D.pk[h]:0),0)/eta/x.dod;
-  const Eraw=Math.round(Math.max(Esur,Epk)/10)*10;
+  const Eraw=Math.round(Math.max(Esur,Epk)/10)*10;// dung lượng kỹ thuật tối đa
   function pack(P,Ei){const a=ann(P,Ei);
     const solarCapex=P*x.capex,bessCapex=Ei*x.bessCapex,capex=solarCapex+bessCapex;
     const repl=n=>(n===x.invYear?x.invPct*solarCapex:0)+(Ei>0&&n===x.bessRepYear?x.bessRepPct*bessCapex:0);
     const dep=n=>(n<=x.depYears?capex/x.depYears:0)+(n>x.invYear?x.invPct*solarCapex/(20-x.invYear):0)+(Ei>0&&n>x.bessRepYear?x.bessRepPct*bessCapex/(20-x.bessRepYear):0);
     const soh=n=>Math.pow(1-x.bessDegr,n<=x.bessRepYear?n-1:n-1-x.bessRepYear);
     const save=[];for(let n=1;n<=20;n++){const g=Math.pow(1+x.grow,n-1),pf=Math.pow(1-x.degr,n-1);
-      save.push(a.savD*pf*g+a.savBs*pf*soh(n)*g+a.savBg*soh(n)*g)}
+      save.push(a.savD*pf*g+a.savBs*Math.min(pf,soh(n))*g+a.savBg*soh(n)*g)}
     const om=n=>(P*x.om+bessCapex*x.bessOm)*Math.pow(1+x.omGrow,n-1);
     // dòng tiền sau thuế, chuyển lỗ tối đa 5 năm
     function flows(rev,N){const cf=[-capex],losses=[];
@@ -879,22 +892,24 @@ function calc2(D,x0){
     let npv=0;cf.forEach((v,n)=>npv+=v/Math.pow(1+x.wacc,n));
     const ec=flows(save.slice(0,x.escoYears).map(v=>v*(1-x.esco)),x.escoYears);
     const ecust=save.slice(0,x.escoYears).reduce((s,v)=>s+v*x.esco,0);
-    const h=day(P,Ei,mu[0],tw),sav1=a.savD+a.savBs+a.savBg,use=a.useD+a.useB;
+    const h=day(P,Ei,mu[1],tw),sav1=a.savD+a.savBs+a.savBg,use=a.useD+a.useB;
     return {withB:Ei>0,P,E:Ei,capex,solarCapex,bessCapex,gen:a.gen,use,useRatio:use/a.gen,roofUsed:P*x.roofPerKwp,
       savYear:sav1,savMonth:sav1/12,savShare:sav1/(12*x.bill),savDirect:a.savD,savBess:a.savBs+a.savBg,
       bessSolar:a.useB,bessGrid:a.useG,gridIn:a.gIn,payPost:pay(cum,cf),irrPost:irr(cf),npv,cum,cf,save,
-      escoMonth:sav1*x.esco/12,escoShare:sav1*x.esco/(12*x.bill),escoIrr:irr(ec),escoCust15:ecust,
+      ec,escoMonth:sav1*x.esco/12,escoShare:sav1*x.esco/(12*x.bill),escoIrr:irr(ec),escoCust15:ecust,
       hourPV:h.a,hourBess:h.bd,hourCharge:h.gc}}
-  const p1=pack(P1,0);
-  let E=Eraw,p2=null,bessWhy='nodef';
-  if(E>=10){p2=pack(P2,E);const base=P2===P1?p1:pack(P2,0);
-    const ci=p2.cf.map((v,n)=>v-base.cf[n]),cc=[ci[0]];for(let n=1;n<=20;n++)cc.push(cc[n-1]+ci[n]);
+  const p1=pack(P1,0),base=P2===P1?p1:pack(P2,0);
+  const r10=v=>Math.round(v/10)*10,cand=[...new Set([Epk,Esur,(Epk+Esur)/2,Math.max(Epk,Esur)].map(r10))].filter(v=>v>=10);
+  function evalE(Ei){const q=pack(P2,Ei),ci=q.cf.map((v,n)=>v-base.cf[n]),cc=[ci[0]];for(let n=1;n<=20;n++)cc.push(cc[n-1]+ci[n]);
     let pb=null;for(let n=1;n<=20;n++)if(cc[n]>=0){pb=n-1-cc[n-1]/ci[n];break}
     let nb=0;ci.forEach((v,n)=>nb+=v/Math.pow(1+x.wacc,n));
-    Object.assign(p2,{payBess:pb,irrBess:irr(ci),npvBess:nb,baseSavMonth:base.savMonth,extraP:P2-P1});
-    if(pb==null){p2=null;bessWhy='nopay'}else bessWhy=''}
+    const ce=q.ec.map((v,n)=>v-base.ec[n]);
+    return Object.assign(q,{payBess:pb,irrBess:irr(ci),npvBess:nb,escoIrrBess:irr(ce),baseSavMonth:base.savMonth,extraP:P2-P1})}
+  let E=0,p2=null,bessWhy=cand.length?'nopay':'nodef';
+  for(const Ei of cand){const q=evalE(Ei);if(q.payBess==null)continue;if(!p2||q.npvBess>p2.npvBess){p2=q;E=Ei}}
+  if(p2)bessWhy='';
   if(!p2)E=0;
-  const rec={epc:p2&&p2.irrBess!=null&&p2.irrBess>=x.wacc&&p2.npv>p1.npv?2:1,esco:p2&&p2.escoIrr!=null&&p2.escoIrr>=x.escoIrrMin?2:1};
+  const rec={epc:p2&&p2.irrBess!=null&&p2.irrBess>=x.wacc&&p2.npv>p1.npv?2:1,esco:p2&&p2.escoIrr!=null&&p2.escoIrr>=x.escoIrrMin&&p2.escoIrrBess!=null&&p2.escoIrrBess>=x.escoIrrMin?2:1};
   return {k,kwh,kwhMonth:kwh/12,avgPrice:12*x.bill/kwh,yield:pvo,P:P1,P1,P2,Proof,Pcap,E,Eraw,p1,p2,bessWhy,rec,pw,nor,off,pk,
     escoIrrMin:x.escoIrrMin,wacc:x.wacc,hourLoad:tw.L,hourPV:p1.hourPV,hourBess:(p2||p1).hourBess,hourCharge:(p2||p1).hourCharge,roofUsed:P1*x.roofPerKwp}}
 
@@ -905,7 +920,9 @@ const mi=v=>v>=1e9?fmt(v/1e9,2)+' tỷ':fmt(v/1e6,v>=1e8?0:1)+' triệu';
 const yr=v=>v==null?'trên 20 năm':fmt(v,1)+' năm';
 const S={mode:'epc',sel:1};
 const num=id=>+(($(id).value||'').replace(/\./g,'').replace(',','.').replace(/[^0-9.]/g,''))||0;
-function groupInput(el){const dec=el.id==='bill',v=el.value,pos=el.selectionStart,keep=dec?/[\d,]/:/\d/;
+function groupInput(el,ev){const dec=el.id==='bill';let v=el.value;
+  if(dec&&v.indexOf(',')<0&&ev&&(ev.data==='.'||ev.inputType==='insertFromPaste')){const m=v.match(/^(.*)\.(\d{0,2})$/);if(m)v=m[1]+','+m[2]}
+  pos=el.selectionStart,keep=dec?/[\d,]/:/\d/;
   const before=v.slice(0,pos).split('').filter(c=>keep.test(c)).length;
   let raw=v.split('').filter(c=>keep.test(c)).join('');if(dec){const k=raw.indexOf(',');if(k>=0)raw=raw.slice(0,k+1)+raw.slice(k+1).replace(/,/g,'').slice(0,2)}
   let [ip,fp]=raw.split(',');ip=(ip||'').replace(/^0+(?=\d)/,'');
@@ -947,7 +964,7 @@ function initSch(){
   document.querySelectorAll('.sch-presets button').forEach(b=>b.addEventListener('click',()=>{const p=PRE[b.dataset.p];for(const [d] of DAYS){S.sch[d]={on:p[d].length>0,shifts:p[d].map(s=>s.slice())}}drawSch();run()}));
 }
 function readSched(){const o={};for(const [d] of DAYS){const x=S.sch[d];o[d]={on:x.on,shifts:x.on?x.shifts.filter(s=>s[0]!==s[1]).map(s=>s.slice()):[]}}return o}
-function setMode(m){S.mode=m;S.anim=true;document.querySelectorAll('.seg button').forEach(b=>b.classList.toggle('on',b.dataset.m===m));$('disc').classList.toggle('on',m==='esco');run();const x=$('mexp');x.classList.remove('sw');void x.offsetWidth;x.classList.add('sw')}
+function setMode(m){S.mode=m;S.anim=true;document.querySelectorAll('.seg button[data-m]').forEach(b=>b.classList.toggle('on',b.dataset.m===m));$('disc').classList.toggle('on',m==='esco');run();const x=$('mexp');x.classList.remove('sw');void x.offsetWidth;x.classList.add('sw')}
 const IC={
 bess:`<svg viewBox="0 0 120 90"><rect x="16" y="24" width="82" height="44" rx="6" fill="#e9ecef" stroke="#8b949e" stroke-width="2"/><rect x="98" y="38" width="8" height="16" rx="2" fill="#8b949e"/><rect x="23" y="31" width="14" height="30" rx="2" fill="#2ea043"/><rect x="41" y="31" width="14" height="30" rx="2" fill="#2ea043"/><rect x="59" y="31" width="14" height="30" rx="2" fill="#2ea043"/><rect x="77" y="31" width="14" height="30" rx="2" fill="#c9d1d9"/></svg>`,
 panel:`<svg viewBox="0 0 120 90"><g transform="skewX(-8) translate(10 0)"><rect x="14" y="8" width="92" height="66" rx="3" fill="#1c3a63" stroke="#9aa7b5" stroke-width="3"/>${[0,1,2,3,4].map(i=>`<line x1="${14+i*18.4+18.4}" y1="8" x2="${14+i*18.4+18.4}" y2="74" stroke="#5f86b8" stroke-width="1"/>`).join('')}${[1,2,3,4,5].map(i=>`<line x1="14" y1="${8+i*11}" x2="106" y2="${8+i*11}" stroke="#5f86b8" stroke-width="1"/>`).join('')}<rect x="14" y="8" width="92" height="66" rx="3" fill="url(#g1)" opacity=".18"/></g><defs><linearGradient id="g1" x1="0" x2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient></defs></svg>`,
@@ -999,7 +1016,7 @@ function chartDay(r,hasB,W=470,H=210){const l=40,b=26,t=10,rr=8;
   tk.forEach(v=>{g+=`<line x1="${l}" x2="${W-rr}" y1="${Y(v)}" y2="${Y(v)}" stroke="#e1e5f2"/><text x="${l-5}" y="${Y(v)+4}" text-anchor="end">${fmt(v)}</text>`});
   for(let h=0;h<24;h+=3)g+=`<text x="${X(h)}" y="${H-8}" text-anchor="middle">${h}h</text>`;
   let st='';for(let h=0;h<24;h++){let y=0;const seg=(v,c)=>{if(v<=1e-6)return;st+=`<rect class="sk" style="--i:${h}" x="${l+bw*h+1.5}" y="${Y(y+v)}" width="${bw-3}" height="${Y(y)-Y(y+v)}" fill="${c}"/>`;y+=v};seg(dir[h],'#e0a82e');seg(bs[h],'#1c34c8');seg(gr[h],'#aab3d1');seg(C[h],'#8a9bf2')}
-  const line=`<polyline pathLength="1" fill="none" stroke="#0b1237" stroke-width="2" stroke-dasharray="1" points="${A.map((v,h)=>X(h)+','+Y(v)).join(' ')}"/>`;
+  const line=`<polyline fill="none" stroke="#c2410c" stroke-width="1.6" stroke-dasharray="4 3" points="${L.map((v,h)=>`${l+bw*h},${Y(v)} ${l+bw*(h+1)},${Y(v)}`).join(' ')}"/><polyline pathLength="1" fill="none" stroke="#0b1237" stroke-width="2" stroke-dasharray="1" points="${A.map((v,h)=>X(h)+','+Y(v)).join(' ')}"/>`;
   return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Cơ cấu nguồn điện theo giờ">${bands}${g}${st}${line}</svg>`}
 function chartBars(v,unit,posC,negC,labelEvery,off=0,W=470,H=210){const l=44,b=26,t=10,rr=8;const tk=niceTicks(Math.min(...v,0),Math.max(...v,0)),mn=tk[0],mx=tk[tk.length-1];
   const Y=a=>t+(H-t-b)*(1-(a-mn)/(mx-mn||1)),bw=(W-l-rr)/v.length;let g='';
@@ -1041,17 +1058,20 @@ function run(){
   const bill=num('bill')*1e6,roof=num('roof');
   $('mexp').innerHTML=EXP[S.mode];
   const w=$('warn');
-  if(bill<=0||roof<=0){w.hidden=false;w.textContent='Nhập tiền điện và diện tích mái để xem gói đề xuất.';return}
+  const nores=msg=>{w.hidden=false;w.textContent=msg;window.R=null;document.body.classList.add('nores');$('pk').innerHTML=`<div class="card pc na"><h3>Chưa có gói đề xuất</h3><p>${msg}</p></div>`};
+  if(bill<=0||roof<=0)return nores('Nhập tiền điện và diện tích mái để xem gói đề xuất.');
   const sched=readSched();
   const x={group:$('group').value,bill,sched,prov:$('prov').value,roof};
   const r=calc2(D,x);window.R=r;
-  if(r.err==='roof'){w.hidden=false;w.textContent='Diện tích mái tối thiểu khoảng 30 m² (hệ 5 kWp). Nhập diện tích mái lớn hơn để xem gói đề xuất.';$('pk').innerHTML='';return}
+  if(r.err==='roof')return nores('Diện tích mái tối thiểu khoảng 30 m² (hệ 5 kWp). Nhập diện tích mái lớn hơn để xem gói đề xuất.');
+  document.body.classList.remove('nores');
   const anyOn=Object.values(sched).some(d=>d.on&&d.shifts.length);
   w.hidden=anyOn;if(!anyOn)w.textContent='Chưa có ca hoạt động nào. Mô hình đang tính tải duy trì 20% cả tuần.';
   $('tar').innerHTML=`<div><i>Giờ thấp điểm</i><b>${fmt(r.off)} đ/kWh</b><span>0h đến 6h, mọi ngày</span></div><div><i>Giờ bình thường</i><b>${fmt(r.nor)} đ/kWh</b><span>Các giờ còn lại trong ngày</span></div><div class="pkc"><i>Giờ cao điểm</i><b>${fmt(r.pk)} đ/kWh</b><span>Khoảng 17h30 đến 22h30, thứ Hai đến thứ Bảy, gấp ${fmt(r.pk/r.off,1)} lần giờ thấp điểm</span></div>`;
   $('tline').innerHTML=`Biểu giá ${$('group').value}, cấp 1 đến 35 kV, QĐ 2892/QĐ-BCT. Điện tiêu thụ ước tính <b>${fmt(r.kwhMonth)} kWh/tháng</b>, giá bình quân <b>${fmt(r.avgPrice)} đ/kWh</b>.`;
   const esco0=S.mode==='esco',an=S.anim;
-  const escoNo=esco0&&r.p2&&(r.p2.escoIrr==null||r.p2.escoIrr<r.escoIrrMin),P2=escoNo?null:r.p2,recI=P2?(esco0?r.rec.esco:r.rec.epc):1;
+  const escoNo=esco0&&r.p2&&(r.p2.escoIrr==null||r.p2.escoIrr<r.escoIrrMin||r.p2.escoIrrBess==null||r.p2.escoIrrBess<r.escoIrrMin),P2=escoNo?null:r.p2,recI=P2?(esco0?r.rec.esco:r.rec.epc):1;
+  if(!S.userSel)S.sel=recI;
   if(!P2&&S.sel===2)S.sel=1;
   const mk=(p,i)=>{
     const sv=esco0?p.escoMonth:p.savMonth,pc=(esco0?p.escoShare:p.savShare)*100,rec=i===recI;
@@ -1059,7 +1079,7 @@ function run(){
     const cost=esco0?'<span class="cu" data-n="0" data-d="0">0</span><small>đồng</small>':mbig(p.capex);
     const mini=esco0?[[p.E?'90 / 10':'90% giá EVN',p.E?'Chia sẻ tiết kiệm':'Đơn giá điện'],[mi(p.escoCust15),'Tiết kiệm 15 năm'],['Chuyển giao','Sau 15 năm']]:[[yr(p.payPost),'Hoàn vốn'],[mi(tot20),'Tiết kiệm 20 năm'],[mi(p.cum[20]),'Lãi ròng sau thuế']];
     return `<div class="card pc${an?' an':''}${rec?' rec':''}${S.sel===i?' sel':''}" data-i="${i}">${rec?'<span class="rt">KHUYẾN NGHỊ</span>':''}<span class="bdg${p.E?' pin':''}">${p.E?'Có pin':'Hòa lưới'}</span>
-<span class="pill">GÓI ${i}</span>
+<div class="pl"><span class="pill">GÓI ${i}</span>${S.sel===i?'<span class="vwg">Đang xem</span>':''}</div>
 <h3>${i===1?'Điện mặt trời':'Điện mặt trời và pin lưu trữ'}</h3>
 <div class="spec"><span><b>${fmt(p.P)}</b> kWp điện mặt trời</span>${p.E?`<span class="pn"><b>${fmt(p.E)}</b> kWh pin lưu trữ</span>`:''}</div>
 <div class="ctx"><span>Hóa đơn ${mi(bill)}/tháng</span><span>${p.roofUsed<roof*0.95?`Dùng ${fmt(p.roofUsed)} / ${fmt(roof)} m² mái`:`Mái ${fmt(roof)} m²`}</span></div>
@@ -1069,7 +1089,7 @@ function run(){
 <div class="mini">${mini.map(a=>`<div><b>${a[0]}</b><span>${a[1]}</span></div>`).join('')}</div>
 <ul class="cks"><li>${fmt(np)} tấm TCL 630 Wp</li><li>Biến tần Sungrow, giám sát từ xa</li>${p.E?`<li>${p.bessGrid>p.bessSolar?'Pin nạp giờ thấp điểm, xả giờ cao điểm':'Pin trữ điện dư ban ngày, xả buổi tối'}</li>`:''}<li>Tủ điện, thi công, pháp lý trọn gói</li></ul>
 <button type="button" class="vbtn" data-v="${i}">Xem biểu đồ</button><button type="button" class="cta" data-rq="${i}">Nhận báo giá chi tiết</button></div>`};
-  const na=escoNo?`<div class="card pc na"><h3>ESCO chưa áp dụng cho gói có pin</h3><p>Với lịch vận hành này, hình thức ESCO hiện chưa áp dụng cho gói kèm pin lưu trữ: suất sinh lời của bên đầu tư khoảng ${fmt((r.p2.escoIrr||0)*100,1)}%/năm, thấp hơn ngưỡng ${fmt(r.escoIrrMin*100,0)}%. Doanh nghiệp vẫn có thể chọn gói có pin theo hình thức EPC.</p></div>`
+  const na=escoNo?`<div class="card pc na"><h3>ESCO chưa áp dụng cho gói có pin</h3><p>Với lịch vận hành này, hình thức ESCO hiện chưa áp dụng cho gói kèm pin lưu trữ: riêng phần pin, suất sinh lời của bên đầu tư khoảng ${r.p2.escoIrrBess==null?'âm':fmt(r.p2.escoIrrBess*100,1)+'%/năm'}, thấp hơn ngưỡng ${fmt(r.escoIrrMin*100,0)}% (hợp đồng 15 năm, thay pin năm 12, chuyển giao khi hết hạn). Doanh nghiệp vẫn có thể chọn gói có pin theo hình thức EPC.</p></div>`
    :r.bessWhy==='nopay'?`<div class="card pc na"><h3>Pin lưu trữ chưa có lợi</h3><p>Với lịch hoạt động này, phần pin lưu trữ không hoàn vốn trong 20 năm. Gói điện mặt trời hòa lưới là phương án phù hợp.</p></div>`
    :`<div class="card pc na"><h3>Pin lưu trữ chưa cần thiết</h3><p>Sau khi dùng điện mặt trời, giờ cao điểm buổi tối gần như không còn tải cần bù, và không có điện mặt trời dư để nạp. Pin không tạo thêm tiết kiệm đáng kể.</p></div>`;
   $('pk').innerHTML=mk(r.p1,1)+(P2?mk(P2,2):na);
@@ -1101,25 +1121,28 @@ function run(){
    'Gói 1 không có pin, chống phát ngược: chọn công suất lớn nhất mà ít nhất 80% điện mặt trời phát ra được dùng ngay. Gói 2 lắp tối đa theo diện tích mái (6 m² cho mỗi kWp, đã gồm lối đi kỹ thuật) và không vượt tổng điện tiêu thụ, phần dư nạp vào pin.',
    'Dòng tiền sau thuế thu nhập doanh nghiệp 20%, khấu hao 12 năm. Chi phí thay biến tần năm 11 và thay pin năm 12 được khấu hao đến năm 20, lỗ được chuyển tối đa 5 năm.'];
   if(P2){const b=P2,gs=b.bessGrid/(b.bessGrid+b.bessSolar||1);
-   nt.push('Pin lưu trữ BESS tính theo giả định 4,5 triệu đồng/kWh, hiệu suất vòng nạp xả 90%, độ xả sâu 90%, công suất nạp xả tối đa 0,5C, suy giảm 2,5%/năm, thay 50% giá trị pin ở năm 12 và phục hồi dung lượng sau thay. Mô phỏng trạng thái pin theo từng giờ. Điện mặt trời dư được nạp miễn phí và ưu tiên giữ cho giờ cao điểm. Điện lưới chỉ nạp lúc 0h đến 6h, và chỉ để xả vào giờ cao điểm thứ Hai đến thứ Bảy.');
+   nt.push('Pin lưu trữ BESS tính theo giả định 4,5 triệu đồng/kWh, hiệu suất vòng nạp xả 90%, độ xả sâu 90%, công suất nạp xả tối đa 0,5C, suy giảm 2,5%/năm, thay 50% giá trị pin ở năm 12 và phục hồi dung lượng sau thay. Mô phỏng trạng thái pin theo từng giờ, tách riêng nửa giờ cao điểm ở khung 17h và 22h. Điện mặt trời dư được nạp miễn phí và ưu tiên giữ cho giờ cao điểm. Điện lưới chỉ nạp lúc 0h đến 6h, và chỉ để xả vào giờ cao điểm thứ Hai đến thứ Bảy. Dung lượng pin chọn trong vài phương án (vừa đủ cắt giờ cao điểm, vừa đủ chứa điện mặt trời dư, mức ở giữa) theo NPV riêng phần pin cao nhất. Biểu đồ ngày vẽ ngày nắng trung bình, ngày nắng tốt pin nạp nhiều hơn từ điện mặt trời và ít hơn từ lưới.');
    if(!esco)nt.push(`Riêng phần pin ${fmt(b.E)} kWh${b.extraP>0?` (so với cùng ${fmt(b.P)} kWp không pin)`:''}: vốn ${mi(b.bessCapex)}, tiết kiệm thêm ${mi(b.savMonth-b.baseSavMonth)}/tháng, hoàn vốn riêng khoảng ${yr(b.payBess)}, suất sinh lời ${b.irrBess==null?'không xác định':fmt(b.irrBess*100,1)+'%/năm'}. Khoảng ${fmt(gs*100,0)}% điện pin xả ra được nạp từ lưới giờ thấp điểm.${b.extraP>0?` Gói 2 lắp thêm ${fmt(b.extraP)} kWp so với gói 1 để có điện dư nạp pin.`:''}`);
    if(!esco)nt.push(recI===2?`Gói 2 được khuyến nghị vì phần pin sinh lời ${fmt(b.irrBess*100,1)}%/năm, cao hơn chi phí vốn giả định ${fmt(r.wacc*100,2)}%/năm.`:`Gói 1 được khuyến nghị vì phần pin sinh lời ${b.irrBess==null?'không xác định':fmt(b.irrBess*100,1)+'%/năm'}, thấp hơn chi phí vốn giả định ${fmt(r.wacc*100,2)}%/năm. Gói 2 vẫn phù hợp nếu doanh nghiệp ưu tiên giảm tiền điện tối đa.`)}
   if(esco)nt.push('Mức giảm 10% so với giá EVN trong hình thức ESCO là giả định, thay đổi theo khảo sát thực tế, có thể đàm phán, thương lượng lại.'+(P2?' Với gói có pin, hai bên chia sẻ phần tiết kiệm đo được theo tỷ lệ 90/10 thay vì bán điện theo đơn giá.':''));
   if(!esco&&P2&&P2.payPost!=null&&r.p1.payPost!=null&&P2.payPost>r.p1.payPost)nt.push(`Gói 2 tiết kiệm tiền điện nhiều hơn nhưng vốn đầu tư cao hơn và thời gian hoàn vốn dài hơn gói 1 (${yr(P2.payPost)} so với ${yr(r.p1.payPost)}).`);
   $('notes').innerHTML=nt.map(t=>`<li>${t}</li>`).join('');
   renderContract(r,p);renderEq(r,p);
-  document.querySelectorAll('.pc[data-i]').forEach(el=>el.onclick=e=>{if(e.target.closest('button'))return;S.sel=+el.dataset.i;run()});
+  document.querySelectorAll('.pc[data-i]').forEach(el=>el.onclick=e=>{if(e.target.closest('button'))return;S.sel=+el.dataset.i;S.userSel=true;run()});
+  $('pkSeg').innerHTML=[r.p1,P2].map((q,k)=>q?`<button type="button" data-p="${k+1}" class="${S.sel===k+1?'on':''}">Gói ${k+1}<small>${q.E?'Có pin':'Hòa lưới'}</small></button>`:'').join('');
+  $('ctt').innerHTML=`Điều khoản dưới đây cho <b>Gói ${S.sel}: ${p.E?'điện mặt trời và pin lưu trữ':'điện mặt trời hòa lưới'}</b>, ${fmt(p.P)} kWp${p.E?`, pin ${fmt(p.E)} kWh`:''}, hình thức ${esco?'ESCO':'EPC'}.`;
 }
 initSch();
-document.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.m)));
-document.querySelectorAll('#bill,#roof').forEach(e=>{groupInput(e);e.addEventListener('input',()=>groupInput(e))});
+document.querySelectorAll('.seg button[data-m]').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.m)));
+$('pkSeg').addEventListener('click',e=>{const b=e.target.closest('button[data-p]');if(!b)return;S.sel=+b.dataset.p;S.userSel=true;run()});
+document.querySelectorAll('#bill,#roof').forEach(e=>{groupInput(e);e.addEventListener('input',ev=>groupInput(e,ev))});
 document.querySelectorAll('#group,#bill,#roof,#prov').forEach(e=>{e.addEventListener('input',run);e.addEventListener('change',run)});
 (function(){const w=$('eqw'),b=w.querySelector('.eqs');b.addEventListener('click',()=>{const o=w.classList.toggle('open');b.setAttribute('aria-expanded',o)})})();
 
-function popHtml(i){const r=window.R,p=i===2?r.p2:r.p1,esco=S.mode==='esco';if(!p)return '';
+function popHtml(i){const r=window.R;if(!r||!r.p1)return '';const p=i===2?r.p2:r.p1,esco=S.mode==='esco';if(!p)return '';
   const cumE=[];let c=0;for(let n=0;n<15;n++){c+=p.save[n]*K.esco;cumE.push(c/1e9)}
   return `<button type="button" class="x" aria-label="Đóng">×</button><h4>Gói ${i}: ${p.E?'điện mặt trời và pin lưu trữ':'điện mặt trời hòa lưới'}</h4><p class="ps">${fmt(p.P)} kWp${p.E?`, pin ${fmt(p.E)} kWh`:''}, hình thức ${esco?'ESCO':'EPC'}</p>
-<div class="ch"><b class="t">Nguồn điện trong một ngày làm việc nắng tốt (kW)</b>${chartDay({...r,hourPV:p.hourPV,hourBess:p.hourBess,hourCharge:p.hourCharge},!!p.E,340,170)}<div class="lgd"><span><i style="background:#e0a82e"></i>Dùng trực tiếp</span>${p.E?'<span><i style="background:#1c34c8"></i>Pin xả</span>':''}${p.E&&p.hourCharge&&p.hourCharge.some(v=>v>0)?'<span><i style="background:#8a9bf2"></i>Nạp pin từ lưới</span>':''}<span><i style="background:#aab3d1"></i>Mua từ EVN</span><span><i style="background:#0b1237;height:3px;vertical-align:3px"></i>Điện mặt trời phát ra</span></div></div>
+<div class="ch"><b class="t">Nguồn điện trong một ngày làm việc, nắng trung bình (kW)</b>${chartDay({...r,hourPV:p.hourPV,hourBess:p.hourBess,hourCharge:p.hourCharge},!!p.E,340,170)}<div class="lgd"><span><i style="background:#e0a82e"></i>Dùng trực tiếp</span>${p.E?'<span><i style="background:#1c34c8"></i>Pin xả</span>':''}${p.E&&p.hourCharge&&p.hourCharge.some(v=>v>0)?'<span><i style="background:#8a9bf2"></i>Nạp pin từ lưới</span>':''}<span><i style="background:#aab3d1"></i>Mua từ EVN</span><span><i style="background:#0b1237;height:3px;vertical-align:3px"></i>Điện mặt trời phát ra</span><span><i style="background:repeating-linear-gradient(90deg,#c2410c 0 4px,transparent 4px 7px);height:2px;vertical-align:3px"></i>Phụ tải doanh nghiệp</span></div></div>
 <div class="ch"><b class="t">${esco?'Tiết kiệm lũy kế của doanh nghiệp, 15 năm hợp đồng (tỷ đồng)':'Dòng tiền lũy kế sau thuế (tỷ đồng), năm 0 đến 20'}</b>${esco?chartBars(cumE,'Tiết kiệm lũy kế','#1c34c8','#1c34c8',5,1,340,170):chartBars(p.cum.map(v=>v/1e9),'Dòng tiền lũy kế','#1c34c8','#e0a82e',5,0,340,170)}</div>`}
 (function(){const pop=$('pop'),bd=$('bd'),pk=$('pk');let cur=null,sheet=false;
  const wide=()=>matchMedia('(hover:hover) and (min-width:901px)').matches;
@@ -1141,7 +1164,7 @@ function popHtml(i){const r=window.R,p=i===2?r.p2:r.p1,esco=S.mode==='esco';if(!
  function closeRq(){rq.classList.remove('on')}
  window.closeRq=closeRq;
  const mailBody=()=>{const c=ctx;return `Kính gửi BTMI,\n\nTôi muốn nhận báo giá chi tiết:\n- Gói ${c.i}: ${c.p.E?'Có pin':'Hòa lưới'}, ${fmt(c.p.P)} kWp${c.p.E?`, pin lưu trữ ${fmt(c.p.E)} kWh`:''}\n- Hình thức: ${c.esco?'ESCO':'EPC'}\n- Diện tích mái: khoảng ${fmt(c.roof)} m²\n- Điện tiêu thụ: khoảng ${fmt(c.kwh)} kWh/tháng\n- Tiền điện hiện tại: ${fmt(c.bill/1e6)} triệu đồng/tháng\n- ${c.esco?'Vốn đầu tư ban đầu: 0 đồng (ước tính vốn do bên đầu tư chịu '+mi(c.p.capex)+')':'Vốn đầu tư ước tính: '+mi(c.p.capex)}\n- Tỉnh, thành: ${c.prov}\n\nHọ và tên: ${$('rqn').value.trim()}\nĐiện thoại/Zalo: ${$('rqp').value.trim()}\nGhi chú: ${$('rqg').value.trim()||'(không có)'}\n\nTrân trọng.`};
- const openRq=i=>{const r=window.R;if(!r)return;if(i===2&&!r.p2)i=1;const p=i===2?r.p2:r.p1,esco=S.mode==='esco';
+ const openRq=i=>{const r=window.R;if(!r||r.err||!r.p1)return;if(i===2&&!r.p2)i=1;const p=i===2?r.p2:r.p1,esco=S.mode==='esco';
   ctx={i,p,esco,roof:num('roof'),bill:num('bill')*1e6,kwh:r.kwhMonth,prov:$('prov').value};
   $('rqt').textContent=`Yêu cầu báo giá gói ${i}`;
   $('rqs').innerHTML=`<b>Gói ${i} · ${p.E?'Có pin':'Hòa lưới'} · ${esco?'ESCO':'EPC'}</b><span>Mái ~ ${fmt(ctx.roof)} m² · ${fmt(p.P)} kWp${p.E?' · pin '+fmt(p.E)+' kWh':''}</span><span>${fmt(ctx.kwh)} kWh/tháng · ${esco?'đầu tư 0 đồng':'~ '+fmt(p.capex/1e6)+' triệu'}</span>`;
