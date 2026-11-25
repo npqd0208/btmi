@@ -545,6 +545,12 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  .pop .x{width:44px;height:44px}
 }
 @media(hover:none){.pc:hover,.cc:hover,.lc:hover{transform:none}.pc::after,.rc::after{display:none}}
+@media(max-width:700px){
+ .aside{display:none!important}
+ .brands{display:grid;grid-template-columns:1fr 1fr;gap:18px 14px;justify-items:center;align-items:center;padding:18px 16px;margin-bottom:8px}
+ .brands span{grid-column:1/-1;justify-self:start}
+ .brands img{height:22px;max-width:100%;object-fit:contain}
+}
 </style></head>
 <body>
 <div class="prog" id="prog"></div><i class="bgb b1"></i><i class="bgb b2"></i>
@@ -616,7 +622,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 <a class="rlink" href="#s2">Xem chi tiết 2 gói bên dưới</a></div></aside>
 </div>
 
-<div class="sec" id="s2"><span class="no">02</span><h2>Gói đề xuất</h2><p>Điện mặt trời được lắp tối đa theo diện tích mái, không vượt tổng điện doanh nghiệp tiêu thụ. Phần điện dư ban ngày được nạp vào pin lưu trữ (BESS) để dùng lại, không phát ngược lên lưới. Rê chuột vào một gói để xem biểu đồ, bấm vào gói để xem thiết bị và hợp đồng tương ứng.</p></div>
+<div class="sec" id="s2"><span class="no">02</span><h2>Gói đề xuất</h2><p>Điện mặt trời được lắp tối đa theo diện tích mái, không vượt tổng điện doanh nghiệp tiêu thụ. Phần điện dư ban ngày được nạp vào pin lưu trữ (BESS) để dùng lại, không phát ngược lên lưới. Trên máy tính, rê chuột vào gói để xem biểu đồ. Trên điện thoại, bấm nút Xem biểu đồ. Bấm vào gói để xem thiết bị và hợp đồng tương ứng.</p></div>
 <div class="pk" id="pk"></div>
 <div class="eqd" id="eqw"><button type="button" class="eqs" aria-expanded="false">Xem danh mục thiết bị chi tiết<span class="chev"></span></button><div class="eqb"><div class="eqi"><p class="note" id="eqn"></p><div class="eqgrid" id="eqd"></div></div></div></div>
 <ol class="notes" id="notes"></ol>
