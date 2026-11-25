@@ -551,6 +551,54 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  .brands span{grid-column:1/-1;justify-self:start}
  .brands img{height:22px;max-width:100%;object-fit:contain}
 }
+
+.ctr{display:grid;gap:22px;margin-top:6px}
+.cstat{position:relative;overflow:hidden;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));padding:28px 8px;border-radius:28px;color:#fff;background:linear-gradient(120deg,#0b1237,#1c2a8a 60%,#0b1237);background-size:200% 100%;animation:slide 12s linear infinite;box-shadow:0 30px 60px -34px rgba(11,18,55,.8)}
+.cstat>div{padding:0 24px;border-left:1px solid rgba(255,255,255,.16)}
+.cstat>div:first-child{border-left:0}
+.cstat i{display:block;font:700 11px "Be Vietnam Pro";font-style:normal;letter-spacing:.1em;text-transform:uppercase;color:#aeb7e6}
+.cstat b{display:block;margin:6px 0 4px;font-size:clamp(26px,3.6vw,40px);letter-spacing:-.03em;line-height:1.1;color:var(--gold);font-variant-numeric:tabular-nums}
+.cstat span{display:block;font-size:13px;color:#c9d0f0;line-height:1.45}
+.cstat.an>div{animation:rise .7s cubic-bezier(.2,.7,.2,1) backwards;animation-delay:calc(var(--i)*110ms)}
+.clane{display:grid;grid-template-columns:1fr 1fr;border-radius:28px;background:#fff;border:1px solid var(--line);overflow:hidden;box-shadow:0 14px 36px -24px rgba(11,18,55,.3)}
+.clane .ln{padding:26px 28px;background:linear-gradient(180deg,#f3f5fd,#fff)}
+.clane .ln.r{background:linear-gradient(180deg,#fff7e0,#fff);border-left:1px solid var(--line)}
+.clane h4{margin:0 0 14px;font-size:15px;letter-spacing:.02em;color:var(--acc)}
+.clane .r h4{color:#8a6100}
+.clane ul{margin:0;padding:0;list-style:none;display:grid;gap:11px}
+.clane li{position:relative;padding-left:30px;font-size:14.5px;line-height:1.45;color:var(--navy)}
+.clane li::before{content:"";position:absolute;left:0;top:1px;width:20px;height:20px;border-radius:50%;background:var(--acc)}
+.clane li::after{content:"";position:absolute;left:7px;top:5px;width:6px;height:10px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.clane .r li::before{background:var(--gold)}.clane .r li::after{border-color:#5b4200}
+.clane.an li{animation:rise .6s cubic-bezier(.2,.7,.2,1) backwards;animation-delay:calc(var(--i)*70ms + .2s)}
+.cacc{border-radius:28px;background:#fff;border:1px solid var(--line);padding:22px 8px 8px;box-shadow:0 14px 36px -24px rgba(11,18,55,.3)}
+.cacc>h4{margin:0 0 6px 22px;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.ci{border-top:1px solid var(--line)}
+.ci:first-of-type{border-top:0}
+.ci.an{animation:rise .6s cubic-bezier(.2,.7,.2,1) backwards;animation-delay:calc(var(--i)*60ms + .25s)}
+.ch2{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:16px;width:100%;padding:16px 16px;cursor:pointer;border-radius:18px;transition:background .25s}
+.ch2:hover{background:var(--soft)}
+.ch2:focus-visible{outline:2px solid var(--acc)}
+.ch2 .nn{flex:none;font:700 13px "Be Vietnam Pro";color:var(--acc);width:30px}
+.ch2 .tt{flex:1;min-width:0}
+.ch2 .tt b{display:block;font-size:16px;color:var(--navy)}
+.ch2 .tt em{display:block;font-style:normal;font-size:13.5px;color:var(--mute);margin-top:2px}
+.ch2 .chv{flex:none;width:12px;height:12px;border:solid var(--acc);border-width:0 2.5px 2.5px 0;transform:rotate(45deg);transition:transform .35s;margin:-4px 6px 0 0}
+.ci.open .chv{transform:rotate(-135deg);margin-top:4px}
+.ci.open .ch2{background:var(--soft)}
+.cb2{display:grid;grid-template-rows:0fr;transition:grid-template-rows .4s cubic-bezier(.2,.7,.2,1)}
+.ci.open .cb2{grid-template-rows:1fr}
+.cb2>div{overflow:hidden}
+.cb2 p{margin:0;padding:6px 20px 20px 62px;font-size:14.5px;line-height:1.65;color:#2b3555}
+@media(max-width:800px){
+ .cstat{grid-template-columns:1fr;padding:10px 0}
+ .cstat>div{border-left:0;border-top:1px solid rgba(255,255,255,.14);padding:16px 22px}
+ .cstat>div:first-child{border-top:0}
+ .clane{grid-template-columns:1fr}
+ .clane .ln.r{border-left:0;border-top:1px solid var(--line)}
+ .cb2 p{padding:4px 18px 18px 18px}
+ .ch2{padding:14px 10px;gap:12px}
+}
 </style></head>
 <body>
 <div class="prog" id="prog"></div><i class="bgb b1"></i><i class="bgb b2"></i>
@@ -630,7 +678,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 
 <div class="sec" id="s3"><span class="no">03</span><h2>Phương án hợp tác</h2><p>Các hạng mục chính dự kiến trong hợp đồng. Nội dung chi tiết và số liệu cuối cùng được chốt sau khảo sát, có thể thương lượng.</p></div>
 <div class="ctop"><div class="seg" id="modeSeg2"><button data-m="epc" class="on">Hợp đồng EPC<small>Tự đầu tư</small></button><button data-m="esco">Hợp đồng ESCO<small>Đầu tư 0 đồng</small></button></div></div>
-<ol class="tl card" id="ct" style="padding:26px 24px"></ol>
+<div class="ctr" id="ct"></div>
 
 <div class="sec" id="s4"><span class="no">04</span><h2>Quy trình triển khai và thủ tục pháp lý</h2><p>Mỗi giai đoạn thi công đi kèm thủ tục pháp lý tương ứng: bên trái là tiến độ theo tuần, bên phải là thủ tục cần làm ở giai đoạn đó.</p></div>
 <div class="flow">
@@ -849,32 +897,34 @@ function chartBars(v,unit,posC,negC,labelEvery,off=0,W=470,H=210){const l=44,b=2
   return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="${unit}">${g}</svg>`}
 // hợp đồng
 function renderContract(r,p){
-  const P=fmt(r.P),E=p.E?`, pin lưu trữ BESS ${fmt(p.E)} kWh`:'';
-  const kwhTxt=fmt(r.kwhMonth);
-  const rows=S.mode==='epc'?[
-   ['Phạm vi','Nhà thầu EPC chịu trách nhiệm khảo sát, thiết kế, cung cấp thiết bị, thi công, đấu nối, nghiệm thu và bàn giao. Doanh nghiệp phối hợp cung cấp hồ sơ, mặt bằng mái và lối tiếp cận.'],
-   ['Hệ thống',`${P} kWp tấm pin TCL, biến tần và giám sát Sungrow${E}, đồng hồ Chint, cáp Cadivi.`],
-   ['Giá hợp đồng','Giá trọn gói ước tính, chưa VAT, đã gồm thiết bị, thi công, đấu nối, thủ tục pháp lý và nghiệm thu. Chốt sau khảo sát thực tế.',mi(p.capex),1],
-   ['Thanh toán','Chia đợt theo mốc: ký hợp đồng, giao thiết bị, nghiệm thu, giữ lại bảo hành. Tỷ lệ từng đợt do hai bên thỏa thuận.'],
-   ['Tiến độ','Ước tính từ khi ký hợp đồng đến khi bàn giao, chốt lại sau khảo sát.','khoảng 14 tuần'],
-   ['Bảo hành','Thiết bị: biến tần Sungrow 5 năm theo hãng, tấm pin TCL 12 năm sản phẩm'+(p.E?', pin lưu trữ theo hãng':'')+'. Thi công: thời hạn do hai bên thỏa thuận trong hợp đồng. Hiệu suất: tấm pin 30 năm theo báo giá, đối chiếu khi ký hợp đồng.'],
-   ['Pháp lý','Chúng tôi lập và nộp hồ sơ thông báo hoặc đăng ký, thiết kế, PCCC, xây dựng. Doanh nghiệp cung cấp giấy tờ và ký hồ sơ.'],
-   ['Nghiệm thu, bàn giao','Biên bản nghiệm thu, hồ sơ hoàn công, hướng dẫn vận hành, tài khoản giám sát từ xa. Doanh nghiệp sở hữu hệ thống từ ngày nghiệm thu.'],
-   ['Tùy chọn','Hợp đồng vận hành, bảo trì định kỳ sau bàn giao.']
+  const P=fmt(r.P),E=p.E?`, pin lưu trữ BESS ${fmt(p.E)} kWh`:'',kwhTxt=fmt(r.kwhMonth),epc=S.mode==='epc';
+  const stats=epc?[['Giá hợp đồng',mi(p.capex),'Chưa VAT, chốt sau khảo sát'],['Tiến độ','khoảng 14 tuần','Ước tính, chốt lại sau khảo sát'],['Hệ thống',P+' kWp',p.E?'Kèm pin lưu trữ '+fmt(p.E)+' kWh':'Hòa lưới, không phát ngược']]
+   :[['Thời hạn','15 năm','Hết hạn, chuyển giao hệ thống'],['Đơn giá điện','90% giá EVN','Mức giảm do hai bên thỏa thuận'],['Vốn ban đầu','0 đồng','Nhà đầu tư chịu ước tính '+mi(p.capex)]];
+  const lanes=epc?[['Nhà thầu EPC lo',['Khảo sát, thiết kế','Cung cấp thiết bị','Thi công, đấu nối','Hồ sơ pháp lý, PCCC, xây dựng','Nghiệm thu, bàn giao, hướng dẫn vận hành']],['Doanh nghiệp lo',['Cung cấp hồ sơ, giấy tờ, ký hồ sơ','Mặt bằng mái và lối tiếp cận','Thanh toán theo đợt đã thỏa thuận','Sở hữu hệ thống từ ngày nghiệm thu'+(p.E?'':'')]]]
+   :[['Nhà đầu tư lo',['100% vốn đầu tư','Thiết kế, thi công','Vận hành, bảo trì','Thay biến tần'+(p.E?' và pin lưu trữ':''),'Sở hữu hệ thống trong 15 năm']],['Doanh nghiệp lo',['Cho sử dụng mái và lối tiếp cận','Mua điện mặt trời bằng 90% giá EVN','Thanh toán hằng tháng theo công tơ riêng','Duy trì hoạt động, ký hồ sơ chủ sử dụng điện']]];
+  const terms=epc?[
+   ['Giá gồm những gì','Thiết bị, thi công, đấu nối, thủ tục','Giá trọn gói ước tính, chưa VAT, đã gồm thiết bị, thi công, đấu nối, thủ tục pháp lý và nghiệm thu. Chốt sau khảo sát thực tế.'],
+   ['Thiết bị',P+' kWp, TCL, Sungrow, Chint, Cadivi',`${P} kWp tấm pin TCL, biến tần và giám sát Sungrow${E}, đồng hồ Chint, cáp Cadivi.`],
+   ['Thanh toán','Chia đợt theo mốc','Chia đợt theo mốc: ký hợp đồng, giao thiết bị, nghiệm thu, giữ lại bảo hành. Tỷ lệ từng đợt do hai bên thỏa thuận.'],
+   ['Bảo hành','Thiết bị, thi công, hiệu suất','Thiết bị: biến tần Sungrow 5 năm theo hãng, tấm pin TCL 12 năm sản phẩm'+(p.E?', pin lưu trữ theo hãng':'')+'. Thi công: thời hạn do hai bên thỏa thuận trong hợp đồng. Hiệu suất: tấm pin 30 năm theo báo giá, đối chiếu khi ký hợp đồng.'],
+   ['Pháp lý','Nhà thầu lập và nộp hồ sơ','Chúng tôi lập và nộp hồ sơ thông báo hoặc đăng ký, thiết kế, PCCC, xây dựng. Doanh nghiệp cung cấp giấy tờ và ký hồ sơ.'],
+   ['Nghiệm thu, bàn giao','Hoàn công, hướng dẫn, giám sát từ xa','Biên bản nghiệm thu, hồ sơ hoàn công, hướng dẫn vận hành, tài khoản giám sát từ xa. Doanh nghiệp sở hữu hệ thống từ ngày nghiệm thu.'],
+   ['Tùy chọn','Vận hành, bảo trì sau bàn giao','Hợp đồng vận hành, bảo trì định kỳ sau bàn giao.']
   ]:[
-   ['Phạm vi','Nhà đầu tư chịu 100% vốn, thiết kế, thi công, vận hành, bảo trì và sở hữu hệ thống trên mái của doanh nghiệp trong thời hạn hợp đồng.'],
-   ['Hệ thống',`${P} kWp tấm pin TCL, biến tần và giám sát Sungrow${E}, đồng hồ Chint, cáp Cadivi. Vốn đầu tư ước tính ${mi(p.capex)} do nhà đầu tư chịu.`],
-   ['Thời hạn','Hết hợp đồng, hệ thống chuyển giao cho doanh nghiệp. Chuyển giao miễn phí hay có phí, tình trạng kỹ thuật khi bàn giao và bảo hành sau chuyển giao do hai bên thỏa thuận trong hợp đồng.','15 năm'],
-   ['Đơn giá điện','Bằng 90% biểu giá EVN tham chiếu (cấp điện áp 1 đến 35 kV, QĐ 2892/QĐ-BCT) theo từng khung giờ thấp điểm, bình thường, cao điểm. Mức giảm do hai bên thỏa thuận, không phải mức pháp luật quy định, thay đổi theo khảo sát thực tế. Giá điều chỉnh theo khi EVN đổi biểu giá, cách áp dụng ghi rõ trong hợp đồng. Chưa gồm VAT và các khoản phí liên quan.','90% giá EVN',1],
-   ['Đo đếm, thanh toán','Lắp công tơ riêng đo sản lượng điện mặt trời. Hai bên thỏa thuận vị trí đồng hồ, sản lượng tính tiền và quy trình đối soát. Chốt chỉ số, thanh toán hằng tháng.'],
-   ['Vận hành, thay thế','Nhà đầu tư chịu chi phí vận hành, bảo trì, thay biến tần'+(p.E?' và pin lưu trữ':'')+' trong thời hạn hợp đồng. Cam kết hiệu suất và thời gian xử lý sự cố do hai bên thỏa thuận.'],
-   ['Mái và mặt bằng','Doanh nghiệp cho phép sử dụng mái và lối tiếp cận trong thời hạn hợp đồng, không tự ý cải tạo mái ảnh hưởng hệ thống.'],
-   ['Nghĩa vụ hai bên','Phân công thủ tục đầu tư, xây dựng, an toàn điện, môi trường, PCCC và giấy phép hoạt động điện lực theo từng trường hợp. Doanh nghiệp duy trì hoạt động, thanh toán đúng hạn, ký hồ sơ với tư cách chủ sử dụng điện.'],
-   ['Chấm dứt trước hạn','Công thức mua lại hệ thống được xây dựng trong hợp đồng, giá giảm dần theo thời gian hợp đồng.'],
-   ['Pháp lý bán điện',`Áp dụng mô hình mua bán điện trực tiếp theo Nghị định 57/2025/NĐ-CP (sửa đổi bởi Nghị định 243/2026/NĐ-CP) và Thông tư 29/2026/TT-BCT, qua lưới điện kết nối riêng hoặc qua lưới điện quốc gia nếu đủ điều kiện. Mua bán qua lưới điện quốc gia cần khách hàng tiêu thụ bình quân từ 200.000 kWh/tháng. Doanh nghiệp này ước tính khoảng ${kwhTxt} kWh/tháng. Điều kiện cụ thể được kiểm tra trước khi ký.`]
+   ['Đơn giá điện','90% biểu giá EVN, theo từng khung giờ','Bằng 90% biểu giá EVN tham chiếu (cấp điện áp 1 đến 35 kV, QĐ 2892/QĐ-BCT) theo từng khung giờ thấp điểm, bình thường, cao điểm. Mức giảm do hai bên thỏa thuận, không phải mức pháp luật quy định, thay đổi theo khảo sát thực tế. Giá điều chỉnh theo khi EVN đổi biểu giá, cách áp dụng ghi rõ trong hợp đồng. Chưa gồm VAT và các khoản phí liên quan.'],
+   ['Hệ thống',P+' kWp, vốn do nhà đầu tư chịu',`${P} kWp tấm pin TCL, biến tần và giám sát Sungrow${E}, đồng hồ Chint, cáp Cadivi. Vốn đầu tư ước tính ${mi(p.capex)} do nhà đầu tư chịu.`],
+   ['Đo đếm, thanh toán','Công tơ riêng, chốt số hằng tháng','Lắp công tơ riêng đo sản lượng điện mặt trời. Hai bên thỏa thuận vị trí đồng hồ, sản lượng tính tiền và quy trình đối soát. Chốt chỉ số, thanh toán hằng tháng.'],
+   ['Vận hành, thay thế','Nhà đầu tư chịu chi phí','Nhà đầu tư chịu chi phí vận hành, bảo trì, thay biến tần'+(p.E?' và pin lưu trữ':'')+' trong thời hạn hợp đồng. Cam kết hiệu suất và thời gian xử lý sự cố do hai bên thỏa thuận.'],
+   ['Chuyển giao sau 15 năm','Điều kiện do hai bên thỏa thuận','Hết hợp đồng, hệ thống chuyển giao cho doanh nghiệp. Chuyển giao miễn phí hay có phí, tình trạng kỹ thuật khi bàn giao và bảo hành sau chuyển giao do hai bên thỏa thuận trong hợp đồng.'],
+   ['Chấm dứt trước hạn','Công thức mua lại giảm dần','Công thức mua lại hệ thống được xây dựng trong hợp đồng, giá giảm dần theo thời gian hợp đồng.'],
+   ['Mái và nghĩa vụ hai bên','Phân công thủ tục, duy trì hoạt động','Doanh nghiệp cho phép sử dụng mái và lối tiếp cận trong thời hạn hợp đồng, không tự ý cải tạo mái ảnh hưởng hệ thống. Phân công thủ tục đầu tư, xây dựng, an toàn điện, môi trường, PCCC và giấy phép hoạt động điện lực theo từng trường hợp. Doanh nghiệp duy trì hoạt động, thanh toán đúng hạn, ký hồ sơ với tư cách chủ sử dụng điện.'],
+   ['Pháp lý bán điện','Nghị định 57/2025, 243/2026, Thông tư 29/2026',`Áp dụng mô hình mua bán điện trực tiếp theo Nghị định 57/2025/NĐ-CP (sửa đổi bởi Nghị định 243/2026/NĐ-CP) và Thông tư 29/2026/TT-BCT, qua lưới điện kết nối riêng hoặc qua lưới điện quốc gia nếu đủ điều kiện. Mua bán qua lưới điện quốc gia cần khách hàng tiêu thụ bình quân từ 200.000 kWh/tháng. Doanh nghiệp này ước tính khoảng ${kwhTxt} kWh/tháng. Điều kiện cụ thể được kiểm tra trước khi ký.`]
   ];
   const key=S.mode+'|'+S.sel+'|'+(p.E?1:0),an=key!==S.ck;S.ck=key;
-  $('ct').innerHTML=rows.map((a,k)=>`<li class="${a[3]?'hi':''}${an?' an':''}" style="--i:${k}"><span class="dot">${k+1}</span><div class="bd"><h4>${a[0]}</h4>${a[2]?`<span class="big">${a[2]}</span>`:''}<p>${a[1]}</p></div></li>`).join('')}
+  const open=[...document.querySelectorAll('#ct .ci.open')].map(e=>e.dataset.k);
+  $('ct').innerHTML=`<div class="cstat${an?' an':''}">${stats.map((s,k)=>`<div style="--i:${k}"><i>${s[0]}</i><b>${s[1]}</b><span>${s[2]}</span></div>`).join('')}</div>
+<div class="clane${an?' an':''}">${lanes.map((l,k)=>`<div class="ln${k?' r':''}"><h4>${l[0]}</h4><ul>${l[1].map((t,j)=>`<li style="--i:${j}">${t}</li>`).join('')}</ul></div>`).join('')}</div>
+<div class="cacc"><h4>Điều khoản chi tiết</h4>${terms.map((t,k)=>`<div class="ci${open.includes(String(k))?' open':''}${an?' an':''}" data-k="${k}" style="--i:${k}"><button type="button" class="ch2" aria-expanded="${open.includes(String(k))}"><span class="nn">${String(k+1).padStart(2,'0')}</span><span class="tt"><b>${t[0]}</b><em>${t[1]}</em></span><span class="chv"></span></button><div class="cb2"><div><p>${t[2]}</p></div></div></div>`).join('')}</div>`}
 function run(){
   const bill=num('bill')*1e6,roof=num('roof');
   $('mexp').innerHTML=EXP[S.mode];
@@ -989,6 +1039,8 @@ function popHtml(i){const r=window.R,p=i===2?r.p2:r.p1,esco=S.mode==='esco';if(!
 (function(){const nav=$('topnav'),mb=$('mbar');const f=()=>{const y=scrollY,hero=document.querySelector('.hero'),t=hero?hero.offsetHeight*.6:300;nav.classList.toggle('vis',y>t);mb.classList.toggle('on',y>t&&!$('rq').classList.contains('on'))};addEventListener('scroll',f,{passive:true});f();
  $('mbb').onclick=()=>$('endrq').click();
  document.addEventListener('pointermove',e=>{const c=e.target.closest&&e.target.closest('.pc,.rc');if(!c)return;const r=c.getBoundingClientRect();c.style.setProperty('--mx',(e.clientX-r.left)+'px');c.style.setProperty('--my',(e.clientY-r.top)+'px')},{passive:true})})();
+
+$('ct').addEventListener('click',e=>{const b=e.target.closest('.ch2');if(!b)return;const c=b.parentElement,o=c.classList.toggle('open');b.setAttribute('aria-expanded',o)});
 run();
 (function(){const links=[...document.querySelectorAll('#topnav a')],secs=links.map(a=>document.querySelector(a.getAttribute('href')));const f=()=>{let k=-1;secs.forEach((e,i)=>{if(e.getBoundingClientRect().top<window.innerHeight*.4)k=i});links.forEach((a,i)=>a.classList.toggle('on',i===k))};addEventListener('scroll',f,{passive:true});f()})();
 document.querySelectorAll('.sec,.mode,.form,.tar>div,.tline,.eqd,.brands,.ctop,.fh,.fr,.lc,.foot,.notes').forEach(e=>e.classList.add('rv'));
