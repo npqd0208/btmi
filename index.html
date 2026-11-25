@@ -743,10 +743,9 @@ body.nores #kpi,body.nores #eqw,body.nores #aside,body.nores #notes,body.nores #
 <div class="fsec"><div class="cl">Doanh nghiệp</div>
 <div class="fg">
 <div><label for="group">Nhóm giá điện</label><select id="group"><option>Sản xuất</option><option>Thương mại</option></select></div>
-<div><label for="volt">Cấp điện áp đấu nối</label><select id="volt"><option value="Trên 1 kV đến 35 kV" selected>Trung áp, 1 đến 35 kV (có trạm riêng)</option><option value="Đến 1 kV">Hạ áp, dưới 1 kV (không trạm riêng)</option></select></div>
 <div><label for="bill">Tiền điện mỗi tháng (triệu đồng, chưa VAT)</label><input id="bill" type="text" inputmode="decimal" autocomplete="off" value="450"></div>
 <div><label for="roof">Diện tích mái có thể lắp (m²)</label><input id="roof" type="text" inputmode="numeric" autocomplete="off" value="8.000"></div>
-<div class="full"><label for="prov">Tỉnh, thành lắp đặt</label><select id="prov"></select></div>
+<div><label for="prov">Tỉnh, thành lắp đặt</label><select id="prov"></select></div>
 </div></div>
 <div class="fsec"><div class="cl">Thời gian hoạt động</div>
 <div class="sch-presets"><span>Chọn nhanh:</span><button type="button" data-p="hc">Giờ hành chính</button><button type="button" data-p="2">2 ca</button><button type="button" data-p="3">3 ca liên tục</button></div>
@@ -793,7 +792,7 @@ body.nores #kpi,body.nores #eqw,body.nores #aside,body.nores #notes,body.nores #
 <p class="lnote">Mốc tuần là lịch dự kiến cho hệ thống quy mô vừa, chốt cụ thể sau khảo sát ở tuần 1-2. Chúng tôi lập hồ sơ, nộp và theo dõi, doanh nghiệp cung cấp giấy tờ và ký hồ sơ.</p>
 </div>
 <section class="endcta rv"><div><h2>Nhận khảo sát mái và báo giá chi tiết</h2><p>Để lại họ tên và số điện thoại. Đội kỹ thuật BTMI sẽ liên hệ khảo sát mái và gửi cấu hình, vốn đầu tư, dòng tiền 20 năm cho doanh nghiệp của bạn.</p></div><button type="button" class="btn gold" id="endrq" style="border:0;cursor:pointer;font-family:inherit">Gửi yêu cầu báo giá</button></section>
-<footer class="sitef"><div class="sf1"><div class="sfb"><b>BTMI</b><span>Điện mặt trời mái nhà cho doanh nghiệp</span></div><div class="sfl"><a href="mailto:ptda@btmi.com.vn">ptda@btmi.com.vn</a><a href="#s1">Tính lại tiết kiệm</a><a href="#top">Lên đầu trang</a></div></div><p>Số liệu là ước tính theo biểu giá điện QĐ 2892/QĐ-BCT theo cấp điện áp đã chọn, chưa VAT, và sẽ thay đổi theo hiện trạng thực tế sau khảo sát. Hệ thống điện mặt trời tự sản xuất, tự tiêu thụ thực hiện theo Nghị định 58/2025/NĐ-CP, được sửa đổi bởi Nghị định 243/2026/NĐ-CP.</p></footer>
+<footer class="sitef"><div class="sf1"><div class="sfb"><b>BTMI</b><span>Điện mặt trời mái nhà cho doanh nghiệp</span></div><div class="sfl"><a href="mailto:ptda@btmi.com.vn">ptda@btmi.com.vn</a><a href="#s1">Tính lại tiết kiệm</a><a href="#top">Lên đầu trang</a></div></div><p>Số liệu là ước tính theo biểu giá điện QĐ 2892/QĐ-BCT, cấp điện áp 1 đến 35 kV (trung áp), chưa VAT, và sẽ thay đổi theo hiện trạng thực tế sau khảo sát. Hệ thống điện mặt trời tự sản xuất, tự tiêu thụ thực hiện theo Nghị định 58/2025/NĐ-CP, được sửa đổi bởi Nghị định 243/2026/NĐ-CP.</p></footer>
 </div>
 
 
@@ -946,7 +945,7 @@ const fmt=(v,d=0)=>v.toLocaleString('vi-VN',{minimumFractionDigits:d,maximumFrac
 const mi=v=>v>=1e9?fmt(v/1e9,2)+' tỷ':fmt(v/1e6,v>=1e8?0:1)+' triệu';
 const yr=v=>v==null?'trên 20 năm':fmt(v,1)+' năm';
 const S={mode:'epc',sel:1,idle:0.2};
-const voltTxt=v=>v==='Đến 1 kV'?'dưới 1 kV (hạ áp)':'1 đến 35 kV (trung áp)';
+const voltTxt=()=>'1 đến 35 kV (trung áp)';
 const num=id=>+(($(id).value||'').replace(/\./g,'').replace(',','.').replace(/[^0-9.]/g,''))||0;
 function groupInput(el,ev){const dec=el.id==='bill';let v=el.value;
   if(dec&&v.indexOf(',')<0&&ev&&(ev.data==='.'||ev.inputType==='insertFromPaste')){const m=v.match(/^(.*)\.(\d{0,2})$/);if(m)v=m[1]+','+m[2]}
@@ -1089,7 +1088,7 @@ function run(){
   const nores=msg=>{w.hidden=false;w.textContent=msg;window.R=null;document.body.classList.add('nores');$('pk').innerHTML=`<div class="card pc na"><h3>Chưa có gói đề xuất</h3><p>${msg}</p></div>`};
   if(bill<=0||roof<=0)return nores('Nhập tiền điện và diện tích mái để xem gói đề xuất.');
   const sched=readSched();
-  const x={group:$('group').value,volt:$('volt').value,bill,sched,prov:$('prov').value,roof,idle:S.idle};
+  const x={group:$('group').value,bill,sched,prov:$('prov').value,roof,idle:S.idle};
   const r=calc2(D,x);window.R=r;
   if(r.err==='roof')return nores('Diện tích mái tối thiểu khoảng 30 m² (hệ 5 kWp). Nhập diện tích mái lớn hơn để xem gói đề xuất.');
   document.body.classList.remove('nores');
@@ -1175,7 +1174,7 @@ $('pkSeg').addEventListener('click',e=>{const b=e.target.closest('button[data-p]
 document.querySelectorAll('#bill,#roof').forEach(e=>{groupInput(e);e.addEventListener('input',ev=>groupInput(e,ev))});
 let rT=0;const runSoon=()=>{clearTimeout(rT);rT=setTimeout(run,120)};
 document.querySelectorAll('#bill,#roof').forEach(e=>{e.addEventListener('input',runSoon);e.addEventListener('change',run)});
-document.querySelectorAll('#group,#volt,#prov').forEach(e=>e.addEventListener('change',run));
+document.querySelectorAll('#group,#prov').forEach(e=>e.addEventListener('change',run));
 (function(){const w=$('eqw'),b=w.querySelector('.eqs');b.addEventListener('click',()=>{const o=w.classList.toggle('open');b.setAttribute('aria-expanded',o)})})();
 
 function popHtml(i){const r=window.R;if(!r||!r.p1)return '';const p=i===2?r.p2:r.p1,esco=S.mode==='esco';if(!p)return '';
@@ -1202,7 +1201,7 @@ function popHtml(i){const r=window.R;if(!r||!r.p1)return '';const p=i===2?r.p2:r
  const rq=$('rq');let ctx=null;
  function closeRq(){rq.classList.remove('on')}
  window.closeRq=closeRq;
- const mailBody=()=>{const c=ctx;return `Kính gửi BTMI,\n\nTôi muốn nhận báo giá chi tiết:\n- Gói ${c.i}: ${c.p.E?'Có pin':'Hòa lưới'}, ${fmt(c.p.P)} kWp${c.p.E?`, pin lưu trữ ${fmt(c.p.E)} kWh`:''}\n- Hình thức: ${c.esco?'ESCO':'EPC'}\n- Cấp điện áp: ${voltTxt($('volt').value)}\n- Diện tích mái: khoảng ${fmt(c.roof)} m²\n- Điện tiêu thụ: khoảng ${fmt(c.kwh)} kWh/tháng\n- Tiền điện hiện tại: ${(c.bill/1e6).toLocaleString('vi-VN',{maximumFractionDigits:2})} triệu đồng/tháng\n- Tải duy trì ngoài giờ ca: ${Math.round(S.idle*100)}%\n- ${c.esco?'Vốn đầu tư ban đầu: 0 đồng (ước tính vốn do bên đầu tư chịu '+mi(c.p.capex)+')':'Vốn đầu tư ước tính: '+mi(c.p.capex)}\n- Tỉnh, thành: ${c.prov}\n\nHọ và tên: ${$('rqn').value.trim()}\nĐiện thoại/Zalo: ${$('rqp').value.trim()}\nGhi chú: ${$('rqg').value.trim()||'(không có)'}\n\nTrân trọng.`};
+ const mailBody=()=>{const c=ctx;return `Kính gửi BTMI,\n\nTôi muốn nhận báo giá chi tiết:\n- Gói ${c.i}: ${c.p.E?'Có pin':'Hòa lưới'}, ${fmt(c.p.P)} kWp${c.p.E?`, pin lưu trữ ${fmt(c.p.E)} kWh`:''}\n- Hình thức: ${c.esco?'ESCO':'EPC'}\n- Diện tích mái: khoảng ${fmt(c.roof)} m²\n- Điện tiêu thụ: khoảng ${fmt(c.kwh)} kWh/tháng\n- Tiền điện hiện tại: ${(c.bill/1e6).toLocaleString('vi-VN',{maximumFractionDigits:2})} triệu đồng/tháng\n- Tải duy trì ngoài giờ ca: ${Math.round(S.idle*100)}%\n- ${c.esco?'Vốn đầu tư ban đầu: 0 đồng (ước tính vốn do bên đầu tư chịu '+mi(c.p.capex)+')':'Vốn đầu tư ước tính: '+mi(c.p.capex)}\n- Tỉnh, thành: ${c.prov}\n\nHọ và tên: ${$('rqn').value.trim()}\nĐiện thoại/Zalo: ${$('rqp').value.trim()}\nGhi chú: ${$('rqg').value.trim()||'(không có)'}\n\nTrân trọng.`};
  const openRq=i=>{const r=window.R;if(!r||r.err||!r.p1){document.getElementById('s1').scrollIntoView({behavior:'smooth'});return}if(i===2&&!r.p2)i=1;const p=i===2?r.p2:r.p1,esco=S.mode==='esco';
   ctx={i,p,esco,roof:num('roof'),bill:num('bill')*1e6,kwh:r.kwhMonth,prov:$('prov').value};
   $('rqt').textContent=`Yêu cầu báo giá gói ${i}`;
