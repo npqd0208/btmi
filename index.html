@@ -593,7 +593,7 @@ input:focus,select:focus{box-shadow:0 0 0 4px #dfe4fb;outline:none}
 <div class="fr rv"><div class="fl"><em><u>Tùy chọn</u></em><b>Bán điện dư lên lưới</b><p>Chỉ khi doanh nghiệp muốn bán phần điện dư, đăng ký trước khi lắp.</p></div><div class="fg2"><div class="lc rv opt"><h5>Tùy chọn: bán điện dư<span>Giấy chứng nhận 10 ngày làm việc</span></h5><p>Bán tối đa 50% sản lượng phát, cần công tơ hai chiều và thiết bị kết nối Cấp điều độ (trung áp trở lên). Giấy chứng nhận bị thu hồi nếu sau 60 ngày kể từ khi cấp chưa lắp.</p><small>Căn cứ: NĐ 58/2025, Điều 14, 16 đến 20. NĐ 243/2026</small></div></div></div>
 <p class="lnote">Mốc tuần là lịch dự kiến cho hệ thống quy mô vừa, chốt cụ thể sau khảo sát ở tuần 1-2. Chúng tôi lập hồ sơ, nộp và theo dõi, doanh nghiệp cung cấp giấy tờ và ký hồ sơ.</p>
 </div>
-<section class="endcta rv"><div><h2>Nhận khảo sát mái và báo giá chi tiết</h2><p>Gửi hóa đơn điện 12 tháng và vài ảnh chụp mái. Chúng tôi phản hồi cấu hình, vốn đầu tư và dòng tiền 20 năm cho doanh nghiệp của bạn.</p></div><a class="btn gold" href="mailto:ptda@btmi.com.vn?subject=Y%C3%AAu%20c%E1%BA%A7u%20kh%E1%BA%A3o%20s%C3%A1t%20%C4%91i%E1%BB%87n%20m%E1%BA%B7t%20tr%E1%BB%9Di%20m%C3%A1i%20nh%C3%A0">Gửi yêu cầu qua email</a></section>
+<section class="endcta rv"><div><h2>Nhận khảo sát mái và báo giá chi tiết</h2><p>Để lại họ tên và số điện thoại. Đội kỹ thuật BTMI sẽ liên hệ khảo sát mái và gửi cấu hình, vốn đầu tư, dòng tiền 20 năm cho doanh nghiệp của bạn.</p></div><button type="button" class="btn gold" id="endrq" style="border:0;cursor:pointer;font-family:inherit">Gửi yêu cầu báo giá</button></section>
 <p class="foot">Số liệu là ước tính theo biểu giá điện QĐ 2892/QĐ-BCT, cấp điện áp 1 đến 35 kV, chưa VAT, và sẽ thay đổi theo hiện trạng thực tế sau khảo sát. Hệ thống điện mặt trời tự sản xuất, tự tiêu thụ thực hiện theo Nghị định 58/2025/NĐ-CP, được sửa đổi bởi Nghị định 243/2026/NĐ-CP. Liên hệ: <a href="mailto:ptda@btmi.com.vn">ptda@btmi.com.vn</a>.</p>
 </div>
 
@@ -910,11 +910,13 @@ function popHtml(i){const r=window.R,p=i===2?r.p2:r.p1,esco=S.mode==='esco';if(!
  function closeRq(){rq.classList.remove('on')}
  window.closeRq=closeRq;
  const mailBody=()=>{const c=ctx;return `Kính gửi BTMI,\n\nTôi muốn nhận báo giá chi tiết:\n- Gói ${c.i}: ${c.p.E?'Có pin':'Hòa lưới'}, ${fmt(c.p.P)} kWp${c.p.E?`, pin lưu trữ ${fmt(c.p.E)} kWh`:''}\n- Hình thức: ${c.esco?'ESCO':'EPC'}\n- Diện tích mái: khoảng ${fmt(c.roof)} m²\n- Điện tiêu thụ: khoảng ${fmt(c.kwh)} kWh/tháng\n- Tiền điện hiện tại: ${fmt(c.bill/1e6)} triệu đồng/tháng\n- ${c.esco?'Vốn đầu tư ban đầu: 0 đồng (ước tính vốn do bên đầu tư chịu '+mi(c.p.capex)+')':'Vốn đầu tư ước tính: '+mi(c.p.capex)}\n- Tỉnh, thành: ${c.prov}\n\nHọ và tên: ${$('rqn').value.trim()}\nĐiện thoại/Zalo: ${$('rqp').value.trim()}\nGhi chú: ${$('rqg').value.trim()||'(không có)'}\n\nTrân trọng.`};
- pk.addEventListener('click',e=>{const b=e.target.closest('[data-rq]');if(!b)return;e.stopPropagation();const i=+b.dataset.rq,r=window.R,p=i===2?r.p2:r.p1,esco=S.mode==='esco';
+ const openRq=i=>{const r=window.R;if(!r)return;if(i===2&&!r.p2)i=1;const p=i===2?r.p2:r.p1,esco=S.mode==='esco';
   ctx={i,p,esco,roof:num('roof'),bill:num('bill')*1e6,kwh:r.kwhMonth,prov:$('prov').value};
   $('rqt').textContent=`Yêu cầu báo giá gói ${i}`;
   $('rqs').innerHTML=`<b>Gói ${i} · ${p.E?'Có pin':'Hòa lưới'} · ${esco?'ESCO':'EPC'}</b><span>Mái ~ ${fmt(ctx.roof)} m² · ${fmt(p.P)} kWp${p.E?' · pin '+fmt(p.E)+' kWh':''}</span><span>${fmt(ctx.kwh)} kWh/tháng · ${esco?'đầu tư 0 đồng':'~ '+fmt(p.capex/1e6)+' triệu'}</span>`;
-  rq.classList.remove('sent');close();rq.classList.add('on');setTimeout(()=>$('rqn').focus(),250)});
+  rq.classList.remove('sent');close();rq.classList.add('on');setTimeout(()=>$('rqn').focus(),250)};
+ pk.addEventListener('click',e=>{const b=e.target.closest('[data-rq]');if(!b)return;e.stopPropagation();openRq(+b.dataset.rq)});
+ $('endrq').onclick=()=>openRq(S.sel||1);
  $('rqx').onclick=closeRq;$('rqcl').onclick=closeRq;rq.addEventListener('click',e=>{if(e.target===rq)closeRq()});
  $('rqgo').onclick=()=>{const n=$('rqn'),p=$('rqp');const okN=n.value.trim().length>=2,okP=/^[0-9+\s.()-]{9,15}$/.test(p.value.trim());
   n.classList.toggle('err',!okN);p.classList.toggle('err',!okP);if(!okN||!okP)return;
