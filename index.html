@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Điện mặt trời mái nhà cho doanh nghiệp</title>
 <style>
 @font-face{font-family:'Be Vietnam Pro';font-style:normal;font-weight:400;font-display:swap;src:url(fonts/bvp-latin-400.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
@@ -526,6 +526,25 @@ input:focus,select:focus{box-shadow:0 0 0 4px #dfe4fb;outline:none}
 .tar>div:nth-child(2).rv{transition-delay:.08s}.tar>div:nth-child(3).rv{transition-delay:.16s}
 @media(max-width:1340px){.wrap{padding-right:58px}}
 @media(max-width:700px){.wrap{padding-right:34px}.nav{right:3px;padding:8px 4px}.nav a{width:9px;height:9px;margin:7px 3px}.nav a::after{display:none}}
+
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+.nav,#mbar,.pop,.rq{-webkit-backdrop-filter:blur(10px)}
+@media(max-width:900px){
+ input,select,textarea,.sf select{font-size:16px!important}
+ .sch-presets button{min-height:42px;padding:10px 16px;font-size:14px}
+ .sf .x{min-width:40px;min-height:40px;font-size:20px}
+ .add,.btn2,.vbtn,.cta,.rq .go,.rq .ok button,.mode .seg button,.seg button{min-height:46px}
+ .foot a,.lnk,.rlink{display:inline-block;padding:10px 0}
+ .rq .box{max-height:92dvh;padding:26px 20px 22px}
+ .pop.sheet{max-height:88dvh}
+ #mbar{bottom:calc(10px + env(safe-area-inset-bottom))}
+ body{padding-bottom:calc(84px + env(safe-area-inset-bottom))}
+ .pc{padding:26px 20px 22px}
+ .pc:hover{transform:none}
+ .rq .x2{width:44px;height:44px}
+ .pop .x{width:44px;height:44px}
+}
+@media(hover:none){.pc:hover,.cc:hover,.lc:hover{transform:none}.pc::after,.rc::after{display:none}}
 </style></head>
 <body>
 <div class="prog" id="prog"></div><i class="bgb b1"></i><i class="bgb b2"></i>
