@@ -704,7 +704,6 @@ body.nores #kpi,body.nores #eqw,body.nores #aside,body.nores #notes,body.nores #
 <h1>Giảm tiền điện bằng điện mặt trời trên mái nhà của doanh nghiệp</h1>
 <p class="lead">Nhập hóa đơn, thời gian hoạt động và diện tích mái. Hệ thống tính ngay công suất, phương án pin lưu trữ và số tiền điện tiết kiệm theo biểu giá điện mới (QĐ 2892/QĐ-BCT, hiệu lực từ 01/11/2026).</p>
 <div class="hcta"><a class="btn" href="#s1">Tính tiết kiệm ngay</a><a class="btn2" href="#s4">Xem quy trình triển khai</a></div>
-<div class="hstat" id="hstat" aria-live="polite"></div>
 </div>
 <div class="hv"><svg viewBox="0 0 480 340" role="img" aria-label="Mái nhà xưởng lắp điện mặt trời" class="hsvg">
 <defs><linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#dfe6ff"/><stop offset="1" stop-color="#fff4d6"/></linearGradient>
@@ -770,13 +769,11 @@ body.nores #kpi,body.nores #eqw,body.nores #aside,body.nores #notes,body.nores #
 <div class="sec" id="s2"><span class="no">02</span><h2>Gói đề xuất</h2><p>Điện mặt trời được lắp tối đa theo diện tích mái, không vượt tổng điện doanh nghiệp tiêu thụ, không phát ngược lên lưới. Gói có pin lưu trữ (BESS) nạp từ điện mặt trời dư và từ lưới giờ thấp điểm, rồi xả vào giờ cao điểm buổi tối. Trên máy tính, rê chuột vào gói để xem biểu đồ. Trên điện thoại, bấm nút Xem biểu đồ.</p></div>
 <div class="pk" id="pk"></div>
 <div class="eqd" id="eqw"><button type="button" class="eqs" aria-expanded="false">Xem danh mục thiết bị chi tiết<span class="chev"></span></button><div class="eqb"><div class="eqi"><p class="note" id="eqn"></p><div class="eqgrid" id="eqd"></div></div></div></div>
-<div class="kpi" id="kpi"></div>
 <ol class="notes" id="notes"></ol>
 <div class="card brands"><span>Thiết bị chính</span><img src="logos/tcl.png" alt="TCL Solar"><img src="logos/sungrow.png" alt="Sungrow"><img src="logos/chint.png" alt="Chint"><img src="logos/cadivi.png" alt="Cadivi"></div>
 
 <div class="sec" id="s3"><span class="no">03</span><h2>Phương án hợp tác</h2><p>Các hạng mục chính dự kiến trong hợp đồng. Nội dung chi tiết và số liệu cuối cùng được chốt sau khảo sát, có thể thương lượng.</p></div>
-<div class="ctop"><div class="seg" id="modeSeg2"><button data-m="epc" class="on">Hợp đồng EPC<small>Tự đầu tư</small></button><button data-m="esco">Hợp đồng ESCO<small>Đầu tư 0 đồng</small></button></div><div class="seg" id="pkSeg"></div></div>
-<p class="ctt" id="ctt"></p>
+<div class="ctop"><div class="seg" id="modeSeg2"><button data-m="epc" class="on">Hợp đồng EPC<small>Tự đầu tư</small></button><button data-m="esco">Hợp đồng ESCO<small>Đầu tư 0 đồng</small></button></div></div>
 <div class="ctr" id="ct"></div>
 
 <div class="sec" id="s4"><span class="no">04</span><h2>Quy trình triển khai và thủ tục pháp lý</h2><p>Mỗi giai đoạn thi công đi kèm thủ tục pháp lý tương ứng: bên trái là tiến độ theo tuần, bên phải là thủ tục cần làm ở giai đoạn đó.</p></div>
@@ -1052,32 +1049,31 @@ function chartBars(v,unit,posC,negC,labelEvery,off=0,W=470,H=210){const l=44,b=2
   v.forEach((a,i)=>{const x=l+i*bw+2,y0=Y(0),y1=Y(a);g+=`<rect class="bb" style="--i:${i};transform-origin:${a>=0?'bottom':'top'}" x="${x}" y="${Math.min(y0,y1)}" width="${bw-4}" height="${Math.abs(y1-y0)||1}" rx="2" fill="${a>=0?posC:negC}"/>`;if(i%labelEvery===0)g+=`<text x="${x+bw/2-2}" y="${H-8}" text-anchor="middle">${i+off}</text>`});
   return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="${unit}">${g}</svg>`}
 // hợp đồng
-function renderContract(r,p){
-  const P=fmt(p.P),E=p.E?`, pin lưu trữ BESS ${fmt(p.E)} kWh`:'',kwhTxt=fmt(r.kwhMonth),epc=S.mode==='epc';
-  const stats=epc?[['Giá hợp đồng',mi(p.capex),'Chưa VAT, chốt sau khảo sát'],['Tiến độ','khoảng 14 tuần','Ước tính, chốt lại sau khảo sát'],['Hệ thống',P+' kWp',p.E?'Kèm pin lưu trữ '+fmt(p.E)+' kWh':'Hòa lưới, không phát ngược']]
-   :[['Thời hạn','15 năm','Hết hạn, chuyển giao hệ thống'],(p.E?['Chia sẻ tiết kiệm','90 / 10','Doanh nghiệp giữ 10% phần tiết kiệm']:['Đơn giá điện','90% giá EVN','Mức giảm do hai bên thỏa thuận']),['Vốn ban đầu','0 đồng','Nhà đầu tư chịu ước tính '+mi(p.capex)]];
-  const lanes=epc?[['Nhà thầu EPC lo',['Khảo sát, thiết kế','Cung cấp thiết bị','Thi công, đấu nối','Hồ sơ pháp lý, PCCC, xây dựng','Nghiệm thu, bàn giao, hướng dẫn vận hành']],['Doanh nghiệp lo',['Cung cấp hồ sơ, giấy tờ, ký hồ sơ','Mặt bằng mái và lối tiếp cận','Thanh toán theo đợt đã thỏa thuận','Sở hữu hệ thống từ ngày nghiệm thu'+(p.E?'':'')]]]
-   :[['Nhà đầu tư lo',['100% vốn đầu tư','Thiết kế, thi công','Vận hành, bảo trì','Thay biến tần'+(p.E?' và pin lưu trữ':''),'Sở hữu hệ thống trong 15 năm']],['Doanh nghiệp lo',['Cho sử dụng mái và lối tiếp cận',(p.E?'Trả nhà đầu tư 90% tiền điện tiết kiệm được':'Mua điện mặt trời bằng 90% giá EVN'),(p.E?'Đối soát hằng tháng qua công tơ và EMS':'Thanh toán hằng tháng theo công tơ riêng'),'Duy trì hoạt động, ký hồ sơ chủ sử dụng điện']]];
+function renderContract(r){
+  const kwhTxt=fmt(r.kwhMonth),epc=S.mode==='epc';
+  const stats=epc?[['Hình thức','Trọn gói','Khảo sát đến nghiệm thu, bàn giao'],['Tiến độ','khoảng 14 tuần','Ước tính, chốt lại sau khảo sát'],['Sở hữu','Doanh nghiệp','Toàn quyền hệ thống từ ngày nghiệm thu']]
+   :[['Vốn ban đầu','0 đồng','Nhà đầu tư chịu toàn bộ vốn'],['Giá điện','Giảm 10%','So với giá EVN, theo từng khung giờ'],['Thời hạn','15 năm','Hết hạn, chuyển giao hệ thống']];
+  const lanes=epc?[['Nhà thầu EPC lo',['Khảo sát, thiết kế','Cung cấp thiết bị','Thi công, đấu nối','Hồ sơ pháp lý, PCCC, xây dựng','Nghiệm thu, bàn giao, hướng dẫn vận hành']],['Doanh nghiệp lo',['Cung cấp hồ sơ, giấy tờ, ký hồ sơ','Mặt bằng mái và lối tiếp cận','Thanh toán theo đợt đã thỏa thuận','Sở hữu hệ thống từ ngày nghiệm thu']]]
+   :[['Nhà đầu tư lo',['100% vốn đầu tư','Thiết kế, thi công','Vận hành, bảo trì','Thay biến tần, pin lưu trữ nếu có','Sở hữu hệ thống trong 15 năm']],['Doanh nghiệp lo',['Cho sử dụng mái và lối tiếp cận','Mua điện mặt trời bằng 90% giá EVN','Thanh toán hằng tháng theo công tơ riêng','Duy trì hoạt động, ký hồ sơ chủ sử dụng điện']]];
   const terms=epc?[
    ['Giá gồm những gì','Thiết bị, thi công, đấu nối, thủ tục','Giá trọn gói ước tính, chưa VAT, đã gồm thiết bị, thi công, đấu nối, thủ tục pháp lý và nghiệm thu. Chốt sau khảo sát thực tế.'],
-   ['Thiết bị',P+' kWp, TCL, Sungrow, Chint, Cadivi',`${P} kWp tấm pin TCL, biến tần và giám sát Sungrow${E}, đồng hồ Chint, cáp Cadivi.`],
+   ['Thiết bị','TCL, Sungrow, Chint, Cadivi','Tấm pin TCL, biến tần và giám sát Sungrow, đồng hồ Chint, cáp Cadivi. Công suất theo khảo sát mái và phụ tải. Pin lưu trữ (nếu chọn) chốt hãng và dung lượng khi báo giá.'],
    ['Thanh toán','Chia đợt theo mốc','Chia đợt theo mốc: ký hợp đồng, giao thiết bị, nghiệm thu, giữ lại bảo hành. Tỷ lệ từng đợt do hai bên thỏa thuận.'],
-   ['Bảo hành','Thiết bị, thi công, hiệu suất','Thiết bị: biến tần Sungrow 5 năm theo hãng, tấm pin TCL 12 năm sản phẩm'+(p.E?', pin lưu trữ theo hãng':'')+'. Thi công: thời hạn do hai bên thỏa thuận trong hợp đồng. Hiệu suất: tấm pin 30 năm theo báo giá, đối chiếu khi ký hợp đồng.'],
+   ['Bảo hành','Thiết bị, thi công, hiệu suất','Thiết bị: biến tần Sungrow 5 năm theo hãng, tấm pin TCL 12 năm sản phẩm, pin lưu trữ (nếu có) theo hãng. Thi công: thời hạn do hai bên thỏa thuận trong hợp đồng. Hiệu suất: tấm pin 30 năm theo báo giá, đối chiếu khi ký hợp đồng.'],
    ['Pháp lý','Nhà thầu lập và nộp hồ sơ','Chúng tôi lập và nộp hồ sơ thông báo hoặc đăng ký, thiết kế, PCCC, xây dựng. Doanh nghiệp cung cấp giấy tờ và ký hồ sơ.'],
    ['Nghiệm thu, bàn giao','Hoàn công, hướng dẫn, giám sát từ xa','Biên bản nghiệm thu, hồ sơ hoàn công, hướng dẫn vận hành, tài khoản giám sát từ xa. Doanh nghiệp sở hữu hệ thống từ ngày nghiệm thu.'],
    ['Tùy chọn','Vận hành, bảo trì sau bàn giao','Hợp đồng vận hành, bảo trì định kỳ sau bàn giao.']
   ]:[
-   p.E?['Chia sẻ tiết kiệm','Doanh nghiệp giữ 10% tiền điện tiết kiệm','Gói có pin lưu trữ thanh toán theo phần tiết kiệm đo được, không theo đơn giá điện. Tiền tiết kiệm mỗi tháng gồm điện mặt trời dùng trực tiếp và điện pin xả ra, tính theo biểu giá EVN từng khung giờ (cấp điện áp '+voltTxt(r.volt)+', QĐ 2892/QĐ-BCT), trừ tiền điện doanh nghiệp trả EVN để nạp pin giờ thấp điểm. Doanh nghiệp trả nhà đầu tư 90%, giữ lại 10%. Tỷ lệ chia do hai bên thỏa thuận, thay đổi theo khảo sát thực tế. Chưa gồm VAT.']:
-['Đơn giá điện','90% biểu giá EVN, theo từng khung giờ','Bằng 90% biểu giá EVN tham chiếu (cấp điện áp '+voltTxt(r.volt)+', QĐ 2892/QĐ-BCT) theo từng khung giờ thấp điểm, bình thường, cao điểm. Mức giảm do hai bên thỏa thuận, không phải mức pháp luật quy định, thay đổi theo khảo sát thực tế. Giá điều chỉnh theo khi EVN đổi biểu giá, cách áp dụng ghi rõ trong hợp đồng. Chưa gồm VAT và các khoản phí liên quan.'],
-   ['Hệ thống',P+' kWp, vốn do nhà đầu tư chịu',`${P} kWp tấm pin TCL, biến tần và giám sát Sungrow${E}, đồng hồ Chint, cáp Cadivi. Vốn đầu tư ước tính ${mi(p.capex)} do nhà đầu tư chịu.`],
-   p.E?['Đo đếm, thanh toán','Công tơ và dữ liệu EMS, đối soát hằng tháng','Lắp công tơ đo điện mặt trời, công tơ hai chiều cho pin lưu trữ và dùng dữ liệu EMS để xác định điện nạp, điện xả theo từng khung giờ. Hai bên thỏa thuận cách tính, quy trình đối soát và xử lý sai lệch. Chốt số liệu, thanh toán hằng tháng.']:['Đo đếm, thanh toán','Công tơ riêng, chốt số hằng tháng','Lắp công tơ riêng đo sản lượng điện mặt trời. Hai bên thỏa thuận vị trí đồng hồ, sản lượng tính tiền và quy trình đối soát. Chốt chỉ số, thanh toán hằng tháng.'],
-   ['Vận hành, thay thế','Nhà đầu tư chịu chi phí','Nhà đầu tư chịu chi phí vận hành, bảo trì, thay biến tần'+(p.E?' và pin lưu trữ':'')+' trong thời hạn hợp đồng. Cam kết hiệu suất và thời gian xử lý sự cố do hai bên thỏa thuận.'],
+   ['Đơn giá điện','90% biểu giá EVN, theo từng khung giờ','Bằng 90% biểu giá EVN tham chiếu (cấp điện áp '+voltTxt(r.volt)+', QĐ 2892/QĐ-BCT) theo từng khung giờ thấp điểm, bình thường, cao điểm. Mức giảm do hai bên thỏa thuận, không phải mức pháp luật quy định, thay đổi theo khảo sát thực tế. Giá điều chỉnh theo khi EVN đổi biểu giá, cách áp dụng ghi rõ trong hợp đồng. Với hệ có pin lưu trữ, hai bên có thể chuyển sang chia sẻ phần tiền điện tiết kiệm đo được (ví dụ doanh nghiệp giữ 10%), đã trừ tiền điện nạp pin giờ thấp điểm. Chưa gồm VAT và các khoản phí liên quan.'],
+   ['Hệ thống','Thiết bị và vốn do nhà đầu tư chịu','Tấm pin TCL, biến tần và giám sát Sungrow, đồng hồ Chint, cáp Cadivi, pin lưu trữ nếu có. Công suất theo khảo sát mái và phụ tải. Nhà đầu tư chịu toàn bộ vốn đầu tư.'],
+   ['Đo đếm, thanh toán','Công tơ riêng, chốt số hằng tháng','Lắp công tơ riêng đo sản lượng điện mặt trời. Hai bên thỏa thuận vị trí đồng hồ, sản lượng tính tiền và quy trình đối soát. Hệ có pin lưu trữ dùng thêm công tơ hai chiều và dữ liệu EMS. Chốt chỉ số, thanh toán hằng tháng.'],
+   ['Vận hành, thay thế','Nhà đầu tư chịu chi phí','Nhà đầu tư chịu chi phí vận hành, bảo trì, thay biến tần và pin lưu trữ (nếu có) trong thời hạn hợp đồng. Cam kết hiệu suất và thời gian xử lý sự cố do hai bên thỏa thuận.'],
    ['Chuyển giao sau 15 năm','Điều kiện do hai bên thỏa thuận','Hết hợp đồng, hệ thống chuyển giao cho doanh nghiệp. Chuyển giao miễn phí hay có phí, tình trạng kỹ thuật khi bàn giao và bảo hành sau chuyển giao do hai bên thỏa thuận trong hợp đồng.'],
    ['Chấm dứt trước hạn','Công thức mua lại giảm dần','Công thức mua lại hệ thống được xây dựng trong hợp đồng, giá giảm dần theo thời gian hợp đồng.'],
    ['Mái và nghĩa vụ hai bên','Phân công thủ tục, duy trì hoạt động','Doanh nghiệp cho phép sử dụng mái và lối tiếp cận trong thời hạn hợp đồng, không tự ý cải tạo mái ảnh hưởng hệ thống. Phân công thủ tục đầu tư, xây dựng, an toàn điện, môi trường, PCCC và giấy phép hoạt động điện lực theo từng trường hợp. Doanh nghiệp duy trì hoạt động, thanh toán đúng hạn, ký hồ sơ với tư cách chủ sử dụng điện.'],
    ['Pháp lý bán điện','Nghị định 57/2025, 243/2026, Thông tư 29/2026',`Áp dụng mô hình mua bán điện trực tiếp theo Nghị định 57/2025/NĐ-CP (sửa đổi bởi Nghị định 243/2026/NĐ-CP) và Thông tư 29/2026/TT-BCT, qua lưới điện kết nối riêng hoặc qua lưới điện quốc gia nếu đủ điều kiện. Mua bán qua lưới điện quốc gia cần khách hàng tiêu thụ bình quân từ 200.000 kWh/tháng. Doanh nghiệp này ước tính khoảng ${kwhTxt} kWh/tháng. Điều kiện cụ thể được kiểm tra trước khi ký.`]
   ];
-  const key=S.mode+'|'+S.sel+'|'+(p.E?1:0),an=key!==S.ck;S.ck=key;
+  const key=S.mode,an=key!==S.ck;S.ck=key;
   const open=[...document.querySelectorAll('#ct .ci.open')].map(e=>e.dataset.k);
   $('ct').innerHTML=`<div class="cstat${an?' an':''}">${stats.map((s,k)=>`<div style="--i:${k}"><i>${s[0]}</i><b>${s[1]}</b><span>${s[2]}</span></div>`).join('')}</div>
 <div class="clane${an?' an':''}">${lanes.map((l,k)=>`<div class="ln${k?' r':''}"><h4>${l[0]}</h4><ul>${l[1].map((t,j)=>`<li style="--i:${j}">${t}</li>`).join('')}</ul></div>`).join('')}</div>
@@ -1138,18 +1134,9 @@ function run(){
    const rr=esco0?[p.E?['Thanh toán','Chia sẻ tiết kiệm 90/10']:['Đơn giá điện mặt trời','90% giá EVN'],['Thời hạn hợp đồng','15 năm']]:[['Hoàn vốn sau thuế',yr(p.payPost)],['Tiết kiệm 20 năm',mi(p.save.slice(0,20).reduce((a,b)=>a+b,0))]];
    $('rc-r').innerHTML=rr.map(a=>`<div class="rr"><span>${a[0]}</span><b>${a[1]}</b></div>`).join('')}
   {const rp=recI===2?P2:r.p1,sv2=esco0?rp.escoMonth:rp.savMonth;$('mbt').textContent='~ '+mi(sv2)+' mỗi tháng'}
-  {const ps=[r.p1,P2].filter(Boolean),sv=ps.map(p=>esco0?p.escoMonth:p.savMonth),lo=Math.min(...sv),hi=Math.max(...sv);
-   const a=mi(lo),b=mi(hi),u=x=>x.replace(/^[\d.,]+\s*/,''),rng=ps.length>1&&a!==b?(u(a)===u(b)?a.replace(/\s*\S+$/,'')+' đến '+b:a+' đến '+b):b;
-   const it=esco0?[[rng,'Tiết kiệm mỗi tháng'],['0 đồng','Vốn ban đầu của doanh nghiệp'],[fmt((recI===2?P2:r.p1).P)+' kWp','Công suất gói khuyến nghị']]
-     :[[rng,'Tiết kiệm mỗi tháng'],[(()=>{const v=ps.map(p=>p.payPost).filter(v=>v!=null);return v.length?yr(Math.min(...v)):'trên 20 năm'})(),'Hoàn vốn nhanh nhất'],[fmt((recI===2?P2:r.p1).P)+' kWp','Công suất gói khuyến nghị']];
-   $('hstat').innerHTML=`<div class="hsh">Với số liệu đang nhập: hóa đơn ${mi(bill)}/tháng, mái ${fmt(roof)} m², ${$('prov').value}</div><div class="hsg">${it.map(x=>`<div><b>${x[0]}</b><span>${x[1]}</span></div>`).join('')}</div>`}
   S.anim=false;
   const p=S.sel===2&&P2?P2:r.p1,esco=S.mode==='esco';
   const cumE=[];let c=0;for(let n=0;n<15;n++){c+=p.save[n]*K.esco;cumE.push(c/1e9)}
-  {const ps=[r.p1,P2].filter(Boolean),pct=v=>v==null?'không xác định':fmt(v*100,1)+'%',sg=v=>(v<0?'âm ':'')+mi(Math.abs(v));
-   const rows=esco?[['Công suất điện mặt trời',p=>fmt(p.P)+' kWp'],['Pin lưu trữ',p=>p.E?fmt(p.E)+' kWh':'Không'],['Vốn do bên đầu tư chịu',p=>mi(p.capex)],['Điện mặt trời phát mỗi năm',p=>fmt(p.gen/1e3)+' MWh'],['Tỷ lệ điện mặt trời được dùng',p=>pct(p.useRatio)],['Tiết kiệm năm đầu so với giá EVN',p=>mi(p.savYear)],['Doanh nghiệp giữ lại năm đầu ('+fmt(K.esco*100)+'%)',p=>mi(p.savYear*K.esco)],['Doanh nghiệp tiết kiệm trong 15 năm',p=>mi(p.escoCust15)]]
-    :[['Công suất điện mặt trời',p=>fmt(p.P)+' kWp'],['Pin lưu trữ',p=>p.E?fmt(p.E)+' kWh':'Không'],['Vốn đầu tư (chưa VAT)',p=>mi(p.capex)],['Điện mặt trời phát mỗi năm',p=>fmt(p.gen/1e3)+' MWh'],['Tỷ lệ điện mặt trời được dùng',p=>pct(p.useRatio)],['Tiết kiệm năm đầu',p=>mi(p.savYear)],['Hoàn vốn sau thuế',p=>yr(p.payPost)],['IRR sau thuế, 20 năm',p=>pct(p.irrPost)],['NPV sau thuế (chiết khấu '+fmt(r.wacc*100,2)+'%)',p=>sg(p.npv)],['Dòng tiền lũy kế 20 năm',p=>sg(p.cum[20])]];
-   $('kpi').innerHTML=`<table><thead><tr><th>Chỉ số</th>${ps.map((q,i)=>`<th>Gói ${i+1}${i+1===recI?'<em>Khuyến nghị</em>':''}</th>`).join('')}</tr></thead><tbody>${rows.map(rw=>`<tr><td>${rw[0]}</td>${ps.map(q=>`<td>${rw[1](q)}</td>`).join('')}</tr>`).join('')}</tbody></table>`}
   const nt=['Tiết kiệm tính theo biểu giá điện QĐ 2892/QĐ-BCT, cấp điện áp '+voltTxt(r.volt)+', năm đầu, chưa VAT, và sẽ thay đổi theo hiện trạng thực tế sau khảo sát.',
    'Gói 1 không có pin, chống phát ngược: chọn công suất cho NPV cao nhất, với ít nhất 65% điện mặt trời phát ra được dùng ngay. Gói 2 thử vài mức công suất từ gói 1 đến mức tối đa theo mái (6 m² cho mỗi kWp, đã gồm lối đi kỹ thuật, không vượt tổng điện tiêu thụ) cùng vài cỡ pin, rồi chọn phương án có NPV cao nhất. Phương án pin có trên 80% điện nạp từ lưới mà suất sinh lời dưới chi phí vốn bị loại.',
    'Dòng tiền sau thuế thu nhập doanh nghiệp 20%, khấu hao 12 năm. Chi phí thay biến tần năm 11 và thay pin năm 12 được khấu hao đến năm 20, lỗ được chuyển tối đa 5 năm.'];
@@ -1164,15 +1151,12 @@ function run(){
   if(esco)nt.push('Mức giảm 10% so với giá EVN trong hình thức ESCO là giả định, thay đổi theo khảo sát thực tế, có thể đàm phán, thương lượng lại.'+(P2?' Với gói có pin, hai bên chia sẻ phần tiết kiệm đo được theo tỷ lệ 90/10 thay vì bán điện theo đơn giá.':''));
   if(!esco&&P2&&P2.payPost!=null&&r.p1.payPost!=null&&P2.payPost>r.p1.payPost)nt.push(`Gói 2 tiết kiệm tiền điện nhiều hơn nhưng vốn đầu tư cao hơn và thời gian hoàn vốn dài hơn gói 1 (${yr(P2.payPost)} so với ${yr(r.p1.payPost)}).`);
   $('notes').innerHTML=nt.map(t=>`<li>${t}</li>`).join('');
-  renderContract(r,p);renderEq(r,p);
+  renderContract(r);renderEq(r,p);
   document.querySelectorAll('.pc[data-i]').forEach(el=>el.onclick=e=>{if(e.target.closest('button'))return;S.sel=+el.dataset.i;S.userSel=true;run()});
-  $('pkSeg').innerHTML=[r.p1,P2].map((q,k)=>q?`<button type="button" data-p="${k+1}" class="${S.sel===k+1?'on':''}">Gói ${k+1}<small>${q.E?'Có pin':'Hòa lưới'}</small></button>`:'').join('');
-  $('ctt').innerHTML=`Điều khoản dưới đây cho <b>Gói ${S.sel}: ${p.E?'điện mặt trời và pin lưu trữ':'điện mặt trời hòa lưới'}</b>, ${fmt(p.P)} kWp${p.E?`, pin ${fmt(p.E)} kWh`:''}, hình thức ${esco?'ESCO':'EPC'}.`;
 }
 initSch();
 $('idleBar').addEventListener('click',e=>{const b=e.target.closest('button[data-idle]');if(!b)return;S.idle=+b.dataset.idle;$('idleBar').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));$('idlePct').textContent=Math.round(S.idle*100)+'%';run()});
 document.querySelectorAll('.seg button[data-m]').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.m)));
-$('pkSeg').addEventListener('click',e=>{const b=e.target.closest('button[data-p]');if(!b)return;S.sel=+b.dataset.p;S.userSel=true;run()});
 document.querySelectorAll('#bill,#roof').forEach(e=>{groupInput(e);e.addEventListener('input',ev=>groupInput(e,ev))});
 let rT=0;const runSoon=()=>{clearTimeout(rT);rT=setTimeout(run,120)};
 document.querySelectorAll('#bill,#roof').forEach(e=>{e.addEventListener('input',runSoon);e.addEventListener('change',run)});
