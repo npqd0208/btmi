@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Điện mặt trời mái nhà cho doanh nghiệp</title>
+<style>
+@font-face{font-family:'Be Vietnam Pro';font-style:normal;font-weight:400;font-display:swap;src:url(fonts/bvp-latin-400.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Be Vietnam Pro';font-style:normal;font-weight:400;font-display:swap;src:url(fonts/bvp-vietnamese-400.woff2) format('woff2');unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB}
+@font-face{font-family:'Be Vietnam Pro';font-style:normal;font-weight:500;font-display:swap;src:url(fonts/bvp-latin-500.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Be Vietnam Pro';font-style:normal;font-weight:500;font-display:swap;src:url(fonts/bvp-vietnamese-500.woff2) format('woff2');unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB}
+@font-face{font-family:'Be Vietnam Pro';font-style:normal;font-weight:600;font-display:swap;src:url(fonts/bvp-latin-600.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Be Vietnam Pro';font-style:normal;font-weight:600;font-display:swap;src:url(fonts/bvp-vietnamese-600.woff2) format('woff2');unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB}
+@font-face{font-family:'Be Vietnam Pro';font-style:normal;font-weight:700;font-display:swap;src:url(fonts/bvp-latin-700.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Be Vietnam Pro';font-style:normal;font-weight:700;font-display:swap;src:url(fonts/bvp-vietnamese-700.woff2) format('woff2');unicode-range:U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB}
+
+:root{--bg:#f6f7fd;--card:#fff;--ink:#0b1237;--navy:#0b1237;--mute:#566079;--line:#e1e5f2;--acc:#1c34c8;--soft:#eef1fb;--gold:#f2c14e;--goldsoft:#fdf0c8;--ok:#0d7a4e;--bad:#b42318}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 "Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background-image:radial-gradient(900px 400px at 85% -50px,#e8ecff,transparent),radial-gradient(700px 360px at -5% 20%,#fff4d6,transparent);background-repeat:no-repeat}
+button,input,select{font-family:inherit}
+.wrap{max-width:1240px;margin:0 auto;padding:36px 20px 80px}
+a{color:var(--acc)}
+/* hero */
+.hero{padding:30px 0 6px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font:600 12px "Be Vietnam Pro";letter-spacing:.12em;color:var(--acc);background:#fff;border:1px solid var(--line);padding:7px 14px;border-radius:999px;margin-bottom:16px}
+.eyebrow:before{content:"";width:12px;height:12px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px #fdf0c8}
+.lead{max-width:760px;font-size:17px;color:var(--mute);margin:0 0 16px}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.badges span{background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-weight:600;font-size:13px;display:inline-flex;align-items:center;gap:8px}
+.badges span:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--acc)}
+.nav{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 10px}
+.nav a{background:#fff;border:1px solid var(--line);border-radius:999px;padding:9px 18px;text-decoration:none;color:var(--navy);font-weight:600;font-size:13.5px}
+.nav a:hover{border-color:var(--acc);color:var(--acc)}
+/* section heading */
+.sec{margin:64px 0 24px;scroll-margin-top:84px}
+.sec .no{display:inline-block;font:600 12px "Be Vietnam Pro";letter-spacing:.14em;color:var(--acc);background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 14px;margin-bottom:14px}
+.sec h2{margin:0 0 12px;font-size:clamp(28px,4vw,40px);line-height:1.1;letter-spacing:-.03em;color:var(--navy)}
+.sec h2:after{content:"";display:block;width:84px;height:4px;border-radius:4px;margin-top:14px;background:linear-gradient(90deg,var(--acc),var(--gold))}
+.sec p{margin:0;max-width:820px;color:var(--mute);font-size:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:0 1px 2px rgba(11,18,55,.04),0 12px 32px -18px rgba(11,18,55,.18)}
+/* mode toggle */
+.mode{display:grid;grid-template-columns:auto 1fr;gap:18px 24px;align-items:center;padding:18px 22px;margin-bottom:14px}
+.seg{display:inline-flex;background:var(--soft);border-radius:999px;padding:4px;gap:2px}
+.seg button{border:0;background:transparent;border-radius:999px;padding:10px 20px;font-weight:700;font-size:14px;color:var(--mute);cursor:pointer;line-height:1.2;text-align:center}
+.seg button small{display:block;font-weight:500;font-size:11px;opacity:.85}
+.seg button.on{background:var(--navy);color:#fff}
+.mexp{font-size:14.5px;color:var(--ink);line-height:1.55}
+.mexp b{color:var(--acc)}
+@media(max-width:820px){.mode{grid-template-columns:1fr}}
+/* form */
+.form{padding:22px 24px}
+.fg{display:grid;gap:14px 18px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.fg3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.form .fg{grid-template-columns:repeat(2,minmax(0,1fr));align-items:end}
+@media(max-width:640px){.form .fg{grid-template-columns:1fr}}
+@media(max-width:820px){.fg3{grid-template-columns:1fr}}
+.cl{margin:0 0 6px;font:700 11px "Be Vietnam Pro";letter-spacing:.1em;text-transform:uppercase;color:var(--acc)}
+.fsec+.fsec{margin-top:22px;padding-top:20px;border-top:1px solid var(--line)}
+label{display:block;font-size:12.5px;color:var(--mute);margin-bottom:5px}
+input[type=number],input[type=text],select{width:100%;border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:15px;background:#fff;color:var(--ink);min-height:44px}
+input:focus,select:focus{outline:2px solid #c7d0f5;border-color:var(--acc)}
+.sch-presets{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:2px 0 12px;font-size:13px;color:var(--mute)}
+.sch-presets button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 14px;font-weight:600;font-size:13px;color:var(--navy);cursor:pointer}
+.sch-presets button:hover{border-color:var(--acc);color:var(--acc)}
+.dr{border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin-top:10px;background:#fff;transition:background .2s}
+.dr.off{background:var(--soft)}
+.dh{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 14px}
+.tgl{display:inline-flex;align-items:center;gap:10px;cursor:pointer;font-weight:700;color:var(--navy);font-size:15px}
+.tgl input{position:absolute;opacity:0;width:0;height:0}
+.tgl .sl{width:42px;height:24px;border-radius:999px;background:#c9d0e6;position:relative;transition:background .2s;flex:none}
+.tgl .sl:after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.tgl input:checked+.sl{background:var(--acc)}
+.tgl input:checked+.sl:after{transform:translateX(18px)}
+.tgl input:focus-visible+.sl{outline:2px solid #c7d0f5;outline-offset:2px}
+.hrs{font-size:13px;color:var(--mute)}
+.shs{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;align-items:center}
+.dr.off .shs,.dr.off .strip{display:none}
+.sf{display:inline-flex;align-items:center;gap:6px;background:var(--soft);border-radius:12px;padding:6px 8px 6px 12px;font-size:13px;color:var(--mute)}
+.sf b{color:var(--navy);margin-right:2px}
+.sf select{width:auto;min-height:36px;padding:4px 8px;font-size:14px;border-radius:8px}
+.sf .x{border:0;background:transparent;color:var(--mute);cursor:pointer;font-size:18px;line-height:1;padding:4px 6px;border-radius:8px}
+.sf .x:hover{background:#fff;color:var(--bad)}
+.add{border:1.5px dashed #aab4e6;background:#fff;color:var(--acc);font-weight:700;font-size:13px;border-radius:12px;padding:9px 14px;cursor:pointer}
+.add:hover{background:var(--soft)}
+.strip{display:grid;grid-template-columns:repeat(24,1fr);gap:2px;margin-top:12px}
+.strip i{height:10px;border-radius:2px;background:#e3e7f5;transition:background .2s}
+.strip i.on{background:var(--acc)}
+.stl{display:flex;justify-content:space-between;font-size:11px;color:var(--mute);margin-top:3px}
+.schnote{margin:12px 0 0;font-size:13px;color:var(--mute)}
+.s1g{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:24px;align-items:start}
+@media(max-width:1020px){.s1g{grid-template-columns:1fr}}
+.aside{position:sticky;top:18px;transition:opacity .4s,transform .4s}
+.aside.gone{opacity:0;transform:translateY(24px);pointer-events:none}
+@media(max-width:1020px){.aside{position:static}.aside.gone{opacity:1;transform:none;pointer-events:auto}}
+.rc{position:relative;background:var(--navy);color:#fff;border-radius:26px;padding:30px 26px 24px;box-shadow:0 24px 50px -24px rgba(11,18,55,.6)}
+.rc .tag{position:absolute;top:-14px;left:24px;background:var(--acc);color:#fff;font:700 11px "Be Vietnam Pro";letter-spacing:.12em;padding:7px 14px;border-radius:999px}
+.rc h4{margin:6px 0 2px;font-size:21px;letter-spacing:-.02em;line-height:1.2}
+.rc .rsub{color:#aeb7e6;font-size:13.5px;margin:0}
+.rc .mon i{color:#aeb7e6}
+.rc .mon b{font-size:clamp(38px,4vw,48px)}
+.rc .mon b small{color:#aeb7e6}
+.rr{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid #243063;font-size:14px;color:#c9d0f0}
+.rr b{color:#fff;text-align:right}
+.rlink{display:block;margin-top:14px;text-align:center;padding:12px;border-radius:12px;background:linear-gradient(90deg,#f6d77a,#e9b949);color:#3d2d00;font-weight:700;text-decoration:none;font-size:14px}
+.tar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px}
+@media(max-width:760px){.tar{grid-template-columns:1fr}}
+.tar>div{padding:16px 18px;border-radius:18px;background:#fff;border:1px solid var(--line)}
+.tar i{display:block;font:700 11px "Be Vietnam Pro";letter-spacing:.1em;text-transform:uppercase;color:var(--acc);font-style:normal}
+.tar b{display:block;font-size:26px;letter-spacing:-.03em;margin:2px 0;color:var(--navy)}
+.tar span{font-size:13px;color:var(--mute);line-height:1.45;display:block}
+.tar .pkc{background:var(--navy);border-color:var(--navy)}
+.tar .pkc i{color:var(--gold)}.tar .pkc b{color:#fff}.tar .pkc span{color:#c9d0f0}
+.tline{margin:12px 0 0;padding:12px 16px;background:var(--soft);border-radius:12px;font-size:13.5px;color:var(--mute)}
+.tline b{color:var(--navy)}
+.warn{margin-top:12px;padding:12px 16px;border-radius:12px;background:#fdf0c8;color:#7a5600;font-size:14px}
+/* packages */
+.pk{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px;margin-top:22px}
+@media(max-width:900px){.pk{grid-template-columns:1fr}}
+.pc{position:relative;display:flex;flex-direction:column;padding:32px 30px 28px;border:2px solid var(--line);border-radius:28px;background:#fff;cursor:pointer;box-shadow:0 14px 36px -20px rgba(11,18,55,.25);transition:transform .3s cubic-bezier(.2,.7,.2,1),border-color .2s,box-shadow .3s}
+.pc:hover{transform:translateY(-8px);box-shadow:0 30px 56px -24px rgba(11,18,55,.4)}
+.pc.sel{border-color:var(--acc);box-shadow:0 0 0 4px #dfe4fb,0 18px 40px -20px rgba(28,52,200,.4)}
+.pc.rec{background:var(--navy);color:#fff;border-color:var(--navy)}
+.pc.rec.sel{box-shadow:0 0 0 4px #c7d0f5,0 24px 50px -22px rgba(11,18,55,.6)}
+.pc.an{animation:rise .8s cubic-bezier(.2,.7,.2,1) backwards}
+.pc.an+.pc{animation-delay:.16s}
+@keyframes rise{from{opacity:0;transform:translateY(40px) scale(.96)}to{opacity:1;transform:none}}
+.rt{position:absolute;top:-15px;left:30px;background:var(--acc);color:#fff;font:700 11.5px "Be Vietnam Pro";letter-spacing:.1em;padding:8px 16px;border-radius:999px;box-shadow:0 8px 18px -8px rgba(28,52,200,.7)}
+.pill{display:inline-block;background:linear-gradient(90deg,#f6d77a,#e9b949);color:#5b4200;font:700 12px "Be Vietnam Pro";letter-spacing:.12em;padding:8px 16px;border-radius:999px}
+.vw{position:absolute;top:30px;right:26px;font:600 12px "Be Vietnam Pro";color:var(--acc);background:#eef0fc;padding:6px 12px;border-radius:999px;display:none}
+.pc.sel .vw{display:block}
+.pc.rec .vw{background:#1a2456;color:var(--gold)}
+.pc h3{margin:16px 0 2px;font-size:clamp(22px,2.6vw,28px);letter-spacing:-.025em;line-height:1.15;color:inherit}
+.pc .sub{color:var(--mute);font-size:15px}
+.pc.rec .sub{color:#aeb7e6}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chips span{background:var(--soft);color:var(--acc);font-weight:700;font-size:14px;padding:8px 14px;border-radius:999px}
+.pc.rec .chips span{background:#1a2456;color:#fff}
+.mon{margin-top:22px}
+.mon i{display:block;font:700 11.5px "Be Vietnam Pro";letter-spacing:.1em;text-transform:uppercase;color:var(--mute);font-style:normal}
+.pc.rec .mon i{color:#aeb7e6}
+.mon b{display:block;font-size:clamp(44px,5.6vw,64px);letter-spacing:-.04em;line-height:1.05;margin:4px 0;color:inherit;font-variant-numeric:tabular-nums}
+.mon b small{font-size:.34em;letter-spacing:0;font-weight:700;margin-left:6px;color:var(--mute)}
+.pc.rec .mon b small{color:#aeb7e6}
+.sbar{margin-top:14px}
+.sbar .trk{height:16px;border-radius:999px;background:#e3e7f5;overflow:hidden}
+.pc.rec .sbar .trk,.rc .sbar .trk{background:#1a2456}
+.sbar .trk i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--acc),#5b72ee);transform-origin:left;transition:width .7s cubic-bezier(.2,.7,.2,1)}
+.pc.rec .sbar .trk i,.rc .sbar .trk i{background:linear-gradient(90deg,#f6d77a,#e9b949)}
+.pc.an .sbar .trk i{animation:grow 1.3s .4s cubic-bezier(.2,.7,.2,1) both}
+@keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.sbar .sl2{display:flex;justify-content:space-between;gap:10px;margin-top:8px;font-size:13px;color:var(--mute)}
+.sbar .sl2 b{color:var(--navy)}
+.pc.rec .sbar .sl2,.rc .sbar .sl2{color:#aeb7e6}.pc.rec .sbar .sl2 b,.rc .sbar .sl2 b{color:#fff}
+.hr{height:1px;background:var(--line);margin:22px 0 16px}
+.pc.rec .hr{background:#243063}
+.cks{list-style:none;margin:0;padding:0}
+.cks li{position:relative;padding:7px 0 7px 36px;font-size:14.5px;line-height:1.45}
+.cks li:before{content:"";position:absolute;left:0;top:6px;width:24px;height:24px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='12' fill='%231c34c8'/%3E%3Cpath d='M6.8 12.4l3.6 3.6 6.9-7.6' fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center/contain}
+.pc.rec .cks li:before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='12' fill='%23f2c14e'/%3E%3Cpath d='M6.8 12.4l3.6 3.6 6.9-7.6' fill='none' stroke='%230b1237' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
+.gp{margin-top:20px;padding-top:16px;border-top:1px solid var(--line)}
+.pc.rec .gp{border-color:#243063}
+.gp>i{display:flex;align-items:center;gap:8px;margin-bottom:6px;font:700 11.5px "Be Vietnam Pro";letter-spacing:.1em;text-transform:uppercase;color:var(--acc);font-style:normal}
+.gp>i:before{content:"";width:16px;height:4px;border-radius:3px;background:var(--gold)}
+.pc.rec .gp>i{color:var(--gold)}
+.pc .rw{display:flex;justify-content:space-between;gap:12px;padding:9px 0;font-size:15px;color:var(--mute)}
+.pc .rw b{color:var(--navy);text-align:right}
+.pc.rec .rw{color:#aeb7e6}.pc.rec .rw b{color:#fff}
+.cta{margin-top:18px;display:block;text-align:center;text-decoration:none;font-weight:700;font-size:16px;color:#fff;background:linear-gradient(90deg,var(--acc),#1a2a9a);border-radius:999px;padding:16px;box-shadow:0 14px 26px -14px rgba(28,52,200,.8);transition:transform .2s}
+.cta:hover{transform:scale(1.02)}
+.pc.rec .cta{background:linear-gradient(90deg,#f6d77a,#e9b949);color:#3d2d00;box-shadow:0 14px 26px -14px rgba(233,185,73,.7)}
+.pc.na{cursor:default;background:var(--soft);border-style:dashed;justify-content:center;color:var(--mute)}
+.pc.na:hover{transform:none;box-shadow:0 14px 36px -20px rgba(11,18,55,.25)}
+.pc.na h3{margin:0 0 8px;color:var(--navy);font-size:20px}
+/* equipment */
+.elg{display:flex;width:fit-content;align-items:center;border-radius:5px;margin-bottom:5px}.elg img{height:16px;width:auto;display:block}
+.er{display:grid;grid-template-columns:78px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);align-items:start}
+.er .pic{height:78px;background:var(--soft);border-radius:10px;display:flex;align-items:center;justify-content:center;padding:6px}.er .pic svg{height:48px;width:auto;max-width:56px}.er .pic img{max-height:100%;max-width:100%;object-fit:contain}
+.er small{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--mute)}
+.er b{display:block;font-size:13.5px;line-height:1.3}.er p{margin:2px 0 0;font-size:12px;color:var(--mute);line-height:1.4}
+.er .qty{font-weight:700;color:var(--acc);font-size:13px;margin-top:3px}
+.eqd{margin-top:18px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:0 22px}.eqd summary{padding:18px 0;font-weight:700;color:var(--navy);cursor:pointer}
+.eqd .note{margin:0 0 8px;font-size:13px;color:var(--mute)}.eqgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 28px;padding-bottom:12px}
+@media(max-width:800px){.eqgrid{grid-template-columns:1fr}}
+/* detail */
+.dt{margin-top:22px;padding:24px 26px}
+.dt h3{margin:0 0 4px;font-size:22px;letter-spacing:-.02em}
+.dt .dsub{margin:0 0 16px;color:var(--mute);font-size:14px}
+.dgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px;align-items:start}
+@media(max-width:800px){.dgrid{grid-template-columns:1fr}}
+.dl .r{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-top:1px solid var(--line);font-size:14px}
+.dl .r:first-child{border-top:0}.dl .r span{color:var(--mute)}.dl .r b{color:var(--navy);text-align:right}
+.ch b.t{display:block;font-size:14px;margin-bottom:6px}
+.ch svg text{font:11px "Be Vietnam Pro",sans-serif;fill:#566079}
+.lgd{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:6px;font-size:12px;color:var(--mute)}
+.lgd i{display:inline-block;width:12px;height:4px;border-radius:2px;margin-right:6px;vertical-align:middle}
+.notes{margin:18px 2px 0;padding-left:18px;font-size:13px;color:var(--mute);line-height:1.6}
+.notes li{margin:3px 0}
+.brands{display:flex;flex-wrap:wrap;align-items:center;gap:10px 26px;margin-top:20px;padding:14px 20px}
+.brands span{font:700 11px "Be Vietnam Pro";letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.brands img{height:26px;width:auto;display:block}
+/* contract */
+.ctop{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;margin-bottom:18px}
+.cg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+@media(max-width:980px){.cg{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){.cg{grid-template-columns:1fr}}
+.cc{position:relative;background:#fff;border:1px solid var(--line);border-radius:22px;padding:22px 22px 20px;box-shadow:0 12px 30px -20px rgba(11,18,55,.25);transition:transform .3s,box-shadow .3s}
+.cc:hover{transform:translateY(-5px);box-shadow:0 22px 40px -22px rgba(11,18,55,.35)}
+.cc.an{animation:rise .7s cubic-bezier(.2,.7,.2,1) backwards;animation-delay:calc(var(--i)*70ms)}
+.cc .cn{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:var(--soft);color:var(--acc);font:700 14px "Be Vietnam Pro"}
+.cc h4{margin:12px 0 4px;font-size:16px;color:var(--navy);letter-spacing:-.01em}
+.cc .cb{display:block;font-size:26px;font-weight:700;letter-spacing:-.03em;color:var(--acc);line-height:1.15;margin:2px 0 4px}
+.cc p{margin:0;font-size:13.5px;color:var(--mute);line-height:1.55}
+.cc.hi{background:var(--navy);border-color:var(--navy)}
+.cc.hi .cn{background:#1a2456;color:var(--gold)}.cc.hi h4{color:#fff}.cc.hi .cb{color:var(--gold)}.cc.hi p{color:#c9d0f0}
+/* process + legal flow */
+.flow{margin-top:8px}
+.fh{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:28px;margin-bottom:14px}
+.fh span{font:700 12px "Be Vietnam Pro";letter-spacing:.12em;text-transform:uppercase;color:var(--acc);padding-left:34px}
+.fh span+span{padding-left:0}
+.fr{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:0 28px}
+.fl{position:relative;border-left:2px solid var(--line);margin-left:7px;padding:0 0 26px 27px}
+.fr:last-child .fl{border-left-color:transparent}
+.fl:before{content:"";position:absolute;left:-9px;top:3px;width:16px;height:16px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 5px #fdf0c8}
+.fl em{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;font-style:normal;margin-bottom:4px}
+.fl em u{text-decoration:none;font:700 13.5px "Be Vietnam Pro";color:var(--navy);margin-right:2px}
+.wp{display:inline-block;font:700 11.5px "Be Vietnam Pro";padding:4px 11px;border-radius:999px;line-height:1.3}
+.wc{background:var(--acc);color:#fff}
+.wk{background:var(--goldsoft);color:#7a5600;box-shadow:inset 0 0 0 1.5px #e9b949}
+.fl b{display:block;font-size:17px;letter-spacing:-.01em;color:var(--navy);margin-bottom:2px}
+.fl p{margin:0;color:var(--mute);font-size:14px;line-height:1.5}
+.fg2{display:grid;gap:10px;align-content:start;padding-bottom:26px}
+.lc{position:relative;background:#fff;border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:14px;padding:13px 16px;box-shadow:0 10px 24px -20px rgba(11,18,55,.3)}
+.lc:before{content:"";position:absolute;left:-30px;top:20px;width:26px;height:2px;background:linear-gradient(90deg,var(--line),var(--gold))}
+.lc h5{margin:0 0 3px;font-size:14.5px;color:var(--navy);display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 10px;align-items:baseline}
+.lc h5 span{font:600 11px "Be Vietnam Pro";color:var(--acc);background:#eef0fc;border-radius:999px;padding:3px 10px;white-space:nowrap}
+.lc p{margin:0;font-size:13px;color:var(--ink);line-height:1.5}
+.lc small{display:block;margin-top:4px;font-size:11.5px;color:var(--mute)}
+.lc.opt{border-style:dashed;border-left-style:dashed}
+.fnone{align-self:start;padding:12px 16px;border:1.5px dashed var(--line);border-radius:14px;font-size:13px;color:var(--mute)}
+.lnote{margin:6px 2px 0;font-size:13px;color:var(--mute)}
+@media(max-width:860px){.fh{display:none}.fr{grid-template-columns:1fr}.fg2{padding:0 0 22px 36px}.lc:before{display:none}.fnone{margin:0 0 22px 36px}}
+/* motion */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+.hero>*{animation:rise .8s cubic-bezier(.2,.7,.2,1) both}
+.hero>*:nth-child(2){animation-delay:.08s}.hero>*:nth-child(3){animation-delay:.16s}.hero>*:nth-child(4){animation-delay:.24s}
+.badges span{animation:rise .6s cubic-bezier(.2,.7,.2,1) both}
+.badges span:nth-child(2){animation-delay:.1s}.badges span:nth-child(3){animation-delay:.2s}.badges span:nth-child(4){animation-delay:.3s}
+.fr.rv:nth-child(even) .fg2{transition-delay:.12s}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+.foot{margin-top:60px;font-size:12.5px;color:var(--mute);max-width:900px}
+
+/* v4 */
+.mode{align-items:start}
+.mleft{display:flex;flex-direction:column;align-items:flex-start}
+.seg button{transition:background .3s,color .3s}
+.disc{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .45s cubic-bezier(.2,.7,.2,1),opacity .4s,margin .4s;margin-top:0;max-width:340px}
+.disc.on{grid-template-rows:1fr;opacity:1;margin-top:12px}
+.disc .di{overflow:hidden;min-height:0}
+.disc .db{background:var(--goldsoft);border:1.5px solid #e9b949;border-radius:14px;padding:11px 14px;color:#7a5600;font-size:13px;line-height:1.45}
+.disc .db b{display:block;font-size:14px;color:#5b4200}
+.disc .db small{display:block;margin-top:3px;font-size:12px}
+.mexp.sw{animation:fade .5s both}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.swp{animation:fade .5s both}
+.warn:not([hidden]){animation:rise .4s both}
+.dbody{display:grid;grid-template-rows:1fr;transition:grid-template-rows .4s cubic-bezier(.2,.7,.2,1)}
+.dr.off .dbody{grid-template-rows:0fr}
+.dr.off .shs{display:flex}.dr.off .strip{display:grid}
+.dinner{overflow:hidden;min-height:0;transition:opacity .3s}
+.dr.off .dinner{opacity:0}
+.sf.pop{animation:pop .3s cubic-bezier(.2,.7,.2,1)}
+@keyframes pop{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:none}}
+.sf{transition:opacity .22s,transform .22s}
+.sf.out{opacity:0;transform:scale(.8)}
+.eqd{padding:0}
+.eqs{display:flex;width:100%;align-items:center;justify-content:space-between;border:0;background:transparent;padding:18px 22px;font:700 15px "Be Vietnam Pro";color:var(--navy);cursor:pointer;text-align:left}
+.eqs .chev{width:10px;height:10px;border-right:2.5px solid var(--acc);border-bottom:2.5px solid var(--acc);transform:rotate(45deg) translateY(-3px);transition:transform .35s}
+.eqd.open .chev{transform:rotate(225deg) translateY(-3px)}
+.eqb{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s cubic-bezier(.2,.7,.2,1)}
+.eqd.open .eqb{grid-template-rows:1fr}
+.eqi{overflow:hidden;min-height:0;padding:0 22px;opacity:0;transition:opacity .4s}
+.eqd.open .eqi{opacity:1;padding-bottom:6px}
+.eqd .er{opacity:0;transform:translateY(10px);transition:opacity .45s,transform .45s}
+.eqd.open .er{opacity:1;transform:none}
+.eqd.open .er:nth-child(2){transition-delay:.05s}.eqd.open .er:nth-child(3){transition-delay:.1s}.eqd.open .er:nth-child(4){transition-delay:.15s}.eqd.open .er:nth-child(n+5){transition-delay:.2s}
+/* compact cards */
+.pk{max-width:880px;margin-left:auto;margin-right:auto;gap:22px}
+.pc{padding:26px 24px 22px;border-radius:24px}
+.pc h3{font-size:clamp(19px,2vw,22px);margin:12px 0 2px}
+.pc .sub{font-size:13.5px}
+.pill{font-size:11px;padding:6px 13px;align-self:flex-start}
+.vw{top:24px;right:20px;font-size:11px;padding:5px 10px}
+.rt{left:24px;font-size:11px;padding:7px 14px}
+.two{display:grid;grid-template-columns:1fr 1fr;margin-top:18px}
+.two>div{min-width:0}
+.two>div+div{border-left:1px solid var(--line);padding-left:16px}
+.two i{display:block;font:700 10.5px "Be Vietnam Pro";letter-spacing:.08em;text-transform:uppercase;color:var(--mute);font-style:normal}
+.two b{display:block;font-size:clamp(26px,2.7vw,34px);letter-spacing:-.035em;line-height:1.1;margin-top:5px;color:inherit;font-variant-numeric:tabular-nums;white-space:nowrap}
+.two b small{font-size:.4em;letter-spacing:0;font-weight:700;margin-left:5px;color:var(--mute)}
+.pc.rec .two i,.rc .two i{color:#aeb7e6}.pc.rec .two b small,.rc .two b small{color:#aeb7e6}
+.pc.rec .two>div+div,.rc .two>div+div{border-color:#243063}
+.rc .two{margin-top:16px}
+.rc .two b{font-size:clamp(24px,2.4vw,30px)}
+.sbar{margin-top:16px}
+.sbar .trk{height:12px}
+.sbar .sl2{font-size:12.5px}
+.mini{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
+.mini>div{background:var(--soft);border-radius:12px;padding:10px 6px;text-align:center}
+.mini b{display:block;font-size:14.5px;color:var(--navy);line-height:1.2}
+.mini span{display:block;font-size:11px;color:var(--mute);margin-top:2px}
+.pc.rec .mini>div{background:#1a2456}.pc.rec .mini b{color:#fff}.pc.rec .mini span{color:#aeb7e6}
+.cks{margin-top:16px}
+.cks li{font-size:13.5px;padding:5px 0 5px 32px}
+.cks li:before{top:4px;width:22px;height:22px}
+.cta{margin-top:16px;padding:13px;font-size:15px}
+
+/* v5 hero */
+.wrap{padding-top:22px}
+.hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:36px;align-items:center;padding:26px 0 8px}
+@media(max-width:980px){.hero{grid-template-columns:1fr}}
+.hero>*{animation:none}
+.hl{animation:rise .8s cubic-bezier(.2,.7,.2,1) both}
+.hv{position:relative;animation:rise .9s .15s cubic-bezier(.2,.7,.2,1) both}
+.hero h1{margin:0 0 16px;font-size:clamp(32px,4.4vw,52px);line-height:1.08;letter-spacing:-.035em;color:var(--navy)}
+.hero .lead{font-size:16.5px;margin:0 0 24px;max-width:600px}
+.hcta{display:flex;flex-wrap:wrap;gap:12px}
+.btn,.btn2{display:inline-block;text-decoration:none;font-weight:700;font-size:15px;padding:14px 26px;border-radius:999px;transition:transform .2s,box-shadow .2s}
+.btn{background:linear-gradient(90deg,var(--acc),#1a2a9a);color:#fff;box-shadow:0 14px 26px -14px rgba(28,52,200,.8)}
+.btn2{background:#fff;color:var(--navy);border:1px solid var(--line)}
+.btn:hover,.btn2:hover{transform:translateY(-3px)}
+.hsvg{width:100%;height:auto;display:block;border-radius:28px;box-shadow:0 24px 50px -28px rgba(11,18,55,.4)}
+.sun .rays{animation:spin 40s linear infinite}
+.sun .glow{animation:glow 3.2s ease-in-out infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes glow{50%{transform:scale(1.18);opacity:.1}}
+.pn{fill:#1c3a8a;stroke:#9fb2e8;stroke-width:1.2;animation:shine 3.6s ease-in-out infinite}
+@keyframes shine{0%,100%{fill:#1c3a8a}50%{fill:#3558c9}}
+.fc{position:absolute;background:#fff;border:1px solid var(--line);border-radius:999px;padding:9px 16px;font-weight:700;font-size:13px;color:var(--navy);box-shadow:0 14px 28px -16px rgba(11,18,55,.4);animation:float 5s ease-in-out infinite}
+.fc:before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--gold);margin-right:8px}
+.fc.c1{left:-14px;top:22px}.fc.c2{right:-8px;bottom:70px;animation-delay:-1.6s}.fc.c3{left:30px;bottom:-16px;animation-delay:-3.2s}
+@keyframes float{50%{transform:translateY(-9px)}}
+@media(max-width:600px){.fc.c1{left:6px}.fc.c2{right:6px}}
+.pillars{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:34px 0 22px}
+@media(max-width:980px){.pillars{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.pillars{grid-template-columns:1fr}}
+.pillars>div{background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px 20px;box-shadow:0 12px 30px -22px rgba(11,18,55,.3);animation:rise .7s both;transition:transform .3s}
+.pillars>div:nth-child(2){animation-delay:.08s}.pillars>div:nth-child(3){animation-delay:.16s}.pillars>div:nth-child(4){animation-delay:.24s}
+.pillars>div:hover{transform:translateY(-5px)}
+.pillars svg{width:40px;height:40px;padding:9px;border-radius:12px;background:var(--soft);stroke:var(--acc);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;display:block;margin-bottom:10px}
+.pillars b{display:block;font-size:15.5px;color:var(--navy);margin-bottom:2px}
+.pillars span{font-size:13px;color:var(--mute);line-height:1.5}
+.nav{position:sticky;top:10px;z-index:30;display:flex;flex-wrap:wrap;gap:6px;margin:0 0 6px;padding:6px;width:fit-content;max-width:100%;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:999px;box-shadow:0 12px 30px -18px rgba(11,18,55,.35)}
+.nav a{border:0;background:transparent;padding:9px 18px;transition:background .25s,color .25s}
+.nav a.on{background:var(--navy);color:#fff}
+/* v5 cards */
+.pc .ctx{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.pc .ctx span{background:var(--soft);color:var(--mute);font-size:12px;font-weight:600;padding:5px 11px;border-radius:999px}
+.pc.rec .ctx span{background:#1a2456;color:#c9d0f0}
+.inv{margin-top:18px}
+.inv i,.svl i{display:block;font:700 10.5px "Be Vietnam Pro";letter-spacing:.08em;text-transform:uppercase;color:var(--mute);font-style:normal}
+.inv b{display:block;font-size:clamp(40px,4.6vw,56px);letter-spacing:-.04em;line-height:1.05;margin-top:4px;color:inherit;font-variant-numeric:tabular-nums;white-space:nowrap}
+.inv b small{font-size:.38em;letter-spacing:0;font-weight:700;margin-left:6px;color:var(--mute)}
+.inv em{display:block;font-style:normal;font-size:12.5px;color:var(--mute);margin-top:3px}
+.svl{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+.svl b{display:block;font-size:clamp(24px,2.5vw,30px);letter-spacing:-.03em;line-height:1.1;margin-top:3px;color:var(--acc);font-variant-numeric:tabular-nums}
+.svl b small{font-size:.45em;letter-spacing:0;font-weight:700;margin-left:5px;color:var(--mute)}
+.pc.rec .inv i,.pc.rec .svl i,.rc .inv i,.rc .svl i,.pc.rec .inv em,.pc.rec .inv b small,.rc .inv b small,.pc.rec .svl b small,.rc .svl b small{color:#aeb7e6}
+.pc.rec .svl,.rc .svl{border-color:#243063}
+.pc.rec .svl b,.rc .svl b{color:var(--gold)}
+.rc .inv{margin-top:16px}.rc .inv b{font-size:clamp(34px,3.4vw,42px)}
+.rc .svl b{font-size:clamp(22px,2.2vw,26px)}
+.sbar{margin-top:10px}
+.mini span{line-height:1.25}
+
+/* v6 polish */
+.prog{position:fixed;left:0;top:0;height:3px;width:0;z-index:100;background:linear-gradient(90deg,var(--acc),var(--gold));box-shadow:0 0 12px rgba(28,52,200,.5);transition:width .12s linear}
+.bgb{position:fixed;z-index:0;border-radius:50%;filter:blur(70px);pointer-events:none;opacity:.55}
+.b1{width:420px;height:420px;left:-120px;top:30vh;background:#e4e9ff;animation:drift 18s ease-in-out infinite}
+.b2{width:360px;height:360px;right:-100px;top:60vh;background:#fff0c9;animation:drift 22s ease-in-out infinite reverse}
+@keyframes drift{50%{transform:translate(70px,-50px) scale(1.15)}}
+.wrap{position:relative;z-index:1}
+.sec h2:after{width:0;transition:width 1s .35s cubic-bezier(.2,.7,.2,1)}
+.sec.in h2:after{width:84px}
+.sec .no{transition:transform .5s,background .5s}
+.sec.in .no{transform:none}
+.hero h1{background:linear-gradient(100deg,var(--navy) 55%,var(--acc) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hsvg{transition:transform .3s}
+.btn{position:relative;overflow:hidden}
+.btn:after,.cta:after,.rlink:after{content:"";position:absolute;top:0;left:-70%;width:45%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);transition:left .7s}
+.btn:hover:after,.cta:hover:after,.rlink:hover:after{left:130%}
+.cta,.rlink{position:relative;overflow:hidden}
+.btn.gold{background:linear-gradient(90deg,#f6d77a,#e9b949);color:#3d2d00;box-shadow:0 14px 26px -14px rgba(233,185,73,.8)}
+.rt{background:linear-gradient(90deg,var(--acc),#4a63f0,var(--acc));background-size:200% 100%;animation:slide 3s linear infinite}
+@keyframes slide{to{background-position:200% 0}}
+.pc.rec{animation-name:rise}
+.pc.rec:not(.an){animation:glowp 3.4s ease-in-out infinite}
+@keyframes glowp{0%,100%{box-shadow:0 24px 50px -24px rgba(11,18,55,.6),0 0 0 0 rgba(242,193,78,.0)}50%{box-shadow:0 24px 50px -24px rgba(11,18,55,.6),0 0 0 7px rgba(242,193,78,.18)}}
+.pc{transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .25s ease-out,border-color .2s,box-shadow .3s}
+.pc:hover{transform:perspective(900px) translateY(-8px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg))}
+.pc.na:hover{transform:none}
+.sbar .trk i{position:relative;overflow:hidden}
+.sbar .trk i:after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.55),transparent 70%);transform:translateX(-100%);animation:sheen 3s 1.4s ease-in-out infinite}
+@keyframes sheen{60%,100%{transform:translateX(100%)}}
+.tar>div{transition:transform .3s,box-shadow .3s}
+.tar>div:hover{transform:translateY(-5px);box-shadow:0 18px 34px -22px rgba(11,18,55,.4)}
+input[type=text],select{transition:border-color .2s,box-shadow .25s}
+input:focus,select:focus{box-shadow:0 0 0 4px #dfe4fb;outline:none}
+.dr{transition:background .3s,box-shadow .3s,border-color .3s}
+.dr:hover{box-shadow:0 10px 24px -18px rgba(11,18,55,.35)}
+.strip i{transition:background .3s,transform .3s}
+.strip i.on{transform:scaleY(1.35)}
+.add,.sch-presets button,.nav a,.btn2{transition:background .25s,border-color .25s,color .25s,transform .2s}
+.add:hover,.sch-presets button:hover{transform:translateY(-2px)}
+/* charts draw-in */
+.dt.in .swp polyline{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.6s cubic-bezier(.3,.7,.2,1) forwards}
+.dt.in .swp polyline:nth-of-type(2){animation-delay:.2s}.dt.in .swp polyline:nth-of-type(3){animation-delay:.4s}
+@keyframes draw{to{stroke-dashoffset:0}}
+.dt.in .swp .bb{transform-box:fill-box;animation:barUp .8s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i)*45ms)}
+@keyframes barUp{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+/* timeline */
+.fl{border-left-color:transparent;transition:border-color 1s .2s}
+.fr.in .fl{border-left-color:var(--line)}
+.fr:last-child.in .fl{border-left-color:transparent}
+.fl:before{transform:scale(0);transition:transform .5s .25s cubic-bezier(.3,1.6,.5,1)}
+.fr.in .fl:before{transform:scale(1)}
+.lc{transition:transform .3s,box-shadow .3s}
+.lc:hover{transform:translateX(4px);box-shadow:0 16px 30px -20px rgba(11,18,55,.4)}
+/* end cta */
+.endcta{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px 30px;margin-top:64px;padding:34px 36px;border-radius:28px;color:#fff;background:linear-gradient(120deg,#0b1237,#1c2a8a,#0b1237);background-size:200% 100%;animation:slide 10s linear infinite;box-shadow:0 30px 60px -30px rgba(11,18,55,.7)}
+.endcta h2{margin:0 0 6px;font-size:clamp(22px,3vw,30px);letter-spacing:-.02em}
+.endcta p{margin:0;max-width:620px;color:#c9d0f0;font-size:15px}
+.endcta .btn{white-space:nowrap}
+.foot{margin-top:28px}
+
+/* corner badge */
+.bdg{position:absolute;top:26px;right:26px;font:700 12px "Be Vietnam Pro";letter-spacing:.04em;padding:7px 14px;border-radius:999px;background:#eef0fc;color:var(--acc)}
+.bdg.pin{background:var(--gold);color:#5b4200}
+.pc.rec .bdg{background:#1a2456;color:#dbe1fb}.pc.rec .bdg.pin{background:var(--gold);color:#4a3600}
+.vbtn{display:none;margin-top:12px;width:100%;padding:12px;border-radius:14px;border:1.5px solid currentColor;background:transparent;color:inherit;font:600 14px "Be Vietnam Pro";cursor:pointer}
+.pc .cta{border:0;font-family:inherit;cursor:pointer;width:100%}
+@media(hover:none),(max-width:900px){.vbtn{display:block}}
+/* popup biểu đồ */
+.pop{position:fixed;z-index:60;width:336px;max-width:calc(100vw - 24px);background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:0 30px 70px -24px rgba(11,18,55,.5);padding:18px 18px 14px;opacity:0;visibility:hidden;transform:translateY(8px) scale(.98);transition:opacity .22s,transform .22s,visibility .22s;pointer-events:none}
+.pop.show{opacity:1;visibility:visible;transform:none}
+.pop h4{margin:0 0 2px;font-size:15px;color:var(--navy)}
+.pop .ps{margin:0 0 8px;font-size:12.5px;color:var(--mute)}
+.pop .ch{margin-top:10px}.pop .ch b.t{font-size:13px}
+.pop svg text{font:10.5px "Be Vietnam Pro",sans-serif;fill:#566079}
+.pop .lgd{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:11.5px;color:var(--mute);margin-top:4px}
+.pop .lgd i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.pop.show polyline{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.2s cubic-bezier(.3,.7,.2,1) .15s forwards}
+.pop.show .bb{transform-box:fill-box;animation:barUp .7s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i)*35ms)}
+.pop.show .sk{transform-box:fill-box;transform-origin:bottom;animation:barUp .6s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i)*25ms)}
+.pop .x{display:none}
+.pop.sheet{left:50%!important;top:50%!important;transform:translate(-50%,-48%);pointer-events:auto;max-height:88vh;overflow:auto;padding-top:46px}
+.pop.sheet.show{transform:translate(-50%,-50%)}
+.pop.sheet .x{display:block;position:absolute;top:10px;right:12px;width:34px;height:34px;border-radius:50%;border:0;background:var(--soft);color:var(--navy);font-size:20px;cursor:pointer}
+#bd{position:fixed;inset:0;z-index:59;background:rgba(11,18,55,.5);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+#bd.on{opacity:1;visibility:visible}
+/* modal yêu cầu */
+.rq{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(11,18,55,.55);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.rq.on{opacity:1;visibility:visible}
+.rq .box{position:relative;width:100%;max-width:520px;max-height:94vh;overflow:auto;background:#fff;border-radius:26px;padding:30px 28px 26px;transform:translateY(18px) scale(.98);transition:transform .3s cubic-bezier(.2,.7,.2,1)}
+.rq.on .box{transform:none}
+.rq h3{margin:0 0 4px;font-size:22px;letter-spacing:-.02em;color:var(--navy)}
+.rq .lead{margin:0 0 16px;color:var(--mute);font-size:14px}
+.rq .x2{position:absolute;top:14px;right:16px;width:36px;height:36px;border-radius:50%;border:0;background:var(--soft);font-size:20px;color:var(--navy);cursor:pointer}
+.rq .sm{background:var(--soft);border-radius:16px;padding:14px 16px;margin-bottom:16px}
+.rq .sm b{display:block;color:var(--acc);font-size:15px}
+.rq .sm span{display:block;color:var(--navy);font-size:14px;margin-top:3px}
+.rq label{display:block;font-weight:600;font-size:14px;margin:12px 0 6px;color:var(--navy)}
+.rq label em{font-style:normal;font-weight:400;color:var(--mute)}
+.rq input,.rq textarea{width:100%;box-sizing:border-box;border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;font:15px "Be Vietnam Pro",sans-serif;color:var(--navy);background:#fff;transition:border-color .2s,box-shadow .2s}
+.rq input:focus,.rq textarea:focus{outline:0;border-color:var(--acc);box-shadow:0 0 0 4px #dfe4fb}
+.rq input.err{border-color:var(--bad)}
+.rq textarea{min-height:84px;resize:vertical}
+.rq .go{margin-top:16px;width:100%;padding:15px;border:0;border-radius:14px;background:var(--acc);color:#fff;font:700 16px "Be Vietnam Pro";cursor:pointer;transition:transform .2s,box-shadow .2s}
+.rq .go:hover{transform:translateY(-2px);box-shadow:0 14px 26px -12px rgba(28,52,200,.7)}
+.rq .cs{margin:12px 0 0;font-size:12.5px;color:var(--mute);line-height:1.5}
+.rq .ok{display:none;text-align:center;padding:10px 0}
+.rq .ok b{display:block;font-size:20px;color:var(--navy);margin-bottom:6px}
+.rq .ok p{color:var(--mute);font-size:14px;margin:0 0 14px}
+.rq .ok button{padding:11px 18px;border-radius:12px;border:1.5px solid var(--acc);background:#fff;color:var(--acc);font:600 14px "Be Vietnam Pro";cursor:pointer;margin:0 4px}
+.rq.sent .fm{display:none}.rq.sent .ok{display:block}
+/* hợp đồng dạng line */
+.tl{position:relative;margin:6px 0 0;padding:0;list-style:none}
+.tl::before{content:"";position:absolute;left:43px;top:46px;bottom:46px;width:2px;background:linear-gradient(var(--acc),#c9d2f5)}
+.tl li{position:relative;display:flex;gap:18px;padding:0 0 20px}
+.tl li:last-child{padding-bottom:0}
+.tl .dot{flex:none;z-index:1;width:40px;height:40px;border-radius:50%;background:#fff;border:2px solid var(--acc);color:var(--acc);display:flex;align-items:center;justify-content:center;font:700 13px "Be Vietnam Pro"}
+.tl .bd{flex:1;min-width:0;padding-top:4px}
+.tl h4{margin:0;font-size:16px;color:var(--navy)}
+.tl p{margin:3px 0 0;font-size:14px;color:var(--mute);line-height:1.55}
+.tl .big{display:inline-block;margin-top:6px;padding:5px 14px;border-radius:999px;background:var(--soft);color:var(--acc);font:700 18px "Be Vietnam Pro";letter-spacing:-.02em}
+.tl li.hi .dot{background:var(--navy);border-color:var(--navy);color:var(--gold)}
+.tl li.hi .big{background:var(--navy);color:var(--gold)}
+.tl li.an{animation:rise .6s cubic-bezier(.2,.7,.2,1) backwards;animation-delay:calc(var(--i)*60ms)}
+@media(max-width:700px){.nav{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;width:auto}.nav::-webkit-scrollbar{display:none}.nav a{white-space:nowrap;flex:none}}
+</style></head>
+<body>
+<div class="prog" id="prog"></div><i class="bgb b1"></i><i class="bgb b2"></i>
+<div class="wrap">
+<header class="hero">
+<div class="hl">
+<span class="eyebrow">GIẢI PHÁP ĐIỆN MẶT TRỜI MÁI NHÀ CHO DOANH NGHIỆP</span>
+<h1>Giảm tiền điện bằng điện mặt trời trên mái nhà của doanh nghiệp</h1>
+<p class="lead">Nhập hóa đơn, thời gian hoạt động và diện tích mái. Hệ thống tính ngay công suất, phương án pin lưu trữ và số tiền điện tiết kiệm theo biểu giá điện mới (QĐ 2892/QĐ-BCT, hiệu lực từ 01/11/2026).</p>
+<div class="hcta"><a class="btn" href="#s1">Tính tiết kiệm ngay</a><a class="btn2" href="#s4">Xem quy trình triển khai</a></div>
+</div>
+<div class="hv"><svg viewBox="0 0 480 340" role="img" aria-label="Mái nhà xưởng lắp điện mặt trời" class="hsvg">
+<defs><linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#dfe6ff"/><stop offset="1" stop-color="#fff4d6"/></linearGradient>
+<linearGradient id="wl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#dfe4f5"/></linearGradient></defs>
+<rect width="480" height="340" rx="28" fill="url(#sk)"/>
+<g class="sun" transform="translate(392 82)"><g class="rays"><rect x="-3" y="-62" width="6" height="18" rx="3" fill="#f2c14e" transform="rotate(0)"/><rect x="-3" y="-62" width="6" height="18" rx="3" fill="#f2c14e" transform="rotate(30)"/><rect x="-3" y="-62" width="6" height="18" rx="3" fill="#f2c14e" transform="rotate(60)"/><rect x="-3" y="-62" width="6" height="18" rx="3" fill="#f2c14e" transform="rotate(90)"/><rect x="-3" y="-62" width="6" height="18" rx="3" fill="#f2c14e" transform="rotate(120)"/><rect x="-3" y="-62" width="6" height="18" rx="3" fill="#f2c14e" transform="rotate(150)"/><rect x="-3" y="-62" width="6" height="18" rx="3" fill="#f2c14e" transform="rotate(180)"/><rect x="-3" y="-62" width="6" height="18" rx="3" fill="#f2c14e" transform="rotate(210)"/><rect x="-3" y="-62" width="6" height="18" rx="3" fill="#f2c14e" transform="rotate(240)"/><rect x="-3" y="-62" width="6" height="18" rx="3" fill="#f2c14e" transform="rotate(270)"/><rect x="-3" y="-62" width="6" height="18" rx="3" fill="#f2c14e" transform="rotate(300)"/><rect x="-3" y="-62" width="6" height="18" rx="3" fill="#f2c14e" transform="rotate(330)"/></g><circle r="34" fill="#f2c14e"/><circle r="46" fill="#f2c14e" opacity=".25" class="glow"/></g>
+<path d="M0 286 Q120 262 240 280 T480 270 V340 H0 Z" fill="#cfd8f5"/>
+<rect x="60" y="196" width="330" height="106" fill="url(#wl)" stroke="#aab4d6" stroke-width="2"/>
+<path d="M44 198 L112 108 L402 108 L402 198 Z" fill="#8f9bc4" opacity=".35"/>
+<path d="M100 196 L136 112 L396 112 L396 196 Z" fill="#c9d1ea" stroke="#aab4d6" stroke-width="2"/>
+<path class="pn" style="animation-delay:0.00s" d="M118 118 l34 0 l-6 22 l-34 0 z"/><path class="pn" style="animation-delay:0.12s" d="M158 118 l34 0 l-6 22 l-34 0 z"/><path class="pn" style="animation-delay:0.24s" d="M198 118 l34 0 l-6 22 l-34 0 z"/><path class="pn" style="animation-delay:0.36s" d="M238 118 l34 0 l-6 22 l-34 0 z"/><path class="pn" style="animation-delay:0.48s" d="M278 118 l34 0 l-6 22 l-34 0 z"/><path class="pn" style="animation-delay:0.60s" d="M318 118 l34 0 l-6 22 l-34 0 z"/><path class="pn" style="animation-delay:0.72s" d="M126 144 l34 0 l-6 22 l-34 0 z"/><path class="pn" style="animation-delay:0.84s" d="M166 144 l34 0 l-6 22 l-34 0 z"/><path class="pn" style="animation-delay:0.96s" d="M206 144 l34 0 l-6 22 l-34 0 z"/><path class="pn" style="animation-delay:1.08s" d="M246 144 l34 0 l-6 22 l-34 0 z"/><path class="pn" style="animation-delay:1.20s" d="M286 144 l34 0 l-6 22 l-34 0 z"/><path class="pn" style="animation-delay:1.32s" d="M326 144 l34 0 l-6 22 l-34 0 z"/><path class="pn" style="animation-delay:1.44s" d="M134 170 l34 0 l-6 22 l-34 0 z"/><path class="pn" style="animation-delay:1.56s" d="M174 170 l34 0 l-6 22 l-34 0 z"/><path class="pn" style="animation-delay:1.68s" d="M214 170 l34 0 l-6 22 l-34 0 z"/><path class="pn" style="animation-delay:1.80s" d="M254 170 l34 0 l-6 22 l-34 0 z"/><path class="pn" style="animation-delay:1.92s" d="M294 170 l34 0 l-6 22 l-34 0 z"/><path class="pn" style="animation-delay:2.04s" d="M334 170 l34 0 l-6 22 l-34 0 z"/>
+<rect x="96" y="226" width="60" height="76" fill="#b9c3e6"/><rect x="184" y="228" width="44" height="34" fill="#c9d3f2" stroke="#aab4d6"/><rect x="250" y="228" width="44" height="34" fill="#c9d3f2" stroke="#aab4d6"/><rect x="316" y="228" width="44" height="34" fill="#c9d3f2" stroke="#aab4d6"/>
+<rect x="368" y="150" width="14" height="48" fill="#aab4d6"/>
+<path d="M240 300 L240 316" stroke="#aab4d6" stroke-width="2"/>
+</svg><span class="fc c1">Hòa lưới, không phát ngược</span><span class="fc c2">Pin lưu trữ BESS</span><span class="fc c3">EPC hoặc ESCO 0 đồng</span></div>
+</header>
+<div class="pillars">
+<div><svg viewBox="0 0 24 24"><path d="M9 3v5M15 3v5M7 8h10v4a5 5 0 0 1-10 0zM12 17v4"/></svg><b>Hòa lưới EVN</b><span>Ưu tiên cấp cho phụ tải, không phát ngược lên lưới</span></div>
+<div><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 14l2 2 4-4"/></svg><b>Trọn gói pháp lý</b><span>Chúng tôi lập hồ sơ, nộp và theo dõi đến khi nghiệm thu</span></div>
+<div><svg viewBox="0 0 24 24"><path d="M12 3v18M16 7.5c0-1.7-1.8-3-4-3s-4 1.3-4 3 1.8 3 4 3 4 1.3 4 3-1.8 3-4 3-4-1.3-4-3"/></svg><b>EPC hoặc ESCO</b><span>Tự đầu tư, hoặc chúng tôi bỏ 100% vốn</span></div>
+<div><svg viewBox="0 0 24 24"><rect x="3" y="8" width="16" height="9" rx="2"/><path d="M21 11v3M7 11v3M11 11v3"/></svg><b>Có pin lưu trữ</b><span>Dùng điện dư ban ngày vào buổi tối và giờ cao điểm</span></div>
+</div>
+<nav class="nav" id="topnav"><a href="#s1">Tính toán</a><a href="#s2">Gói đề xuất</a><a href="#s3">Phương án hợp tác</a><a href="#s4">Quy trình và pháp lý</a></nav>
+
+<div class="sec" id="s1"><span class="no">01</span><h2>Thông tin của doanh nghiệp</h2><p>Chọn hình thức hợp tác, nhập tiền điện, thời gian hoạt động và diện tích mái. Hệ thống tự cập nhật các gói đề xuất bên dưới.</p></div>
+
+<div class="card mode">
+<div class="mleft"><div class="seg" id="modeSeg"><button data-m="epc" class="on">EPC<small>Tự đầu tư</small></button><button data-m="esco">ESCO<small>Đầu tư 0 đồng</small></button></div>
+<div class="disc" id="disc"><div class="di"><div class="db"><b>Giảm 10% so với giá điện EVN</b><small>Mức cố định trong tính toán. Sẽ thay đổi theo tình trạng thực tế sau khảo sát, hoặc có thể đàm phán, thương lượng lại.</small></div></div></div></div>
+<div class="mexp" id="mexp"></div>
+</div>
+
+<div class="s1g">
+<div>
+<div class="card form">
+<div class="fsec"><div class="cl">Doanh nghiệp</div>
+<div class="fg">
+<div><label for="group">Nhóm giá điện</label><select id="group"><option>Sản xuất</option><option>Thương mại</option></select></div>
+<div><label for="bill">Tiền điện mỗi tháng (triệu đồng, chưa VAT)</label><input id="bill" type="text" inputmode="numeric" autocomplete="off" value="450"></div>
+<div><label for="roof">Diện tích mái có thể lắp (m²)</label><input id="roof" type="text" inputmode="numeric" autocomplete="off" value="8.000"></div>
+<div><label for="prov">Tỉnh, thành lắp đặt</label><select id="prov"></select></div>
+</div></div>
+<div class="fsec"><div class="cl">Thời gian hoạt động</div>
+<div class="sch-presets"><span>Chọn nhanh:</span><button type="button" data-p="hc">Giờ hành chính</button><button type="button" data-p="2">2 ca</button><button type="button" data-p="3">3 ca liên tục</button></div>
+<div id="sch"></div>
+<p class="schnote">Bật ngày có hoạt động, chọn giờ bắt đầu và kết thúc của từng ca, thêm tối đa 3 ca. Ca qua đêm chọn giờ kết thúc nhỏ hơn giờ bắt đầu, ví dụ 22h đến 6h. Ngoài giờ ca, mô hình tính tải duy trì khoảng 20% (chiếu sáng, làm mát, thiết bị chạy nền).</p>
+</div>
+<div class="warn" id="warn" hidden></div>
+</div>
+<div class="tar" id="tar"></div>
+<div class="tline" id="tline"></div>
+</div>
+<aside class="aside" id="aside"><div class="rc"><span class="tag">KHUYẾN NGHỊ</span>
+<h4 id="rc-t"></h4><p class="rsub" id="rc-s"></p>
+<div class="inv"><i>Vốn đầu tư</i><b id="rc-c"></b></div>
+<div class="svl"><i>Tiết kiệm mỗi tháng</i><b id="rc-b"></b></div>
+<div class="sbar"><div class="trk"><i id="rc-f" style="width:0"></i></div><div class="sl2" id="rc-l"></div></div>
+<div id="rc-r" style="margin-top:14px"></div>
+<a class="rlink" href="#s2">Xem chi tiết 2 gói bên dưới</a></div></aside>
+</div>
+
+<div class="sec" id="s2"><span class="no">02</span><h2>Gói đề xuất</h2><p>Điện mặt trời được lắp tối đa theo diện tích mái, không vượt tổng điện doanh nghiệp tiêu thụ. Phần điện dư ban ngày được nạp vào pin lưu trữ (BESS) để dùng lại, không phát ngược lên lưới. Rê chuột vào một gói để xem biểu đồ, bấm vào gói để xem thiết bị và hợp đồng tương ứng.</p></div>
+<div class="pk" id="pk"></div>
+<div class="eqd" id="eqw"><button type="button" class="eqs" aria-expanded="false">Xem danh mục thiết bị chi tiết<span class="chev"></span></button><div class="eqb"><div class="eqi"><p class="note" id="eqn"></p><div class="eqgrid" id="eqd"></div></div></div></div>
+<ol class="notes" id="notes"></ol>
+<div class="card brands"><span>Thiết bị chính</span><img src="logos/tcl.png" alt="TCL Solar"><img src="logos/sungrow.png" alt="Sungrow"><img src="logos/chint.png" alt="Chint"><img src="logos/cadivi.png" alt="Cadivi"></div>
+
+<div class="sec" id="s3"><span class="no">03</span><h2>Phương án hợp tác</h2><p>Các hạng mục chính dự kiến trong hợp đồng. Nội dung chi tiết và số liệu cuối cùng được chốt sau khảo sát, có thể thương lượng.</p></div>
+<div class="ctop"><div class="seg" id="modeSeg2"><button data-m="epc" class="on">Hợp đồng EPC<small>Tự đầu tư</small></button><button data-m="esco">Hợp đồng ESCO<small>Đầu tư 0 đồng</small></button></div></div>
+<ol class="tl card" id="ct" style="padding:26px 24px"></ol>
+
+<div class="sec" id="s4"><span class="no">04</span><h2>Quy trình triển khai và thủ tục pháp lý</h2><p>Mỗi giai đoạn thi công đi kèm thủ tục pháp lý tương ứng: bên trái là tiến độ theo tuần, bên phải là thủ tục cần làm ở giai đoạn đó.</p></div>
+<div class="flow">
+<div class="fh"><span>Tiến độ triển khai</span><span>Thủ tục pháp lý đi kèm</span></div>
+<div class="fr rv"><div class="fl"><em><u>Tuần 1</u><span class="wp wk">Khách hàng</span></em><b>Gửi hóa đơn và hình ảnh mái</b><p>Hóa đơn điện 12 tháng gần nhất và vài ảnh chụp mái. Chưa cần bản vẽ.</p></div><div class="fnone">Chưa phát sinh thủ tục với cơ quan nhà nước</div></div>
+<div class="fr rv"><div class="fl"><em><u>Tuần 1-2</u><span class="wp wc">Chúng tôi</span></em><b>Khảo sát mái và mô phỏng phụ tải</b><p>Đo mái, kiểm tra kết cấu, tủ điện, công tơ. Dựng biểu đồ phụ tải theo giờ từ hóa đơn.</p></div><div class="fnone">Chưa phát sinh thủ tục với cơ quan nhà nước</div></div>
+<div class="fr rv"><div class="fl"><em><u>Tuần 2-3</u><span class="wp wc">Chúng tôi</span></em><b>Chốt cấu hình và giá trọn gói</b><p>Công suất, danh mục thiết bị, vốn đầu tư và dòng tiền 20 năm, đủ chi tiết để trình duyệt ngân sách.</p></div><div class="fnone">Chưa phát sinh thủ tục với cơ quan nhà nước</div></div>
+<div class="fr rv"><div class="fl"><em><u>Tuần 3-5</u><span class="wp wc">Chúng tôi</span><span class="wp wk">Khách hàng ký hồ sơ</span></em><b>Lập hồ sơ và gửi cơ quan nhà nước</b><p>Thiết kế, PCCC, xây dựng, thông báo hoặc đăng ký. Thông báo gửi trước khi lắp ít nhất 10 ngày làm việc.</p></div><div class="fg2"><div class="lc rv"><h5>Thông báo hoặc đăng ký<span>Gửi trước khi lắp 10 ngày làm việc</span></h5><p>Hạ áp: thông báo UBND cấp xã (Mẫu số 01). Trung áp trở lên, không bán điện dư: thông báo UBND cấp tỉnh.</p><small>Căn cứ: NĐ 58/2025, Điều 15</small></div><div class="lc rv"><h5>Điện lực xem xét lưới<span>3 đến 10 ngày làm việc</span></h5><p>Phản hồi trong 3 ngày làm việc nếu có nguy cơ quá tải. Không phản hồi sau 10 ngày làm việc thì được lắp đặt.</p><small>Căn cứ: NĐ 58/2025, Điều 15 khoản 5, 6</small></div><div class="lc rv"><h5>PCCC và xây dựng<span>Theo địa phương</span></h5><p>Công trình thuộc diện thẩm định thiết kế PCCC thì nộp thẩm định. Miễn giấy phép xây dựng khi lắp sát mái hiện hữu, không đổi công năng, không ảnh hưởng kết cấu chịu lực.</p><small>Căn cứ: NĐ 58/2025, Điều 10 khoản 3. CV 1389/SXD-QLXDCT</small></div></div></div>
+<div class="fr rv"><div class="fl"><em><u>Tuần 6-12</u><span class="wp wc">Chúng tôi</span></em><b>Thi công và lắp đặt</b><p>Lắp trên mái, đi cáp, đấu nối tủ điện. Công đoạn cắt điện được sắp xếp ngoài giờ sản xuất.</p></div><div class="fg2"><div class="lc rv"><h5>Thi công đúng thiết kế<span>Theo hợp đồng</span></h5><p>Lắp đúng sơ đồ đấu nối và công suất đã thông báo. Trung áp không bán điện dư: lắp thiết bị bật tắt phát ngược.</p><small>Căn cứ: NĐ 58/2025, Điều 10 khoản 5, Điều 21</small></div></div></div>
+<div class="fr rv"><div class="fl"><em><u>Tuần 13-14</u><span class="wp wc">Chúng tôi</span><span class="wp wk">Khách hàng ký biên bản</span></em><b>Nghiệm thu và bàn giao</b><p>Thử tải, bàn giao hồ sơ hoàn công và tài khoản giám sát từ xa.</p></div><div class="fg2"><div class="lc rv"><h5>Nghiệm thu<span>Điện lực: 5 ngày làm việc</span></h5><p>Nghiệm thu theo pháp luật xây dựng, điện lực, PCCC, môi trường. Từ 01/07/2026, công trình đã thẩm định thiết kế PCCC thì chủ đầu tư tự tổ chức nghiệm thu.</p><small>Căn cứ: NĐ 58/2025, Điều 23. NQ 66.18/2026/NQ-CP</small></div></div></div>
+<div class="fr rv"><div class="fl"><em><u>Tùy chọn</u></em><b>Bán điện dư lên lưới</b><p>Chỉ khi doanh nghiệp muốn bán phần điện dư, đăng ký trước khi lắp.</p></div><div class="fg2"><div class="lc rv opt"><h5>Tùy chọn: bán điện dư<span>Giấy chứng nhận 10 ngày làm việc</span></h5><p>Bán tối đa 50% sản lượng phát, cần công tơ hai chiều và thiết bị kết nối Cấp điều độ (trung áp trở lên). Giấy chứng nhận bị thu hồi nếu sau 60 ngày kể từ khi cấp chưa lắp.</p><small>Căn cứ: NĐ 58/2025, Điều 14, 16 đến 20. NĐ 243/2026</small></div></div></div>
+<p class="lnote">Mốc tuần là lịch dự kiến cho hệ thống quy mô vừa, chốt cụ thể sau khảo sát ở tuần 1-2. Chúng tôi lập hồ sơ, nộp và theo dõi, doanh nghiệp cung cấp giấy tờ và ký hồ sơ.</p>
+</div>
+<section class="endcta rv"><div><h2>Nhận khảo sát mái và báo giá chi tiết</h2><p>Gửi hóa đơn điện 12 tháng và vài ảnh chụp mái. Chúng tôi phản hồi cấu hình, vốn đầu tư và dòng tiền 20 năm cho doanh nghiệp của bạn.</p></div><a class="btn gold" href="mailto:ptda@btmi.com.vn?subject=Y%C3%AAu%20c%E1%BA%A7u%20kh%E1%BA%A3o%20s%C3%A1t%20%C4%91i%E1%BB%87n%20m%E1%BA%B7t%20tr%E1%BB%9Di%20m%C3%A1i%20nh%C3%A0">Gửi yêu cầu qua email</a></section>
+<p class="foot">Số liệu là ước tính theo biểu giá điện QĐ 2892/QĐ-BCT, cấp điện áp 1 đến 35 kV, chưa VAT, và sẽ thay đổi theo hiện trạng thực tế sau khảo sát. Hệ thống điện mặt trời tự sản xuất, tự tiêu thụ thực hiện theo Nghị định 58/2025/NĐ-CP, được sửa đổi bởi Nghị định 243/2026/NĐ-CP. Liên hệ: <a href="mailto:ptda@btmi.com.vn">ptda@btmi.com.vn</a>.</p>
+</div>
+
+
+<div id="bd"></div>
+<div class="pop" id="pop" role="dialog" aria-label="Biểu đồ gói"></div>
+<div class="rq" id="rq" role="dialog" aria-modal="true" aria-labelledby="rqt"><div class="box">
+<button type="button" class="x2" id="rqx" aria-label="Đóng">×</button>
+<div class="fm">
+<h3 id="rqt">Yêu cầu báo giá gói</h3>
+<p class="lead">Để lại thông tin, đội kỹ thuật BTMI sẽ liên hệ khảo sát và gửi báo giá chi tiết.</p>
+<div class="sm" id="rqs"></div>
+<label for="rqn">Họ và tên</label><input id="rqn" autocomplete="name" placeholder="Nguyễn Văn A">
+<label for="rqp">Điện thoại / Zalo</label><input id="rqp" type="tel" inputmode="tel" autocomplete="tel" placeholder="09xx xxx xxx">
+<label for="rqg">Ghi chú <em>(không bắt buộc)</em></label><textarea id="rqg" placeholder="Địa chỉ nhà máy, loại mái, thời gian thuận tiện để liên hệ"></textarea>
+<button type="button" class="go" id="rqgo">Gửi yêu cầu</button>
+<p class="cs">Khi gửi yêu cầu, bạn đồng ý để Công ty Cổ phần Đầu tư Betrimex (BTMI) liên hệ tư vấn và báo giá dựa trên thông tin trên.</p>
+</div>
+<div class="ok"><b>Đã mở thư gửi BTMI</b><p>Bấm Gửi trong ứng dụng email để hoàn tất. Nếu email không tự mở, sao chép nội dung và gửi đến ptda@btmi.com.vn.</p><button type="button" id="rqcp">Sao chép nội dung</button><button type="button" id="rqcl">Đóng</button></div>
+</div></div>
+
+<script>
+// Mô hình v2: lịch hoạt động theo ngày/ca, solar tối đa theo mái, BESS nhận điện dư.
+// Phần solar giữ nguyên logic Excel: tải từ hóa đơn, 3 loại nắng, MIN(phát, tải) x giá giờ.
+const K={volt:'Trên 1 kV đến 35 kV',idle:0.2,sGood:0.4,mGood:1.35,sCloud:0.25,roofPerKwp:6,
+  capex:9.5e6,om:83338,omGrow:0.05,degr:0.005,grow:0.02,invPct:0.096,invYear:11,tax:0.2,depYears:12,wacc:0.1122,
+  bessCapex:4.5e6,bessRT:0.9,bessDegr:0.025,bessOm:0.01,bessRepYear:12,bessRepPct:0.5,esco:0.10,escoYears:15};
+function irr(cf){let lo=-0.99,hi=2,f=r=>cf.reduce((s,c,i)=>s+c/Math.pow(1+r,i),0);
+  if(f(lo)*f(hi)>0)return null;for(let i=0;i<200;i++){const m=(lo+hi)/2;if(f(lo)*f(m)<=0)hi=m;else lo=m}return (lo+hi)/2}
+function hoursOf(day,idle){if(day.f)return {f:day.f,on:true};const f=Array(24).fill(idle);if(!day.on)return {f,on:false};
+  let any=false;for(const [s,e] of day.shifts){if(s==null||e==null||s===e)continue;any=true;
+    if(e>s){for(let h=s;h<e;h++)f[h%24]=1}else{for(let h=s;h<24;h++)f[h]=1;for(let h=0;h<e;h++)f[h]=1}}
+  return {f,on:any}}
+function calc2(D,x0){
+  const x={...K,...x0};
+  const grp=x.group==='Thương mại'?'Kinh doanh':x.group;
+  const row=D.tar.find(r=>r[0]===grp&&r[1]===x.volt);const [nor,off,pk]=[row[2],row[3],row[4]];
+  const pw=[],ps=[];for(let h=0;h<24;h++){pw.push(D.off[h]*off+D.pk[h]*pk+(1-D.off[h]-D.pk[h])*nor);ps.push(D.off[h]*off+(1-D.off[h])*nor)}
+  const wk=365/7;const types=[['wk',5*wk],['sat',wk],['sun',wk]].map(([n,N])=>{
+    const d=x.sched[n],h=hoursOf(d,x.idle);return {n,N,f:h.f,price:(n==='sun'?ps:(h.on?pw:ps)),on:h.on}});
+  let den=0,sf=0;for(const t of types){for(let h=0;h<24;h++){den+=t.N*t.f[h]*t.price[h];sf+=t.N*t.f[h]}}
+  const k=12*x.bill/den,kwh=k*sf;
+  types.forEach(t=>t.L=t.f.map(v=>k*v));
+  const pvo=D.prov.find(p=>p[0]===x.prov)[1];
+  const s1=x.sGood,s3=x.sCloud,s2=1-s1-s3,m3=s3?(1-s1*x.mGood-s2)/s3:1;
+  const sh=[s1,s2,s3],mu=[x.mGood,1,m3];
+  const sp=D.pv.reduce((a,b)=>a+b,0),pvh=D.pv.map(v=>pvo/365*v/sp);
+  const eta=Math.sqrt(x.bessRT);
+  // mô phỏng một ngày
+  function day(P,E,m,t){const a=pvh.map(v=>P*m*v),dir=[],sur=[],def=[];
+    for(let h=0;h<24;h++){const d=Math.min(a[h],t.L[h]);dir.push(d);sur.push(a[h]-d);def.push(t.L[h]-d)}
+    const bd=Array(24).fill(0);let stored=0;
+    if(E>0){const tot=sur.reduce((s,v)=>s+v,0);stored=Math.min(tot*eta,E);
+      let first=sur.findIndex(v=>v>1e-9);let avail=stored*eta;
+      const hs=[...Array(24).keys()].filter(h=>h>first&&first>=0&&def[h]>1e-9).sort((p,q)=>t.price[q]-t.price[p]);
+      for(const h of hs){if(avail<=0)break;const d=Math.min(def[h],avail);bd[h]=d;avail-=d}}
+    let useD=0,savD=0,useB=0,savB=0,gen=a.reduce((s,v)=>s+v,0);
+    for(let h=0;h<24;h++){useD+=dir[h];savD+=dir[h]*t.price[h];useB+=bd[h];savB+=bd[h]*t.price[h]}
+    return {a,dir,bd,gen,useD,savD,useB,savB}}
+  function ann(P,E){let useD=0,savD=0,useB=0,savB=0,gen=0;
+    for(let i=0;i<3;i++)for(const t of types){const r=day(P,E,mu[i],t);const w=sh[i]*t.N;
+      useD+=w*r.useD;savD+=w*r.savD;useB+=w*r.useB;savB+=w*r.savB;gen+=w*r.gen}
+    return {useD,savD,useB,savB,gen}}
+  // công suất: tối đa theo mái, không vượt tổng điện tiêu thụ
+  const Proof=x.roof/x.roofPerKwp,Pcap=kwh/pvo;
+  const P=Math.max(5,Math.floor(Math.min(Proof,Pcap)/5)*5);
+  // dung lượng BESS: điện dư trung bình của những ngày có điện dư, sau tổn hao nạp, làm tròn 10 kWh
+  let sw=0,sc=0,dmax=0;for(let i=0;i<3;i++)for(const t of types){const r=day(P,0,mu[i],t);const s=r.gen-r.dir.reduce((q,v)=>q+v,0);
+    if(s>1e-6){sw+=sh[i]*t.N*s;sc+=sh[i]*t.N}}
+  const E=sc>0?Math.max(0,Math.round(sw/sc*eta/10)*10):0;
+  function pack(withB,Eset){const Ei=withB?Eset:0,a=ann(P,Ei);
+    const solarCapex=P*x.capex,bessCapex=Ei*x.bessCapex,capex=solarCapex+bessCapex;
+    const cf=[-capex];let cum=[-capex];const save=[];let tot=0;
+    for(let n=1;n<=20;n++){
+      const g=Math.pow(1+x.grow,n-1),sv=a.savD*Math.pow(1-x.degr,n-1)*g+a.savB*Math.pow(1-x.degr-x.bessDegr,n-1)*g;
+      const om=-(P*x.om+bessCapex*x.bessOm)*Math.pow(1+x.omGrow,n-1);
+      const inv=(n===x.invYear?-x.invPct*solarCapex:0)+(Ei>0&&n===x.bessRepYear?-x.bessRepPct*bessCapex:0);
+      const dep=n<=x.depYears?capex/x.depYears:0,tax=-(sv+om+inv-dep)*x.tax;
+      save.push(sv);cf.push(sv+om+inv+tax);cum.push(cum[n-1]+cf[n]);tot+=sv}
+    const pay=(c,f)=>{for(let n=1;n<=20;n++)if(c[n]>=0)return n-1-c[n-1]/f[n];return null};
+    let npv=cf[0];for(let n=1;n<=20;n++)npv+=cf[n]/Math.pow(1+x.wacc,n);
+    // ESCO: khách trả (1-esco) x giá EVN, chủ đầu tư chịu vốn, vận hành, thay thế, thuế 20%
+    const ec=[-capex];let ecust=0;
+    for(let n=1;n<=x.escoYears;n++){const gross=save[n-1],rev=gross*(1-x.esco);
+      const om=-(P*x.om+bessCapex*x.bessOm)*Math.pow(1+x.omGrow,n-1);
+      const inv=(n===x.invYear?-x.invPct*solarCapex:0)+(Ei>0&&n===x.bessRepYear?-x.bessRepPct*bessCapex:0);
+      const dep=n<=x.depYears?capex/x.depYears:0,tax=-(rev+om+inv-dep)*x.tax;ec.push(rev+om+inv+tax);ecust+=gross*x.esco}
+    const sav1=a.savD+a.savB;
+    return {withB,P,E:Ei,capex,solarCapex,bessCapex,gen:a.gen,use:a.useD+a.useB,useRatio:(a.useD+a.useB)/a.gen,
+      shareKwh:(a.useD+a.useB)/kwh,savYear:sav1,savMonth:sav1/12,savShare:sav1/(12*x.bill),
+      savDirect:a.savD,savBess:a.savB,payPost:pay(cum,cf),irrPost:irr(cf),npv,cum,cf,save,
+      escoMonth:sav1*x.esco/12,escoShare:sav1*x.esco/(12*x.bill),escoIrr:irr(ec),escoCust15:ecust}}
+  const p1=pack(false,0),p2=E>=10?pack(true,E):null;
+  // đường cong giờ của ngày làm việc, nắng trung bình
+  const t0=types[0];const h1=day(P,0,mu[0],t0),h2=day(P,E,mu[0],t0);
+  return {k,kwh,kwhMonth:kwh/12,avgPrice:12*x.bill/kwh,yield:pvo,P,Proof,Pcap,E,p1,p2,pw,nor,off,pk,
+    hourLoad:t0.L,hourPV:h1.a,hourBess:h2.bd,roofUsed:P*x.roofPerKwp}}
+
+const D={"prov": [["Tuyên Quang", 998], ["Cao Bằng", 1065], ["Lai Châu", 1391], ["Lào Cai", 1223], ["Thái Nguyên", 963], ["Điện Biên", 1431], ["Lạng Sơn", 982], ["Sơn La", 1381], ["Phú Thọ", 956], ["Bắc Ninh", 916], ["Quảng Ninh", 977], ["TP. Hà Nội", 912], ["TP. Hải Phòng", 902], ["Hưng Yên", 901], ["Ninh Bình", 964], ["Thanh Hóa", 1094], ["Nghệ An", 1269], ["Hà Tĩnh", 1152], ["Quảng Trị", 1216], ["TP. Huế", 1278], ["TP. Đà Nẵng", 1370], ["Quảng Ngãi", 1496], ["Gia Lai", 1496], ["Đắk Lắk", 1509], ["Khánh Hòa", 1575], ["Lâm Đồng", 1583], ["Đồng Nai", 1570], ["Tây Ninh", 1397], ["TP. Hồ Chí Minh", 1426], ["Đồng Tháp", 1362], ["An Giang", 1345], ["Vĩnh Long", 1321], ["TP. Cần Thơ", 1277], ["Cà Mau", 1247]], "tar": [["Sản xuất", "Đến 1 kV", 1966, 1274, 3586], ["Sản xuất", "Trên 1 kV đến 35 kV", 1814, 1166, 3348], ["Sản xuất", "Trên 35 kV đến dưới 220 kV", 1792, 1123, 3218], ["Sản xuất", "Từ 220 kV trở lên", 1771, 1101, 3110], ["Kinh doanh", "Đến 1 kV", 3089, 1880, 5313], ["Kinh doanh", "Trên 1 kV đến 35 kV", 2829, 1577, 4924], ["Kinh doanh", "Trên 35 kV đến dưới 220 kV", 2829, 1577, 4924], ["Kinh doanh", "Từ 220 kV trở lên", 2829, 1577, 4924], ["Hành chính sự nghiệp", "Đến 1 kV", 2181, 2181, 2181], ["Hành chính sự nghiệp", "Trên 1 kV đến 35 kV", 2095, 2095, 2095], ["Hành chính sự nghiệp", "Trên 35 kV đến dưới 220 kV", 2095, 2095, 2095], ["Hành chính sự nghiệp", "Từ 220 kV trở lên", 2095, 2095, 2095], ["Bệnh viện, trường học", "Đến 1 kV", 2030, 2030, 2030], ["Bệnh viện, trường học", "Trên 1 kV đến 35 kV", 1901, 1901, 1901], ["Bệnh viện, trường học", "Trên 35 kV đến dưới 220 kV", 1901, 1901, 1901], ["Bệnh viện, trường học", "Từ 220 kV trở lên", 1901, 1901, 1901]], "off": [1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "pk": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.5, 1, 1, 1, 1, 0.5, 0], "pv": [0, 0, 0, 0, 0, 0, 0.0683, 0.2965, 0.5144, 0.6671, 0.7555, 0.7958, 0.7881, 0.7346, 0.6334, 0.4748, 0.2596, 0.0492, 0, 0, 0, 0, 0, 0]};
+const $=id=>document.getElementById(id);
+const fmt=(v,d=0)=>v.toLocaleString('vi-VN',{minimumFractionDigits:d,maximumFractionDigits:d});
+const mi=v=>v>=1e9?fmt(v/1e9,2)+' tỷ':fmt(v/1e6,v>=1e8?0:1)+' triệu';
+const yr=v=>v==null?'trên 20 năm':fmt(v,1)+' năm';
+const S={mode:'epc',sel:1};
+const num=id=>+(($(id).value||'').replace(/\./g,'').replace(/[^0-9]/g,''))||0;
+function groupInput(el){const pos=el.selectionStart,before=el.value.slice(0,pos).replace(/\D/g,'').length,d=el.value.replace(/\D/g,'').replace(/^0+(?=\d)/,'');el.value=d?(+d).toLocaleString('vi-VN'):'';let c=0,p=0;while(p<el.value.length&&c<before){if(/\d/.test(el.value[p]))c++;p++}try{el.setSelectionRange(p,p)}catch(e){}}
+const EXP={
+ epc:'<b>EPC, tự đầu tư.</b> Doanh nghiệp bỏ vốn, chúng tôi làm trọn gói từ khảo sát đến bàn giao. Hệ thống thuộc về doanh nghiệp, hưởng toàn bộ tiền điện tiết kiệm.',
+ esco:'<b>ESCO, đầu tư 0 đồng.</b> Chúng tôi bỏ vốn, đầu tư và vận hành hệ thống trên mái. Doanh nghiệp mua điện mặt trời rẻ hơn giá EVN, hết 15 năm hệ thống chuyển giao cho doanh nghiệp.'
+};
+// lịch hoạt động
+const DAYS=[['wk','Thứ 2 đến thứ 6'],['sat','Thứ 7'],['sun','Chủ nhật']];
+const PRE={hc:{wk:[[8,17]],sat:[],sun:[]},'2':{wk:[[6,14],[14,22]],sat:[[6,14],[14,22]],sun:[]},'3':{wk:[[6,14],[14,22],[22,6]],sat:[[6,14],[14,22],[22,6]],sun:[[6,14],[14,22],[22,6]]}};
+S.sch={wk:{on:true,shifts:[[7,17]]},sat:{on:true,shifts:[[7,12]]},sun:{on:false,shifts:[]}};
+const hopt=(a,b,v)=>{let o='';for(let h=a;h<=b;h++)o+=`<option value="${h}"${v===h?' selected':''}>${h}h</option>`;return o};
+const hourOn=(shifts,h)=>shifts.some(([s,e])=>s!==e&&(s<e?h>=s&&h<e:h>=s||h<e));
+const dayHours=sh=>{let n=0;for(let h=0;h<24;h++)if(hourOn(sh,h))n++;return n};
+function drawStrip(d){const o=S.sch[d],el=document.querySelector(`.dr[data-d="${d}"]`);if(!el)return;
+  el.classList.toggle('off',!o.on);
+  el.querySelector('.strip').innerHTML=Array.from({length:24},(_,h)=>`<i class="${o.on&&hourOn(o.shifts,h)?'on':''}" title="${h}h"></i>`).join('');
+  el.querySelector('.hrs').textContent=o.on?(o.shifts.length?`Hoạt động khoảng ${dayHours(o.shifts)} giờ mỗi ngày`:'Chưa có ca, đang tính tải duy trì'):'Nghỉ, chỉ còn tải duy trì'}
+function shiftsHtml(d,ni){const o=S.sch[d];
+  return o.shifts.map((s,i)=>`<div class="sf${i===ni?' pop':''}"><b>Ca ${i+1}</b><select data-d="${d}" data-i="${i}" data-k="0">${hopt(0,23,s[0])}</select>đến<select data-d="${d}" data-i="${i}" data-k="1">${hopt(0,24,s[1])}</select><button type="button" class="x" data-x="${d}:${i}" aria-label="Xóa ca">×</button></div>`).join('')+(o.shifts.length<3?`<button type="button" class="add" data-a="${d}">+ Thêm ca</button>`:'')}
+function drawShifts(d,ni){const el=document.querySelector(`.dr[data-d="${d}"] .shs`);if(el)el.innerHTML=shiftsHtml(d,ni)}
+function drawSch(){
+  $('sch').innerHTML=DAYS.map(([d,n])=>{const o=S.sch[d];
+   return `<div class="dr${o.on?'':' off'}" data-d="${d}"><div class="dh"><label class="tgl"><input type="checkbox" data-t="${d}"${o.on?' checked':''}><span class="sl"></span>${n}</label><span class="hrs"></span></div>
+<div class="dbody"><div class="dinner"><div class="shs">${shiftsHtml(d)}</div><div class="strip"></div><div class="stl"><span>0h</span><span>6h</span><span>12h</span><span>18h</span><span>24h</span></div></div></div></div>`}).join('');
+  DAYS.forEach(([d])=>drawStrip(d))}
+function initSch(){
+  drawSch();
+  $('prov').innerHTML=D.prov.map(p=>`<option${p[0]==='TP. Hồ Chí Minh'?' selected':''}>${p[0]}</option>`).join('');
+  const box=$('sch');
+  box.addEventListener('change',e=>{const t=e.target;
+    if(t.dataset.t){const d=t.dataset.t,o=S.sch[d];o.on=t.checked;if(o.on&&!o.shifts.length){o.shifts=[[7,17]];drawShifts(d,0)}drawStrip(d);run();return}
+    if(t.dataset.k!==undefined){S.sch[t.dataset.d].shifts[+t.dataset.i][+t.dataset.k]=+t.value;drawStrip(t.dataset.d);run()}});
+  box.addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;
+    if(t.dataset.a){const d=t.dataset.a,o=S.sch[d],l=o.shifts[o.shifts.length-1];o.shifts.push(l?[l[1]%24,Math.min(24,(l[1]%24)+8)]:[7,17]);drawShifts(d,o.shifts.length-1);drawStrip(d);run()}
+    if(t.dataset.x){const [d,i]=t.dataset.x.split(':');t.closest('.sf').classList.add('out');setTimeout(()=>{S.sch[d].shifts.splice(+i,1);drawShifts(d);drawStrip(d);run()},220)}});
+  document.querySelectorAll('.sch-presets button').forEach(b=>b.addEventListener('click',()=>{const p=PRE[b.dataset.p];for(const [d] of DAYS){S.sch[d]={on:p[d].length>0,shifts:p[d].map(s=>s.slice())}}drawSch();run()}));
+}
+function readSched(){const o={};for(const [d] of DAYS){const x=S.sch[d];o[d]={on:x.on,shifts:x.on?x.shifts.filter(s=>s[0]!==s[1]).map(s=>s.slice()):[]}}return o}
+function setMode(m){S.mode=m;S.anim=true;document.querySelectorAll('.seg button').forEach(b=>b.classList.toggle('on',b.dataset.m===m));$('disc').classList.toggle('on',m==='esco');run();const x=$('mexp');x.classList.remove('sw');void x.offsetWidth;x.classList.add('sw')}
+const IC={
+bess:`<svg viewBox="0 0 120 90"><rect x="16" y="24" width="82" height="44" rx="6" fill="#e9ecef" stroke="#8b949e" stroke-width="2"/><rect x="98" y="38" width="8" height="16" rx="2" fill="#8b949e"/><rect x="23" y="31" width="14" height="30" rx="2" fill="#2ea043"/><rect x="41" y="31" width="14" height="30" rx="2" fill="#2ea043"/><rect x="59" y="31" width="14" height="30" rx="2" fill="#2ea043"/><rect x="77" y="31" width="14" height="30" rx="2" fill="#c9d1d9"/></svg>`,
+panel:`<svg viewBox="0 0 120 90"><g transform="skewX(-8) translate(10 0)"><rect x="14" y="8" width="92" height="66" rx="3" fill="#1c3a63" stroke="#9aa7b5" stroke-width="3"/>${[0,1,2,3,4].map(i=>`<line x1="${14+i*18.4+18.4}" y1="8" x2="${14+i*18.4+18.4}" y2="74" stroke="#5f86b8" stroke-width="1"/>`).join('')}${[1,2,3,4,5].map(i=>`<line x1="14" y1="${8+i*11}" x2="106" y2="${8+i*11}" stroke="#5f86b8" stroke-width="1"/>`).join('')}<rect x="14" y="8" width="92" height="66" rx="3" fill="url(#g1)" opacity=".18"/></g><defs><linearGradient id="g1" x1="0" x2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient></defs></svg>`,
+inverter:`<svg viewBox="0 0 120 90"><rect x="22" y="8" width="76" height="68" rx="6" fill="#e9ecef" stroke="#8b949e" stroke-width="2"/><rect x="30" y="16" width="60" height="22" rx="3" fill="#c9d1d9"/>${[0,1,2,3,4,5].map(i=>`<line x1="${36+i*9}" y1="20" x2="${36+i*9}" y2="34" stroke="#8b949e" stroke-width="2"/>`).join('')}<circle cx="38" cy="52" r="3.5" fill="#2ea043"/><circle cx="50" cy="52" r="3.5" fill="#d29922"/><rect x="62" y="48" width="24" height="9" rx="2" fill="#8b949e"/><rect x="30" y="64" width="60" height="6" rx="2" fill="#aab2bb"/></svg>`,
+logger:`<svg viewBox="0 0 120 90"><rect x="26" y="26" width="68" height="38" rx="5" fill="#e9ecef" stroke="#8b949e" stroke-width="2"/><circle cx="40" cy="45" r="3.5" fill="#2ea043"/><circle cx="52" cy="45" r="3.5" fill="#2ea043"/><circle cx="64" cy="45" r="3.5" fill="#d29922"/><rect x="74" y="40" width="14" height="10" rx="2" fill="#8b949e"/><path d="M44 22c10-10 22-10 32 0M50 16c6-5 14-5 20 0" stroke="#2f81f7" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>`,
+meter:`<svg viewBox="0 0 120 90"><rect x="30" y="10" width="60" height="70" rx="5" fill="#e9ecef" stroke="#8b949e" stroke-width="2"/><rect x="38" y="18" width="44" height="20" rx="2" fill="#1f2a1f"/><text x="60" y="33" text-anchor="middle" style="fill:#7ee787;font:bold 12px monospace">kW</text><rect x="38" y="46" width="14" height="8" rx="1" fill="#aab2bb"/><rect x="56" y="46" width="14" height="8" rx="1" fill="#aab2bb"/><rect x="74" y="46" width="8" height="8" rx="1" fill="#aab2bb"/><rect x="38" y="60" width="44" height="10" rx="2" fill="#c9d1d9"/></svg>`,
+cable:`<svg viewBox="0 0 120 90"><circle cx="60" cy="45" r="30" fill="none" stroke="#1c1f23" stroke-width="9"/><circle cx="60" cy="45" r="19" fill="none" stroke="#c0392b" stroke-width="7"/><circle cx="60" cy="45" r="9" fill="#e9ecef" stroke="#8b949e" stroke-width="2"/><path d="M90 45h22" stroke="#1c1f23" stroke-width="7" stroke-linecap="round"/></svg>`,
+cabinet:`<svg viewBox="0 0 120 90"><rect x="28" y="6" width="64" height="78" rx="4" fill="#d9dee3" stroke="#8b949e" stroke-width="2"/><rect x="34" y="12" width="52" height="30" rx="2" fill="#aab2bb"/>${[0,1,2,3].map(i=>`<rect x="38" y="${48+i*8}" width="44" height="5" rx="1.5" fill="#8b949e"/>`).join('')}<circle cx="44" cy="27" r="6" fill="#1c1f23"/><circle cx="66" cy="27" r="6" fill="#1c1f23"/></svg>`,
+mount:`<svg viewBox="0 0 120 90"><g stroke="#8b949e" stroke-width="5" stroke-linecap="round"><path d="M14 70L106 70"/><path d="M26 70V50M60 70V50M94 70V50"/></g><g fill="#1c3a63" stroke="#9aa7b5" stroke-width="2"><path d="M12 54L100 30l6 14-88 24z" /></g></svg>`,
+ground:`<svg viewBox="0 0 120 90"><path d="M60 8v38" stroke="#8b949e" stroke-width="5"/><path d="M30 46h60M40 58h40M50 70h20" stroke="#8b949e" stroke-width="5" stroke-linecap="round"/></svg>`,
+station:`<svg viewBox="0 0 120 90"><rect x="20" y="30" width="80" height="48" rx="3" fill="#d9dee3" stroke="#8b949e" stroke-width="2"/><path d="M14 32L60 10l46 22z" fill="#aab2bb" stroke="#8b949e" stroke-width="2"/><rect x="50" y="50" width="20" height="28" fill="#8b949e"/><rect x="28" y="40" width="14" height="10" fill="#7fb2e0"/><rect x="78" y="40" width="14" height="10" fill="#7fb2e0"/></svg>`,
+service:`<svg viewBox="0 0 120 90"><rect x="30" y="10" width="60" height="70" rx="4" fill="#e9ecef" stroke="#8b949e" stroke-width="2"/><path d="M42 30h36M42 42h36M42 54h22" stroke="#8b949e" stroke-width="3" stroke-linecap="round"/><path d="M62 66l7 7 14-16" stroke="#2ea043" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`};
+function bomRows(r,p){
+  const P=r.P,np=Math.ceil(P*1000/630),dc=np*0.63,area=np*2.382*1.134,n=Math.max(1,Math.round(P/180)),lg=Math.max(1,Math.ceil(n/30)),big=P>=500;
+  const rows=[
+   ['panel','Tấm pin mặt trời','TCL Solar HSM-ND66-GR630','N-type TOPCon hai mặt, kính hai lớp, 630 Wp, hiệu suất 23,3%, 32,6 kg. Hiệu suất bảo hành 30 năm, sản phẩm 12 năm (theo báo giá).',`${fmt(np)} tấm, ${fmt(dc,1)} kWp`],
+   P>=300?['inverter','Biến tần','Sungrow SG150CX','150 kW ba pha, 7 MPPT, hiệu suất tối đa 98,8%, IP66, chống sét lan truyền tích hợp. Bảo hành 5 năm.',`${n} máy`]
+        :['inverter','Biến tần','Sungrow dòng CX','Chọn công suất xấp xỉ '+fmt(Math.round(P*0.9))+' kW AC theo thiết kế, ba pha, IP66, chống sét lan truyền tích hợp.','Theo thiết kế'],
+   ['logger','Giám sát','Sungrow COM100E','Thu thập dữ liệu tối đa 30 thiết bị, xem sản lượng từ xa qua iSolarCloud.',`${lg} bộ`],
+   ['meter','Chống phát ngược','Đồng hồ DTSU666 + CT','Biến tần tự giảm công suất khi tải thấp, không đẩy điện lên lưới.','1 bộ'],
+   ['cable','Cáp điện','Cadivi: DC H1Z2Z2-K 1,5 kV, AC CXV','Cáp DC chuyên dụng điện mặt trời 4 đến 6 mm². Cáp AC lõi đồng, chịu 90°C liên tục.','Theo thiết kế'],
+   ['cabinet','Tủ điện hòa lưới','Tủ MDB-PV','ACB/MCCB, chống sét lan truyền, đo đếm. Hãng thiết bị đóng cắt chốt khi báo giá.','1 tủ'],
+   ['mount','Khung đỡ','Nhôm hoặc thép mạ kẽm nhúng nóng',`Chọn theo loại mái và tải gió. Diện tích mái cần khoảng ${fmt(P*6)} m².`,'Theo mái'],
+   ['ground','Tiếp địa, chống sét','Hệ nối đất và cắt sét lan truyền','Nối đất khung, tấm pin, tủ điện theo tiêu chuẩn.','Trọn gói']];
+  if(big)rows.push(['station','Nhà trạm và SCADA','Nhà trạm biến tần, SCADA/EMS','Giám sát và điều khiển tập trung, sàn thao tác, thang lồng.','Theo thiết kế']);
+  if(p&&p.E)rows.push(['bess','Pin lưu trữ BESS','Hệ thống pin lưu trữ và bộ biến đổi',`Dung lượng ${fmt(p.E)} kWh, hiệu suất vòng nạp xả 90%, một chu kỳ mỗi ngày. Nhận điện dư ban ngày, xả vào buổi tối và giờ cao điểm. Hãng và model chốt khi báo giá.`,`${fmt(p.E)} kWh`]);
+  rows.push(['service','Dịch vụ','Thiết kế, thi công, nghiệm thu','Đăng ký với Điện lực theo Nghị định 58/2025/NĐ-CP (điện mặt trời tự sản tự tiêu, không bán lên lưới).','Trọn gói']);
+  return rows}
+
+const LOGO={panel:'tcl',inverter:'sungrow',logger:'sungrow',meter:'chint',cable:'cadivi'};
+const PHOTO=new Set(['panel','inverter','logger','meter','cable']);
+const pic=c=>PHOTO.has(c)?`<img src="products/${c}.png" alt="">`:IC[c];
+function renderEq(r,p){const rows=bomRows({P:r.P},p),by=Object.fromEntries(rows.map(a=>[a[0],a]));
+  const cat=['panel','inverter','logger','meter','cable','cabinet','mount','ground','station','bess','service'];
+  $('eqn').textContent=`Danh mục cho gói ${S.sel} (${fmt(r.P)} kWp${p.E?`, pin lưu trữ ${fmt(p.E)} kWh`:''}). Số lượng thay đổi theo thông tin đã nhập ở trên.`;
+  $('eqd').innerHTML=cat.filter(c=>by[c]).map(c=>{const a=by[c],lg=LOGO[c]?`<span class="elg"><img src="logos/${LOGO[c]}.png" alt=""></span>`:'';return `<div class="er"><div class="pic">${pic(c)}</div><div>${lg}<small>${a[1]}</small><b>${a[2]}</b><p>${a[3]}</p><div class="qty">${a[4]}</div></div></div>`}).join('')}
+const mparts=v=>v>=1e9?[v/1e9,2,'tỷ']:[v/1e6,v>=1e8?0:1,'triệu'];
+const mbig=v=>{const [n,d,u]=mparts(v);return `<span class="cu" data-n="${n}" data-d="${d}">${fmt(n,d)}</span><small>${u}</small>`};
+function countUp(root){root.querySelectorAll('.cu').forEach(e=>{const n=+e.dataset.n,d=+e.dataset.d,t0=performance.now();const f=t=>{const k=Math.min(1,(t-t0)/1000),v=n*(1-Math.pow(1-k,3));e.textContent=fmt(v,d);if(k<1)requestAnimationFrame(f)};requestAnimationFrame(f)})}
+// biểu đồ
+function niceTicks(mn,mx,n=4){const span=(mx-mn)||1,raw=span/n,pw=Math.pow(10,Math.floor(Math.log10(raw))),f=raw/pw,st=(f<=1?1:f<=2?2:f<=2.5?2.5:f<=5?5:10)*pw;const lo=Math.floor(mn/st)*st,hi=Math.ceil(mx/st)*st,t=[];for(let v=lo;v<=hi+st/2;v+=st)t.push(+v.toFixed(6));return t}
+function chartDay(r,hasB,W=470,H=210){const l=40,b=26,t=10,rr=8;
+  const L=r.hourLoad,A=r.hourPV,B=hasB?r.hourBess:L.map(()=>0);
+  const dir=L.map((v,h)=>Math.min(v,A[h])),bs=L.map((v,h)=>Math.min(B[h]||0,Math.max(0,v-dir[h]))),gr=L.map((v,h)=>Math.max(0,v-dir[h]-bs[h]));
+  const tk=niceTicks(0,Math.max(...L,...A)*1.05),mx=tk[tk.length-1]||1;
+  const bw=(W-l-rr)/24,X=h=>l+bw*h+bw/2,Y=v=>t+(H-t-b)*(1-v/mx);
+  let g='',bands='';
+  for(let h=0;h<24;h++){const o=D.off[h],p=D.pk[h];if(!o&&!p)continue;bands+=`<rect x="${l+bw*h}" y="${t}" width="${bw}" height="${H-t-b}" fill="${o?'#c9d2f5':'#f2c14e'}" opacity="${o?.35:.14+.28*p}"/>`}
+  tk.forEach(v=>{g+=`<line x1="${l}" x2="${W-rr}" y1="${Y(v)}" y2="${Y(v)}" stroke="#e1e5f2"/><text x="${l-5}" y="${Y(v)+4}" text-anchor="end">${fmt(v)}</text>`});
+  for(let h=0;h<24;h+=3)g+=`<text x="${X(h)}" y="${H-8}" text-anchor="middle">${h}h</text>`;
+  let st='';for(let h=0;h<24;h++){let y=0;const seg=(v,c)=>{if(v<=1e-6)return;st+=`<rect class="sk" style="--i:${h}" x="${l+bw*h+1.5}" y="${Y(y+v)}" width="${bw-3}" height="${Y(y)-Y(y+v)}" fill="${c}"/>`;y+=v};seg(dir[h],'#e0a82e');seg(bs[h],'#1c34c8');seg(gr[h],'#aab3d1')}
+  const line=`<polyline pathLength="1" fill="none" stroke="#0b1237" stroke-width="2" stroke-dasharray="1" points="${A.map((v,h)=>X(h)+','+Y(v)).join(' ')}"/>`;
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Cơ cấu nguồn điện theo giờ">${bands}${g}${st}${line}</svg>`}
+function chartBars(v,unit,posC,negC,labelEvery,off=0,W=470,H=210){const l=44,b=26,t=10,rr=8;const tk=niceTicks(Math.min(...v,0),Math.max(...v,0)),mn=tk[0],mx=tk[tk.length-1];
+  const Y=a=>t+(H-t-b)*(1-(a-mn)/(mx-mn||1)),bw=(W-l-rr)/v.length;let g='';
+  tk.forEach(a=>{g+=`<line x1="${l}" x2="${W-rr}" y1="${Y(a)}" y2="${Y(a)}" stroke="${a===0?'#8d97b8':'#e1e5f2'}"/><text x="${l-5}" y="${Y(a)+4}" text-anchor="end">${fmt(a,Math.abs(a)<10&&a%1?1:0)}</text>`});
+  v.forEach((a,i)=>{const x=l+i*bw+2,y0=Y(0),y1=Y(a);g+=`<rect class="bb" style="--i:${i};transform-origin:${a>=0?'bottom':'top'}" x="${x}" y="${Math.min(y0,y1)}" width="${bw-4}" height="${Math.abs(y1-y0)||1}" rx="2" fill="${a>=0?posC:negC}"/>`;if(i%labelEvery===0)g+=`<text x="${x+bw/2-2}" y="${H-8}" text-anchor="middle">${i+off}</text>`});
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="${unit}">${g}</svg>`}
+// hợp đồng
+function renderContract(r,p){
+  const P=fmt(r.P),E=p.E?`, pin lưu trữ BESS ${fmt(p.E)} kWh`:'';
+  const rows=S.mode==='epc'?[
+   ['Phạm vi','EPC trọn gói: khảo sát, thiết kế, cung cấp thiết bị, thi công, đấu nối, thủ tục pháp lý, nghiệm thu và bàn giao.'],
+   ['Hệ thống',`${P} kWp tấm pin TCL, biến tần và giám sát Sungrow${E}, đồng hồ Chint, cáp Cadivi.`],
+   ['Giá hợp đồng','Giá trọn gói ước tính, chưa VAT, chốt sau khảo sát thực tế.',mi(p.capex),1],
+   ['Thanh toán','Chia đợt theo mốc: ký hợp đồng, giao thiết bị, nghiệm thu, giữ lại bảo hành. Tỷ lệ từng đợt do hai bên thỏa thuận.'],
+   ['Tiến độ','Ước tính từ khi ký hợp đồng đến khi bàn giao, chốt lại sau khảo sát.','khoảng 14 tuần'],
+   ['Bảo hành','Biến tần Sungrow 5 năm theo hãng. Tấm pin TCL 12 năm sản phẩm, 30 năm hiệu suất theo báo giá, đối chiếu khi ký hợp đồng.'+(p.E?' Pin lưu trữ theo hãng.':'')],
+   ['Pháp lý','Chúng tôi lập và nộp hồ sơ thông báo hoặc đăng ký, thiết kế, PCCC, xây dựng. Doanh nghiệp cung cấp giấy tờ và ký hồ sơ.'],
+   ['Nghiệm thu, bàn giao','Biên bản nghiệm thu, hồ sơ hoàn công, hướng dẫn vận hành, tài khoản giám sát từ xa. Doanh nghiệp sở hữu hệ thống từ ngày nghiệm thu.'],
+   ['Tùy chọn','Hợp đồng vận hành, bảo trì định kỳ sau bàn giao.']
+  ]:[
+   ['Phạm vi','Chúng tôi đầu tư 100% vốn, thiết kế, thi công, vận hành và bảo trì hệ thống trên mái của doanh nghiệp.'],
+   ['Hệ thống',`${P} kWp tấm pin TCL, biến tần và giám sát Sungrow${E}, đồng hồ Chint, cáp Cadivi. Vốn đầu tư ước tính ${mi(p.capex)} do chúng tôi chịu.`],
+   ['Thời hạn','Hết hợp đồng, hệ thống được chuyển giao cho doanh nghiệp.','15 năm'],
+   ['Đơn giá điện','Doanh nghiệp mua điện mặt trời theo giá điện EVN cùng khung giờ. Mức giảm 10% là giả định, thay đổi theo khảo sát thực tế, có thể thương lượng.','90% giá EVN',1],
+   ['Đo đếm, thanh toán','Công tơ riêng đo sản lượng điện mặt trời. Chốt chỉ số và thanh toán hằng tháng.'],
+   ['Vận hành, thay thế','Chúng tôi chịu chi phí vận hành, bảo trì, thay biến tần'+(p.E?' và pin lưu trữ':'')+' trong thời hạn hợp đồng.'],
+   ['Mái và mặt bằng','Doanh nghiệp cho phép sử dụng mái và lối tiếp cận trong thời hạn hợp đồng, không tự ý cải tạo mái ảnh hưởng hệ thống.'],
+   ['Nghĩa vụ doanh nghiệp','Duy trì hoạt động, thanh toán đúng hạn, ký hồ sơ pháp lý với tư cách chủ sử dụng điện.'],
+   ['Chấm dứt trước hạn','Giá mua lại hệ thống theo thỏa thuận, giảm dần theo thời gian hợp đồng.'],
+   ['Pháp lý','Pháp lý bán điện tại chỗ được rà soát riêng theo quy định về hoạt động điện lực trước khi ký.']
+  ];
+  const key=S.mode+'|'+S.sel+'|'+(p.E?1:0),an=key!==S.ck;S.ck=key;
+  $('ct').innerHTML=rows.map((a,k)=>`<li class="${a[3]?'hi':''}${an?' an':''}" style="--i:${k}"><span class="dot">${k+1}</span><div class="bd"><h4>${a[0]}</h4>${a[2]?`<span class="big">${a[2]}</span>`:''}<p>${a[1]}</p></div></li>`).join('')}
+function run(){
+  const bill=num('bill')*1e6,roof=num('roof');
+  $('mexp').innerHTML=EXP[S.mode];
+  const w=$('warn');
+  if(bill<=0||roof<=0){w.hidden=false;w.textContent='Nhập tiền điện và diện tích mái để xem gói đề xuất.';return}
+  const sched=readSched();
+  const x={group:$('group').value,bill,sched,prov:$('prov').value,roof};
+  const r=calc2(D,x);window.R=r;
+  const anyOn=Object.values(sched).some(d=>d.on&&d.shifts.length);
+  w.hidden=anyOn;if(!anyOn)w.textContent='Chưa có ca hoạt động nào. Mô hình đang tính tải duy trì 20% cả tuần.';
+  $('tar').innerHTML=`<div><i>Giờ thấp điểm</i><b>${fmt(r.off)} đ/kWh</b><span>0h đến 6h, mọi ngày</span></div><div><i>Giờ bình thường</i><b>${fmt(r.nor)} đ/kWh</b><span>Các giờ còn lại trong ngày</span></div><div class="pkc"><i>Giờ cao điểm</i><b>${fmt(r.pk)} đ/kWh</b><span>Khoảng 17h30 đến 22h30, thứ Hai đến thứ Bảy, gấp ${fmt(r.pk/r.off,1)} lần giờ thấp điểm</span></div>`;
+  $('tline').innerHTML=`Biểu giá ${$('group').value}, cấp 1 đến 35 kV, QĐ 2892/QĐ-BCT. Điện tiêu thụ ước tính <b>${fmt(r.kwhMonth)} kWh/tháng</b>, giá bình quân <b>${fmt(r.avgPrice)} đ/kWh</b>.`;
+  const esco0=S.mode==='esco',recI=r.p2?2:1,an=S.anim;
+  const mk=(p,i)=>{
+    const sv=esco0?p.escoMonth:p.savMonth,pc=(esco0?p.escoShare:p.savShare)*100,rec=i===recI;
+    const np=Math.ceil(p.P*1000/630),tot20=p.save.slice(0,20).reduce((a,b)=>a+b,0);
+    const cost=esco0?'<span class="cu" data-n="0" data-d="0">0</span><small>đồng</small>':mbig(p.capex);
+    const mini=esco0?[['90% giá EVN','Đơn giá điện'],[mi(p.escoCust15),'Tiết kiệm 15 năm'],['Chuyển giao','Sau 15 năm']]:[[yr(p.payPost),'Hoàn vốn'],[mi(tot20),'Tiết kiệm 20 năm'],[mi(p.cum[20]),'Lãi ròng sau thuế']];
+    return `<div class="card pc${an?' an':''}${rec?' rec':''}${S.sel===i?' sel':''}" data-i="${i}">${rec?'<span class="rt">KHUYẾN NGHỊ</span>':''}<span class="bdg${p.E?' pin':''}">${p.E?'Có pin':'Hòa lưới'}</span>
+<span class="pill">GÓI ${i}</span>
+<h3>${i===1?'Điện mặt trời':'Điện mặt trời và pin lưu trữ'}</h3>
+<div class="ctx"><span>Hóa đơn ${mi(bill)}/tháng</span><span>Mái ${fmt(roof)} m²</span></div>
+<div class="inv"><i>${esco0?'Đầu tư ban đầu của doanh nghiệp':'Vốn đầu tư'}</i><b>${cost}</b><em>${esco0?'Chúng tôi chịu 100% vốn, ước tính '+mi(p.capex):'Chưa VAT, gồm thiết bị, thi công và thủ tục'}</em></div>
+<div class="svl"><i>Tiết kiệm mỗi tháng</i><b>${mbig(sv)}</b></div>
+<div class="sbar"><div class="trk"><i style="width:${Math.max(pc,2)}%"></i></div><div class="sl2"><span>Giảm <b>${fmt(pc,1)}%</b> hóa đơn</span><span>còn <b>${mi(Math.max(0,bill-sv))}</b>/tháng</span></div></div>
+<div class="mini">${mini.map(a=>`<div><b>${a[0]}</b><span>${a[1]}</span></div>`).join('')}</div>
+<ul class="cks"><li><b>${fmt(p.P)} kWp</b>, ${fmt(np)} tấm TCL 630 Wp</li><li>Biến tần Sungrow, giám sát từ xa</li>${p.E?`<li><b>Pin ${fmt(p.E)} kWh</b>, xả buổi tối và cao điểm</li>`:''}<li>Tủ điện, thi công, pháp lý trọn gói</li></ul>
+<button type="button" class="vbtn" data-v="${i}">Xem biểu đồ</button><button type="button" class="cta" data-rq="${i}">Nhận báo giá chi tiết</button></div>`};
+  const na=`<div class="card pc na"><h3>Gói lưu trữ BESS chưa cần thiết</h3><p>Với diện tích mái và phụ tải này, gần như không có điện dư ban ngày để nạp vào pin lưu trữ.</p></div>`;
+  if(!r.p2&&S.sel===2)S.sel=1;
+  $('pk').innerHTML=mk(r.p1,1)+(r.p2?mk(r.p2,2):na);
+  if(an)countUp($('pk'));
+  // thẻ khuyến nghị bên cạnh ô nhập
+  {const p=r.p2||r.p1,i=recI,sv=esco0?p.escoMonth:p.savMonth,pc=(esco0?p.escoShare:p.savShare)*100;
+   $('rc-t').textContent=`Gói ${i}: ${i===1?'Điện mặt trời':'Điện mặt trời và pin lưu trữ'}`;
+   $('rc-s').textContent=`${fmt(p.P)} kWp${p.E?`, pin ${fmt(p.E)} kWh`:''}, hình thức ${esco0?'ESCO':'EPC'}`;
+   $('rc-c').innerHTML=esco0?'0<small>đồng</small>':mbig(p.capex);
+   $('rc-b').innerHTML=mbig(sv);
+   $('rc-f').style.width=Math.max(pc,2)+'%';
+   $('rc-l').innerHTML=`<span>Giảm <b>${fmt(pc,1)}%</b> hóa đơn</span><span>còn <b>${mi(Math.max(0,bill-sv))}</b>/tháng</span>`;
+   const rr=esco0?[['Đơn giá điện mặt trời','90% giá EVN'],['Thời hạn hợp đồng','15 năm']]:[['Hoàn vốn sau thuế',yr(p.payPost)],['Tiết kiệm 20 năm',mi(p.save.slice(0,20).reduce((a,b)=>a+b,0))]];
+   $('rc-r').innerHTML=rr.map(a=>`<div class="rr"><span>${a[0]}</span><b>${a[1]}</b></div>`).join('')}
+  S.anim=false;
+  const p=S.sel===2?r.p2:r.p1,esco=S.mode==='esco';
+  const cumE=[];let c=0;for(let n=0;n<15;n++){c+=p.save[n]*0.10;cumE.push(c/1e9)}
+  const dl=esco?[['Điện mặt trời phát mỗi năm',fmt(p.gen/1e3)+' MWh'],['Điện dùng được mỗi năm',fmt(p.use/1e3)+' MWh ('+fmt(p.useRatio*100,1)+'%)'],['Tiết kiệm năm đầu so với giá EVN',mi(p.savYear)],['Doanh nghiệp tiết kiệm năm đầu (10%)',mi(p.savYear*0.10)],['Tổng tiết kiệm trong 15 năm',mi(p.escoCust15)],['Vốn do bên đầu tư chịu',mi(p.capex)]]
+   :[['Điện mặt trời phát mỗi năm',fmt(p.gen/1e3)+' MWh'],['Điện dùng được mỗi năm',fmt(p.use/1e3)+' MWh ('+fmt(p.useRatio*100,1)+'%)'],['Tiết kiệm năm đầu',mi(p.savYear)],['Hoàn vốn sau thuế',yr(p.payPost)],['IRR sau thuế, 20 năm',p.irrPost==null?'n/a':fmt(p.irrPost*100,1)+'%'],['NPV sau thuế',(p.npv<0?'-':'')+mi(Math.abs(p.npv))],['Vốn đầu tư (chưa VAT)',mi(p.capex)+(p.E?` (pin lưu trữ ${mi(p.bessCapex)})`:'')]];
+  const nt=['Tiết kiệm tính theo biểu giá điện QĐ 2892/QĐ-BCT, cấp điện áp 1 đến 35 kV, năm đầu, chưa VAT, và sẽ thay đổi theo hiện trạng thực tế sau khảo sát.',
+   'Công suất điện mặt trời lắp tối đa theo diện tích mái (6 m² cho mỗi kWp, đã gồm lối đi kỹ thuật), không vượt tổng điện tiêu thụ của doanh nghiệp.'];
+  if(r.p2)nt.push('Pin lưu trữ BESS tính theo giả định 4,5 triệu đồng/kWh, hiệu suất vòng nạp xả 90%, một chu kỳ mỗi ngày. Dung lượng bằng điện dư trung bình của những ngày có điện dư.');
+  if(esco)nt.push('Mức giảm 10% so với giá EVN trong hình thức ESCO là giả định, thay đổi theo khảo sát thực tế, có thể đàm phán, thương lượng lại.');
+  if(!esco&&r.p2&&r.p2.payPost!=null&&r.p1.payPost!=null&&r.p2.payPost>r.p1.payPost)nt.push(`Gói 2 tiết kiệm tiền điện nhiều hơn nhưng vốn đầu tư cao hơn và thời gian hoàn vốn dài hơn gói 1 (${yr(r.p2.payPost)} so với ${yr(r.p1.payPost)}).`);
+  $('notes').innerHTML=nt.map(t=>`<li>${t}</li>`).join('');
+  renderContract(r,p);renderEq(r,p);
+  document.querySelectorAll('.pc[data-i]').forEach(el=>el.onclick=e=>{if(e.target.closest('button'))return;S.sel=+el.dataset.i;run()});
+}
+initSch();
+document.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.m)));
+document.querySelectorAll('#bill,#roof').forEach(e=>{e.value=e.value?(+e.value.replace(/\D/g,'')).toLocaleString('vi-VN'):'';e.addEventListener('input',()=>groupInput(e))});
+document.querySelectorAll('#group,#bill,#roof,#prov').forEach(e=>{e.addEventListener('input',run);e.addEventListener('change',run)});
+(function(){const w=$('eqw'),b=w.querySelector('.eqs');b.addEventListener('click',()=>{const o=w.classList.toggle('open');b.setAttribute('aria-expanded',o)})})();
+
+function popHtml(i){const r=window.R,p=i===2?r.p2:r.p1,esco=S.mode==='esco';if(!p)return '';
+  const cumE=[];let c=0;for(let n=0;n<15;n++){c+=p.save[n]*0.10;cumE.push(c/1e9)}
+  return `<button type="button" class="x" aria-label="Đóng">×</button><h4>Gói ${i}: ${p.E?'điện mặt trời và pin lưu trữ':'điện mặt trời hòa lưới'}</h4><p class="ps">${fmt(p.P)} kWp${p.E?`, pin ${fmt(p.E)} kWh`:''}, hình thức ${esco?'ESCO':'EPC'}</p>
+<div class="ch"><b class="t">Nguồn điện trong một ngày làm việc nắng tốt (kW)</b>${chartDay(r,!!p.E,340,170)}<div class="lgd"><span><i style="background:#e0a82e"></i>Dùng trực tiếp</span>${p.E?'<span><i style="background:#1c34c8"></i>Pin xả</span>':''}<span><i style="background:#aab3d1"></i>Mua từ EVN</span><span><i style="background:#0b1237;height:3px;vertical-align:3px"></i>Điện mặt trời phát ra</span></div></div>
+<div class="ch"><b class="t">${esco?'Tiết kiệm lũy kế của doanh nghiệp, 15 năm hợp đồng (tỷ đồng)':'Dòng tiền lũy kế sau thuế (tỷ đồng), năm 0 đến 20'}</b>${esco?chartBars(cumE,'Tiết kiệm lũy kế','#1c34c8','#1c34c8',5,1,340,170):chartBars(p.cum.map(v=>v/1e9),'Dòng tiền lũy kế','#1c34c8','#e0a82e',5,0,340,170)}</div>`}
+(function(){const pop=$('pop'),bd=$('bd'),pk=$('pk');let cur=null,sheet=false;
+ const wide=()=>matchMedia('(hover:hover) and (min-width:901px)').matches;
+ const place=card=>{const rc=card.getBoundingClientRect(),i=+card.dataset.i,w=Math.min(336,innerWidth-24);let left;
+  const room=i===1?rc.left-20:innerWidth-rc.right-20;
+  if(room>=w){left=i===1?rc.left-w-12:rc.right+12}else{left=i===1?rc.right+12:rc.left-w-12}
+  pop.style.width=w+'px';left=Math.max(10,Math.min(left,innerWidth-w-10));const h=pop.offsetHeight;
+  pop.style.left=left+'px';pop.style.top=Math.max(10,Math.min(rc.top+rc.height/2-h/2,innerHeight-h-10))+'px'};
+ const open=(i,sh)=>{pop.innerHTML=popHtml(i);sheet=sh;pop.classList.toggle('sheet',sh);bd.classList.toggle('on',sh);pop.classList.remove('show');void pop.offsetWidth;pop.classList.add('show');cur=sh?null:pk.querySelector(`.pc[data-i="${i}"]`);if(cur)place(cur)};
+ const close=()=>{pop.classList.remove('show');bd.classList.remove('on');cur=null;sheet=false};
+ pk.addEventListener('mouseover',e=>{if(!wide())return;const c=e.target.closest('.pc[data-i]');if(!c||c===cur)return;open(+c.dataset.i,false)});
+ pk.addEventListener('mouseleave',()=>{if(!sheet)close()});
+ pk.addEventListener('click',e=>{const v=e.target.closest('.vbtn');if(v){e.stopPropagation();open(+v.dataset.v,true)}});
+ addEventListener('scroll',()=>{if(cur)place(cur)},{passive:true});
+ bd.addEventListener('click',close);pop.addEventListener('click',e=>{if(e.target.closest('.x'))close()});
+ addEventListener('keydown',e=>{if(e.key==='Escape'){close();closeRq()}});
+ // modal yêu cầu
+ const rq=$('rq');let ctx=null;
+ function closeRq(){rq.classList.remove('on')}
+ window.closeRq=closeRq;
+ const mailBody=()=>{const c=ctx;return `Kính gửi BTMI,\n\nTôi muốn nhận báo giá chi tiết:\n- Gói ${c.i}: ${c.p.E?'Có pin':'Hòa lưới'}, ${fmt(c.p.P)} kWp${c.p.E?`, pin lưu trữ ${fmt(c.p.E)} kWh`:''}\n- Hình thức: ${c.esco?'ESCO':'EPC'}\n- Diện tích mái: khoảng ${fmt(c.roof)} m²\n- Điện tiêu thụ: khoảng ${fmt(c.kwh)} kWh/tháng\n- Tiền điện hiện tại: ${fmt(c.bill/1e6)} triệu đồng/tháng\n- ${c.esco?'Vốn đầu tư ban đầu: 0 đồng (ước tính vốn do bên đầu tư chịu '+mi(c.p.capex)+')':'Vốn đầu tư ước tính: '+mi(c.p.capex)}\n- Tỉnh, thành: ${c.prov}\n\nHọ và tên: ${$('rqn').value.trim()}\nĐiện thoại/Zalo: ${$('rqp').value.trim()}\nGhi chú: ${$('rqg').value.trim()||'(không có)'}\n\nTrân trọng.`};
+ pk.addEventListener('click',e=>{const b=e.target.closest('[data-rq]');if(!b)return;e.stopPropagation();const i=+b.dataset.rq,r=window.R,p=i===2?r.p2:r.p1,esco=S.mode==='esco';
+  ctx={i,p,esco,roof:num('roof'),bill:num('bill')*1e6,kwh:r.kwhMonth,prov:$('prov').value};
+  $('rqt').textContent=`Yêu cầu báo giá gói ${i}`;
+  $('rqs').innerHTML=`<b>Gói ${i} · ${p.E?'Có pin':'Hòa lưới'} · ${esco?'ESCO':'EPC'}</b><span>Mái ~ ${fmt(ctx.roof)} m² · ${fmt(p.P)} kWp${p.E?' · pin '+fmt(p.E)+' kWh':''}</span><span>${fmt(ctx.kwh)} kWh/tháng · ${esco?'đầu tư 0 đồng':'~ '+fmt(p.capex/1e6)+' triệu'}</span>`;
+  rq.classList.remove('sent');close();rq.classList.add('on');setTimeout(()=>$('rqn').focus(),250)});
+ $('rqx').onclick=closeRq;$('rqcl').onclick=closeRq;rq.addEventListener('click',e=>{if(e.target===rq)closeRq()});
+ $('rqgo').onclick=()=>{const n=$('rqn'),p=$('rqp');const okN=n.value.trim().length>=2,okP=/^[0-9+\s.()-]{9,15}$/.test(p.value.trim());
+  n.classList.toggle('err',!okN);p.classList.toggle('err',!okP);if(!okN||!okP)return;
+  const go=$('rqgo'),W3K='ff5662be-7b03-4725-9588-0cb92ef29d6d';
+  const viaMail=()=>{const href=`mailto:ptda@btmi.com.vn?subject=${encodeURIComponent(`Yêu cầu báo giá điện mặt trời gói ${ctx.i} - ${n.value.trim()}`)}&body=${encodeURIComponent(mailBody())}`;
+   const a=document.createElement('a');a.href=href;a.target='_blank';a.rel='noopener';document.body.appendChild(a);a.click();a.remove();
+   rq.querySelector('.ok b').textContent='Đã mở thư gửi BTMI';rq.querySelector('.ok p').textContent='Bấm Gửi trong ứng dụng email để hoàn tất. Nếu email không tự mở, sao chép nội dung và gửi đến ptda@btmi.com.vn.';rq.classList.add('sent')};
+  if(W3K.startsWith('__')){viaMail();return}
+  go.disabled=true;go.textContent='Đang gửi...';
+  fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({access_key:W3K,subject:`Yêu cầu báo giá điện mặt trời gói ${ctx.i} - ${n.value.trim()}`,from_name:'Trang báo giá điện mặt trời BTMI',name:n.value.trim(),phone:p.value.trim(),message:mailBody()})})
+   .then(r=>r.json()).then(j=>{if(!j.success)throw 0;rq.querySelector('.ok b').textContent='Đã gửi yêu cầu';rq.querySelector('.ok p').textContent='BTMI sẽ liên hệ qua số điện thoại bạn để lại. Bạn có thể sao chép nội dung phòng khi cần.';rq.classList.add('sent')})
+   .catch(()=>viaMail()).finally(()=>{go.disabled=false;go.textContent='Gửi yêu cầu'})};
+ $('rqcp').onclick=()=>{const t=mailBody();const done=()=>{$('rqcp').textContent='Đã sao chép'};if(navigator.clipboard)navigator.clipboard.writeText(t).then(done,()=>{});else{const x=document.createElement('textarea');x.value=t;document.body.appendChild(x);x.select();try{document.execCommand('copy');done()}catch(_){}x.remove()}};
+})();
+run();
+(function(){const links=[...document.querySelectorAll('#topnav a')],secs=links.map(a=>document.querySelector(a.getAttribute('href')));const f=()=>{let k=-1;secs.forEach((e,i)=>{if(e.getBoundingClientRect().top<window.innerHeight*.4)k=i});links.forEach((a,i)=>a.classList.toggle('on',i===k))};addEventListener('scroll',f,{passive:true});f()})();
+document.querySelectorAll('.sec,.mode,.form,.tar>div,.tline,.eqd,.brands,.ctop,.fh,.fr,.lc,.foot,.notes').forEach(e=>e.classList.add('rv'));
+(function(){const o=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');o.unobserve(e.target)}}),{threshold:.08,rootMargin:'0px 0px -6% 0px'});
+ document.querySelectorAll('.rv').forEach(e=>o.observe(e))})();
+(function(){if(!('IntersectionObserver' in window))return;
+  const h=document.getElementById('s2'),as=$('aside');
+  new IntersectionObserver(es=>es.forEach(e=>as.classList.toggle('gone',e.isIntersecting)),{rootMargin:'0px 0px -45% 0px'}).observe(h);
+  let seen=false;new IntersectionObserver((es,ob)=>{if(!seen&&es[0].isIntersecting){seen=true;S.anim=true;run();ob.disconnect()}},{threshold:.15}).observe($('pk'))})();
+
+(function(){
+  const pr=$('prog');const f=()=>{const h=document.documentElement.scrollHeight-innerHeight;pr.style.width=(h>0?scrollY/h*100:0)+'%'};addEventListener('scroll',f,{passive:true});f();
+  const pk=$('pk');
+  pk.addEventListener('pointermove',e=>{const c=e.target.closest('.pc[data-i]');if(!c||matchMedia('(hover:none)').matches)return;const r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;c.style.setProperty('--ry',(x*5).toFixed(2)+'deg');c.style.setProperty('--rx',(-y*4).toFixed(2)+'deg')});
+  pk.addEventListener('pointerleave',()=>pk.querySelectorAll('.pc').forEach(c=>{c.style.setProperty('--rx','0deg');c.style.setProperty('--ry','0deg')}),true);
+  const hv=document.querySelector('.hv');if(hv&&!matchMedia('(hover:none)').matches){hv.addEventListener('pointermove',e=>{const r=hv.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;hv.querySelector('.hsvg').style.transform=`perspective(900px) rotateY(${x*6}deg) rotateX(${-y*5}deg)`;hv.querySelectorAll('.fc').forEach((c,i)=>c.style.translate=`${x*(14+i*6)}px ${y*(10+i*5)}px`)});hv.addEventListener('pointerleave',()=>{hv.querySelector('.hsvg').style.transform='';hv.querySelectorAll('.fc').forEach(c=>c.style.translate='')})}
+})();
+</script>
+</body></html>
