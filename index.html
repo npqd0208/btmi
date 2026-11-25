@@ -494,6 +494,12 @@ input:focus,select:focus{box-shadow:0 0 0 4px #dfe4fb;outline:none}
 .tl li.hi .big{background:var(--navy);color:var(--gold)}
 .tl li.an{animation:rise .6s cubic-bezier(.2,.7,.2,1) backwards;animation-delay:calc(var(--i)*60ms)}
 @media(max-width:700px){.nav{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;width:auto}.nav::-webkit-scrollbar{display:none}.nav a{white-space:nowrap;flex:none}}
+.spec{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 2px}
+.spec span{font-size:12.5px;padding:7px 11px;white-space:nowrap;border-radius:12px;background:var(--soft);color:var(--navy)}
+.spec span b{font-size:17px;letter-spacing:-.02em;color:var(--acc);margin-right:4px}
+.spec .pn{background:var(--goldsoft);color:#5b4200}.spec .pn b{color:#8a6100}
+.pc.rec .spec span{background:#1a2456;color:#dbe1fb}.pc.rec .spec span b{color:#fff}
+.pc.rec .spec .pn{background:rgba(242,193,78,.18);color:#f6d77a}.pc.rec .spec .pn b{color:var(--gold)}
 </style></head>
 <body>
 <div class="prog" id="prog"></div><i class="bgb b1"></i><i class="bgb b2"></i>
@@ -837,12 +843,13 @@ function run(){
     return `<div class="card pc${an?' an':''}${rec?' rec':''}${S.sel===i?' sel':''}" data-i="${i}">${rec?'<span class="rt">KHUYẾN NGHỊ</span>':''}<span class="bdg${p.E?' pin':''}">${p.E?'Có pin':'Hòa lưới'}</span>
 <span class="pill">GÓI ${i}</span>
 <h3>${i===1?'Điện mặt trời':'Điện mặt trời và pin lưu trữ'}</h3>
+<div class="spec"><span><b>${fmt(p.P)}</b> kWp điện mặt trời</span>${p.E?`<span class="pn"><b>${fmt(p.E)}</b> kWh pin lưu trữ</span>`:''}</div>
 <div class="ctx"><span>Hóa đơn ${mi(bill)}/tháng</span><span>Mái ${fmt(roof)} m²</span></div>
 <div class="inv"><i>${esco0?'Đầu tư ban đầu của doanh nghiệp':'Vốn đầu tư'}</i><b>${cost}</b><em>${esco0?'Chúng tôi chịu 100% vốn, ước tính '+mi(p.capex):'Chưa VAT, gồm thiết bị, thi công và thủ tục'}</em></div>
 <div class="svl"><i>Tiết kiệm mỗi tháng</i><b>${mbig(sv)}</b></div>
 <div class="sbar"><div class="trk"><i style="width:${Math.max(pc,2)}%"></i></div><div class="sl2"><span>Giảm <b>${fmt(pc,1)}%</b> hóa đơn</span><span>còn <b>${mi(Math.max(0,bill-sv))}</b>/tháng</span></div></div>
 <div class="mini">${mini.map(a=>`<div><b>${a[0]}</b><span>${a[1]}</span></div>`).join('')}</div>
-<ul class="cks"><li><b>${fmt(p.P)} kWp</b>, ${fmt(np)} tấm TCL 630 Wp</li><li>Biến tần Sungrow, giám sát từ xa</li>${p.E?`<li><b>Pin ${fmt(p.E)} kWh</b>, xả buổi tối và cao điểm</li>`:''}<li>Tủ điện, thi công, pháp lý trọn gói</li></ul>
+<ul class="cks"><li>${fmt(np)} tấm TCL 630 Wp</li><li>Biến tần Sungrow, giám sát từ xa</li>${p.E?`<li>Pin xả vào buổi tối và giờ cao điểm</li>`:''}<li>Tủ điện, thi công, pháp lý trọn gói</li></ul>
 <button type="button" class="vbtn" data-v="${i}">Xem biểu đồ</button><button type="button" class="cta" data-rq="${i}">Nhận báo giá chi tiết</button></div>`};
   const na=`<div class="card pc na"><h3>Gói lưu trữ BESS chưa cần thiết</h3><p>Với diện tích mái và phụ tải này, gần như không có điện dư ban ngày để nạp vào pin lưu trữ.</p></div>`;
   if(!r.p2&&S.sel===2)S.sel=1;
