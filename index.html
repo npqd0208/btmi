@@ -1020,7 +1020,7 @@ function run(){
   w.hidden=anyOn;if(!anyOn)w.textContent='Chưa có ca hoạt động nào. Mô hình đang tính tải duy trì 20% cả tuần.';
   $('tar').innerHTML=`<div><i>Giờ thấp điểm</i><b>${fmt(r.off)} đ/kWh</b><span>0h đến 6h, mọi ngày</span></div><div><i>Giờ bình thường</i><b>${fmt(r.nor)} đ/kWh</b><span>Các giờ còn lại trong ngày</span></div><div class="pkc"><i>Giờ cao điểm</i><b>${fmt(r.pk)} đ/kWh</b><span>Khoảng 17h30 đến 22h30, thứ Hai đến thứ Bảy, gấp ${fmt(r.pk/r.off,1)} lần giờ thấp điểm</span></div>`;
   $('tline').innerHTML=`Biểu giá ${$('group').value}, cấp 1 đến 35 kV, QĐ 2892/QĐ-BCT. Điện tiêu thụ ước tính <b>${fmt(r.kwhMonth)} kWh/tháng</b>, giá bình quân <b>${fmt(r.avgPrice)} đ/kWh</b>.`;
-  const esco0=S.mode==='esco',recI=r.p2&&r.p2.npv>r.p1.npv?2:1,an=S.anim;
+  const esco0=S.mode==='esco',recI=r.p2?2:1,an=S.anim;
   const mk=(p,i)=>{
     const sv=esco0?p.escoMonth:p.savMonth,pc=(esco0?p.escoShare:p.savShare)*100,rec=i===recI;
     const np=Math.ceil(p.P*1000/630),tot20=p.save.slice(0,20).reduce((a,b)=>a+b,0);
@@ -1066,7 +1066,7 @@ function run(){
    'Công suất điện mặt trời lắp tối đa theo diện tích mái (6 m² cho mỗi kWp, đã gồm lối đi kỹ thuật), không vượt tổng điện tiêu thụ của doanh nghiệp.'];
   if(r.p2){const b=r.p2,gs=b.bessGrid/(b.bessGrid+b.bessSolar||1);
    nt.push('Pin lưu trữ BESS tính theo giả định 4,5 triệu đồng/kWh, hiệu suất vòng nạp xả 90%, một chu kỳ mỗi ngày, thay 50% giá trị pin ở năm thứ 12. Pin nạp từ điện mặt trời dư và từ lưới giờ thấp điểm (0h đến 6h), xả vào giờ giá cao nhất. Dung lượng chọn theo một ngày làm việc điển hình: đủ bù phần tải giờ cao điểm còn thiếu sau điện mặt trời, hoặc đủ chứa điện mặt trời dư dùng được sau đó.');
-   if(!esco)nt.push(`Riêng phần pin ${fmt(b.E)} kWh: vốn ${mi(b.bessCapex)}, tiết kiệm thêm ${mi(b.savMonth-r.p1.savMonth)}/tháng, hoàn vốn riêng khoảng ${yr(b.payBess)}. Khoảng ${fmt(gs*100,0)}% điện pin xả ra được nạp từ lưới giờ thấp điểm.${b.irrBess!=null&&b.irrBess<0.1122?' Phần pin có suất sinh lời thấp hơn chi phí vốn giả định 11,22%/năm, nên gói 1 được khuyến nghị.':''}`)}
+   if(!esco)nt.push(`Riêng phần pin ${fmt(b.E)} kWh: vốn ${mi(b.bessCapex)}, tiết kiệm thêm ${mi(b.savMonth-r.p1.savMonth)}/tháng, hoàn vốn riêng khoảng ${yr(b.payBess)}. Khoảng ${fmt(gs*100,0)}% điện pin xả ra được nạp từ lưới giờ thấp điểm.${b.irrBess!=null&&b.irrBess<0.1122?' Suất sinh lời riêng của phần pin thấp hơn chi phí vốn giả định 11,22%/năm.':''}`)}
   if(esco)nt.push('Mức giảm 10% so với giá EVN trong hình thức ESCO là giả định, thay đổi theo khảo sát thực tế, có thể đàm phán, thương lượng lại.');
   if(!esco&&r.p2&&r.p2.payPost!=null&&r.p1.payPost!=null&&r.p2.payPost>r.p1.payPost)nt.push(`Gói 2 tiết kiệm tiền điện nhiều hơn nhưng vốn đầu tư cao hơn và thời gian hoàn vốn dài hơn gói 1 (${yr(r.p2.payPost)} so với ${yr(r.p1.payPost)}).`);
   $('notes').innerHTML=nt.map(t=>`<li>${t}</li>`).join('');
