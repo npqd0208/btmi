@@ -566,6 +566,8 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 .cstat>div:first-child{border-left:0}
 .cstat i{display:block;font:700 11px "Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",sans-serif;font-style:normal;letter-spacing:.1em;text-transform:uppercase;color:#aeb7e6}
 .cstat b{display:block;margin:6px 0 4px;font-size:clamp(26px,3.6vw,40px);letter-spacing:-.03em;line-height:1.1;color:var(--gold);font-variant-numeric:tabular-nums}
+.cstat .hl{text-align:center}
+.cstat .hl b{font-size:clamp(36px,5.2vw,58px)}
 .cstat span{display:block;font-size:13px;color:#c9d0f0;line-height:1.45}
 .cstat.an>div{animation:rise .7s cubic-bezier(.2,.7,.2,1) backwards;animation-delay:calc(var(--i)*110ms)}
 .clane{display:grid;grid-template-columns:1fr 1fr;border-radius:28px;background:#fff;border:1px solid var(--line);overflow:hidden;box-shadow:0 14px 36px -24px rgba(11,18,55,.3)}
@@ -847,7 +849,7 @@ body.nores #kpi,body.nores #eqw,body.nores #aside,body.nores #ntsw,body.nores #c
 <details class="nts" id="ntsw"><summary>Cách tính và các giả định chính<small id="ntc"></small></summary><ol class="notes" id="notes"></ol></details>
 <div class="card brands"><span>Thiết bị chính</span><img src="logos/tcl.png" alt="TCL Solar"><img src="logos/sungrow.png" alt="Sungrow"><img src="logos/chint.png" alt="Chint"><img src="logos/cadivi.png" alt="Cadivi"></div>
 
-<div class="sec" id="s3"><span class="no">03</span><h2>Phương án hợp tác</h2><p>Các hạng mục chính dự kiến trong hợp đồng. Nội dung chi tiết và số liệu cuối cùng được chốt sau khảo sát và đàm phán.</p></div>
+<div class="sec" id="s3"><span class="no">03</span><h2>Phương án hợp tác</h2><p>Các hạng mục chính dự kiến trong hợp đồng. Nội dung chi tiết và số liệu cuối cùng được thống nhất sau khảo sát và đàm phán.</p></div>
 <div class="ctop"><div class="seg" id="modeSeg2"><button data-m="epc" class="on">Hợp đồng EPC<small>Tự đầu tư</small></button><button data-m="esco">Hợp đồng ESCO<small>Đầu tư 0 đồng</small></button></div></div>
 <div class="ctr" id="ct"></div>
 
@@ -1218,7 +1220,7 @@ function chartBars(v,unit,posC,negC,labelEvery,off=0,W=470,H=210){const l=44,b=2
 function renderContract(r){
   const kwhTxt=fmt(r.kwhMonth),epc=S.mode==='epc';
   const stats=epc?[['Hình thức','Trọn gói','Khảo sát đến nghiệm thu, bàn giao'],['Tiến độ','khoảng 14 tuần','Ước tính, chốt lại sau khảo sát'],['Sở hữu','Doanh nghiệp','Toàn quyền hệ thống từ ngày nghiệm thu']]
-   :[['Vốn ban đầu','0 đồng','Nhà đầu tư chịu toàn bộ vốn'],['Tỷ lệ chia sẻ chi phí điện tiết kiệm','10%','Cho khách hàng, tạm tính, chốt sau khảo sát và đàm phán'],['Thời hạn','18 năm','Hết hạn, chuyển giao hệ thống']];
+   :[['Vốn ban đầu','0 đồng','Nhà đầu tư chịu toàn bộ vốn'],['Tỷ lệ chia sẻ chi phí điện tiết kiệm','10%','Cho khách hàng, tạm tính, thống nhất sau khảo sát và đàm phán'],['Thời hạn','18 năm','Hết hạn, chuyển giao hệ thống']];
   const lanes=epc?[['Chúng tôi chịu trách nhiệm',['Khảo sát, thiết kế','Thi công, đấu nối','Hoàn thiện pháp lý','Nghiệm thu, bàn giao, hướng dẫn vận hành','Bảo hành theo chính sách của hãng']],['Khách hàng có trách nhiệm',['Cung cấp hồ sơ, giấy tờ, ký hồ sơ','Mặt bằng mái và lối tiếp cận','Thanh toán theo đợt đã thỏa thuận','Sở hữu hệ thống từ ngày nghiệm thu']]]
    :[['Chúng tôi chịu trách nhiệm',['100% vốn đầu tư','Thiết kế, thi công','Vận hành, bảo trì','Sở hữu hệ thống trong 18 năm','Bảo hành theo chính sách của hãng']],['Khách hàng có trách nhiệm',['Cho sử dụng mái và lối tiếp cận','Thanh toán hằng kỳ chi phí tiết kiệm','Đảm bảo duy trì hoạt động trong 18 năm']]];
   const terms=epc?[
@@ -1230,7 +1232,7 @@ function renderContract(r){
    ['Nghiệm thu, bàn giao','Hoàn công, hướng dẫn, giám sát từ xa','Biên bản nghiệm thu, hồ sơ hoàn công, hướng dẫn vận hành, tài khoản giám sát từ xa. Doanh nghiệp sở hữu hệ thống từ ngày nghiệm thu.'],
    ['Tùy chọn','Vận hành, bảo trì sau bàn giao','Hợp đồng vận hành, bảo trì định kỳ sau bàn giao.']
   ]:[
-   ['Tỷ lệ phân chia chi phí năng lượng tiết kiệm được','Khách hàng tiết kiệm 10% so với giá điện EVN (tạm tính)','Khách hàng tiết kiệm 10% so với giá điện EVN, phần còn lại thuộc nhà đầu tư. Đây là mức tạm tính, không phải mức pháp luật quy định, do hai bên thỏa thuận và chốt sau khảo sát và đàm phán. Chi phí tiết kiệm tính theo biểu giá EVN tham chiếu (cấp điện áp '+voltTxt(r.volt)+', QĐ 2892/QĐ-BCT) theo từng khung giờ thấp điểm, bình thường, cao điểm, điều chỉnh khi EVN đổi biểu giá, cách áp dụng ghi rõ trong hợp đồng. Với hệ có pin lưu trữ, tiền điện tiết kiệm đo được đã trừ tiền điện nạp pin giờ thấp điểm. Chưa gồm VAT và các khoản phí liên quan.'],
+   ['Tỷ lệ phân chia chi phí năng lượng tiết kiệm được','Khách hàng tiết kiệm 10% so với giá điện EVN (tạm tính)','Khách hàng tiết kiệm 10% so với giá điện EVN, phần còn lại thuộc nhà đầu tư. Đây là mức tạm tính, không phải mức pháp luật quy định, do hai bên thỏa thuận và thống nhất sau khảo sát và đàm phán. Chi phí tiết kiệm tính theo biểu giá EVN tham chiếu (cấp điện áp '+voltTxt(r.volt)+', QĐ 2892/QĐ-BCT) theo từng khung giờ thấp điểm, bình thường, cao điểm, điều chỉnh khi EVN đổi biểu giá, cách áp dụng ghi rõ trong hợp đồng. Với hệ có pin lưu trữ, tiền điện tiết kiệm đo được đã trừ tiền điện nạp pin giờ thấp điểm. Chưa gồm VAT và các khoản phí liên quan.'],
    ['Thiết bị vật tư và vốn đầu tư','Nhà đầu tư chịu toàn bộ','Tấm pin TCL, biến tần và giám sát Sungrow, đồng hồ Chint, cáp Cadivi, pin lưu trữ nếu có. Công suất theo khảo sát mái và phụ tải. Nhà đầu tư chịu toàn bộ vốn đầu tư.'],
    ['Công tơ riêng, thanh toán theo hằng kỳ','Đo sản lượng để tính chi phí tiết kiệm','Lắp công tơ để đo sản lượng tiêu thụ và sản lượng điện mặt trời, từ đó tính toán chi phí năng lượng tiết kiệm được theo đơn giá điện hiện hành. Hai bên thỏa thuận vị trí đồng hồ, sản lượng tính tiền và quy trình đối soát. Hệ có pin lưu trữ dùng thêm công tơ hai chiều và dữ liệu EMS. Chốt chỉ số, thanh toán theo hằng kỳ.'],
    ['Vận hành, thay thế','Nhà đầu tư chịu chi phí vận hành và thay biến tần','Nhà đầu tư chịu chi phí vận hành, bảo trì và thay biến tần trong thời hạn hợp đồng 18 năm. Với hệ có pin lưu trữ, đời sống kinh tế của pin là 15 năm (tham chiếu QĐ 2987/QĐ-BCT) nên nhà đầu tư thay một phần pin ở năm 12, hệ thống bàn giao theo hiện trạng khi hết hạn. Cam kết hiệu suất, dung lượng pin còn lại và thời gian xử lý sự cố do hai bên thỏa thuận.'],
@@ -1241,7 +1243,7 @@ function renderContract(r){
   ];
   const key=S.mode,an=key!==S.ck;S.ck=key;
   const open=[...document.querySelectorAll('#ct .ci.open')].map(e=>e.dataset.k);
-  $('ct').innerHTML=`<div class="cstat${an?' an':''}">${stats.map((s,k)=>`<div style="--i:${k}"><i>${s[0]}</i><b>${s[1]}</b><span>${s[2]}</span></div>`).join('')}</div>
+  $('ct').innerHTML=`<div class="cstat${an?' an':''}">${stats.map((s,k)=>`<div class="${!epc&&k===1?'hl':''}" style="--i:${k}"><i>${s[0]}</i><b>${s[1]}</b><span>${s[2]}</span></div>`).join('')}</div>
 <div class="clane${an?' an':''}">${lanes.map((l,k)=>`<div class="ln${k?' r':''}"><h4>${l[0]}</h4><ul>${l[1].map((t,j)=>`<li style="--i:${j}">${t}</li>`).join('')}</ul>${l[2]?`<p class="lfn">${l[2]}</p>`:''}</div>`).join('')}</div>
 <div class="cacc"><h4>Điều khoản chi tiết</h4>${terms.map((t,k)=>`<div class="ci${open.includes(String(k))?' open':''}${an?' an':''}" data-k="${k}" style="--i:${k}"><button type="button" class="ch2" aria-expanded="${open.includes(String(k))}"><span class="nn">${String(k+1).padStart(2,'0')}</span><span class="tt"><b>${t[0]}</b><em>${t[1]}</em></span><span class="chv"></span></button><div class="cb2"><div><p>${t[2]}</p></div></div></div>`).join('')}</div>`}
 function run(){
@@ -1264,7 +1266,7 @@ function run(){
   {const anyOn=Object.values(sched).some(d=>d.on&&d.shifts.length),lowE=esco0&&(r.p1.escoIrr==null||r.p1.escoIrr<r.escoIrrMin);
    if(r.kwhMonth<2000){w.hidden=false;w.textContent=`Điện tiêu thụ ước tính khoảng ${fmt(r.kwhMonth)} kWh/tháng, dưới 2.000 kWh/tháng: doanh nghiệp có thể chưa thuộc diện áp giá ba khung giờ (cần máy biến áp riêng từ 25 kVA hoặc dùng bình quân từ 2.000 kWh/tháng). Kết quả chỉ mang tính tham khảo.`}
    else if(!anyOn){w.hidden=false;w.textContent=`Chưa có ca hoạt động nào. Mô hình đang tính tải duy trì ${Math.round(S.idle*100)}% cả tuần.`}
-   else if(lowE){w.hidden=false;w.textContent=`Lưu ý ESCO tại ${$('prov').value}: với mức giảm ${fmt(K.esco*100)}% so với giá EVN, suất sinh lời dự kiến của bên đầu tư khoảng ${r.p1.escoIrr==null?'dưới 0':fmt(r.p1.escoIrr*100,1)+'%/năm'}, thấp hơn ngưỡng ${fmt(r.escoIrrMin*100,0)}%. Mức giảm giá điện thực tế sẽ được chốt sau khảo sát và đàm phán.`}}
+   else if(lowE){w.hidden=false;w.textContent=`Lưu ý ESCO tại ${$('prov').value}: với mức giảm ${fmt(K.esco*100)}% so với giá EVN, suất sinh lời dự kiến của bên đầu tư khoảng ${r.p1.escoIrr==null?'dưới 0':fmt(r.p1.escoIrr*100,1)+'%/năm'}, thấp hơn ngưỡng ${fmt(r.escoIrrMin*100,0)}%. Mức giảm giá điện thực tế sẽ được thống nhất sau khảo sát và đàm phán.`}}
   window.P2A=P2;
   if(!S.userSel)S.sel=recI;
   if(!P2&&S.sel===2)S.sel=1;
