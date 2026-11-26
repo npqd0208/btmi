@@ -1151,7 +1151,7 @@ const dayHours=sh=>{let n=0;for(let h=0;h<24;h++)if(hourOn(sh,h))n++;return n};
 function drawStrip(d){const o=S.sch[d],el=document.querySelector(`.dr[data-d="${d}"]`);if(!el)return;
   el.classList.toggle('off',!o.on);
   el.querySelector('.strip').innerHTML=Array.from({length:24},(_,h)=>`<i class="${o.on&&hourOn(o.shifts,h)?'on':''}" title="${h}h"></i>`).join('');
-  el.querySelector('.hrs').textContent=o.on?(o.shifts.length?`Hoạt động khoảng ${dayHours(o.shifts)} giờ mỗi ngày`:'Chưa có ca, đang tính tải duy trì'):'Nghỉ, chỉ còn tải duy trì'}
+  el.querySelector('.hrs').textContent=o.on?(o.shifts.length?`Hoạt động khoảng ${dayHours(o.shifts)} giờ ${{wk:'mỗi ngày',sat:'mỗi thứ 7',sun:'mỗi chủ nhật'}[d]}`:'Chưa có ca, đang tính tải duy trì'):'Nghỉ, chỉ còn tải duy trì'}
 function shiftsHtml(d,ni){const o=S.sch[d];
   return o.shifts.map((s,i)=>`<div class="sf${i===ni?' pop':''}"><b>Ca ${i+1}</b><select data-d="${d}" data-i="${i}" data-k="0">${hopt(0,23,s[0])}</select>đến<select data-d="${d}" data-i="${i}" data-k="1">${hopt(0,24,s[1])}</select><button type="button" class="x" data-x="${d}:${i}" aria-label="Xóa ca">×</button></div>`).join('')+(o.shifts.length<3?`<button type="button" class="add" data-a="${d}">+ Thêm ca</button>`:'')}
 function drawShifts(d,ni){const el=document.querySelector(`.dr[data-d="${d}"] .shs`);if(el)el.innerHTML=shiftsHtml(d,ni)}
