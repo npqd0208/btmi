@@ -573,6 +573,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 .clane .ln.r{background:linear-gradient(180deg,#fff7e0,#fff);border-left:1px solid var(--line)}
 .clane h4{margin:0 0 14px;font-size:15px;letter-spacing:.02em;color:var(--acc)}
 .clane .r h4{color:#8a6100}
+.clane .lfn{margin:14px 0 0;font-size:11.5px;line-height:1.4;color:var(--mute);opacity:.7}
 .clane ul{margin:0;padding:0;list-style:none;display:grid;gap:11px}
 .clane li{position:relative;padding-left:30px;font-size:14.5px;line-height:1.45;color:var(--navy)}
 .clane li::before{content:"";position:absolute;left:0;top:1px;width:20px;height:20px;border-radius:50%;background:var(--acc)}
@@ -1219,7 +1220,7 @@ function renderContract(r){
   const stats=epc?[['Hình thức','Trọn gói','Khảo sát đến nghiệm thu, bàn giao'],['Tiến độ','khoảng 14 tuần','Ước tính, chốt lại sau khảo sát'],['Sở hữu','Doanh nghiệp','Toàn quyền hệ thống từ ngày nghiệm thu']]
    :[['Vốn ban đầu','0 đồng','Nhà đầu tư chịu toàn bộ vốn'],['Giá điện','Tiết kiệm 10%','So với giá điện EVN, tạm tính, chốt sau khảo sát và đàm phán'],['Thời hạn','18 năm','Hết hạn, chuyển giao hệ thống']];
   const lanes=epc?[['Chúng tôi chịu trách nhiệm',['Khảo sát, thiết kế','Thi công, đấu nối','Hoàn thiện pháp lý','Nghiệm thu, bàn giao, hướng dẫn vận hành','Bảo hành theo chính sách của hãng']],['Khách hàng cần chuẩn bị',['Cung cấp hồ sơ, giấy tờ, ký hồ sơ','Mặt bằng mái và lối tiếp cận','Thanh toán theo đợt đã thỏa thuận','Sở hữu hệ thống từ ngày nghiệm thu']]]
-   :[['Chúng tôi chịu trách nhiệm',['100% vốn đầu tư','Thiết kế, thi công','Vận hành, bảo trì','Sở hữu hệ thống trong 18 năm','Bảo hành theo chính sách của hãng']],['Khách hàng cần chuẩn bị',['Cho sử dụng mái và lối tiếp cận','Mua điện mặt trời bằng 90% giá EVN','Thanh toán hằng tháng theo công tơ riêng','Đảm bảo duy trì hoạt động trong 18 năm']]];
+   :[['Chúng tôi chịu trách nhiệm',['100% vốn đầu tư','Thiết kế, thi công','Vận hành, bảo trì','Sở hữu hệ thống trong 18 năm','Bảo hành theo chính sách của hãng']],['Khách hàng cần chuẩn bị',['Cho sử dụng mái và lối tiếp cận','Chia sẻ chi phí năng lượng bằng 90% giá EVN*','Thanh toán hằng kỳ chi phí tiết kiệm','Đảm bảo duy trì hoạt động trong 18 năm'],'* Số liệu tạm tính']];
   const terms=epc?[
    ['Giá gồm những gì','Thiết bị, thi công, đấu nối, thủ tục','Giá trọn gói ước tính, chưa VAT, đã gồm thiết bị, thi công, đấu nối, thủ tục pháp lý và nghiệm thu. Chốt sau khảo sát thực tế.'],
    ['Thiết bị','TCL, Sungrow, Chint, Cadivi','Tấm pin TCL, biến tần và giám sát Sungrow, đồng hồ Chint, cáp Cadivi. Công suất theo khảo sát mái và phụ tải. Pin lưu trữ (nếu chọn) chốt hãng và dung lượng khi báo giá.'],
@@ -1241,7 +1242,7 @@ function renderContract(r){
   const key=S.mode,an=key!==S.ck;S.ck=key;
   const open=[...document.querySelectorAll('#ct .ci.open')].map(e=>e.dataset.k);
   $('ct').innerHTML=`<div class="cstat${an?' an':''}">${stats.map((s,k)=>`<div style="--i:${k}"><i>${s[0]}</i><b>${s[1]}</b><span>${s[2]}</span></div>`).join('')}</div>
-<div class="clane${an?' an':''}">${lanes.map((l,k)=>`<div class="ln${k?' r':''}"><h4>${l[0]}</h4><ul>${l[1].map((t,j)=>`<li style="--i:${j}">${t}</li>`).join('')}</ul></div>`).join('')}</div>
+<div class="clane${an?' an':''}">${lanes.map((l,k)=>`<div class="ln${k?' r':''}"><h4>${l[0]}</h4><ul>${l[1].map((t,j)=>`<li style="--i:${j}">${t}</li>`).join('')}</ul>${l[2]?`<p class="lfn">${l[2]}</p>`:''}</div>`).join('')}</div>
 <div class="cacc"><h4>Điều khoản chi tiết</h4>${terms.map((t,k)=>`<div class="ci${open.includes(String(k))?' open':''}${an?' an':''}" data-k="${k}" style="--i:${k}"><button type="button" class="ch2" aria-expanded="${open.includes(String(k))}"><span class="nn">${String(k+1).padStart(2,'0')}</span><span class="tt"><b>${t[0]}</b><em>${t[1]}</em></span><span class="chv"></span></button><div class="cb2"><div><p>${t[2]}</p></div></div></div>`).join('')}</div>`}
 function run(){
   const bill=num('bill')*1e6,roof=num('roof');
