@@ -439,7 +439,7 @@ input:focus,select:focus{box-shadow:0 0 0 4px #dfe4fb;outline:none}
 .pc.rec .bdg{background:#1a2456;color:#dbe1fb}.pc.rec .bdg.pin{background:var(--gold);color:#4a3600}
 .vbtn{display:none;margin-top:12px;width:100%;padding:12px;border-radius:14px;border:1.5px solid currentColor;background:transparent;color:inherit;font:600 14px "Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",sans-serif;cursor:pointer}
 .pc .cta{border:0;font-family:inherit;cursor:pointer;width:100%}
-@media(hover:none),(max-width:900px){.vbtn{display:block}}
+@media(hover:none),(max-width:1199px){.vbtn{display:block}}
 /* popup biểu đồ */
 .pop{position:fixed;z-index:60;width:336px;max-width:calc(100vw - 24px);background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:0 30px 70px -24px rgba(11,18,55,.5);padding:18px 18px 14px;opacity:0;visibility:hidden;transform:translateY(8px) scale(.98);transition:opacity .22s,transform .22s,visibility .22s;pointer-events:none}
 .pop.show{opacity:1;visibility:visible;transform:none}
@@ -1313,11 +1313,12 @@ function popHtml(i){const r=window.R;if(!r||!r.p1)return '';const p=i===2?window
 <div class="ch"><b class="t">Nguồn điện trong một ngày làm việc, nắng trung bình (kW)</b>${chartDay({...r,hourPV:p.hourPV,hourBess:p.hourBess,hourCharge:p.hourCharge},!!p.E,340,170)}<div class="lgd"><span><i style="background:#e0a82e"></i>Dùng trực tiếp</span>${p.E?'<span><i style="background:#1c34c8"></i>Pin cấp điện</span>':''}${p.E&&p.hourCharge&&p.hourCharge.some(v=>v>0)?'<span><i style="background:#8a9bf2"></i>Nạp pin từ lưới</span>':''}<span><i style="background:#aab3d1"></i>Mua từ EVN</span><span><i style="background:#0b1237;height:3px;vertical-align:3px"></i>Điện mặt trời phát ra</span><span><i style="background:repeating-linear-gradient(90deg,#c2410c 0 4px,transparent 4px 7px);height:2px;vertical-align:3px"></i>Phụ tải doanh nghiệp</span></div></div>
 <div class="ch"><b class="t">${esco?'Tiết kiệm lũy kế của doanh nghiệp, 15 năm hợp đồng (tỷ đồng)':'Dòng tiền lũy kế sau thuế (tỷ đồng), năm 0 đến 20'}</b>${esco?chartBars(cumE,'Tiết kiệm lũy kế','#1c34c8','#1c34c8',5,1,340,170):chartBars(p.cum.map(v=>v/1e9),'Dòng tiền lũy kế','#1c34c8','#e0a82e',5,0,340,170)}</div>`}
 (function(){const pop=$('pop'),bd=$('bd'),pk=$('pk');let cur=null,sheet=false;
- const wide=()=>matchMedia('(hover:hover) and (min-width:901px)').matches;
- const place=card=>{const rc=card.getBoundingClientRect(),cs=[...pk.querySelectorAll('.pc[data-i]')],last=cs[cs.length-1].getBoundingClientRect();
-  const avail=innerWidth-last.right-12-10,w=Math.max(264,Math.min(336,avail>0?avail:336,innerWidth-24));let left=last.right+12;
-  if(avail<264)left=innerWidth-w-10;
-  pop.style.width=w+'px';left=Math.max(10,Math.min(left,innerWidth-w-10));const h=pop.offsetHeight;
+ const wide=()=>matchMedia('(hover:hover) and (min-width:1200px)').matches;
+ const place=card=>{const rc=card.getBoundingClientRect(),i=+card.dataset.i,cw=document.documentElement.clientWidth,two=!!pk.querySelector('.pc[data-i="2"]'),left1=i===1&&two;
+  let w,left;
+  if(left1){const av=rc.left-12-10;w=Math.max(264,Math.min(336,av));left=av>=264?rc.left-12-w:10}
+  else{const last=[...pk.querySelectorAll('.pc[data-i]')].pop().getBoundingClientRect(),av=cw-last.right-12-10;w=Math.max(264,Math.min(336,av));left=av>=264?last.right+12:cw-w-10}
+  w=Math.min(w,cw-20);pop.style.width=w+'px';left=Math.max(10,Math.min(left,cw-w-10));const h=pop.offsetHeight;
   pop.style.left=left+'px';pop.style.top=Math.max(10,Math.min(rc.top+rc.height/2-h/2,innerHeight-h-10))+'px'};
  const open=(i,sh)=>{pop.innerHTML=popHtml(i);sheet=sh;pop.classList.toggle('sheet',sh);bd.classList.toggle('on',sh);pop.classList.remove('show');void pop.offsetWidth;pop.classList.add('show');cur=sh?null:pk.querySelector(`.pc[data-i="${i}"]`);if(cur)place(cur)};
  const close=()=>{pop.classList.remove('show');bd.classList.remove('on');cur=null;sheet=false};
