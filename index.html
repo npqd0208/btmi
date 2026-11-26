@@ -64,6 +64,7 @@ input:focus,select:focus{outline:2px solid #c7d0f5;border-color:var(--acc)}
 .rng{display:block;width:100%;margin:12px 0 0;accent-color:var(--acc);cursor:pointer;height:20px}
 .rh{display:block;margin-top:2px;font-size:11.5px;color:var(--mute)}
 .rh2{margin-top:10px}
+.cl .sn{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;margin-right:10px;border-radius:50%;background:var(--navy);color:#fff;font:700 12px "Be Vietnam Pro",system-ui,sans-serif;font-style:normal;letter-spacing:0;vertical-align:middle}
 .fsec.dim{opacity:.45}.fsec.dim .rng{pointer-events:none}.fsec.dim input{pointer-events:none}
 .finf input{width:100%}
 .sch-presets{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:2px 0 12px;font-size:13px;color:var(--mute)}
@@ -840,26 +841,26 @@ body.nores #kpi,body.nores #eqw,body.nores #aside,body.nores #ntsw,body.nores #c
 <div class="s1g">
 <div>
 <div class="card form">
-<div class="fsec"><div class="cl">Doanh nghiệp</div>
+<div class="fsec"><div class="cl"><i class="sn">1</i>Doanh nghiệp</div>
 <div class="fg">
 <div><label for="group">Nhóm giá điện</label><select id="group"><option>Sản xuất</option><option>Thương mại</option></select></div>
 <div><label for="bill">Tiền điện mỗi tháng (triệu đồng, chưa VAT)</label><input id="bill" type="text" inputmode="decimal" autocomplete="off" value="450"></div>
 <div><label for="roof">Diện tích mái có thể lắp (m²)</label><input id="roof" type="text" inputmode="numeric" autocomplete="off" value="8.000"></div>
 <div><label for="prov">Tỉnh, thành lắp đặt</label><select id="prov"></select></div>
 </div></div>
-<div class="fsec"><div class="cl">Thời gian hoạt động</div>
+<div class="fsec"><div class="cl"><i class="sn">2</i>Thời gian hoạt động</div>
 <div class="sch-presets"><span>Chọn nhanh:</span><button type="button" data-p="hc">Giờ hành chính</button><button type="button" data-p="2">2 ca</button><button type="button" data-p="3">24/7</button></div>
 <div id="sch"></div>
 <div class="idle-row" id="idleBar"><span>Tải duy trì ngoài giờ ca:</span><button type="button" data-idle="0.05">Thấp 5%<small>Tắt gần hết máy</small></button><button type="button" data-idle="0.2" class="on">Vừa 20%<small>Chiếu sáng, làm mát</small></button><button type="button" data-idle="0.35">Cao 35%<small>Kho lạnh, chạy nền</small></button></div>
 <p class="schnote" id="schnote">Bật ngày có hoạt động, chọn giờ bắt đầu và kết thúc của từng ca, thêm tối đa 3 ca. Ca qua đêm chọn giờ kết thúc nhỏ hơn giờ bắt đầu, ví dụ 22h đến 6h. Ngoài giờ ca, mô hình tính tải duy trì <b id="idlePct">20%</b> công suất làm việc.</p>
 </div>
-<div class="fsec" id="fin"><div class="cl">Giải pháp tài chính</div>
+<div class="fsec" id="fin"><div class="cl"><i class="sn">3</i>Giải pháp tài chính</div>
 <div class="fg fg3 finf">
 <div><label for="ltv">Tỷ lệ vay (% vốn đầu tư)</label><input id="ltv" type="text" inputmode="numeric" autocomplete="off" maxlength="2" value="0"><input id="ltvr" class="rng" type="range" min="0" max="90" step="5" value="0" aria-label="Tỷ lệ vay"><span class="rh">0 đến 90%</span></div>
 <div><label for="lrate">Lãi vay (%/năm)</label><input id="lrate" type="text" inputmode="decimal" autocomplete="off" maxlength="4" value="9,5"><input id="lrater" class="rng" type="range" min="0" max="20" step="0.5" value="9.5" aria-label="Lãi vay"><span class="rh">0 đến 20%/năm</span></div>
 <div><label for="lyears">Thời gian vay (năm)</label><input id="lyears" type="text" inputmode="numeric" autocomplete="off" maxlength="2" value="7"><span class="rh rh2">1 đến 15 năm</span></div>
 </div>
-<p class="schnote" id="finnote">Áp dụng khi doanh nghiệp tự đầu tư (EPC). Tỷ lệ vay 0% là dùng hoàn toàn vốn tự có, tối đa 90%, lãi vay tối đa 20%/năm, thời gian vay tối đa 15 năm. Mô hình tính trả đều gốc và lãi mỗi năm, lãi vay được trừ khi tính thuế thu nhập doanh nghiệp 20%. Lãi suất 9,5%/năm là mức tạm tính (lãi suất cho vay trung hạn khoảng 9 đến 10%/năm cuối tháng 10/2026), thực tế theo thỏa thuận với ngân hàng.</p></div>
+</div>
 <div class="warn" id="warn" hidden></div>
 </div>
 <div class="tar" id="tar"></div>
