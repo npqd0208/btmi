@@ -1263,7 +1263,7 @@ const fmt=(v,d=0)=>v.toLocaleString('vi-VN',{minimumFractionDigits:d,maximumFrac
 const mi=v=>v>=1e9?fmt(v/1e9,2)+' tỷ':fmt(v/1e6,v>=1e8?0:1)+' triệu';
 const yr=v=>v==null?'trên 20 năm':fmt(v,1)+' năm';
 const S={mode:'epc',sel:1,idle:0.2,lastYrs:7,esco:0.2};
-const ESCO_TERM={10:12,15:14,20:18};;
+const ESCO_TERM={10:14,15:16,20:18};;
 const voltTxt=()=>'1 đến 35 kV (trung áp)';
 const num=id=>+(($(id).value||'').replace(/\./g,'').replace(',','.').replace(/[^0-9.]/g,''))||0;
 function groupInput(el,ev){const dec=el.id==='bill';let v=el.value;
