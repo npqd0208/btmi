@@ -1265,7 +1265,7 @@ function run(){
     const sv=esco0?p.escoMonth:p.savMonth,pc=(esco0?p.escoShare:p.savShare)*100,rec=i===recI;
     const np=Math.ceil(p.P*1000/630),tot20=p.save.slice(0,20).reduce((a,b)=>a+b,0);
     const cost=esco0?'<span class="cu" data-n="0" data-d="0">0</span><small>đồng</small>':mbig(p.capex);
-    const mini=esco0?[[p.E?'90 / 10':'90% giá EVN',p.E?'Chia sẻ tiết kiệm':'Đơn giá điện'],[mi(sv*12),'Tiết kiệm mỗi năm'],['Chuyển giao','Sau 18 năm']]:[[yr(p.payPost),'Hoàn vốn'],[mi(p.savYear),'Tiết kiệm mỗi năm'],[fmt(p.irrPost*100,1)+'%','IRR sau thuế']];
+    const mini=esco0?[[p.E?'90 / 10':'90% giá EVN',p.E?'Chia sẻ tiết kiệm':'Đơn giá điện'],[mi(sv*12),'Tiết kiệm mỗi năm'],['Chuyển giao','Sau 18 năm']]:[[yr(p.payPost),'Hoàn vốn'],[mi(p.savYear),'Tiết kiệm mỗi năm']];
     return `<div class="card pc${an?' an':''}${rec?' rec':''}${S.sel===i?' sel':''}" data-i="${i}">${rec?'<span class="rt">KHUYẾN NGHỊ</span>':''}<span class="bdg${p.E?' pin':''}">${p.E?'Có pin':'Hòa lưới'}</span>
 <div class="pl"><span class="pill">GÓI ${i}</span>${S.sel===i?'<span class="vwg">Đang xem</span>':''}</div>
 <h3>${i===1?'Điện mặt trời':'Điện mặt trời và pin lưu trữ'}</h3>
@@ -1274,7 +1274,7 @@ function run(){
 <div class="inv"><i>${esco0?'Đầu tư ban đầu của doanh nghiệp':'Vốn đầu tư'}</i><b>${cost}</b><em>${esco0?'Chúng tôi chịu 100% vốn, ước tính '+mi(p.capex):'Chưa VAT, gồm thiết bị, thi công và thủ tục'}</em></div>
 <div class="svl"><i>Tiết kiệm mỗi tháng</i><b>${mbig(sv)}</b><span class="bl">Hóa đơn <b>${mi(bill)}</b>/tháng</span></div>
 <div class="sbar"><div class="trk"><i style="width:${Math.max(pc,2)}%"></i></div><div class="sl2"><span>Giảm <b>${fmt(pc,1)}%</b> hóa đơn</span><span>còn <b>${mi(Math.max(0,bill-sv))}</b>/tháng</span></div></div>
-<div class="mini">${mini.map(a=>`<div><b>${a[0]}</b><span>${a[1]}</span></div>`).join('')}</div>
+<div class="mini" style="grid-template-columns:repeat(${mini.length},1fr)">${mini.map(a=>`<div><b>${a[0]}</b><span>${a[1]}</span></div>`).join('')}</div>
 <ul class="cks"><li>${fmt(np)} tấm TCL 630 Wp</li><li>Biến tần Sungrow, giám sát từ xa</li>${p.E?`<li>${p.bessGrid>p.bessSolar?'Pin nạp giờ thấp điểm, sử dụng giờ cao điểm':'Pin trữ điện dư ban ngày, sử dụng buổi tối'}</li>`:''}<li>Tủ điện, thi công, pháp lý trọn gói</li></ul>
 <button type="button" class="vbtn" data-v="${i}">Xem biểu đồ</button><button type="button" class="cta" data-rq="${i}">Nhận báo giá chi tiết</button></div>`};
   const na=escoNo?`<div class="card pc na"><h3>ESCO chưa áp dụng cho gói có pin</h3><p>Với lịch vận hành này, hình thức ESCO hiện chưa áp dụng cho gói kèm pin lưu trữ: riêng phần pin, suất sinh lời của bên đầu tư khoảng ${r.p2.escoIrrBess==null?'âm':fmt(r.p2.escoIrrBess*100,1)+'%/năm'} (cả gói ${r.p2.escoIrr==null?'âm':fmt(r.p2.escoIrr*100,1)+'%/năm'}), thấp hơn ngưỡng ${fmt(r.escoIrrMin*100,0)}% trong hợp đồng 18 năm (đã gồm chi phí thay một phần pin ở năm 12, chuyển giao khi hết hạn). Doanh nghiệp vẫn có thể chọn gói có pin theo hình thức EPC.</p></div>`
