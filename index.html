@@ -902,6 +902,93 @@ body.kb #mbar{transform:translateY(130%)!important;pointer-events:none}
   .mini b{font-size:12.5px}
   .mini span{font-size:10px}
 }
+/* ===== V2.1: Live Cockpit Mobile, ESG Strip, Action Bar, Roof Helper, Industry Presets & Print A4 PDF ===== */
+.ind-pre{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin:4px 0 14px;font-size:12.5px;color:var(--mute)}
+.ind-pre button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 12px;font-weight:600;font-size:12px;color:var(--navy);cursor:pointer;transition:.2s}
+.ind-pre button:hover{border-color:var(--acc);color:var(--acc)}
+.ind-pre button.on{background:var(--soft);border-color:var(--acc);color:var(--acc)}
+.roof-lbl{display:flex!important;align-items:center;justify-content:space-between;gap:8px}
+.r-hlp{border:0;background:transparent;padding:0;font:600 12px "Be Vietnam Pro",sans-serif;color:var(--acc);cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+.rcalc{margin-top:8px;padding:11px 12px;border-radius:14px;background:var(--soft);border:1px solid var(--line);animation:fade .22s ease}
+.rcalc[hidden]{display:none}
+.rcalc-g{display:grid;grid-template-columns:1fr 1fr 1.2fr;gap:8px;align-items:end}
+@media(max-width:520px){.rcalc-g{grid-template-columns:1fr 1fr}.rcalc-g>div:last-child{grid-column:1/-1}}
+.rcalc label{font-size:11px;margin-bottom:3px}
+.rcalc input,.rcalc select{min-height:38px;padding:7px 10px;font-size:14px;border-radius:10px}
+.rcalc-o{margin-top:7px;font-size:12px;color:var(--mute);display:flex;justify-content:space-between;align-items:center;gap:8px}
+.rcalc-o b{color:var(--navy)}
+
+/* Thanh tác vụ chia sẻ & xuất PDF + dải ESG */
+.actbar{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;max-width:880px;margin:18px auto 0}
+.actbar button{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--line);background:#fff;color:var(--navy);border-radius:999px;padding:10px 18px;font:600 13.5px "Be Vietnam Pro",sans-serif;cursor:pointer;transition:.2s;box-shadow:0 8px 22px -18px rgba(11,18,55,.35)}
+.actbar button:hover{border-color:var(--acc);color:var(--acc);transform:translateY(-2px)}
+.actbar button svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+.esg{max-width:880px;margin:16px auto 0;background:#fff;border:1px solid var(--line);border-radius:20px;padding:16px 20px 14px;box-shadow:0 12px 30px -24px rgba(11,18,55,.3)}
+.esg-g{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.esg-it{padding:2px 12px;border-left:1px solid var(--line)}
+.esg-it:first-child{padding-left:0;border-left:0}
+.esg-it i{display:block;font:700 10.5px "Be Vietnam Pro",sans-serif;font-style:normal;letter-spacing:.08em;text-transform:uppercase;color:var(--acc)}
+.esg-it.ok i{color:var(--ok)}
+.esg-it.wt i{color:#9a6700}
+.esg-it b{display:block;font-size:clamp(18px,2.2vw,23px);letter-spacing:-.025em;color:var(--navy);line-height:1.2;margin:3px 0;font-variant-numeric:tabular-nums}
+.esg-it span{display:block;font-size:12px;color:var(--mute);line-height:1.4}
+.esg-fn{margin:10px 0 0;padding-top:8px;border-top:1px dashed var(--line);font-size:11.5px;color:var(--mute)}
+body.nores #esgBar,body.nores #actBar{display:none!important}
+
+/* Phản hồi live cockpit trên mobile */
+@keyframes mbarPing{0%{box-shadow:0 20px 40px -16px rgba(11,18,55,.7),0 0 0 0 rgba(242,193,78,.55)}100%{box-shadow:0 20px 40px -16px rgba(11,18,55,.7),0 0 0 10px rgba(242,193,78,0)}}
+#mbar.ping{animation:mbarPing .55s ease}
+#mbar button.secbtn{background:#fff;color:var(--navy)}
+
+/* Toast thông báo gọn */
+#toast{position:fixed;left:50%;bottom:24px;z-index:110;transform:translate(-50%,20px);background:var(--navy);color:#fff;padding:11px 18px;border-radius:999px;font:600 13px "Be Vietnam Pro",sans-serif;box-shadow:0 16px 36px -12px rgba(11,18,55,.6);opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;max-width:calc(100vw - 28px);text-align:center}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+@media(max-width:900px){#toast{bottom:calc(84px + env(safe-area-inset-bottom))}}
+
+@media(max-width:700px){
+  .esg{padding:14px 16px}
+  .esg-g{grid-template-columns:1fr;gap:10px}
+  .esg-it{border-left:0;border-top:1px solid var(--line);padding:10px 0 0}
+  .esg-it:first-child{border-top:0;padding-top:0}
+  .actbar{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .actbar button{justify-content:center;padding:11px 10px;font-size:12.5px;min-height:44px}
+  .ind-pre button{min-height:38px;padding:7px 11px}
+}
+
+/* ===== Tờ trình PDF 1 trang A4 (chỉ hiển thị khi in / Lưu PDF) ===== */
+#printBrief{display:none}
+@page{size:A4 portrait;margin:11mm 12mm}
+@media print{
+  body{background:#fff!important;padding:0!important;margin:0!important;color:#0b1237!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .wrap,.prog,.bgb,#mbar,#bd,.pop,.rq,.dv-v,#toast{display:none!important}
+  #printBrief{display:block!important;font:10.5px/1.45 "Be Vietnam Pro",system-ui,sans-serif;color:#0b1237}
+  .pb-hd{display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:8px;border-bottom:2px solid #0b1237;margin-bottom:10px}
+  .pb-brand b{display:block;font-size:20px;letter-spacing:.06em;color:#0b1237;line-height:1}
+  .pb-brand span{display:block;font-size:10px;color:#566079;margin-top:2px}
+  .pb-meta{text-align:right;font-size:9.5px;color:#566079}
+  .pb-meta b{display:inline-block;background:#0b1237;color:#f2c14e;padding:2px 8px;border-radius:999px;font-size:9.5px;margin-bottom:3px}
+  .pb-sec{font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#1c34c8;margin:10px 0 5px}
+  .pb-info{display:grid;grid-template-columns:repeat(3,1fr);gap:6px 10px;background:#f4f6fc;border:1px solid #dfe4f2;border-radius:8px;padding:8px 10px}
+  .pb-info small{display:block;font-size:8.5px;color:#566079}
+  .pb-info b{display:block;font-size:10.5px;color:#0b1237}
+  .pb-tbl{width:100%;border-collapse:collapse;margin-top:4px;font-size:10px}
+  .pb-tbl th,.pb-tbl td{border:1px solid #d9dff0;padding:5px 8px;text-align:right;font-variant-numeric:tabular-nums}
+  .pb-tbl th:first-child,.pb-tbl td:first-child{text-align:left;color:#475569;font-weight:500}
+  .pb-tbl thead th{background:#eef1fb;color:#0b1237;font-weight:700}
+  .pb-tbl thead th.rec{background:#0b1237;color:#f2c14e}
+  .pb-tbl td.rec{background:#fafbff;font-weight:700}
+  .pb-2c{display:grid;grid-template-columns:1.15fr .85fr;gap:12px;margin-top:10px;align-items:start}
+  .pb-box{border:1px solid #dfe4f2;border-radius:8px;padding:8px 10px;break-inside:avoid}
+  .pb-box h4{margin:0 0 5px;font-size:10.5px;color:#0b1237}
+  .pb-lgd{display:flex;flex-wrap:wrap;gap:3px 9px;font-size:8.5px;color:#566079;margin-top:4px}
+  .pb-lgd i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+  .pb-kv{display:flex;justify-content:space-between;gap:8px;padding:3.5px 0;border-top:1px solid #edf0f8;font-size:9.5px}
+  .pb-kv:first-of-type{border-top:0}
+  .pb-kv span{color:#566079}.pb-kv b{color:#0b1237;text-align:right}
+  .pb-ft{margin-top:10px;padding-top:7px;border-top:1px solid #d9dff0;font-size:8.5px;color:#566079;display:flex;justify-content:space-between;gap:12px}
+  .pb-ft b{color:#0b1237}
+}
 </style></head>
 <body>
 <div class="prog" id="prog"></div><span id="top"></span><i class="bgb b1"></i><i class="bgb b2"></i>
