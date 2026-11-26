@@ -1143,13 +1143,12 @@ input:focus-visible,select:focus-visible{outline:3px solid #c7d0f5;outline-offse
 @media(max-width:900px){#totop{width:44px;height:44px;bottom:calc(102px + env(safe-area-inset-bottom));right:12px}}
 body.kb #totop{opacity:0;pointer-events:none}
 @media print{#totop{display:none!important}}
-.esg-gl{margin:12px 0 0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.esg-gl section{background:var(--soft);border-radius:14px;padding:11px 14px 12px}
-.esg-gl h5{margin:0 0 6px;font:700 10.5px "Be Vietnam Pro",sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--acc)}
-.esg-gl dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:5px 10px;font-size:12px;line-height:1.5}
-.esg-gl dt{font-weight:700;color:var(--navy);white-space:nowrap}
-.esg-gl dd{margin:0;color:var(--mute);text-wrap:pretty}
-@media(max-width:700px){.esg-gl{grid-template-columns:1fr}}
+.esg-gl{margin:12px 0 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.esg-gl article{background:var(--soft);border-radius:14px;padding:11px 14px 12px;display:flex;flex-direction:column}
+.esg-gl span{align-self:flex-start;font:700 10px "Be Vietnam Pro",sans-serif;letter-spacing:.07em;text-transform:uppercase;color:var(--acc);background:#fff;border:1px solid var(--line);border-radius:999px;padding:2px 8px}
+.esg-gl b{display:block;margin:7px 0 2px;font-size:15px;letter-spacing:-.01em;color:var(--navy)}
+.esg-gl p{margin:0;font-size:12px;line-height:1.5;color:var(--mute);text-wrap:pretty}
+@media(max-width:860px){.esg-gl{grid-template-columns:1fr}.esg-gl article{display:grid;grid-template-columns:auto 1fr;column-gap:12px;align-items:start}.esg-gl span{grid-column:1/-1;justify-self:start}.esg-gl b{margin:6px 0 0}.esg-gl p{margin-top:7px}}
 </style></head>
 <body>
 <div class="prog" id="prog"></div><span id="top"></span><i class="bgb b1"></i><i class="bgb b2"></i>
@@ -1966,9 +1965,9 @@ function run(){
     const co2Yr=(selP.use/1e3)*K.efGrid,co2_20=co2Yr*19.076,irec=Math.round(selP.use/1e3);
     const waitMo=esco0?selP.escoMonth:selP.savMonth;
     $('esgBar').innerHTML=`<div class="esg-g">
-      <div class="esg-it ok"><i>Cắt giảm CO₂ (Scope 2)</i><b>${fmt(co2Yr,0)} tấn/năm</b><span>Tương đương ~${fmt(co2_20,0)} tấn CO₂ trong 20 năm vận hành</span></div>
+      <div class="esg-it ok"><i>Cắt giảm CO₂</i><b>${fmt(co2Yr,0)} tấn/năm</b><span>Tương đương ~${fmt(co2_20,0)} tấn CO₂ trong 20 năm vận hành</span></div>
       <div class="esg-it"><i>Chứng chỉ xanh I-REC</i><b>~${fmt(irec)} chứng chỉ/năm</b><span>1 MWh điện mặt trời tự dùng = 1 I-REC (hỗ trợ ESG / CBAM)</span></div>
-    </div><p class="esg-fn">Ước tính cho Gói ${selI} (${fmt(selP.P)} kWp${selP.E?', pin '+fmt(selP.E)+' kWh':''}) theo hệ số phát thải lưới điện Việt Nam 0,6592 tCO₂/MWh, chỉ tính trên phần điện mặt trời tự dùng, không tính điện pin nạp từ lưới EVN.</p><div class="esg-gl"><section><h5>Đo lường và chứng nhận</h5><dl><dt>Scope 2</dt><dd>Khí thải phát sinh tại nhà máy điện khi sản xuất phần điện doanh nghiệp mua từ lưới EVN, được tính vào phát thải của doanh nghiệp. Nhà máy dùng càng nhiều điện từ hệ thống mặt trời trên mái của mình thì mua điện EVN càng ít, chỉ số này càng giảm.</dd><dt>I-REC</dt><dd>Chứng chỉ năng lượng tái tạo quốc tế, mỗi chứng chỉ xác nhận 1 MWh điện phát từ nguồn tái tạo.</dd></dl></section><section><h5>Khung đánh giá và quy định</h5><dl><dt>ESG</dt><dd>Bộ tiêu chí Môi trường (E), Xã hội (S) và Quản trị (G), dùng để đánh giá mức độ phát triển bền vững của doanh nghiệp.</dd><dt>CBAM</dt><dd>Cơ chế điều chỉnh carbon biên giới của EU (Carbon Border Adjustment Mechanism), áp dụng nghĩa vụ tài chính theo lượng phát thải đối với hàng nhập khẩu xi măng, sắt thép, nhôm, phân bón, điện và hydro từ 01/01/2026.</dd></dl></section></div>`;
+    </div><p class="esg-fn">Ước tính cho Gói ${selI} (${fmt(selP.P)} kWp${selP.E?', pin '+fmt(selP.E)+' kWh':''}) theo hệ số phát thải lưới điện Việt Nam 0,6592 tCO₂/MWh, chỉ tính trên phần điện mặt trời tự dùng, không tính điện pin nạp từ lưới EVN.</p><div class="esg-gl"><article><span>Chứng chỉ</span><b>I-REC</b><p>Chứng chỉ năng lượng tái tạo quốc tế (International Renewable Energy Certificate), mỗi chứng chỉ xác nhận 1 MWh điện phát từ nguồn tái tạo.</p></article><article><span>Bộ tiêu chí đánh giá</span><b>ESG</b><p>Bộ tiêu chí Môi trường (E), Xã hội (S) và Quản trị (G), dùng để đánh giá mức độ phát triển bền vững của doanh nghiệp.</p></article><article><span>Quy định của EU</span><b>CBAM</b><p>Cơ chế điều chỉnh carbon biên giới của EU (Carbon Border Adjustment Mechanism), áp dụng nghĩa vụ tài chính theo lượng phát thải đối với hàng nhập khẩu xi măng, sắt thép, nhôm, phân bón, điện và hydro từ 01/01/2026.</p></article></div>`;
   }
 
   updateMbar(true);
