@@ -366,7 +366,8 @@ input:focus,select:focus{outline:2px solid #c7d0f5;border-color:var(--acc)}
 .svl{position:relative;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
 .svl b{display:block;font-size:clamp(24px,2.5vw,30px);letter-spacing:-.03em;line-height:1.1;margin-top:3px;color:var(--acc);font-variant-numeric:tabular-nums}
 .svl .bl{position:absolute;right:0;bottom:3px;font-size:13px;color:var(--mute);white-space:nowrap}
-.svl .bl b{display:inline;font-size:inherit;letter-spacing:0;margin:0;color:var(--navy);line-height:inherit;font-variant-numeric:normal}
+.svl .bl b,.rc .svl .bl b,.pc .svl .bl b{display:inline!important;font-size:13px!important;font-weight:700;letter-spacing:0!important;margin:0!important;line-height:inherit!important}
+.svl .bl b{color:var(--navy)}
 .pc.rec .svl .bl,.rc .svl .bl{color:#aeb7e6}.pc.rec .svl .bl b,.rc .svl .bl b{color:#fff}
 .svl b small{font-size:.45em;letter-spacing:0;font-weight:700;margin-left:5px;color:var(--mute)}
 .pc.rec .inv i,.pc.rec .svl i,.rc .inv i,.rc .svl i,.pc.rec .inv em,.pc.rec .inv b small,.rc .inv b small,.pc.rec .svl b small,.rc .svl b small{color:#aeb7e6}
