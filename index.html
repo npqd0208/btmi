@@ -1389,7 +1389,7 @@ function renderContract(r){
 
 function loanBadge(p){
   if(p.cfL1<0)return `<div class="lcf bad">Năm đầu cần bù thêm <b>~${mi(-p.cfL1/12)}/tháng</b> để trả nợ${p.extraTopUp>1e6?` (tổng vốn tự có cần chuẩn bị khoảng <b>${mi(p.maxOut)}</b>)`:''}. Nên giảm tỷ lệ vay hoặc kéo dài thời gian vay.</div>`;
-  return `<div class="lcf ok">Tiền điện tiết kiệm đủ trả nợ ngân hàng ngay từ năm đầu, dư ròng sau thuế khoảng <b>+${mi(p.cfL1/12)}/tháng</b>.</div>`;
+  return '';
 }
 
 function run(){
@@ -1436,7 +1436,7 @@ function run(){
     const np=Math.ceil(p.P*1000/630);
     const cost=esco0?'<span class="cu" data-n="0" data-d="0">0</span><small>đồng</small>':mbig(p.capex);
     const mini=esco0?[['10%','Khách hàng hưởng tiết kiệm'],[mi(sv*12),'Tiết kiệm mỗi năm'],['Chuyển giao','Sau 18 năm']]
-      :LN?[[mi(p.equity0),'Vốn tự có ban đầu'],[mi(p.pmtMonth),'Trả nợ mỗi tháng'],[yr(p.payL),'Hoàn vốn tự có']]
+      :LN?[[yr(p.payL),'Hoàn vốn'],[mi(p.savYear),'Tiết kiệm mỗi năm']]
       :[[yr(p.payPost),'Hoàn vốn'],[mi(p.savYear),'Tiết kiệm mỗi năm']];
     return `<div class="card pc${an?' an':''}${rec?' rec':''}${S.sel===i?' sel':''}" data-i="${i}">${rec?'<span class="rt">KHUYẾN NGHỊ</span>':''}<span class="bdg${p.E?' pin':''}">${p.E?'Có pin':'Hòa lưới'}</span>
 <div class="pl"><span class="pill">GÓI ${i}</span>${S.sel===i?'<span class="vwg">Đang xem</span>':''}</div>
@@ -1464,7 +1464,7 @@ function run(){
    $('rc-b').innerHTML=mbig(sv);$('rc-bill').innerHTML='Hóa đơn <b>'+mi(bill)+'</b>/tháng';
    $('rc-f').style.width=Math.max(pc,2)+'%';
    $('rc-l').innerHTML=`<span>Giảm <b>${fmt(pc,1)}%</b> hóa đơn</span><span>còn <b>${mi(Math.max(0,bill-sv))}</b>/tháng</span>`;
-   const rr=esco0?[['Khách hàng được hưởng','10% chi phí tiết kiệm được'],['Thời hạn hợp đồng','18 năm']]:LN?[['Vốn tự có ban đầu',mi(p.equity0)],['Trả nợ mỗi tháng ('+fmt(loanYears)+' năm)',mi(p.pmtMonth)],['Hoàn vốn tự có',yr(p.payL)]]:[['Hoàn vốn sau thuế',yr(p.payPost)],['Tiết kiệm mỗi năm',mi(p.savYear)]];
+   const rr=esco0?[['Khách hàng được hưởng','10% chi phí tiết kiệm được'],['Thời hạn hợp đồng','18 năm']]:LN?[['Hoàn vốn',yr(p.payL)],['Tiết kiệm mỗi năm',mi(p.savYear)]]:[['Hoàn vốn sau thuế',yr(p.payPost)],['Tiết kiệm mỗi năm',mi(p.savYear)]];
    $('rc-r').innerHTML=rr.map(a=>`<div class="rr"><span>${a[0]}</span><b>${a[1]}</b></div>`).join('')+(LN?loanBadge(p):'')}
   {const rp=recI===2?P2:r.p1,sv2=esco0?rp.escoMonth:rp.savMonth;$('mbt').textContent='~ '+mi(sv2)+' mỗi tháng'}
   S.anim=false;
