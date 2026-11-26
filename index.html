@@ -1165,7 +1165,7 @@ function calc2(D,x0){
       let ti=rev[n-1]-om(n)-dep(n)-ib;
       if(ti<0)losses.push([n,-ti]);
       else{for(const L of losses){if(n-L[0]>x.lossYears||L[1]<=0)continue;const u=Math.min(L[1],ti);L[1]-=u;ti-=u;if(ti<=0)break}}
-      cf.push(rev[n-1]-om(n)-repl(n)-Math.max(0,ti)*x.tax-(debt&&n<=debt.T?debt.pmt:0));
+      cf.push(rev[n-1]-om(n)-repl(n)-Math.max(0,ti)*x.tax-(debt&&n<=debt.T?debt.pay[n]:0));
     }
     return cf;
   }
@@ -1191,9 +1191,10 @@ function calc2(D,x0){
   // Chỉ tính dòng tiền vay vốn cho gói đã chốt (tối ưu mượt khi kéo thanh trượt trên mobile)
   function attachLoan(p){if(!p)return null;
     const capex=p.capex,loan=capex*x.loanPct,T=x.loanYears,rr=x.loanRate;
-    const pmt=loan>0?(rr>0?loan*rr/(1-Math.pow(1+rr,-T)):loan/T):0;
-    const intr=[0];{let bal=loan;for(let n=1;n<=20;n++){const i=n<=T?bal*rr:0;intr.push(i);if(n<=T)bal=Math.max(0,bal-(pmt-i))}}
-    const cfL=loan>0?runFlows(capex,p.solarCapex,p.bessCapex,p.P,p.E,p.save,20,true,{loan,pmt,intr,T}):p.cf;
+    // dư nợ giảm dần: gốc trả đều mỗi năm, lãi tính trên dư nợ đầu kỳ
+    const prin=loan>0?loan/T:0,intr=[0],pay=[0];{let bal=loan;for(let n=1;n<=20;n++){const i=n<=T?bal*rr:0;intr.push(i);pay.push(n<=T?prin+i:0);if(n<=T)bal=Math.max(0,bal-prin)}}
+    const pmt=pay[1];
+    const cfL=loan>0?runFlows(capex,p.solarCapex,p.bessCapex,p.P,p.E,p.save,20,true,{loan,pay,intr,T}):p.cf;
     const cumL=[cfL[0]];for(let n=1;n<=20;n++)cumL.push(cumL[n-1]+cfL[n]);
     const equity0=capex-loan,maxOut=Math.max(equity0,-Math.min(...cumL)),extraTopUp=Math.max(0,maxOut-equity0);
     return Object.assign({},p,{loan,equity0,pmt,pmtMonth:pmt/12,loanYears:T,payL:payF(cumL,cfL),irrL:irr(cfL),cumL,cfL,cfL1:cfL[1],interestTotal:intr.reduce((q,v)=>q+v,0),maxOut,extraTopUp});
@@ -1420,7 +1421,7 @@ function run(){
   finEl.querySelectorAll('.fin-dep').forEach(d=>{d.classList.toggle('fin-off',!esco0&&!LN);d.querySelectorAll('input').forEach(i=>i.disabled=esco0||!LN)});
   if($('finPre'))$('finPre').querySelectorAll('button').forEach(b=>b.classList.toggle('on',Math.round(loanPct*100)===+b.dataset.ltv));
   if($('finNote'))$('finNote').textContent=esco0?'Chỉ áp dụng cho hình thức EPC (tự đầu tư). Ở ESCO, BTMI tài trợ 100% vốn nên doanh nghiệp không cần vay.'
-    :(LN?`Đang tính vay ${fmt(loanPct*100,0)}% vốn đầu tư, kỳ hạn ${fmt(loanYears)} năm, lãi suất ${fmt(loanRate*100,1)}%/năm (trả đều gốc và lãi, lãi vay được trừ thuế TNDN 20%).`:'Chọn tỷ lệ vay lớn hơn 0% để xem vốn tự có, mức trả nợ và dòng tiền ròng khi dùng vốn vay ngân hàng.');
+    :(LN?`Đang tính vay ${fmt(loanPct*100,0)}% vốn đầu tư, kỳ hạn ${fmt(loanYears)} năm, lãi suất ${fmt(loanRate*100,1)}%/năm (trả gốc đều mỗi năm, lãi tính trên dư nợ giảm dần, lãi vay được trừ thuế TNDN 20%).`:'Chọn tỷ lệ vay lớn hơn 0% để xem vốn tự có, mức trả nợ và dòng tiền ròng khi dùng vốn vay ngân hàng.');
 
   const escoNo=esco0&&r.p2&&!r.p2EscoOk,P2=escoNo?null:r.p2,recI=P2?(esco0?r.rec.esco:r.rec.epc):1;
   {const anyOn=Object.values(sched).some(d=>d.on&&d.shifts.length),lowE=esco0&&(r.p1.escoIrr==null||r.p1.escoIrr<r.escoIrrMin);
@@ -1485,7 +1486,7 @@ function run(){
   if(!esco&&P2&&P2.payPost!=null&&r.p1.payPost!=null&&P2.payPost>r.p1.payPost)nt.push(`Gói 2 tiết kiệm tiền điện nhiều hơn nhưng vốn đầu tư cao hơn và thời gian hoàn vốn dài hơn gói 1 (${yr(P2.payPost)} so với ${yr(r.p1.payPost)}).`);
   if(LN&&!esco){
     const irrTxt=p.irrL==null?'không xác định':(p.irrL>2?'trên 200%/năm':fmt(p.irrL*100,1)+'%/năm');
-    nt.push(`Phương án vay vốn (tạm tính): vay ${fmt(loanPct*100,0)}% vốn đầu tư của gói ${S.sel===2&&P2?2:1} (${mi(p.loan)}) trong ${fmt(loanYears)} năm, lãi ${fmt(loanRate*100,1)}%/năm, trả đều gốc và lãi khoảng ${mi(p.pmtMonth)}/tháng (${mi(p.pmt)}/năm, tổng lãi ${mi(p.interestTotal)}). Lãi vay được trừ khi tính thuế TNDN 20% (chưa tính phí vay, phí trả nợ trước hạn và trần lãi vay theo NĐ 132/2020/NĐ-CP). Vốn tự có ban đầu ${mi(p.equity0)}, hoàn vốn tự có khoảng ${yr(p.payL)}, suất sinh lời trên vốn tự có ${irrTxt}.`);
+    nt.push(`Phương án vay vốn (tạm tính): vay ${fmt(loanPct*100,0)}% vốn đầu tư của gói ${S.sel===2&&P2?2:1} (${mi(p.loan)}) trong ${fmt(loanYears)} năm, lãi ${fmt(loanRate*100,1)}%/năm, trả gốc đều, lãi tính trên dư nợ giảm dần, khoản trả năm đầu khoảng ${mi(p.pmtMonth)}/tháng (${mi(p.pmt)}/năm) và giảm dần các năm sau, tổng lãi ${mi(p.interestTotal)}. Lãi vay được trừ khi tính thuế TNDN 20% (chưa tính phí vay, phí trả nợ trước hạn và trần lãi vay theo NĐ 132/2020/NĐ-CP). Vốn tự có ban đầu ${mi(p.equity0)}, hoàn vốn tự có khoảng ${yr(p.payL)}, suất sinh lời trên vốn tự có ${irrTxt}.`);
     if(p.cfL1<0)nt.push(`Cảnh báo dòng tiền: năm đầu, tiết kiệm sau thuế chưa đủ trả nợ, doanh nghiệp cần bù khoảng ${mi(-p.cfL1)} (${mi(-p.cfL1/12)}/tháng). Tổng vốn tự có cần chuẩn bị đến khi dương dòng tiền khoảng ${mi(p.maxOut)}. Nên giảm tỷ lệ vay hoặc kéo dài thời gian vay.`);
   }
   $('notes').innerHTML=nt.map(t=>`<li>${t}</li>`).join('');$('ntc').textContent='Bấm để xem '+nt.length+' ghi chú';
