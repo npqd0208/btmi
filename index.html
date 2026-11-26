@@ -1262,7 +1262,7 @@ function groupInput(el,ev){const dec=el.id==='bill';let v=el.value;
 
 const EXP={
   epc:{t:'Phương án EPC (tự đầu tư)',f:[['Nhà đầu tư','Doanh nghiệp tự đầu tư'],['Vốn ban đầu','Doanh nghiệp chi trả'],['Chúng tôi đảm nhận','Thiết kế, mua sắm, thi công trọn gói, từ khảo sát đến bàn giao'],['Tiền điện tiết kiệm','Toàn bộ thuộc về doanh nghiệp'],['Thời hạn','Theo hợp đồng EPC, hoàn thành khi nghiệm thu và bàn giao'],['Quyền sở hữu','Doanh nghiệp, kể từ ngày nghiệm thu']]},
-  esco:{t:'Phương án ESCO (đầu tư 0 đồng)',f:[['Nhà đầu tư','Chúng tôi đầu tư 100% vốn'],['Vốn ban đầu','0 đồng'],['Chúng tôi đảm nhận','Đầu tư, vận hành, bảo trì hệ thống trên mái nhà'],['Tiền điện tiết kiệm','Khách hàng được hưởng 10% chi phí năng lượng tiết kiệm được (mức tạm tính, thay đổi theo thực tế sau khảo sát và đàm phán)'],['Thời hạn','Tối thiểu 18 năm, phù hợp doanh nghiệp có nhu cầu dùng điện ổn định, bền vững'],['Quyền sở hữu','Chúng tôi sở hữu trong thời hạn hợp đồng, chuyển giao cho doanh nghiệp sau hợp đồng']]}
+  esco:{t:'Phương án ESCO (đầu tư 0 đồng)',f:[['Nhà đầu tư','Chúng tôi đầu tư 100% vốn'],['Vốn ban đầu','Doanh nghiệp không cần chi phí ban đầu'],['Chúng tôi đảm nhận','Đầu tư, vận hành, bảo trì hệ thống trên mái nhà'],['Tiền điện tiết kiệm','Khách hàng được hưởng 10% chi phí năng lượng tiết kiệm được (mức tạm tính, thay đổi theo thực tế sau khảo sát và đàm phán)'],['Thời hạn','Tối thiểu 18 năm, phù hợp doanh nghiệp có nhu cầu dùng điện ổn định, bền vững'],['Quyền sở hữu','Chúng tôi sở hữu trong thời hạn hợp đồng, chuyển giao cho doanh nghiệp sau hợp đồng']]}
 };
 const DAYS=[['wk','Thứ 2 đến thứ 6'],['sat','Thứ 7'],['sun','Chủ nhật']];
 const PRE={hc:{wk:[[8,17]],sat:[],sun:[]},'2':{wk:[[6,14],[14,22]],sat:[[6,14],[14,22]],sun:[]},'3':{wk:[[6,14],[14,22],[22,6]],sat:[[6,14],[14,22],[22,6]],sun:[[6,14],[14,22],[22,6]]}};
@@ -1360,7 +1360,7 @@ function chartBars(v,unit,posC,negC,labelEvery,off=0,W=470,H=210){const l=44,b=2
 function renderContract(r){
   const kwhTxt=fmt(r.kwhMonth),epc=S.mode==='epc';
   const stats=epc?[['Hình thức','Trọn gói','Khảo sát đến nghiệm thu, bàn giao'],['Tiến độ','khoảng 14 tuần','Ước tính, thống nhất lại sau khảo sát'],['Sở hữu','Doanh nghiệp','Toàn quyền hệ thống từ ngày nghiệm thu']]
-   :[['Vốn ban đầu','0 đồng','Nhà đầu tư chịu toàn bộ vốn'],['Tỷ lệ chia sẻ chi phí điện tiết kiệm','10%','Cho khách hàng, tạm tính, thống nhất sau khảo sát và đàm phán'],['Bàn giao hệ thống sau','18 năm','Kể từ ngày hoạt động, tạm tính, thống nhất sau khảo sát và đàm phán']];
+   :[['Vốn ban đầu','Doanh nghiệp không cần chi phí ban đầu','Nhà đầu tư chịu toàn bộ vốn'],['Tỷ lệ chia sẻ chi phí điện tiết kiệm','10%','Cho khách hàng, tạm tính, thống nhất sau khảo sát và đàm phán'],['Bàn giao hệ thống sau','18 năm','Kể từ ngày hoạt động, tạm tính, thống nhất sau khảo sát và đàm phán']];
   const lanes=epc?[['Chúng tôi chịu trách nhiệm',['Khảo sát, thiết kế','Thi công, đấu nối','Hoàn thiện pháp lý','Nghiệm thu, bàn giao, hướng dẫn vận hành','Bảo hành theo chính sách của hãng']],['Khách hàng có trách nhiệm',['Cung cấp hồ sơ, giấy tờ, ký hồ sơ','Mặt bằng mái và lối tiếp cận','Thanh toán theo đợt đã thỏa thuận','Sở hữu hệ thống từ ngày nghiệm thu']]]
    :[['Chúng tôi chịu trách nhiệm',['100% vốn đầu tư','Thiết kế, thi công','Vận hành, bảo trì','Sở hữu hệ thống trong 18 năm','Bảo hành theo chính sách của hãng']],['Khách hàng có trách nhiệm',['Cho sử dụng mái và lối tiếp cận','Thanh toán hằng kỳ chi phí tiết kiệm','Đảm bảo duy trì hoạt động trong 18 năm']]];
   const terms=epc?[
