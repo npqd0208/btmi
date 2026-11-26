@@ -1130,6 +1130,19 @@ input:focus-visible,select:focus-visible{outline:3px solid #c7d0f5;outline-offse
 @media(max-width:520px){.dv-bar{gap:6px}.dv-dl{padding:6px 10px}}
 .dv-pgs.land{max-width:1180px}
 .dv-pgs.land img{aspect-ratio:3307/2340}
+/* Nút lên đầu trang */
+#totop{position:fixed;right:max(18px,env(safe-area-inset-right));bottom:calc(22px + env(safe-area-inset-bottom));z-index:45;width:48px;height:48px;border:0;border-radius:50%;padding:0;cursor:pointer;display:grid;place-items:center;
+ background:conic-gradient(var(--gold) calc(var(--p,0)*1%),#d9defa 0);box-shadow:0 14px 30px -12px rgba(11,18,55,.65);
+ opacity:0;transform:translateY(14px) scale(.9);pointer-events:none;transition:opacity .3s,transform .35s cubic-bezier(.2,.8,.2,1)}
+#totop::before{content:"";position:absolute;inset:3px;border-radius:50%;background:var(--navy);transition:background .25s}
+#totop svg{position:relative;width:20px;height:20px;stroke:#fff;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;transition:transform .25s}
+#totop.on{opacity:1;transform:none;pointer-events:auto}
+@media(hover:hover){#totop:hover::before{background:var(--acc)}#totop:hover svg{transform:translateY(-2px)}}
+#totop:active{transform:scale(.92)}
+#totop:focus-visible{outline:2.5px solid var(--acc);outline-offset:3px}
+@media(max-width:900px){#totop{width:44px;height:44px;bottom:calc(102px + env(safe-area-inset-bottom));right:12px}}
+body.kb #totop{opacity:0;pointer-events:none}
+@media print{#totop{display:none!important}}
 </style></head>
 <body>
 <div class="prog" id="prog"></div><span id="top"></span><i class="bgb b1"></i><i class="bgb b2"></i>
@@ -1300,6 +1313,7 @@ input:focus-visible,select:focus-visible{outline:3px solid #c7d0f5;outline-offse
 <div class="ok"><b>Đã mở thư gửi BTMI</b><p>Bấm Gửi trong ứng dụng email để hoàn tất. Nếu email không tự mở, sao chép nội dung và gửi đến ptda@btmi.com.vn.</p><button type="button" id="rqcp">Sao chép nội dung</button><button type="button" id="rqcl">Đóng</button></div>
 </div></div>
 
+<button type="button" id="totop" aria-label="Lên đầu trang" title="Lên đầu trang"><svg viewBox="0 0 24 24"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></button>
 <script>
 // Mô hình v2.1: Full logic V1.1 + vá lỗi nhỏ V2 (.cstat, scroll-lock iOS, reset nút copy)
 // + Live Cockpit Mobile, Deep-Link chia sẻ cấu hình, Xuất Tờ trình PDF 1 trang A4, khối ESG & trợ lý nhập liệu.
@@ -2120,5 +2134,14 @@ document.querySelectorAll('.sec,.mode,.form,.tar>div,.tline,.eqd,.brands,.ctop,.
  hosts.forEach(h=>mo.observe(h,{childList:true,subtree:true,characterData:true}));
  document.addEventListener('animationend',e=>{if(e.animationName==='numTick')e.target.classList.remove('tick')});
 })();
+
+// Nút lên đầu trang
+(function(){const b=$('totop');if(!b)return;let raf=0;
+ const busy=()=>($('rq')&&$('rq').classList.contains('on'))||($('dv')&&$('dv').classList.contains('on'))||($('pop')&&$('pop').classList.contains('sheet')&&$('pop').classList.contains('show'));
+ const f=()=>{raf=0;const h=document.documentElement,max=h.scrollHeight-innerHeight,y=scrollY;b.style.setProperty('--p',max>0?Math.min(100,y/max*100).toFixed(1):0);b.classList.toggle('on',y>innerHeight*.9&&!busy())};
+ addEventListener('scroll',()=>{if(!raf)raf=requestAnimationFrame(f)},{passive:true});addEventListener('resize',f);
+ new MutationObserver(()=>{if(!raf)raf=requestAnimationFrame(f)}).observe(document.body,{subtree:true,attributes:true,attributeFilter:['class']});
+ b.addEventListener('click',()=>{const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;scrollTo({top:0,behavior:rm?'auto':'smooth'});setTimeout(()=>{const t=document.querySelector('.hero h1');if(t){t.setAttribute('tabindex','-1');t.focus({preventScroll:true})}},rm?0:600)});
+ f()})();
 </script>
 </body></html>
