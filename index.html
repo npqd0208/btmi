@@ -59,6 +59,10 @@ a{color:var(--acc)}
 label{display:block;font-size:12.5px;color:var(--mute);margin-bottom:5px}
 input[type=number],input[type=text],select{width:100%;border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:15px;background:#fff;color:var(--ink);min-height:44px}
 input:focus,select:focus{outline:2px solid #c7d0f5;border-color:var(--acc)}
+.form .fg.finf{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:640px){.form .fg.finf{grid-template-columns:1fr}}
+.fsec.dim{opacity:.45}.fsec.dim input{pointer-events:none}
+.finf input{width:100%}
 .sch-presets{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:2px 0 12px;font-size:13px;color:var(--mute)}
 .sch-presets button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 14px;font-weight:600;font-size:13px;color:var(--navy);cursor:pointer}
 .sch-presets button:hover{border-color:var(--acc);color:var(--acc)}
@@ -846,6 +850,13 @@ body.nores #kpi,body.nores #eqw,body.nores #aside,body.nores #ntsw,body.nores #c
 <div class="idle-row" id="idleBar"><span>Tải duy trì ngoài giờ ca:</span><button type="button" data-idle="0.05">Thấp 5%<small>Tắt gần hết máy</small></button><button type="button" data-idle="0.2" class="on">Vừa 20%<small>Chiếu sáng, làm mát</small></button><button type="button" data-idle="0.35">Cao 35%<small>Kho lạnh, chạy nền</small></button></div>
 <p class="schnote" id="schnote">Bật ngày có hoạt động, chọn giờ bắt đầu và kết thúc của từng ca, thêm tối đa 3 ca. Ca qua đêm chọn giờ kết thúc nhỏ hơn giờ bắt đầu, ví dụ 22h đến 6h. Ngoài giờ ca, mô hình tính tải duy trì <b id="idlePct">20%</b> công suất làm việc.</p>
 </div>
+<div class="fsec" id="fin"><div class="cl">Giải pháp tài chính</div>
+<div class="fg fg3 finf">
+<div><label for="ltv">Tỷ lệ vay (% vốn đầu tư)</label><input id="ltv" type="text" inputmode="decimal" autocomplete="off" value="0"></div>
+<div><label for="lrate">Lãi vay (%/năm)</label><input id="lrate" type="text" inputmode="decimal" autocomplete="off" value="9,5"></div>
+<div><label for="lyears">Thời gian vay (năm)</label><input id="lyears" type="text" inputmode="numeric" autocomplete="off" value="7"></div>
+</div>
+<p class="schnote" id="finnote">Áp dụng khi doanh nghiệp tự đầu tư (EPC). Tỷ lệ vay 0% là dùng hoàn toàn vốn tự có, tối đa 90%. Mô hình tính trả đều gốc và lãi mỗi năm, lãi vay được trừ khi tính thuế thu nhập doanh nghiệp 20%. Lãi suất 9,5%/năm là mức tạm tính (lãi suất cho vay trung hạn khoảng 9 đến 10%/năm cuối tháng 10/2026), thực tế theo thỏa thuận với ngân hàng.</p></div>
 <div class="warn" id="warn" hidden></div>
 </div>
 <div class="tar" id="tar"></div>
@@ -997,7 +1008,8 @@ body.nores #kpi,body.nores #eqw,body.nores #aside,body.nores #ntsw,body.nores #c
 const K={volt:'Trên 1 kV đến 35 kV',idle:0.2,sGood:0.4,mGood:1.35,sCloud:0.25,roofPerKwp:6,minRoof:30,minSelfUse:0.65,
   capex:9.5e6,om:83338,omGrow:0.05,degr:0.005,grow:0.02,invPct:0.096,invYear:11,tax:0.2,depYears:12,lossYears:5,wacc:0.1122,
   bessCapex:4.0e6,bessRT:0.85,dod:0.9,cRate:0.5,bessDegr:0.02,bessOm:0.01,bessRepYear:12,bessRepPct:0.5,
-  esco:0.10,escoYears:18,escoIrrMin:0.12};
+  esco:0.10,escoYears:18,escoIrrMin:0.12,
+  loanPct:0,loanRate:0.095,loanYears:7};
 function irr(cf){let lo=-0.99,hi=2,f=r=>cf.reduce((s,c,i)=>s+c/Math.pow(1+r,i),0);
   if(f(lo)*f(hi)>0)return null;for(let i=0;i<200;i++){const m=(lo+hi)/2;if(f(lo)*f(m)<=0)hi=m;else lo=m}return (lo+hi)/2}
 function hoursOf(day,idle){if(day.f)return {f:day.f,on:true};const f=Array(24).fill(idle);if(!day.on)return {f,on:false};
@@ -1006,6 +1018,7 @@ function hoursOf(day,idle){if(day.f)return {f:day.f,on:true};const f=Array(24).f
   return {f,on:any}}
 function calc2(D,x0){
   const x={...K,...x0};
+  x.loanPct=Math.min(0.9,Math.max(0,+x.loanPct||0));x.loanRate=Math.min(0.3,Math.max(0,+x.loanRate||0));x.loanYears=Math.min(15,Math.max(1,Math.round(+x.loanYears||1)));
   const grp=x.group==='Thương mại'?'Kinh doanh':x.group;
   const row=D.tar.find(r=>r[0]===grp&&r[1]===x.volt)||D.tar.find(r=>r[0]===grp&&r[1]===K.volt);const [nor,off,pk]=[row[2],row[3],row[4]];
   const pw=[],ps=[];for(let h=0;h<24;h++){pw.push(D.off[h]*off+D.pk[h]*pk+(1-D.off[h]-D.pk[h])*nor);ps.push(D.off[h]*off+(1-D.off[h])*nor)}
@@ -1066,12 +1079,16 @@ function calc2(D,x0){
       if(n<=x.escoYears)saveEsco.push(save[n-1])}
     const om=n=>(P*x.om+bessCapex*x.bessOm)*Math.pow(1+x.omGrow,n-1);
     // dòng tiền sau thuế, chuyển lỗ tối đa 5 năm
-    function flows(rev,N,rb){const cf=[-capex],losses=[];
-      for(let n=1;n<=N;n++){let ti=rev[n-1]-om(n)-dep(n,rb);
+    // vay vốn (chỉ hình thức EPC): trả đều gốc và lãi (niên kim) cuối mỗi năm, lãi vay được trừ khi tính thuế
+    const loan=capex*x.loanPct,T=x.loanYears,rr=x.loanRate,pmt=loan>0?(rr>0?loan*rr/(1-Math.pow(1+rr,-T)):loan/T):0;
+    const intr=[0];{let bal=loan;for(let n=1;n<=20;n++){const i=n<=T?bal*rr:0;intr.push(i);if(n<=T)bal-=pmt-i}}
+    function flows(rev,N,rb,debt){const cf=[-capex+(debt?loan:0)],losses=[];
+      for(let n=1;n<=N;n++){const ib=debt?intr[n]:0;let ti=rev[n-1]-om(n)-dep(n,rb)-ib;
         if(ti<0)losses.push([n,-ti]);else{for(const L of losses){if(n-L[0]>x.lossYears||L[1]<=0)continue;const u=Math.min(L[1],ti);L[1]-=u;ti-=u;if(ti<=0)break}}
-        cf.push(rev[n-1]-om(n)-repl(n,rb)-Math.max(0,ti)*x.tax)}
+        cf.push(rev[n-1]-om(n)-repl(n,rb)-Math.max(0,ti)*x.tax-(debt&&n<=T?pmt:0))}
       return cf}
-    const cf=flows(save,20,true),cum=[cf[0]];for(let n=1;n<=20;n++)cum.push(cum[n-1]+cf[n]);
+    const cf=flows(save,20,true,false),cum=[cf[0]];for(let n=1;n<=20;n++)cum.push(cum[n-1]+cf[n]);
+    const cfL=loan>0?flows(save,20,true,true):cf,cumL=[cfL[0]];for(let n=1;n<=20;n++)cumL.push(cumL[n-1]+cfL[n]);
     let npv=0;cf.forEach((v,n)=>npv+=v/Math.pow(1+x.wacc,n));
     const ec=flows(saveEsco.map(v=>v*(1-x.esco)),x.escoYears,true);
     const ecust=saveEsco.reduce((s,v)=>s+v*x.esco,0);
@@ -1079,6 +1096,7 @@ function calc2(D,x0){
     const res={withB:Ei>0,P,E:Ei,capex,solarCapex,bessCapex,gen:a.gen,use,useRatio:use/a.gen,roofUsed:P*x.roofPerKwp,
       savYear:sav1,savMonth:sav1/12,savShare:sav1/(12*x.bill),savDirect:a.savD,savBess:a.savBs+a.savBg,
       bessSolar:a.useB,bessGrid:a.useG,gridIn:a.gIn,payPost:payF(cum,cf),irrPost:irr(cf),npv,cum,cf,save,saveEsco,
+      loan,equity0:capex-loan,pmt,loanYears:T,payL:payF(cumL,cfL),irrL:irr(cfL),cumL,cfL,cfL1:cfL[1],interestTotal:intr.reduce((q,v)=>q+v,0),
       ec,escoMonth:sav1*x.esco/12,escoShare:sav1*x.esco/(12*x.bill),escoIrr:irr(ec),escoCust15:ecust,
       hourPV:h.a,hourBess:h.bd,hourCharge:h.gc};memo.set(key,res);return res}
   // gói 1 (không pin): công suất cho NPV cao nhất, tỷ lệ tự dùng tối thiểu 65%
@@ -1272,7 +1290,9 @@ function run(){
   const nores=msg=>{w.hidden=false;w.textContent=msg;window.R=null;document.body.classList.add('nores');$('pk').innerHTML=`<div class="card pc na"><h3>Chưa có đề xuất giải pháp</h3><p>${msg}</p></div>`};
   if(bill<=0||roof<=0)return nores('Nhập tiền điện và diện tích mái để xem đề xuất giải pháp.');
   const sched=readSched();
-  const x={group:$('group').value,bill,sched,prov:$('prov').value,roof,idle:S.idle};
+  const pf=id=>parseFloat((($(id).value||'').replace(',','.').replace(/[^0-9.]/g,'')))||0;
+  const loanPct=Math.min(90,Math.max(0,pf('ltv')))/100,loanRate=Math.min(30,Math.max(0,pf('lrate')))/100,loanYears=Math.min(15,Math.max(1,Math.round(pf('lyears'))));
+  const x={group:$('group').value,bill,sched,prov:$('prov').value,roof,idle:S.idle,loanPct,loanRate,loanYears};
   const r=calc2(D,x);window.R=r;
   if(r.err==='roof')return nores('Diện tích mái tối thiểu khoảng 30 m² (hệ 5 kWp). Nhập diện tích mái lớn hơn để xem đề xuất giải pháp.');
   document.body.classList.remove('nores');
@@ -1280,7 +1300,8 @@ function run(){
   w.hidden=true;
   $('tar').innerHTML=`<div><i>Giờ thấp điểm</i><b>${fmt(r.off)} đ/kWh</b><span>0h đến 6h, mọi ngày</span></div><div><i>Giờ bình thường</i><b>${fmt(r.nor)} đ/kWh</b><span>Các giờ còn lại trong ngày</span></div><div class="pkc"><i>Giờ cao điểm</i><b>${fmt(r.pk)} đ/kWh</b><span>Khoảng 17h30 đến 22h30, thứ Hai đến thứ Bảy, gấp ${fmt(r.pk/r.off,1)} lần giờ thấp điểm</span></div>`;
   $('tline').innerHTML=`Biểu giá ${$('group').value}, cấp ${voltTxt(r.volt)}, QĐ 2892/QĐ-BCT. Điện tiêu thụ ước tính <b>${fmt(r.kwhMonth)} kWh/tháng</b>, giá bình quân <b>${fmt(r.avgPrice)} đ/kWh</b>.`;
-  const esco0=S.mode==='esco',an=S.anim;
+  const esco0=S.mode==='esco',an=S.anim,LN=!esco0&&loanPct>0;window.LOAN=LN?{pct:loanPct,rate:loanRate,yrs:loanYears}:null;
+  $('fin').classList.toggle('dim',esco0);$('fin').querySelectorAll('input').forEach(i=>i.disabled=esco0);
   const escoNo=esco0&&r.p2&&!r.p2EscoOk,P2=escoNo?null:r.p2,recI=P2?(esco0?r.rec.esco:r.rec.epc):1;
   {const anyOn=Object.values(sched).some(d=>d.on&&d.shifts.length),lowE=esco0&&(r.p1.escoIrr==null||r.p1.escoIrr<r.escoIrrMin);
    if(r.kwhMonth<2000){w.hidden=false;w.textContent=`Điện tiêu thụ ước tính khoảng ${fmt(r.kwhMonth)} kWh/tháng, dưới 2.000 kWh/tháng: doanh nghiệp có thể chưa thuộc diện áp giá ba khung giờ (cần máy biến áp riêng từ 25 kVA hoặc dùng bình quân từ 2.000 kWh/tháng). Kết quả chỉ mang tính tham khảo.`}
@@ -1293,13 +1314,13 @@ function run(){
     const sv=esco0?p.escoMonth:p.savMonth,pc=(esco0?p.escoShare:p.savShare)*100,rec=i===recI;
     const np=Math.ceil(p.P*1000/630),tot20=p.save.slice(0,20).reduce((a,b)=>a+b,0);
     const cost=esco0?'<span class="cu" data-n="0" data-d="0">0</span><small>đồng</small>':mbig(p.capex);
-    const mini=esco0?[['10%','Khách hàng được hưởng tiết kiệm'],[mi(sv*12),'Tiết kiệm mỗi năm'],['Chuyển giao','Sau 18 năm']]:[[yr(p.payPost),'Hoàn vốn'],[mi(p.savYear),'Tiết kiệm mỗi năm']];
+    const mini=esco0?[['10%','Khách hàng được hưởng tiết kiệm'],[mi(sv*12),'Tiết kiệm mỗi năm'],['Chuyển giao','Sau 18 năm']]:LN?[[mi(p.equity0),'Vốn tự có ban đầu'],[mi(p.pmt),'Trả nợ mỗi năm'],[yr(p.payL),'Hoàn vốn tự có']]:[[yr(p.payPost),'Hoàn vốn'],[mi(p.savYear),'Tiết kiệm mỗi năm']];
     return `<div class="card pc${an?' an':''}${rec?' rec':''}${S.sel===i?' sel':''}" data-i="${i}">${rec?'<span class="rt">KHUYẾN NGHỊ</span>':''}<span class="bdg${p.E?' pin':''}">${p.E?'Có pin':'Hòa lưới'}</span>
 <div class="pl"><span class="pill">GÓI ${i}</span>${S.sel===i?'<span class="vwg">Đang xem</span>':''}</div>
 <h3>${i===1?'Điện mặt trời':'Điện mặt trời và pin lưu trữ'}</h3>
 <div class="spec"><span><b>${fmt(p.P)}</b> kWp điện mặt trời</span>${p.E?`<span class="pn"><b>${fmt(p.E)}</b> kWh pin lưu trữ</span>`:''}</div>
 <div class="ctx"><span>${p.roofUsed<roof*0.95?`Dùng ${fmt(p.roofUsed)} / ${fmt(roof)} m² mái`:`Mái ${fmt(roof)} m²`}</span></div>
-<div class="inv"><i>${esco0?'Đầu tư ban đầu của doanh nghiệp':'Vốn đầu tư'}</i><b>${cost}</b><em>${esco0?'Chúng tôi chịu 100% vốn, ước tính '+mi(p.capex):'Chưa VAT, gồm thiết bị, thi công và thủ tục'}</em></div>
+<div class="inv"><i>${esco0?'Đầu tư ban đầu của doanh nghiệp':'Vốn đầu tư'}</i><b>${cost}</b><em>${esco0?'Chúng tôi chịu 100% vốn, ước tính '+mi(p.capex):(LN?'Vay '+fmt(loanPct*100,0)+'% ('+mi(p.loan)+'), '+fmt(loanYears)+' năm, lãi '+fmt(loanRate*100,1)+'%/năm':'Chưa VAT, gồm thiết bị, thi công và thủ tục')}</em></div>
 <div class="svl"><i>Tiết kiệm mỗi tháng</i><b>${mbig(sv)}</b><span class="bl">Hóa đơn <b>${mi(bill)}</b>/tháng</span></div>
 <div class="sbar"><div class="trk"><i style="width:${Math.max(pc,2)}%"></i></div><div class="sl2"><span>Giảm <b>${fmt(pc,1)}%</b> hóa đơn</span><span>còn <b>${mi(Math.max(0,bill-sv))}</b>/tháng</span></div></div>
 <div class="mini" style="grid-template-columns:repeat(${mini.length},1fr)">${mini.map(a=>`<div><b>${a[0]}</b><span>${a[1]}</span></div>`).join('')}</div>
@@ -1319,7 +1340,7 @@ function run(){
    $('rc-b').innerHTML=mbig(sv);$('rc-bill').innerHTML='Hóa đơn <b>'+mi(bill)+'</b>/tháng';
    $('rc-f').style.width=Math.max(pc,2)+'%';
    $('rc-l').innerHTML=`<span>Giảm <b>${fmt(pc,1)}%</b> hóa đơn</span><span>còn <b>${mi(Math.max(0,bill-sv))}</b>/tháng</span>`;
-   const rr=esco0?[['Khách hàng được hưởng','10% chi phí tiết kiệm được'],['Thời hạn hợp đồng','18 năm']]:[['Hoàn vốn sau thuế',yr(p.payPost)],['Tiết kiệm mỗi năm',mi(p.savYear)]];
+   const rr=esco0?[['Khách hàng được hưởng','10% chi phí tiết kiệm được'],['Thời hạn hợp đồng','18 năm']]:LN?[['Vốn tự có ban đầu',mi(p.equity0)],['Trả nợ mỗi năm ('+fmt(loanYears)+' năm)',mi(p.pmt)],['Hoàn vốn tự có',yr(p.payL)]]:[['Hoàn vốn sau thuế',yr(p.payPost)],['Tiết kiệm mỗi năm',mi(p.savYear)]];
    $('rc-r').innerHTML=rr.map(a=>`<div class="rr"><span>${a[0]}</span><b>${a[1]}</b></div>`).join('')}
   {const rp=recI===2?P2:r.p1,sv2=esco0?rp.escoMonth:rp.savMonth;$('mbt').textContent='~ '+mi(sv2)+' mỗi tháng'}
   S.anim=false;
@@ -1338,6 +1359,8 @@ function run(){
        :`Gói 1 được khuyến nghị vì ${lb[0]} sinh lời ${pc(lb[1])}${b.npv<=r.p1.npv?', NPV gói 2 không cao hơn gói 1':''} ở chi phí vốn giả định ${fmt(r.wacc*100,2)}%/năm. Gói 2 vẫn phù hợp nếu doanh nghiệp ưu tiên giảm tiền điện tối đa.`)}}
   if(esco)nt.push('Phần 10% chi phí năng lượng tiết kiệm được dành cho khách hàng trong hình thức ESCO là mức tạm tính, sẽ thay đổi theo thực tế sau khảo sát và đàm phán.'+(P2?' Với gói có pin, hai bên chia sẻ phần tiết kiệm đo được theo tỷ lệ 10% cho khách hàng và 90% cho nhà đầu tư thay vì bán điện theo đơn giá; pin được thay một phần ở năm 12 do nhà đầu tư chịu.':''));
   if(!esco&&P2&&P2.payPost!=null&&r.p1.payPost!=null&&P2.payPost>r.p1.payPost)nt.push(`Gói 2 tiết kiệm tiền điện nhiều hơn nhưng vốn đầu tư cao hơn và thời gian hoàn vốn dài hơn gói 1 (${yr(P2.payPost)} so với ${yr(r.p1.payPost)}).`);
+  if(LN&&!esco){nt.push(`Phương án vay vốn (tạm tính): vay ${fmt(loanPct*100,0)}% vốn đầu tư của gói ${S.sel===2&&P2?2:1} (${mi(p.loan)}) trong ${fmt(loanYears)} năm, lãi ${fmt(loanRate*100,1)}%/năm, trả đều gốc và lãi cuối mỗi năm khoảng ${mi(p.pmt)} (tổng lãi ${mi(p.interestTotal)}). Lãi vay được trừ khi tính thuế thu nhập doanh nghiệp 20%, chưa tính phí vay, phí trả nợ trước hạn và giới hạn chi phí lãi vay được trừ theo quy định (Nghị định 132/2020/NĐ-CP). Vốn tự có ban đầu ${mi(p.equity0)}, hoàn vốn tự có khoảng ${yr(p.payL)}, suất sinh lời trên vốn tự có ${p.irrL==null?'không xác định':fmt(p.irrL*100,1)+'%/năm'}.`);
+    if(p.cfL1<0)nt.push(`Cảnh báo: năm đầu, tiết kiệm sau thuế chưa đủ trả nợ, doanh nghiệp cần bù khoảng ${mi(-p.cfL1)}. Nên giảm tỷ lệ vay hoặc kéo dài thời gian vay.`)}
   $('notes').innerHTML=nt.map(t=>`<li>${t}</li>`).join('');$('ntc').textContent='Bấm để xem '+nt.length+' ghi chú';
   renderContract(r);renderEq(r,p);
   document.querySelectorAll('.pc[data-i]').forEach(el=>el.onclick=e=>{if(e.target.closest('button'))return;S.sel=+el.dataset.i;S.userSel=true;run()});
@@ -1348,6 +1371,7 @@ document.querySelectorAll('.seg button[data-m]').forEach(b=>b.addEventListener('
 document.querySelectorAll('#bill,#roof').forEach(e=>{groupInput(e);e.addEventListener('input',ev=>groupInput(e,ev))});
 let rT=0;const runSoon=()=>{clearTimeout(rT);rT=setTimeout(run,120)};
 document.querySelectorAll('#bill,#roof').forEach(e=>{e.addEventListener('input',runSoon);e.addEventListener('change',run)});
+document.querySelectorAll('#ltv,#lrate,#lyears').forEach(e=>{e.addEventListener('input',runSoon);e.addEventListener('change',()=>{const v=parseFloat((e.value||'').replace(',','.'))||0,lim={ltv:[0,90],lrate:[0,30],lyears:[1,15]}[e.id];let n=Math.min(lim[1],Math.max(lim[0],v));if(e.id==='lyears')n=Math.round(n);e.value=String(n).replace('.',',');run()})});
 document.querySelectorAll('#group,#prov').forEach(e=>e.addEventListener('change',run));
 (function(){const w=$('eqw'),b=w.querySelector('.eqs');b.addEventListener('click',()=>{const o=w.classList.toggle('open');b.setAttribute('aria-expanded',o)})})();
 
@@ -1355,7 +1379,7 @@ function popHtml(i){const r=window.R;if(!r||!r.p1)return '';const p=i===2?window
   const cumE=[];let c=0;for(let n=0;n<p.saveEsco.length;n++){c+=p.saveEsco[n]*K.esco;cumE.push(c/1e9)}
   return `<button type="button" class="x" aria-label="Đóng">×</button><h4>Gói ${i}: ${p.E?'điện mặt trời và pin lưu trữ':'điện mặt trời hòa lưới'}</h4><p class="ps">${fmt(p.P)} kWp${p.E?`, pin ${fmt(p.E)} kWh`:''}, hình thức ${esco?'ESCO':'EPC'}</p>
 <div class="ch"><b class="t">Nguồn điện trong một ngày làm việc, nắng trung bình (kW)</b>${chartDay({...r,hourPV:p.hourPV,hourBess:p.hourBess,hourCharge:p.hourCharge},!!p.E,340,170)}<div class="lgd"><span><i style="background:#e0a82e"></i>Dùng trực tiếp</span>${p.E?'<span><i style="background:#1c34c8"></i>Pin cấp điện</span>':''}${p.E&&p.hourCharge&&p.hourCharge.some(v=>v>0)?'<span><i style="background:#8a9bf2"></i>Nạp pin từ lưới</span>':''}<span><i style="background:#aab3d1"></i>Mua từ EVN</span><span><i style="background:#0b1237;height:3px;vertical-align:3px"></i>Điện mặt trời phát ra</span><span><i style="background:repeating-linear-gradient(90deg,#c2410c 0 4px,transparent 4px 7px);height:2px;vertical-align:3px"></i>Phụ tải doanh nghiệp</span></div></div>
-<div class="ch"><b class="t">${esco?'Tiết kiệm lũy kế của doanh nghiệp, 18 năm hợp đồng (tỷ đồng)':'Dòng tiền lũy kế sau thuế (tỷ đồng), năm 0 đến 20'}</b>${esco?chartBars(cumE,'Tiết kiệm lũy kế','#1c34c8','#1c34c8',5,1,340,170):chartBars(p.cum.map(v=>v/1e9),'Dòng tiền lũy kế','#1c34c8','#e0a82e',5,0,340,170)}</div>`}
+<div class="ch"><b class="t">${esco?'Tiết kiệm lũy kế của doanh nghiệp, 18 năm hợp đồng (tỷ đồng)':(window.LOAN?'Dòng tiền lũy kế của vốn tự có, sau thuế và trả nợ (tỷ đồng), năm 0 đến 20':'Dòng tiền lũy kế sau thuế (tỷ đồng), năm 0 đến 20')}</b>${esco?chartBars(cumE,'Tiết kiệm lũy kế','#1c34c8','#1c34c8',5,1,340,170):chartBars((window.LOAN?p.cumL:p.cum).map(v=>v/1e9),'Dòng tiền lũy kế','#1c34c8','#e0a82e',5,0,340,170)}</div>`}
 (function(){const pop=$('pop'),bd=$('bd'),pk=$('pk');let cur=null,sheet=false;
  const wide=()=>matchMedia('(hover:hover) and (min-width:1200px)').matches;
  const place=card=>{const rc=card.getBoundingClientRect(),i=+card.dataset.i,cw=document.documentElement.clientWidth,two=!!pk.querySelector('.pc[data-i="2"]'),left1=i===1&&two;
@@ -1376,7 +1400,7 @@ function popHtml(i){const r=window.R;if(!r||!r.p1)return '';const p=i===2?window
  const rq=$('rq');let ctx=null;
  function closeRq(){rq.classList.remove('on')}
  window.closeRq=closeRq;
- const mailBody=()=>{const c=ctx;return `Kính gửi BTMI,\n\nTôi muốn nhận báo giá chi tiết:\n- Gói ${c.i}: ${c.p.E?'Có pin':'Hòa lưới'}, ${fmt(c.p.P)} kWp${c.p.E?`, pin lưu trữ ${fmt(c.p.E)} kWh`:''}\n- Hình thức: ${c.esco?'ESCO':'EPC'}\n- Diện tích mái: khoảng ${fmt(c.roof)} m²\n- Điện tiêu thụ: khoảng ${fmt(c.kwh)} kWh/tháng\n- Tiền điện hiện tại: ${(c.bill/1e6).toLocaleString('vi-VN',{maximumFractionDigits:2})} triệu đồng/tháng\n- Tải duy trì ngoài giờ ca: ${Math.round(S.idle*100)}%\n- ${c.esco?'Vốn đầu tư ban đầu: 0 đồng (ước tính vốn do bên đầu tư chịu '+mi(c.p.capex)+')':'Vốn đầu tư ước tính: '+mi(c.p.capex)}\n- Tỉnh, thành: ${c.prov}\n\nHọ và tên: ${$('rqn').value.trim()}\nĐiện thoại/Zalo: ${$('rqp').value.trim()}\nGhi chú: ${$('rqg').value.trim()||'(không có)'}\n\nTrân trọng.`};
+ const mailBody=()=>{const c=ctx;return `Kính gửi BTMI,\n\nTôi muốn nhận báo giá chi tiết:\n- Gói ${c.i}: ${c.p.E?'Có pin':'Hòa lưới'}, ${fmt(c.p.P)} kWp${c.p.E?`, pin lưu trữ ${fmt(c.p.E)} kWh`:''}\n- Hình thức: ${c.esco?'ESCO':'EPC'}\n- Diện tích mái: khoảng ${fmt(c.roof)} m²\n- Điện tiêu thụ: khoảng ${fmt(c.kwh)} kWh/tháng\n- Tiền điện hiện tại: ${(c.bill/1e6).toLocaleString('vi-VN',{maximumFractionDigits:2})} triệu đồng/tháng\n- Tải duy trì ngoài giờ ca: ${Math.round(S.idle*100)}%\n- ${c.esco?'Vốn đầu tư ban đầu: 0 đồng (ước tính vốn do bên đầu tư chịu '+mi(c.p.capex)+')':'Vốn đầu tư ước tính: '+mi(c.p.capex)}${!c.esco&&window.LOAN?`\n- Vay vốn: ${fmt(window.LOAN.pct*100,0)}% vốn đầu tư, ${fmt(window.LOAN.yrs)} năm, lãi ${fmt(window.LOAN.rate*100,1)}%/năm (vốn tự có ${mi(c.p.equity0)})`:''}\n- Tỉnh, thành: ${c.prov}\n\nHọ và tên: ${$('rqn').value.trim()}\nĐiện thoại/Zalo: ${$('rqp').value.trim()}\nGhi chú: ${$('rqg').value.trim()||'(không có)'}\n\nTrân trọng.`};
  const openRq=i=>{const r=window.R;if(!r||r.err||!r.p1){document.getElementById('s1').scrollIntoView({behavior:'smooth'});return}if(i===2&&!window.P2A)i=1;const p=i===2?window.P2A:r.p1,esco=S.mode==='esco';
   ctx={i,p,esco,roof:num('roof'),bill:num('bill')*1e6,kwh:r.kwhMonth,prov:$('prov').value};
   $('rqt').textContent=`Yêu cầu báo giá gói ${i}`;
