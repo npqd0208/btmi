@@ -1861,7 +1861,6 @@ function run(){
     $('esgBar').innerHTML=`<div class="esg-g">
       <div class="esg-it ok"><i>Cắt giảm CO₂ (Scope 2)</i><b>${fmt(co2Yr,0)} tấn/năm</b><span>Tương đương ~${fmt(co2_20,0)} tấn CO₂ trong 20 năm vận hành</span></div>
       <div class="esg-it"><i>Chứng chỉ xanh I-REC</i><b>~${fmt(irec)} chứng chỉ/năm</b><span>1 MWh điện mặt trời tự dùng = 1 I-REC (hỗ trợ ESG / CBAM)</span></div>
-      <div class="esg-it wt"><i>Chi phí mỗi tháng chờ đợi</i><b>~${mi(waitMo)}/tháng</b><span>Tiền điện chưa tiết kiệm được (~${mi(waitMo*12)}/năm, Gói ${selI})</span></div>
     </div><p class="esg-fn">Ước tính cho Gói ${selI} (${fmt(selP.P)} kWp${selP.E?', pin '+fmt(selP.E)+' kWh':''}) theo hệ số phát thải lưới điện Việt Nam 0,6592 tCO₂/MWh — chỉ tính trên phần điện mặt trời tự dùng, không tính điện pin nạp từ lưới EVN.</p>`;
   }
 
