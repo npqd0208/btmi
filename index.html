@@ -1215,13 +1215,13 @@ body.nores #esgBar,body.nores #actBar{display:none!important}
 </div></div>
 
 <script>
-// Mô hình v1.1: Tối ưu NPV cho Gói 1 & Gói 2, vay vốn dư nợ giảm dần, ESCO 10%/15%/20% (14/16/18 năm),
-// ẩn IRR nội bộ khỏi giao diện khách hàng, đồng bộ biểu đồ ESCO 20 năm và tối ưu UX trên mobile.
+// Mô hình v2.1: Full logic V1.1 + vá lỗi nhỏ V2 (.cstat, scroll-lock iOS, reset nút copy)
+// + Live Cockpit Mobile, Deep-Link chia sẻ cấu hình, Xuất Tờ trình PDF 1 trang A4, khối ESG & trợ lý nhập liệu.
 const K={volt:'Trên 1 kV đến 35 kV',idle:0.2,sGood:0.4,mGood:1.35,sCloud:0.25,roofPerKwp:6,minRoof:30,minSelfUse:0.65,
   capex:9.5e6,om:83338,omGrow:0.05,degr:0.005,grow:0.02,invPct:0.096,invYear:11,tax:0.2,depYears:12,lossYears:5,wacc:0.1122,
   bessCapex:4.0e6,bessRT:0.85,dod:0.9,cRate:0.5,bessDegr:0.02,bessOm:0.01,bessRepYear:12,bessRepPct:0.5,
   esco:0.20,escoYears:18,escoIrrMin:0.12,
-  loanPct:0,loanRate:0.095,loanYears:7};
+  loanPct:0,loanRate:0.095,loanYears:7,efGrid:0.6592};
 
 function irr(cf){
   let lo=-0.99,hi=2;
@@ -1290,7 +1290,7 @@ function calc2(D,x0){
   const tw=types.find(t=>t.on&&t.n!=='sun')||types.find(t=>t.on)||types[0];
   const memo=new Map();
   const payF=(c,f)=>{if(c[c.length-1]<0)return null;for(let n=c.length-1;n>=1;n--)if(c[n-1]<0)return n-1-c[n-1]/f[n];return 0};
-  const rbEsco=x.escoYears>15;// ESCO <= 15 năm (gói 10%/14 năm) vận hành xuyên suốt, không thay pin ở năm 12
+  const rbEsco=x.escoYears>15;
 
   function runFlows(capex,solarCapex,bessCapex,P,Ei,rev,N,rb,debt){
     const repl=n=>(n===x.invYear?x.invPct*solarCapex:0)+(rb&&Ei>0&&n===x.bessRepYear?x.bessRepPct*bessCapex:0);
@@ -1395,10 +1395,68 @@ const $=id=>document.getElementById(id);
 const fmt=(v,d=0)=>v.toLocaleString('vi-VN',{minimumFractionDigits:d,maximumFractionDigits:d});
 const mi=v=>{const s=v<0?'-':'',a=Math.abs(v);return s+(a>=1e9?fmt(a/1e9,2)+' tỷ':fmt(a/1e6,a>=1e8?0:1)+' triệu')};
 const yr=v=>v==null?'trên 20 năm':fmt(v,1)+' năm';
-const S={mode:'epc',sel:1,idle:0.2,lastYrs:7,esco:0.2};
+const S={mode:'epc',sel:1,idle:0.2,lastYrs:7,esco:0.2,booted:false};
 const ESCO_TERM={10:14,15:16,20:18};
 const voltTxt=()=>'1 đến 35 kV (trung áp)';
 const num=id=>+(($(id).value||'').replace(/\./g,'').replace(',','.').replace(/[^0-9.]/g,''))||0;
+
+function syncScrollLock(){
+  const locked=($('rq')&&$('rq').classList.contains('on'))||($('pop')&&$('pop').classList.contains('sheet')&&$('pop').classList.contains('show'))||($('dv')&&$('dv').classList.contains('on'));
+  document.documentElement.style.overflow=locked?'hidden':'';
+}
+let toastT=0;
+function showToast(msg){
+  const t=$('toast');if(!t)return;
+  t.textContent=msg;t.classList.add('on');
+  clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('on'),2800);
+}
+
+// Chèn tự động các khối nâng cấp V2.1 (Kịch bản mẫu theo ngành, Tính Dài x Rộng mái, ESG, Thanh Share/PDF, Toast, Print Brief)
+(function mountV21(){
+  // 1) Kịch bản mẫu theo ngành trong Mục 01
+  const f1=document.querySelector('.form .fsec');
+  if(f1&&!$('indPre')){
+    const bar=document.createElement('div');
+    bar.id='indPre';bar.className='ind-pre';
+    bar.innerHTML='<span>Mẫu theo ngành:</span><button type="button" data-ind="sx1">Xưởng 1 ca</button><button type="button" data-ind="sx2">Xưởng 2 ca</button><button type="button" data-ind="cold">Kho lạnh 24/7</button><button type="button" data-ind="mall">Siêu thị / TTTM</button><button type="button" data-ind="hotel">Khách sạn</button>';
+    f1.insertBefore(bar,f1.querySelector('.fg'));
+  }
+  // 2) Trợ lý ước tính Dài x Rộng cho ô Diện tích mái
+  const roofEl=$('roof');
+  if(roofEl&&!$('roofCalc')){
+    const lbl=document.querySelector('label[for="roof"]');
+    if(lbl){lbl.classList.add('roof-lbl');lbl.innerHTML='<span>Diện tích mái có thể lắp (m²)</span><button type="button" class="r-hlp" id="roofCalcBtn">Tính Dài × Rộng</button>'}
+    const box=document.createElement('div');
+    box.id='roofCalc';box.className='rcalc';box.hidden=true;
+    box.innerHTML='<div class="rcalc-g"><div><label for="rLen">Chiều dài mái (m)</label><input id="rLen" type="text" inputmode="decimal" placeholder="100"></div><div><label for="rWid">Chiều rộng mái (m)</label><input id="rWid" type="text" inputmode="decimal" placeholder="80"></div><div><label for="rUse">Phần lắp được</label><select id="rUse"><option value="0.85" selected>85% (mái tôn chuẩn)</option><option value="0.75">75% (có giếng trời)</option><option value="1">100% (diện tích thực)</option></select></div></div><div class="rcalc-o"><span id="rCalcOut">Nhập dài × rộng để tự điền diện tích mái</span></div>';
+    roofEl.parentNode.appendChild(box);
+    $('roofCalcBtn').addEventListener('click',()=>{box.hidden=!box.hidden;if(!box.hidden)$('rLen').focus()});
+    const updRoof=()=>{
+      const L=parseFloat(($('rLen').value||'').replace(',','.').replace(/[^0-9.]/g,''))||0;
+      const W=parseFloat(($('rWid').value||'').replace(',','.').replace(/[^0-9.]/g,''))||0;
+      const u=parseFloat($('rUse').value)||0.85;
+      if(L>0&&W>0){
+        const area=Math.round(L*W*u);
+        $('rCalcOut').innerHTML=`${fmt(L)} × ${fmt(W)} m × ${Math.round(u*100)}% = <b>${fmt(area)} m²</b>`;
+        roofEl.value=area.toLocaleString('vi-VN');runSoon();
+      }else{$('rCalcOut').textContent='Nhập dài × rộng để tự điền diện tích mái'}
+    };
+    ['rLen','rWid','rUse'].forEach(id=>{$(id).addEventListener('input',updRoof);$(id).addEventListener('change',updRoof)});
+  }
+  // 3) Thanh chia sẻ link + Xuất PDF & Khối ESG ngay dưới 2 thẻ gói
+  const pk=$('pk');
+  if(pk&&!$('actBar')){
+    const ab=document.createElement('div');ab.id='actBar';ab.className='actbar rv';
+    ab.innerHTML='<button type="button" id="shareBtn"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Chia sẻ link phương án</button><button type="button" id="pdfBtn"><svg viewBox="0 0 24 24"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Xuất tờ trình PDF (A4)</button>';
+    pk.insertAdjacentElement('afterend',ab);
+    const eb=document.createElement('div');eb.id='esgBar';eb.className='esg rv';
+    ab.insertAdjacentElement('afterend',eb);
+  }
+  // 4) Toast & vùng in PDF A4
+  if(!$('toast')){const t=document.createElement('div');t.id='toast';t.setAttribute('role','status');t.setAttribute('aria-live','polite');document.body.appendChild(t)}
+  if(!$('printBrief')){const pb=document.createElement('div');pb.id='printBrief';pb.setAttribute('aria-hidden','true');document.body.appendChild(pb)}
+})();
+
 function groupInput(el,ev){const dec=el.id==='bill';let v=el.value;
   if(dec&&v.indexOf(',')<0&&ev&&((ev.data&&ev.data.includes('.'))||ev.inputType==='insertFromPaste')){const m=v.match(/^(.*)\.(\d{0,2})$/);if(m)v=m[1]+','+m[2]}
   const pos=el.selectionStart,keep=dec?/[\d,]/:/\d/;
@@ -1414,6 +1472,13 @@ const EXP={
 };
 const DAYS=[['wk','Thứ 2 đến thứ 6'],['sat','Thứ 7'],['sun','Chủ nhật']];
 const PRE={hc:{wk:[[8,17]],sat:[],sun:[]},'2':{wk:[[6,14],[14,22]],sat:[[6,14],[14,22]],sun:[]},'3':{wk:[[6,14],[14,22],[22,6]],sat:[[6,14],[14,22],[22,6]],sun:[[6,14],[14,22],[22,6]]}};
+const IND={
+  sx1:{g:'Sản xuất',b:'450',r:'8000',idle:0.2,sch:{wk:[[7,17]],sat:[[7,12]],sun:[]}},
+  sx2:{g:'Sản xuất',b:'750',r:'10000',idle:0.2,sch:{wk:[[6,14],[14,22]],sat:[[6,14],[14,22]],sun:[]}},
+  cold:{g:'Sản xuất',b:'900',r:'6000',idle:0.35,sch:{wk:[[6,14],[14,22],[22,6]],sat:[[6,14],[14,22],[22,6]],sun:[[6,14],[14,22],[22,6]]}},
+  mall:{g:'Thương mại',b:'600',r:'4500',idle:0.2,sch:{wk:[[8,22]],sat:[[8,22]],sun:[[8,22]]}},
+  hotel:{g:'Thương mại',b:'500',r:'3000',idle:0.35,sch:{wk:[[6,23]],sat:[[6,23]],sun:[[6,23]]}}
+};
 S.sch={wk:{on:true,shifts:[[7,17]]},sat:{on:true,shifts:[[7,12]]},sun:{on:false,shifts:[]}};
 const hopt=(a,b,v)=>{let o='';for(let h=a;h<=b;h++)o+=`<option value="${h}"${v===h?' selected':''}>${h}h</option>`;return o};
 const hourOn=(shifts,h)=>shifts.some(([s,e])=>s!==e&&(s<e?h>=s&&h<e:h>=s||h<e));
@@ -1430,17 +1495,33 @@ function drawSch(){
    return `<div class="dr${o.on?'':' off'}" data-d="${d}"><div class="dh"><label class="tgl"><input type="checkbox" data-t="${d}"${o.on?' checked':''}><span class="sl"></span>${n}</label><span class="hrs"></span></div>
 <div class="dbody"><div class="dinner"><div class="shs">${shiftsHtml(d)}</div><div class="strip"></div><div class="stl"><span>0h</span><span>6h</span><span>12h</span><span>18h</span><span>24h</span></div></div></div></div>`}).join('');
   DAYS.forEach(([d])=>drawStrip(d))}
+function clearIndOn(){if($('indPre'))$('indPre').querySelectorAll('button').forEach(b=>b.classList.remove('on'))}
+function setIdleUI(val){
+  S.idle=val;
+  $('idleBar').querySelectorAll('button').forEach(x=>x.classList.toggle('on',Math.abs(+x.dataset.idle-val)<0.01));
+  $('idlePct').textContent=Math.round(S.idle*100)+'%';
+}
 function initSch(){
   drawSch();
   $('prov').innerHTML=D.prov.map(p=>`<option${p[0]==='TP. Hồ Chí Minh'?' selected':''}>${p[0]}</option>`).join('');
   const box=$('sch');
-  box.addEventListener('change',e=>{const t=e.target;
+  box.addEventListener('change',e=>{const t=e.target;clearIndOn();
     if(t.dataset.t){const d=t.dataset.t,o=S.sch[d];o.on=t.checked;if(o.on&&!o.shifts.length){o.shifts=[[7,17]];drawShifts(d,0)}drawStrip(d);run();return}
     if(t.dataset.k!==undefined){S.sch[t.dataset.d].shifts[+t.dataset.i][+t.dataset.k]=+t.value;drawStrip(t.dataset.d);run()}});
-  box.addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;
+  box.addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;clearIndOn();
     if(t.dataset.a){const d=t.dataset.a,o=S.sch[d],l=o.shifts[o.shifts.length-1];o.shifts.push(l?[l[1]%24,Math.min(24,(l[1]%24)+8)]:[7,17]);drawShifts(d,o.shifts.length-1);drawStrip(d);run()}
     if(t.dataset.x){const [d,i]=t.dataset.x.split(':');t.closest('.sf').classList.add('out');setTimeout(()=>{S.sch[d].shifts.splice(+i,1);drawShifts(d);drawStrip(d);run()},220)}});
-  document.querySelectorAll('.sch-presets button').forEach(b=>b.addEventListener('click',()=>{const p=PRE[b.dataset.p];for(const [d] of DAYS){S.sch[d]={on:p[d].length>0,shifts:p[d].map(s=>s.slice())}}drawSch();run()}));
+  document.querySelectorAll('.sch-presets button').forEach(b=>b.addEventListener('click',()=>{clearIndOn();const p=PRE[b.dataset.p];for(const [d] of DAYS){S.sch[d]={on:p[d].length>0,shifts:p[d].map(s=>s.slice())}}drawSch();run()}));
+  if($('indPre'))$('indPre').addEventListener('click',e=>{
+    const b=e.target.closest('button[data-ind]');if(!b)return;
+    const p=IND[b.dataset.ind];if(!p)return;
+    $('group').value=p.g;$('bill').value=p.b;$('roof').value=p.r;
+    groupInput($('bill'));groupInput($('roof'));
+    for(const [d] of DAYS){S.sch[d]={on:p.sch[d].length>0,shifts:p.sch[d].map(s=>s.slice())}}
+    setIdleUI(p.idle);drawSch();
+    $('indPre').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
+    S.anim=true;run();
+  });
 }
 function readSched(){const o={};for(const [d] of DAYS){const x=S.sch[d];o[d]={on:x.on,shifts:x.on?x.shifts.filter(s=>s[0]!==s[1]).map(s=>s.slice()):[]}}return o}
 function setMode(m){
@@ -1448,6 +1529,50 @@ function setMode(m){
   document.querySelectorAll('.seg button[data-m]').forEach(b=>b.classList.toggle('on',b.dataset.m===m));
   run();
   [$('mexp'),$(m==='esco'?'finEsco':'finEpc')].forEach(el=>{if(!el)return;el.classList.remove('sw','fsec-sw');void el.offsetWidth;el.classList.add(el.id==='mexp'?'sw':'fsec-sw')});
+}
+
+// Đóng gói & khôi phục trạng thái qua URL Deep-Link
+function buildShareUrl(){
+  const p=new URLSearchParams();
+  p.set('m',S.mode);
+  p.set('g',$('group').value==='Thương mại'?'1':'0');
+  p.set('b',String(num('bill')));
+  p.set('r',String(num('roof')));
+  const pi=D.prov.findIndex(x=>x[0]===$('prov').value);if(pi>=0)p.set('p',String(pi));
+  p.set('i',String(Math.round(S.idle*100)));
+  const schS=DAYS.map(([d])=>{const o=S.sch[d];return o.on&&o.shifts.length?o.shifts.map(s=>s[0]+'-'+s[1]).join(','):'0'}).join('|');
+  p.set('s',schS);
+  if(S.mode==='esco'){p.set('ep',String(Math.round(S.esco*100)))}
+  else if(window.LOAN){p.set('ltv',String(Math.round(window.LOAN.pct*100)));p.set('lr',String(+(window.LOAN.rate*100).toFixed(1)));p.set('ly',String(window.LOAN.yrs))}
+  if(S.userSel)p.set('sel',String(S.sel));
+  const base=location.href.split('?')[0].split('#')[0];
+  return base+'?'+p.toString()+'#s2';
+}
+function loadFromUrl(){
+  const p=new URLSearchParams(location.search);
+  if(!p.has('b')&&!p.has('r')&&!p.has('m'))return false;
+  if(p.get('m')==='esco'||p.get('m')==='epc'){S.mode=p.get('m');document.querySelectorAll('.seg button[data-m]').forEach(b=>b.classList.toggle('on',b.dataset.m===S.mode))}
+  if(p.get('g')==='1')$('group').value='Thương mại';else if(p.get('g')==='0')$('group').value='Sản xuất';
+  if(p.has('b')&&+p.get('b')>0){$('bill').value=String(+p.get('b')).replace('.',',');groupInput($('bill'))}
+  if(p.has('r')&&+p.get('r')>0){$('roof').value=String(Math.round(+p.get('r')));groupInput($('roof'))}
+  if(p.has('p')){const idx=+p.get('p');if(D.prov[idx])$('prov').value=D.prov[idx][0]}
+  if(p.has('i')){const iv=+p.get('i')/100;if([0.05,0.2,0.35].some(v=>Math.abs(v-iv)<0.01))setIdleUI(iv)}
+  if(p.has('s')){
+    const parts=p.get('s').split('|');
+    DAYS.forEach(([d],idx)=>{
+      const seg=parts[idx];if(seg===undefined)return;
+      if(seg==='0'||seg===''){S.sch[d]={on:false,shifts:[]};return}
+      const sh=seg.split(',').map(pair=>{const [a,b]=pair.split('-').map(Number);return (Number.isInteger(a)&&Number.isInteger(b)&&a>=0&&a<=23&&b>=0&&b<=24&&a!==b)?[a,b]:null}).filter(Boolean).slice(0,3);
+      S.sch[d]={on:sh.length>0,shifts:sh};
+    });
+    drawSch();
+  }
+  if(p.has('ep')&&ESCO_TERM[+p.get('ep')]){S.esco=+p.get('ep')/100;$('escoPct').value=String(+p.get('ep'))}
+  if(p.has('ltv')){const v=Math.min(90,Math.max(0,Math.round(+p.get('ltv'))));$('ltv').value=String(v);$('ltvr').value=String(v)}
+  if(p.has('lr')){const v=Math.min(20,Math.max(0,Math.round(+p.get('lr')*10)/10));$('lrate').value=String(v).replace('.',',');$('lrater').value=String(v)}
+  if(p.has('ly')){const v=Math.min(20,Math.max(1,Math.round(+p.get('ly'))));S.lastYrs=v;$('lyears').value=String(v);$('lyearsr').value=String(v)}
+  if(p.get('sel')==='1'||p.get('sel')==='2'){S.sel=+p.get('sel');S.userSel=true}
+  return true;
 }
 
 const IC={
@@ -1499,7 +1624,7 @@ function countUp(root){
 }
 
 function niceTicks(mn,mx,n=4){const span=(mx-mn)||1,raw=span/n,pw=Math.pow(10,Math.floor(Math.log10(raw))),f=raw/pw,st=(f<=1?1:f<=2?2:f<=2.5?2.5:f<=5?5:10)*pw;const lo=Math.floor(mn/st)*st,hi=Math.ceil(mx/st)*st,t=[];for(let v=lo;v<=hi+st/2;v+=st)t.push(+v.toFixed(6));return t}
-function chartDay(r,hasB,W=470,H=210){const l=40,b=26,t=10,rr=8;
+function chartDay(r,hasB,W=470,H=210,solidLine=false){const l=40,b=26,t=10,rr=8;
   const L=r.hourLoad,A=r.hourPV,B=hasB?r.hourBess:L.map(()=>0),C=hasB&&r.hourCharge?r.hourCharge:L.map(()=>0);
   const dir=L.map((v,h)=>Math.min(v,A[h])),bs=L.map((v,h)=>Math.min(B[h]||0,Math.max(0,v-dir[h]))),gr=L.map((v,h)=>Math.max(0,v-dir[h]-bs[h]));
   const tk=niceTicks(0,Math.max(...L.map((v,h)=>v+C[h]),...A)*1.05),mx=tk[tk.length-1]||1;
@@ -1509,7 +1634,8 @@ function chartDay(r,hasB,W=470,H=210){const l=40,b=26,t=10,rr=8;
   tk.forEach(v=>{g+=`<line x1="${l}" x2="${W-rr}" y1="${Y(v)}" y2="${Y(v)}" stroke="#e1e5f2"/><text x="${l-5}" y="${Y(v)+4}" text-anchor="end">${fmt(v)}</text>`});
   for(let h=0;h<24;h+=3)g+=`<text x="${X(h)}" y="${H-8}" text-anchor="middle">${h}h</text>`;
   let st='';for(let h=0;h<24;h++){let y=0;const seg=(v,c)=>{if(v<=1e-6)return;st+=`<rect class="sk" style="--i:${h}" x="${l+bw*h+1.5}" y="${Y(y+v)}" width="${bw-3}" height="${Y(y)-Y(y+v)}" fill="${c}"/>`;y+=v};seg(dir[h],'#e0a82e');seg(bs[h],'#1c34c8');seg(gr[h],'#aab3d1');seg(C[h],'#8a9bf2')}
-  const line=`<polyline fill="none" stroke="#c2410c" stroke-width="1.6" stroke-dasharray="4 3" points="${L.map((v,h)=>`${l+bw*h},${Y(v)} ${l+bw*(h+1)},${Y(v)}`).join(' ')}"/><polyline pathLength="1" fill="none" stroke="#0b1237" stroke-width="2" stroke-dasharray="1" points="${A.map((v,h)=>X(h)+','+Y(v)).join(' ')}"/>`;
+  const da=solidLine?'':' pathLength="1" stroke-dasharray="1"';
+  const line=`<polyline fill="none" stroke="#c2410c" stroke-width="1.6" stroke-dasharray="4 3" points="${L.map((v,h)=>`${l+bw*h},${Y(v)} ${l+bw*(h+1)},${Y(v)}`).join(' ')}"/><polyline${da} fill="none" stroke="#0b1237" stroke-width="2" points="${A.map((v,h)=>X(h)+','+Y(v)).join(' ')}"/>`;
   return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Cơ cấu nguồn điện theo giờ">${bands}${g}${st}${line}</svg>`}
 function chartBars(v,unit,posC,negC,labelEvery,off=0,W=470,H=210,altAfter=null,altC='#e0a82e'){const l=44,b=26,t=10,rr=8;const tk=niceTicks(Math.min(...v,0),Math.max(...v,0)),mn=tk[0],mx=tk[tk.length-1];
   const Y=a=>t+(H-t-b)*(1-(a-mn)/(mx-mn||1)),bw=(W-l-rr)/v.length;let g='';
@@ -1545,7 +1671,7 @@ function renderContract(r){
    ['Chấm dứt trước hạn','Phương án mua lại hệ thống','Thống nhất phương án để khách hàng mua lại hệ thống theo nguyên tắc trong hợp đồng. Giá trị khách hàng chi trả để mua lại sẽ giảm dần cho đến năm thứ '+K.escoYears+'.'],
    ['Nghĩa vụ hai bên','Phân công thủ tục, đảm bảo duy trì hoạt động','Khách hàng cho phép sử dụng mái và lối tiếp cận trong thời hạn hợp đồng, không tự ý cải tạo mái ảnh hưởng hệ thống. Phân công thủ tục đầu tư, xây dựng, an toàn điện, môi trường, PCCC và giấy phép hoạt động điện lực theo từng trường hợp. Khách hàng đảm bảo duy trì hoạt động trong '+K.escoYears+' năm và thanh toán đúng hạn.']
   ];
-  const key=S.mode,an=key!==S.ck;S.ck=key;
+  const key=S.mode+'|'+K.escoYears,an=key!==S.ck;S.ck=key;
   const open=an?['0']:[...document.querySelectorAll('#ct .ci.open')].map(e=>e.dataset.k);
   $('ct').innerHTML=`<div class="cstat${an?' an':''}">${stats.map((s,k)=>`<div class="${!epc&&k===1?'hl':''}" style="--i:${k}"><i>${s[0]}</i><b>${s[1]}</b><span>${s[2]}</span></div>`).join('')}</div>
 <div class="clane${an?' an':''}">${lanes.map((l,k)=>`<div class="ln${k?' r':''}"><h4>${l[0]}</h4><ul>${l[1].map((t,j)=>`<li style="--i:${j}">${t}</li>`).join('')}</ul>${l[2]?`<p class="lfn">${l[2]}</p>`:''}</div>`).join('')}</div>
@@ -1554,6 +1680,98 @@ function renderContract(r){
 function loanBadge(p){
   if(p.cfL1<0)return `<div class="lcf bad">Vốn tự có <b>${mi(p.equity0)}</b> · Trả nợ năm đầu <b>~${mi(p.pmtMonth)}/tháng</b> (giảm dần). Cần bù năm đầu <b>~${mi(-p.cfL1/12)}/tháng</b>${p.extraTopUp>1e6?` (tổng tự có cần chuẩn bị <b>${mi(p.maxOut)}</b>)`:''}.</div>`;
   return `<div class="lcf ok">Vốn tự có <b>${mi(p.equity0)}</b> · Trả nợ năm đầu <b>~${mi(p.pmtMonth)}/tháng</b> (giảm dần) · Dư sau thuế năm đầu <b>+${mi(p.cfL1/12)}/tháng</b>.</div>`;
+}
+
+// Cập nhật thanh đáy Mobile theo ngữ cảnh (Live Cockpit ở Mục 01 -> CTA Báo giá ở Mục 02-04)
+function updateMbar(ping=false){
+  const mb=$('mbar'),r=window.R;if(!mb||!r||!r.p1)return;
+  const esco0=S.mode==='esco',P2=window.P2A,LN=!!window.LOAN;
+  const recI=P2?(esco0?r.rec.esco:r.rec.epc):1;
+  const rp=recI===2?P2:r.p1,selI=S.sel===2&&P2?2:1,selP=selI===2?P2:r.p1;
+  const s2=$('s2'),inS1=s2?s2.getBoundingClientRect().top>window.innerHeight*0.58:false;
+  const btn=$('mbb'),txt=mb.firstElementChild;
+  if(inS1){
+    const sv=esco0?rp.escoMonth:rp.savMonth;
+    const sub=esco0?`0đ vốn · ~${mi(sv)}/tháng`:`~${mi(sv)}/tháng · HV ${yr(LN?rp.payL:rp.payPost)}`;
+    txt.innerHTML=`Đề xuất · ${fmt(rp.P)} kWp${rp.E?' + '+fmt(rp.E)+' kWh':''}<b id="mbt">${sub}</b>`;
+    btn.textContent='Xem 2 gói ↓';btn.classList.add('secbtn');mb.dataset.act='s2';
+  }else{
+    const sv=esco0?selP.escoMonth:selP.savMonth;
+    txt.innerHTML=`Gói ${selI} (${esco0?'ESCO':'EPC'}) tiết kiệm khoảng<b id="mbt">~ ${mi(sv)} mỗi tháng</b>`;
+    btn.textContent='Nhận báo giá';btn.classList.remove('secbtn');mb.dataset.act='rq';
+  }
+  if(ping&&S.booted&&inS1){mb.classList.remove('ping');void mb.offsetWidth;mb.classList.add('ping')}
+}
+
+// Dựng tờ trình A4 1 trang để xuất PDF
+function buildPrintBrief(){
+  const r=window.R;if(!r||!r.p1)return false;
+  const esco0=S.mode==='esco',P2=window.P2A,LN=!!window.LOAN;
+  const recI=P2?(esco0?r.rec.esco:r.rec.epc):1;
+  const selI=S.sel===2&&P2?2:1,selP=selI===2?P2:r.p1;
+  const bill=num('bill')*1e6,roof=num('roof');
+  const today=new Date().toLocaleDateString('vi-VN');
+  const schedTxt=DAYS.map(([d,n])=>{const o=S.sch[d];return o.on&&o.shifts.length?`${d==='wk'?'T2–T6':d==='sat'?'T7':'CN'} (${o.shifts.map(s=>s[0]+'h–'+s[1]+'h').join(', ')})`:null}).filter(Boolean).join(' · ')||'Tải duy trì cả tuần';
+  const finTxt=esco0?`ESCO không cần chi phí ban đầu · khách hưởng ${fmt(K.esco*100,0)}% (${K.escoYears} năm)`
+    :(LN?`EPC vay ${fmt(window.LOAN.pct*100,0)}% · ${window.LOAN.yrs} năm · lãi ${fmt(window.LOAN.rate*100,1)}%/năm (dư nợ giảm dần)`:'EPC tự đầu tư 100% vốn');
+
+  const ps=[r.p1,P2].filter(Boolean);
+  const tblRows=[
+    ['Công suất điện mặt trời',p=>fmt(p.P)+' kWp'],
+    ['Pin lưu trữ BESS',p=>p.E?fmt(p.E)+' kWh':'Không'],
+    ['Diện tích mái sử dụng',p=>fmt(p.roofUsed)+' m²'],
+    [esco0?'Vốn ban đầu của khách hàng':'Vốn đầu tư trọn gói (chưa VAT)',p=>esco0?'Khách hàng không cần chi phí ban đầu':mi(p.capex)],
+    ...(LN?[['Vốn tự có ban đầu / Trả nợ năm đầu',p=>mi(p.equity0)+' / ~'+mi(p.pmtMonth)+'/tháng']]:[]),
+    ['Tiết kiệm mỗi tháng (năm đầu)',p=>mi(esco0?p.escoMonth:p.savMonth)+' ('+fmt((esco0?p.escoShare:p.savShare)*100,1)+'% HĐ)'],
+    ['Tiết kiệm năm đầu',p=>mi(esco0?p.escoMonth*12:p.savYear)],
+    [esco0?'Thời hạn hợp đồng ESCO':'Thời gian hoàn vốn sau thuế',p=>esco0?K.escoYears+' năm (bàn giao sau HĐ)':yr(LN?p.payL:p.payPost)],
+    ['NPV 20 năm (sau thuế, chiết khấu 11,22%)',p=>mi(esco0?p.npvEsco:p.npvEq)]
+  ];
+  const co2Yr=(selP.use/1e3)*K.efGrid,co2_20=co2Yr*19.076,irec=Math.round(selP.use/1e3);
+  const np=Math.ceil(selP.P*1000/630),nInv=Math.max(1,Math.ceil(selP.P/187.5));
+  const svgDay=chartDay({...r,hourPV:selP.hourPV,hourBess:selP.hourBess,hourCharge:selP.hourCharge},!!selP.E,380,165,true);
+
+  $('printBrief').innerHTML=`
+    <div class="pb-hd">
+      <div class="pb-brand"><b>BTMI</b><span>Tờ trình sơ bộ giải pháp Điện mặt trời áp mái C&amp;I</span></div>
+      <div class="pb-meta"><b>HÌNH THỨC ${esco0?'ESCO · 0 ĐỒNG VỐN':'EPC · TỰ ĐẦU TƯ'}</b><div>Ngày lập: ${today} · Biểu giá QĐ 2892/QĐ-BCT (1–35 kV)</div></div>
+    </div>
+    <div class="pb-sec">1. Thông số phụ tải &amp; hiện trạng doanh nghiệp</div>
+    <div class="pb-info">
+      <div><small>Nhóm giá &amp; địa điểm</small><b>${$('group').value} · ${$('prov').value}</b></div>
+      <div><small>Hóa đơn điện (chưa VAT)</small><b>${mi(bill)}/tháng</b></div>
+      <div><small>Tiêu thụ ước tính</small><b>${fmt(r.kwhMonth)} kWh/tháng (${fmt(r.avgPrice)} đ/kWh)</b></div>
+      <div><small>Diện tích mái khả dụng</small><b>${fmt(roof)} m²</b></div>
+      <div><small>Lịch hoạt động &amp; tải nền</small><b>${schedTxt} · nền ${Math.round(S.idle*100)}%</b></div>
+      <div><small>Phương án tài chính</small><b>${finTxt}</b></div>
+    </div>
+    <div class="pb-sec">2. So sánh phương án đề xuất</div>
+    <table class="pb-tbl">
+      <thead><tr><th>Hạng mục</th>${ps.map((q,idx)=>`<th class="${idx+1===recI?'rec':''}">Gói ${idx+1}: ${idx===0?'Điện mặt trời hòa lưới':'Điện mặt trời + BESS'}${idx+1===recI?' ★ KHUYẾN NGHỊ':''}</th>`).join('')}${ps.length===1&&esco0&&r.p2?'<th>Gói 2: Điện mặt trời + BESS</th>':''}</tr></thead>
+      <tbody>${tblRows.map(rw=>`<tr><td>${rw[0]}</td>${ps.map((q,idx)=>`<td class="${idx+1===recI?'rec':''}">${rw[1](q)}</td>`).join('')}${ps.length===1&&esco0&&r.p2?`<td style="color:#566079">${rw[0]==='Công suất điện mặt trời'?fmt(r.p2.P)+' kWp':rw[0]==='Pin lưu trữ BESS'?fmt(r.p2.E)+' kWh':'Thiết kế riêng sau khảo sát'}</td>`:''}</tr>`).join('')}</tbody>
+    </table>
+    <div class="pb-2c">
+      <div class="pb-box">
+        <h4>Cơ cấu nguồn điện 24h — Gói ${selI} (${fmt(selP.P)} kWp${selP.E?', pin '+fmt(selP.E)+' kWh':''})</h4>
+        ${svgDay}
+        <div class="pb-lgd"><span><i style="background:#e0a82e"></i>PV dùng trực tiếp</span>${selP.E?'<span><i style="background:#1c34c8"></i>Pin cấp điện</span>':''}${selP.E&&selP.hourCharge&&selP.hourCharge.some(v=>v>0)?'<span><i style="background:#8a9bf2"></i>Nạp lưới 0h–6h</span>':''}<span><i style="background:#aab3d1"></i>Mua EVN</span><span><i style="background:#0b1237"></i>PV phát</span><span><i style="background:#c2410c"></i>Phụ tải</span></div>
+      </div>
+      <div class="pb-box">
+        <h4>Tác động ESG &amp; Thiết bị chính (Gói ${selI})</h4>
+        <div class="pb-kv"><span>Cắt giảm CO₂ (Scope 2)</span><b>${fmt(co2Yr,0)} tấn/năm (~${fmt(co2_20,0)} tấn/20 năm)</b></div>
+        <div class="pb-kv"><span>Chứng chỉ xanh I-REC</span><b>~${fmt(irec)} chứng chỉ/năm</b></div>
+        <div class="pb-kv"><span>Tấm pin mặt trời</span><b>${fmt(np)} tấm TCL 630 Wp (BH 30 năm)</b></div>
+        <div class="pb-kv"><span>Biến tần hòa lưới</span><b>${selP.P>=300?nInv+' × Sungrow SG150CX':'Sungrow dòng CX'}</b></div>
+        ${selP.E?`<div class="pb-kv"><span>Pin lưu trữ BESS</span><b>${fmt(selP.E)} kWh (RT 85%, 0,5C)</b></div>`:''}
+        <div class="pb-kv"><span>Đo đếm &amp; cáp điện</span><b>Chint DTSU666+CT · Cadivi DC/AC</b></div>
+        <div class="pb-kv"><span>Tiến độ triển khai</span><b>~14 tuần (trọn gói pháp lý NĐ 58/2025)</b></div>
+      </div>
+    </div>
+    <div class="pb-ft">
+      <div>Số liệu ước tính theo QĐ 2892/QĐ-BCT (cấp 1–35 kV, chưa VAT), tham chiếu kỹ thuật BESS theo QĐ 2987/QĐ-BCT và thủ tục theo NĐ 58/2025, NĐ 243/2026. Chốt chính thức sau khảo sát thực tế.</div>
+      <div style="white-space:nowrap;text-align:right"><b>Công ty CP Đầu tư Betrimex (BTMI)</b><br>ptda@btmi.com.vn · btmi.pages.dev</div>
+    </div>`;
+  return true;
 }
 
 function run(){
@@ -1603,7 +1821,7 @@ function run(){
     const sv=esco0?p.escoMonth:p.savMonth,pc=(esco0?p.escoShare:p.savShare)*100,rec=i===recI;
     const np=Math.ceil(p.P*1000/630);
     const cost=esco0?'<span class="cu" data-n="0" data-d="0">0</span><small>đồng</small>':mbig(p.capex);
-    const mini=esco0?[[fmt(K.esco*100,0)+'%','Khách hàng hưởng'],[mi(sv*12),'Tiết kiệm/năm'],[mi(p.npvEsco),'NPV 20 năm']]
+    const mini=esco0?[[fmt(K.esco*100,0)+'%','Khách hưởng'],[mi(sv*12),'Tiết kiệm/năm'],[mi(p.npvEsco),'NPV 20 năm']]
       :LN?[[yr(p.payL),'Hoàn vốn tự có'],[mi(p.savYear),'Tiết kiệm/năm'],[mi(p.npvEq),'NPV 20 năm']]
       :[[yr(p.payPost),'Hoàn vốn'],[mi(p.savYear),'Tiết kiệm/năm'],[mi(p.npvEq),'NPV 20 năm']];
     return `<div class="card pc${an?' an':''}${rec?' rec':''}${S.sel===i?' sel':''}" data-i="${i}">${rec?'<span class="rt">KHUYẾN NGHỊ</span>':''}<span class="bdg${p.E?' pin':''}">${p.E?'Có pin':'Hòa lưới'}</span>
@@ -1632,12 +1850,22 @@ function run(){
    $('rc-b').innerHTML=mbig(sv);$('rc-bill').innerHTML='Hóa đơn <b>'+mi(bill)+'</b>/tháng';
    $('rc-f').style.width=Math.max(pc,2)+'%';
    $('rc-l').innerHTML=`<span>Giảm <b>${fmt(pc,1)}%</b> hóa đơn</span><span>còn <b>${mi(Math.max(0,bill-sv))}</b>/tháng</span>`;
-   const rr=esco0?[['Khách hàng hưởng',fmt(K.esco*100,0)+'% ('+K.escoYears+' năm)'],['Tiết kiệm/năm',mi(sv*12)],['NPV 20 năm',mi(p.npvEsco)]]:LN?[['Hoàn vốn tự có',yr(p.payL)],['Tiết kiệm/năm',mi(p.savYear)],['NPV 20 năm',mi(p.npvEq)]]:[['Hoàn vốn',yr(p.payPost)],['Tiết kiệm/năm',mi(p.savYear)],['NPV 20 năm',mi(p.npvEq)]];
+   const rr=esco0?[['Khách hưởng tiết kiệm',fmt(K.esco*100,0)+'% ('+K.escoYears+' năm)'],['Tiết kiệm/năm',mi(sv*12)],['NPV 20 năm',mi(p.npvEsco)]]:LN?[['Hoàn vốn tự có',yr(p.payL)],['Tiết kiệm/năm',mi(p.savYear)],['NPV 20 năm',mi(p.npvEq)]]:[['Hoàn vốn',yr(p.payPost)],['Tiết kiệm/năm',mi(p.savYear)],['NPV 20 năm',mi(p.npvEq)]];
    $('rc-r').innerHTML=rr.map(a=>`<div class="rr"><span>${a[0]}</span><b>${a[1]}</b></div>`).join('')+(LN?loanBadge(p):'')}
 
   const selP=S.sel===2&&P2?P2:r.p1,selI=S.sel===2&&P2?2:1;
-  {const sv2=esco0?selP.escoMonth:selP.savMonth;
-   $('mbar').firstElementChild.innerHTML=`Gói ${selI} (${esco0?'ESCO':'EPC'}) tiết kiệm khoảng<b id="mbt">~ ${mi(sv2)} mỗi tháng</b>`}
+  // Render khối tác động ESG & Chi phí chờ đợi cho gói đang xem
+  if($('esgBar')){
+    const co2Yr=(selP.use/1e3)*K.efGrid,co2_20=co2Yr*19.076,irec=Math.round(selP.use/1e3);
+    const waitMo=esco0?selP.escoMonth:selP.savMonth;
+    $('esgBar').innerHTML=`<div class="esg-g">
+      <div class="esg-it ok"><i>Cắt giảm CO₂ (Scope 2)</i><b>${fmt(co2Yr,0)} tấn/năm</b><span>Tương đương ~${fmt(co2_20,0)} tấn CO₂ trong 20 năm vận hành</span></div>
+      <div class="esg-it"><i>Chứng chỉ xanh I-REC</i><b>~${fmt(irec)} chứng chỉ/năm</b><span>1 MWh điện mặt trời tự dùng = 1 I-REC (hỗ trợ ESG / CBAM)</span></div>
+      <div class="esg-it wt"><i>Chi phí mỗi tháng chờ đợi</i><b>~${mi(waitMo)}/tháng</b><span>Tiền điện chưa tiết kiệm được (~${mi(waitMo*12)}/năm, Gói ${selI})</span></div>
+    </div><p class="esg-fn">Ước tính cho Gói ${selI} (${fmt(selP.P)} kWp${selP.E?', pin '+fmt(selP.E)+' kWh':''}) theo hệ số phát thải lưới điện Việt Nam 0,6592 tCO₂/MWh — chỉ tính trên phần điện mặt trời tự dùng, không tính điện pin nạp từ lưới EVN.</p>`;
+  }
+
+  updateMbar(true);
   S.anim=false;
   const p=selP,esco=S.mode==='esco';
 
@@ -1669,9 +1897,9 @@ function run(){
 
 initSch();
 $('escoPct').addEventListener('change',e=>{S.esco=+e.target.value/100;S.anim=true;run()});
-$('idleBar').addEventListener('click',e=>{const b=e.target.closest('button[data-idle]');if(!b)return;S.idle=+b.dataset.idle;$('idleBar').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));$('idlePct').textContent=Math.round(S.idle*100)+'%';run()});
+$('idleBar').addEventListener('click',e=>{const b=e.target.closest('button[data-idle]');if(!b)return;clearIndOn();setIdleUI(+b.dataset.idle);run()});
 document.querySelectorAll('.seg button[data-m]').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.m)));
-document.querySelectorAll('#bill,#roof').forEach(e=>{groupInput(e);e.addEventListener('input',ev=>groupInput(e,ev))});
+document.querySelectorAll('#bill,#roof').forEach(e=>{groupInput(e);e.addEventListener('input',ev=>{clearIndOn();groupInput(e,ev)})});
 let rT=0;const runSoon=()=>{clearTimeout(rT);rT=setTimeout(run,120)};
 document.querySelectorAll('#bill,#roof').forEach(e=>{e.addEventListener('input',runSoon);e.addEventListener('change',run)});
 
@@ -1690,8 +1918,18 @@ document.querySelectorAll('#bill,#roof').forEach(e=>{e.addEventListener('input',
   if($('finPre'))$('finPre').addEventListener('click',e=>{const b=e.target.closest('button[data-ltv]');if(!b)return;$('ltv').value=b.dataset.ltv;$('ltvr').value=b.dataset.ltv;run()});
 })();
 
-document.querySelectorAll('#group,#prov').forEach(e=>e.addEventListener('change',run));
+document.querySelectorAll('#group,#prov').forEach(e=>e.addEventListener('change',()=>{clearIndOn();run()}));
 (function(){const w=$('eqw'),b=w.querySelector('.eqs');b.addEventListener('click',()=>{const o=w.classList.toggle('open');b.setAttribute('aria-expanded',o)})})();
+
+// Nút Chia sẻ link & Xuất PDF A4
+if($('shareBtn'))$('shareBtn').addEventListener('click',()=>{
+  const url=buildShareUrl();
+  try{history.replaceState(null,'',url)}catch(_){}
+  const ok=()=>showToast('Đã sao chép link phương án — gửi Zalo hoặc Email để mở lại đúng số liệu này');
+  if(navigator.clipboard)navigator.clipboard.writeText(url).then(ok,()=>{const x=document.createElement('textarea');x.value=url;document.body.appendChild(x);x.select();try{document.execCommand('copy');ok()}catch(_){}x.remove()});
+  else{const x=document.createElement('textarea');x.value=url;document.body.appendChild(x);x.select();try{document.execCommand('copy');ok()}catch(_){}x.remove()}
+});
+if($('pdfBtn'))$('pdfBtn').addEventListener('click',()=>{if(buildPrintBrief())setTimeout(()=>window.print(),60)});
 
 function popHtml(i){const r=window.R;if(!r||!r.p1)return '';const p=i===2?window.P2A:r.p1,esco=S.mode==='esco';if(!p)return '';
   const cumE=[];let c=0;for(let n=1;n<=20;n++){c+=p.ceEsco[n];cumE.push(c/1e9)}
@@ -1707,8 +1945,8 @@ function popHtml(i){const r=window.R;if(!r||!r.p1)return '';const p=i===2?window
   else{const last=[...pk.querySelectorAll('.pc[data-i]')].pop().getBoundingClientRect(),av=cw-last.right-12-10;w=Math.max(264,Math.min(336,av));left=av>=264?last.right+12:cw-w-10}
   w=Math.min(w,cw-20);pop.style.width=w+'px';left=Math.max(10,Math.min(left,cw-w-10));const h=pop.offsetHeight;
   pop.style.left=left+'px';pop.style.top=Math.max(10,Math.min(rc.top+rc.height/2-h/2,innerHeight-h-10))+'px'};
- const open=(i,sh)=>{const h=popHtml(i);if(!h)return;pop.innerHTML=h;sheet=sh;pop.classList.toggle('sheet',sh);bd.classList.toggle('on',sh);pop.classList.remove('show');void pop.offsetWidth;pop.classList.add('show');cur=sh?null:pk.querySelector(`.pc[data-i="${i}"]`);if(cur)place(cur)};
- const close=()=>{pop.classList.remove('show');bd.classList.remove('on');cur=null;sheet=false};
+ const open=(i,sh)=>{const h=popHtml(i);if(!h)return;pop.innerHTML=h;sheet=sh;pop.classList.toggle('sheet',sh);bd.classList.toggle('on',sh);pop.classList.remove('show');void pop.offsetWidth;pop.classList.add('show');cur=sh?null:pk.querySelector(`.pc[data-i="${i}"]`);if(cur)place(cur);syncScrollLock()};
+ const close=()=>{pop.classList.remove('show');bd.classList.remove('on');cur=null;sheet=false;syncScrollLock()};
  pk.addEventListener('mouseover',e=>{if(!wide())return;const c=e.target.closest('.pc[data-i]');if(!c||c===cur)return;open(+c.dataset.i,false)});
  pk.addEventListener('mouseleave',()=>{if(!sheet)close()});
  pk.addEventListener('click',e=>{const v=e.target.closest('.vbtn');if(v){e.stopPropagation();open(+v.dataset.v,true)}});
@@ -1717,9 +1955,9 @@ function popHtml(i){const r=window.R;if(!r||!r.p1)return '';const p=i===2?window
  addEventListener('keydown',e=>{if(e.key==='Escape'){close();closeRq()}});
 
  const rq=$('rq');let ctx=null;
- function closeRq(){rq.classList.remove('on')}
+ function closeRq(){rq.classList.remove('on');syncScrollLock()}
  window.closeRq=closeRq;
- const mailBody=()=>{const c=ctx;return `Kính gửi BTMI,\n\nTôi muốn nhận báo giá chi tiết:\n- Gói ${c.i}: ${c.p.E?'Có pin':'Hòa lưới'}, ${fmt(c.p.P)} kWp${c.p.E?`, pin lưu trữ ${fmt(c.p.E)} kWh`:''}\n- Hình thức: ${c.esco?`ESCO (hưởng ${fmt(K.esco*100,0)}% tiết kiệm, ${K.escoYears} năm${c.customEsco?' · đề xuất thiết kế riêng':''})`:'EPC'}\n- Diện tích mái: khoảng ${fmt(c.roof)} m²\n- Điện tiêu thụ: khoảng ${fmt(c.kwh)} kWh/tháng\n- Tiền điện hiện tại: ${(c.bill/1e6).toLocaleString('vi-VN',{maximumFractionDigits:2})} triệu đồng/tháng\n- Tải duy trì ngoài giờ ca: ${Math.round(S.idle*100)}%\n- ${c.esco?'Vốn đầu tư ban đầu: 0 đồng (ước tính vốn do bên đầu tư chịu '+mi(c.p.capex)+')':'Vốn đầu tư ước tính: '+mi(c.p.capex)}${!c.esco&&window.LOAN?`\n- Vay vốn: ${fmt(window.LOAN.pct*100,0)}% vốn đầu tư (${mi(c.p.loan)}), ${fmt(window.LOAN.yrs)} năm, lãi ${fmt(window.LOAN.rate*100,1)}%/năm (vốn tự có ${mi(c.p.equity0)}, trả nợ năm đầu ~${mi(c.p.pmtMonth)}/tháng, dư nợ giảm dần)`:''}\n- Tỉnh, thành: ${c.prov}\n\nHọ và tên: ${$('rqn').value.trim()}\nĐiện thoại/Zalo: ${$('rqp').value.trim()}\nGhi chú: ${$('rqg').value.trim()||'(không có)'}\n\nTrân trọng.`};
+ const mailBody=()=>{const c=ctx;return `Kính gửi BTMI,\n\nTôi muốn nhận báo giá chi tiết:\n- Gói ${c.i}: ${c.p.E?'Có pin':'Hòa lưới'}, ${fmt(c.p.P)} kWp${c.p.E?`, pin lưu trữ ${fmt(c.p.E)} kWh`:''}\n- Hình thức: ${c.esco?`ESCO (hưởng ${fmt(K.esco*100,0)}% tiết kiệm, ${K.escoYears} năm${c.customEsco?' · đề xuất thiết kế riêng':''})`:'EPC'}\n- Diện tích mái: khoảng ${fmt(c.roof)} m²\n- Điện tiêu thụ: khoảng ${fmt(c.kwh)} kWh/tháng\n- Tiền điện hiện tại: ${(c.bill/1e6).toLocaleString('vi-VN',{maximumFractionDigits:2})} triệu đồng/tháng\n- Tải duy trì ngoài giờ ca: ${Math.round(S.idle*100)}%\n- ${c.esco?'Vốn đầu tư ban đầu: 0 đồng (ước tính vốn do bên đầu tư chịu '+mi(c.p.capex)+')':'Vốn đầu tư ước tính: '+mi(c.p.capex)}${!c.esco&&window.LOAN?`\n- Vay vốn: ${fmt(window.LOAN.pct*100,0)}% vốn đầu tư (${mi(c.p.loan)}), ${fmt(window.LOAN.yrs)} năm, lãi ${fmt(window.LOAN.rate*100,1)}%/năm (vốn tự có ${mi(c.p.equity0)}, trả nợ năm đầu ~${mi(c.p.pmtMonth)}/tháng, dư nợ giảm dần)`:''}\n- Tỉnh, thành: ${c.prov}\n- Link cấu hình: ${buildShareUrl()}\n\nHọ và tên: ${$('rqn').value.trim()}\nĐiện thoại/Zalo: ${$('rqp').value.trim()}\nGhi chú: ${$('rqg').value.trim()||'(không có)'}\n\nTrân trọng.`};
  const openRq=(i,custom)=>{const r=window.R;if(!r||r.err||!r.p1){document.getElementById('s1').scrollIntoView({behavior:'smooth'});return}
   const esco=S.mode==='esco',customEsco=!!(custom&&esco&&r.p2&&!r.p2EscoOk);
   if(i===2&&!window.P2A&&!customEsco)i=1;
@@ -1729,7 +1967,8 @@ function popHtml(i){const r=window.R;if(!r||!r.p1)return '';const p=i===2?window
   const finS=esco?` · hưởng ${fmt(K.esco*100,0)}% (${K.escoYears} năm)`:(window.LOAN?` · vay ${fmt(window.LOAN.pct*100,0)}% (tự có ${mi(p.equity0)})`:'');
   $('rqs').innerHTML=`<b>Gói ${i} · ${p.E?'Có pin':'Hòa lưới'} · ${esco?'ESCO':'EPC'}${customEsco?' (thiết kế riêng)':''}</b><span>Mái ~ ${fmt(ctx.roof)} m² · ${fmt(p.P)} kWp${p.E?' · pin '+fmt(p.E)+' kWh':''}</span><span>${fmt(ctx.kwh)} kWh/tháng · ${esco?'đầu tư 0 đồng':'~ '+mi(p.capex)}${finS}</span>`;
   $('rqn').classList.remove('err');$('rqp').classList.remove('err');
-  rq.classList.remove('sent');close();rq.classList.add('on');setTimeout(()=>$('rqn').focus(),250)};
+  $('rqcp').textContent='Sao chép nội dung';
+  rq.classList.remove('sent');close();rq.classList.add('on');syncScrollLock();setTimeout(()=>$('rqn').focus(),250)};
  pk.addEventListener('click',e=>{const b=e.target.closest('[data-rq]');if(!b)return;e.stopPropagation();openRq(+b.dataset.rq,b.dataset.custom)});
  $('endrq').onclick=()=>openRq(S.sel||1);
  $('rqx').onclick=closeRq;$('rqcl').onclick=closeRq;rq.addEventListener('click',e=>{if(e.target===rq)closeRq()});
@@ -1744,19 +1983,32 @@ function popHtml(i){const r=window.R;if(!r||!r.p1)return '';const p=i===2?window
   fetch('https://api.web3forms.com/submit',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({access_key:W3K,subject:`Yêu cầu báo giá điện mặt trời gói ${ctx.i} - ${n.value.trim()}`,from_name:'Trang báo giá điện mặt trời BTMI',name:n.value.trim(),phone:p.value.trim(),message:mailBody()})})
    .then(r=>r.json()).then(j=>{if(!j.success)throw 0;rq.querySelector('.ok b').textContent='Đã gửi yêu cầu';rq.querySelector('.ok p').textContent='BTMI sẽ liên hệ qua số điện thoại bạn để lại. Bạn có thể sao chép nội dung phòng khi cần.';rq.classList.add('sent')})
    .catch(()=>viaMail()).finally(()=>{go.disabled=false;go.textContent='Gửi yêu cầu'})};
- $('rqcp').onclick=()=>{const t=mailBody();const done=()=>{$('rqcp').textContent='Đã sao chép'};if(navigator.clipboard)navigator.clipboard.writeText(t).then(done,()=>{});else{const x=document.createElement('textarea');x.value=t;document.body.appendChild(x);x.select();try{document.execCommand('copy');done()}catch(_){}x.remove()}};
+ $('rqcp').onclick=()=>{const t=mailBody();const done=()=>{$('rqcp').textContent='Đã sao chép';showToast('Đã sao chép nội dung yêu cầu báo giá')};if(navigator.clipboard)navigator.clipboard.writeText(t).then(done,()=>{});else{const x=document.createElement('textarea');x.value=t;document.body.appendChild(x);x.select();try{document.execCommand('copy');done()}catch(_){}x.remove()}};
 })();
 
-(function(){const nav=$('topnav'),mb=$('mbar');const f=()=>{const y=scrollY,hero=document.querySelector('.hero'),t=hero?hero.offsetHeight*.6:300;nav.classList.toggle('vis',y>t);mb.classList.toggle('on',y>t&&!$('rq').classList.contains('on')&&!($('dv')&&$('dv').classList.contains('on')))};addEventListener('scroll',f,{passive:true});f();
- $('mbb').onclick=()=>$('endrq').click();
+(function(){const nav=$('topnav'),mb=$('mbar');
+ const f=()=>{const y=scrollY,hero=document.querySelector('.hero'),t=hero?hero.offsetHeight*.45:240;
+   nav.classList.toggle('vis',y>t);
+   const hideM=$('rq').classList.contains('on')||($('dv')&&$('dv').classList.contains('on'))||($('pop').classList.contains('sheet')&&$('pop').classList.contains('show'));
+   mb.classList.toggle('on',y>t&&!hideM);
+   updateMbar(false)};
+ addEventListener('scroll',f,{passive:true});
+ $('mbb').onclick=()=>{if(mb.dataset.act==='s2')$('s2').scrollIntoView({behavior:'smooth'});else $('endrq').click()};
  document.addEventListener('focusin',e=>{if(e.target.matches('input[type=text],input[type=tel],textarea'))document.body.classList.add('kb')});
  document.addEventListener('focusout',()=>setTimeout(()=>{if(!document.activeElement||!document.activeElement.matches('input[type=text],input[type=tel],textarea'))document.body.classList.remove('kb')},80));
- document.addEventListener('pointermove',e=>{const c=e.target.closest&&e.target.closest('.pc,.rc');if(!c)return;const r=c.getBoundingClientRect();c.style.setProperty('--mx',(e.clientX-r.left)+'px');c.style.setProperty('--my',(e.clientY-r.top)+'px')},{passive:true})})();
+ document.addEventListener('pointermove',e=>{const c=e.target.closest&&e.target.closest('.pc,.rc');if(!c)return;const r=c.getBoundingClientRect();c.style.setProperty('--mx',(e.clientX-r.left)+'px');c.style.setProperty('--my',(e.clientY-r.top)+'px')},{passive:true});
+ window._onScrollUI=f;
+})();
 
 $('ct').addEventListener('click',e=>{const b=e.target.closest('.ch2');if(!b)return;const c=b.parentElement,o=c.classList.toggle('open');b.setAttribute('aria-expanded',o)});
+const hadUrl=loadFromUrl();
 run();
+S.booted=true;
+if(window._onScrollUI)window._onScrollUI();
+if(hadUrl&&(!location.hash||location.hash==='#s2'))setTimeout(()=>$('s2').scrollIntoView({behavior:'smooth'}),260);
+
 (function(){const links=[...document.querySelectorAll('#topnav a')],secs=links.map(a=>document.querySelector(a.getAttribute('href')));const f=()=>{let k=-1;secs.forEach((e,i)=>{if(e.getBoundingClientRect().top<window.innerHeight*.4)k=i});links.forEach((a,i)=>a.classList.toggle('on',i===k))};addEventListener('scroll',f,{passive:true});f()})();
-document.querySelectorAll('.sec,.mode,.form,.tar>div,.tline,.eqd,.brands,.ctop,.fh,.fr,.lc,.foot,.nts').forEach(e=>e.classList.add('rv'));
+document.querySelectorAll('.sec,.mode,.form,.tar>div,.tline,.eqd,.brands,.ctop,.fh,.fr,.lc,.foot,.nts,#actBar,#esgBar').forEach(e=>e.classList.add('rv'));
 (function(){const o=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');o.unobserve(e.target)}}),{threshold:.08,rootMargin:'0px 0px -6% 0px'});
  document.querySelectorAll('.rv').forEach(e=>o.observe(e))})();
 (function(){if(!('IntersectionObserver' in window))return;
