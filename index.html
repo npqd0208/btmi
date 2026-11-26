@@ -1143,10 +1143,12 @@ input:focus-visible,select:focus-visible{outline:3px solid #c7d0f5;outline-offse
 @media(max-width:900px){#totop{width:44px;height:44px;bottom:calc(102px + env(safe-area-inset-bottom));right:12px}}
 body.kb #totop{opacity:0;pointer-events:none}
 @media print{#totop{display:none!important}}
-.esg-gl{margin:10px 0 0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 18px;font-size:11.5px;line-height:1.45;color:var(--mute)}
-.esg-gl div{display:flex;gap:7px;align-items:baseline}
-.esg-gl dt{flex:none;font-weight:700;color:var(--navy);font-size:10.5px;letter-spacing:.04em;background:var(--soft);border-radius:6px;padding:1px 7px;min-width:52px;text-align:center}
-.esg-gl dd{margin:0}
+.esg-gl{margin:12px 0 0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.esg-gl section{background:var(--soft);border-radius:14px;padding:11px 14px 12px}
+.esg-gl h5{margin:0 0 6px;font:700 10.5px "Be Vietnam Pro",sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--acc)}
+.esg-gl dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:5px 10px;font-size:12px;line-height:1.5}
+.esg-gl dt{font-weight:700;color:var(--navy);white-space:nowrap}
+.esg-gl dd{margin:0;color:var(--mute);text-wrap:pretty}
 @media(max-width:700px){.esg-gl{grid-template-columns:1fr}}
 </style></head>
 <body>
@@ -1966,7 +1968,7 @@ function run(){
     $('esgBar').innerHTML=`<div class="esg-g">
       <div class="esg-it ok"><i>Cắt giảm CO₂ (Scope 2)</i><b>${fmt(co2Yr,0)} tấn/năm</b><span>Tương đương ~${fmt(co2_20,0)} tấn CO₂ trong 20 năm vận hành</span></div>
       <div class="esg-it"><i>Chứng chỉ xanh I-REC</i><b>~${fmt(irec)} chứng chỉ/năm</b><span>1 MWh điện mặt trời tự dùng = 1 I-REC (hỗ trợ ESG / CBAM)</span></div>
-    </div><p class="esg-fn">Ước tính cho Gói ${selI} (${fmt(selP.P)} kWp${selP.E?', pin '+fmt(selP.E)+' kWh':''}) theo hệ số phát thải lưới điện Việt Nam 0,6592 tCO₂/MWh, chỉ tính trên phần điện mặt trời tự dùng, không tính điện pin nạp từ lưới EVN.</p><dl class="esg-gl"><div><dt>Scope 2</dt><dd>Lượng CO₂ gián tiếp từ điện mua của lưới EVN. Dùng điện mặt trời tự sản xuất thì phần này giảm.</dd></div><div><dt>I-REC</dt><dd>Chứng chỉ xác nhận 1 MWh điện được sản xuất từ năng lượng tái tạo.</dd></div><div><dt>ESG</dt><dd>Bộ tiêu chí Môi trường, Xã hội và Quản trị mà ngân hàng, nhà đầu tư và khách hàng dùng để đánh giá doanh nghiệp.</dd></div><div><dt>CBAM</dt><dd>Cơ chế thu phí carbon của Liên minh châu Âu với hàng nhập khẩu như thép, nhôm, xi măng, phân bón, áp dụng từ 01/01/2026.</dd></div></dl>`;
+    </div><p class="esg-fn">Ước tính cho Gói ${selI} (${fmt(selP.P)} kWp${selP.E?', pin '+fmt(selP.E)+' kWh':''}) theo hệ số phát thải lưới điện Việt Nam 0,6592 tCO₂/MWh, chỉ tính trên phần điện mặt trời tự dùng, không tính điện pin nạp từ lưới EVN.</p><div class="esg-gl"><section><h5>Đo lường và chứng nhận</h5><dl><dt>Scope 2</dt><dd>Phát thải khí nhà kính gián tiếp từ năng lượng mua ngoài, chủ yếu là điện lưới. Điện mặt trời tự dùng làm giảm trực tiếp chỉ tiêu này.</dd><dt>I-REC</dt><dd>Chứng chỉ năng lượng tái tạo quốc tế, mỗi chứng chỉ xác nhận 1 MWh điện phát từ nguồn tái tạo.</dd></dl></section><section><h5>Khung đánh giá và quy định</h5><dl><dt>ESG</dt><dd>Bộ tiêu chí Môi trường, Xã hội và Quản trị, dùng để đánh giá mức độ phát triển bền vững của doanh nghiệp.</dd><dt>CBAM</dt><dd>Cơ chế điều chỉnh carbon biên giới của EU, áp nghĩa vụ tài chính theo lượng phát thải đối với hàng nhập khẩu xi măng, sắt thép, nhôm, phân bón, điện và hydro từ 01/01/2026.</dd></dl></section></div>`;
   }
 
   updateMbar(true);
