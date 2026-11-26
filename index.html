@@ -150,6 +150,7 @@ input:focus,select:focus{outline:2px solid #c7d0f5;border-color:var(--acc)}
 @keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 .sbar .sl2{display:flex;justify-content:space-between;gap:10px;margin-top:8px;font-size:13px;color:var(--mute)}
 .sbar .sl2 b{color:var(--navy)}
+.sbar .sl2 span{white-space:nowrap}
 .pc.rec .sbar .sl2,.rc .sbar .sl2{color:#aeb7e6}.pc.rec .sbar .sl2 b,.rc .sbar .sl2 b{color:#fff}
 .hr{height:1px;background:var(--line);margin:22px 0 16px}
 .pc.rec .hr{background:#243063}
@@ -1266,10 +1267,10 @@ function run(){
 <div class="pl"><span class="pill">GÓI ${i}</span>${S.sel===i?'<span class="vwg">Đang xem</span>':''}</div>
 <h3>${i===1?'Điện mặt trời':'Điện mặt trời và pin lưu trữ'}</h3>
 <div class="spec"><span><b>${fmt(p.P)}</b> kWp điện mặt trời</span>${p.E?`<span class="pn"><b>${fmt(p.E)}</b> kWh pin lưu trữ</span>`:''}</div>
-<div class="ctx"><span>Hóa đơn ${mi(bill)}/tháng</span><span>${p.roofUsed<roof*0.95?`Dùng ${fmt(p.roofUsed)} / ${fmt(roof)} m² mái`:`Mái ${fmt(roof)} m²`}</span></div>
+<div class="ctx"><span>${p.roofUsed<roof*0.95?`Dùng ${fmt(p.roofUsed)} / ${fmt(roof)} m² mái`:`Mái ${fmt(roof)} m²`}</span></div>
 <div class="inv"><i>${esco0?'Đầu tư ban đầu của doanh nghiệp':'Vốn đầu tư'}</i><b>${cost}</b><em>${esco0?'Chúng tôi chịu 100% vốn, ước tính '+mi(p.capex):'Chưa VAT, gồm thiết bị, thi công và thủ tục'}</em></div>
 <div class="svl"><i>Tiết kiệm mỗi tháng</i><b>${mbig(sv)}</b></div>
-<div class="sbar"><div class="trk"><i style="width:${Math.max(pc,2)}%"></i></div><div class="sl2"><span>Giảm <b>${fmt(pc,1)}%</b> hóa đơn</span><span>còn <b>${mi(Math.max(0,bill-sv))}</b>/tháng</span></div></div>
+<div class="sbar"><div class="trk"><i style="width:${Math.max(pc,2)}%"></i></div><div class="sl2"><span>Giảm <b>${fmt(pc,1)}%</b> hóa đơn</span><span>Hóa đơn <b>${mi(bill)}</b>/tháng</span></div></div>
 <div class="mini">${mini.map(a=>`<div><b>${a[0]}</b><span>${a[1]}</span></div>`).join('')}</div>
 <ul class="cks"><li>${fmt(np)} tấm TCL 630 Wp</li><li>Biến tần Sungrow, giám sát từ xa</li>${p.E?`<li>${p.bessGrid>p.bessSolar?'Pin nạp giờ thấp điểm, sử dụng giờ cao điểm':'Pin trữ điện dư ban ngày, sử dụng buổi tối'}</li>`:''}<li>Tủ điện, thi công, pháp lý trọn gói</li></ul>
 <button type="button" class="vbtn" data-v="${i}">Xem biểu đồ</button><button type="button" class="cta" data-rq="${i}">Nhận báo giá chi tiết</button></div>`};
@@ -1286,7 +1287,7 @@ function run(){
    $('rc-c').innerHTML=esco0?'0<small>đồng</small>':mbig(p.capex);
    $('rc-b').innerHTML=mbig(sv);
    $('rc-f').style.width=Math.max(pc,2)+'%';
-   $('rc-l').innerHTML=`<span>Giảm <b>${fmt(pc,1)}%</b> hóa đơn</span><span>còn <b>${mi(Math.max(0,bill-sv))}</b>/tháng</span>`;
+   $('rc-l').innerHTML=`<span>Giảm <b>${fmt(pc,1)}%</b> hóa đơn</span><span>Hóa đơn <b>${mi(bill)}</b>/tháng</span>`;
    const rr=esco0?[p.E?['Thanh toán','Chia sẻ tiết kiệm 90/10']:['Đơn giá điện mặt trời','90% giá EVN'],['Thời hạn hợp đồng','18 năm']]:[['Hoàn vốn sau thuế',yr(p.payPost)],['Tiết kiệm 20 năm',mi(p.save.slice(0,20).reduce((a,b)=>a+b,0))]];
    $('rc-r').innerHTML=rr.map(a=>`<div class="rr"><span>${a[0]}</span><b>${a[1]}</b></div>`).join('')}
   {const rp=recI===2?P2:r.p1,sv2=esco0?rp.escoMonth:rp.savMonth;$('mbt').textContent='~ '+mi(sv2)+' mỗi tháng'}
