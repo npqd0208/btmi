@@ -1516,7 +1516,7 @@ function run(){
     const sv=esco0?p.escoMonth:p.savMonth,pc=(esco0?p.escoShare:p.savShare)*100,rec=i===recI;
     const np=Math.ceil(p.P*1000/630);
     const cost=esco0?'<span class="cu" data-n="0" data-d="0">0</span><small>đồng</small>':mbig(p.capex);
-    const mini=esco0?[[fmt(K.esco*100,0)+'%','Khách hàng được hưởng'],[mi(sv*12),'Tiết kiệm/năm'],[mi(p.npvEsco),'NPV 20 năm']]
+    const mini=esco0?[[fmt(K.esco*100,0)+'%','Khách hàng hưởng'],[mi(sv*12),'Tiết kiệm/năm'],[mi(p.npvEsco),'NPV 20 năm']]
       :LN?[[yr(p.payL),'Hoàn vốn tự có'],[mi(p.savYear),'Tiết kiệm/năm'],[mi(p.npvEq),'NPV 20 năm']]
       :[[yr(p.payPost),'Hoàn vốn'],[mi(p.savYear),'Tiết kiệm/năm'],[mi(p.npvEq),'NPV 20 năm']];
     return `<div class="card pc${an?' an':''}${rec?' rec':''}${S.sel===i?' sel':''}" data-i="${i}">${rec?'<span class="rt">KHUYẾN NGHỊ</span>':''}<span class="bdg${p.E?' pin':''}">${p.E?'Có pin':'Hòa lưới'}</span>
@@ -1545,7 +1545,7 @@ function run(){
    $('rc-b').innerHTML=mbig(sv);$('rc-bill').innerHTML='Hóa đơn <b>'+mi(bill)+'</b>/tháng';
    $('rc-f').style.width=Math.max(pc,2)+'%';
    $('rc-l').innerHTML=`<span>Giảm <b>${fmt(pc,1)}%</b> hóa đơn</span><span>còn <b>${mi(Math.max(0,bill-sv))}</b>/tháng</span>`;
-   const rr=esco0?[['Khách hàng được hưởng',fmt(K.esco*100,0)+'% ('+K.escoYears+' năm)'],['Tiết kiệm/năm',mi(sv*12)],['NPV 20 năm',mi(p.npvEsco)]]:LN?[['Hoàn vốn tự có',yr(p.payL)],['Tiết kiệm/năm',mi(p.savYear)],['NPV 20 năm',mi(p.npvEq)]]:[['Hoàn vốn',yr(p.payPost)],['Tiết kiệm/năm',mi(p.savYear)],['NPV 20 năm',mi(p.npvEq)]];
+   const rr=esco0?[['Khách hàng hưởng',fmt(K.esco*100,0)+'% ('+K.escoYears+' năm)'],['Tiết kiệm/năm',mi(sv*12)],['NPV 20 năm',mi(p.npvEsco)]]:LN?[['Hoàn vốn tự có',yr(p.payL)],['Tiết kiệm/năm',mi(p.savYear)],['NPV 20 năm',mi(p.npvEq)]]:[['Hoàn vốn',yr(p.payPost)],['Tiết kiệm/năm',mi(p.savYear)],['NPV 20 năm',mi(p.npvEq)]];
    $('rc-r').innerHTML=rr.map(a=>`<div class="rr"><span>${a[0]}</span><b>${a[1]}</b></div>`).join('')+(LN?loanBadge(p):'')}
 
   const selP=S.sel===2&&P2?P2:r.p1,selI=S.sel===2&&P2?2:1;
