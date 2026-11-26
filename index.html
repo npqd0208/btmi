@@ -1310,7 +1310,7 @@ input:focus-visible,select:focus-visible{outline:3px solid #c7d0f5;outline-offse
   let last=null;
   const close=()=>{v.classList.remove('on');de.style.overflow='';p.innerHTML='';if(last)last.focus()};
   const PDF={epc:'Hop-dong-EPC-mau-tham-khao.pdf',esco:'Hop-dong-ESCO-PPA-mau-tham-khao.pdf',m01:'Thong-bao-lap-dat-Mau-01.pdf',m02:'Thong-bao-lap-dat-Mau-02.pdf',m03:'Giay-dang-ky-phat-trien-Mau-03.pdf',m06d:'Thoa-thuan-dau-noi-Mau-06d.pdf',pc18:'Van-ban-nghiem-thu-PCCC-PC18.pdf',bm06:'Bien-ban-kiem-tra-dong-dien-BM06.pdf'};
-  const DOCX={esco:'Hop-dong-ESCO-PPA-mau-tham-khao.docx',m01:'Thong-bao-lap-dat-Mau-01.docx',m02:'Thong-bao-lap-dat-Mau-02.docx',m03:'Giay-dang-ky-phat-trien-Mau-03.docx',m06d:'Thoa-thuan-dau-noi-Mau-06d.docx',pc18:'Van-ban-nghiem-thu-PCCC-PC18.docx',bm06:'Bien-ban-kiem-tra-dong-dien-BM06.docx'};
+  const DOCX={epc:'Hop-dong-EPC-mau-tham-khao.docx',esco:'Hop-dong-ESCO-PPA-mau-tham-khao.docx',m01:'Thong-bao-lap-dat-Mau-01.docx',m02:'Thong-bao-lap-dat-Mau-02.docx',m03:'Giay-dang-ky-phat-trien-Mau-03.docx',m06d:'Thoa-thuan-dau-noi-Mau-06d.docx',pc18:'Van-ban-nghiem-thu-PCCC-PC18.docx',bm06:'Bien-ban-kiem-tra-dong-dien-BM06.docx'};
   const open=c=>{
     last=c;const k=c.dataset.k,n=+c.dataset.n;
     document.getElementById('dvn').textContent=c.querySelector('.dv-no i').textContent;
