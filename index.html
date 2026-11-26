@@ -363,8 +363,11 @@ input:focus,select:focus{outline:2px solid #c7d0f5;border-color:var(--acc)}
 .inv b{display:block;font-size:clamp(40px,4.6vw,56px);letter-spacing:-.04em;line-height:1.05;margin-top:4px;color:inherit;font-variant-numeric:tabular-nums;white-space:nowrap}
 .inv b small{font-size:.38em;letter-spacing:0;font-weight:700;margin-left:6px;color:var(--mute)}
 .inv em{display:block;font-style:normal;font-size:12.5px;color:var(--mute);margin-top:3px}
-.svl{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+.svl{position:relative;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
 .svl b{display:block;font-size:clamp(24px,2.5vw,30px);letter-spacing:-.03em;line-height:1.1;margin-top:3px;color:var(--acc);font-variant-numeric:tabular-nums}
+.svl .bl{position:absolute;right:0;bottom:3px;font-size:13px;color:var(--mute);white-space:nowrap}
+.svl .bl b{display:inline;font-size:inherit;letter-spacing:0;margin:0;color:var(--navy);line-height:inherit;font-variant-numeric:normal}
+.pc.rec .svl .bl,.rc .svl .bl{color:#aeb7e6}.pc.rec .svl .bl b,.rc .svl .bl b{color:#fff}
 .svl b small{font-size:.45em;letter-spacing:0;font-weight:700;margin-left:5px;color:var(--mute)}
 .pc.rec .inv i,.pc.rec .svl i,.rc .inv i,.rc .svl i,.pc.rec .inv em,.pc.rec .inv b small,.rc .inv b small,.pc.rec .svl b small,.rc .svl b small{color:#aeb7e6}
 .pc.rec .svl,.rc .svl{border-color:#243063}
@@ -827,7 +830,7 @@ body.nores #kpi,body.nores #eqw,body.nores #aside,body.nores #ntsw,body.nores #c
 <aside class="aside" id="aside"><div class="rc"><span class="tag">KHUYẾN NGHỊ</span>
 <h4 id="rc-t"></h4><p class="rsub" id="rc-s"></p>
 <div class="inv"><i>Vốn đầu tư</i><b id="rc-c"></b></div>
-<div class="svl"><i>Tiết kiệm mỗi tháng</i><b id="rc-b"></b></div>
+<div class="svl"><i>Tiết kiệm mỗi tháng</i><b id="rc-b"></b><span class="bl" id="rc-bill"></span></div>
 <div class="sbar"><div class="trk"><i id="rc-f" style="width:0"></i></div><div class="sl2" id="rc-l"></div></div>
 <div id="rc-r" style="margin-top:14px"></div>
 <a class="rlink" href="#s2">Xem chi tiết 2 gói bên dưới</a></div></aside>
@@ -1262,15 +1265,15 @@ function run(){
     const sv=esco0?p.escoMonth:p.savMonth,pc=(esco0?p.escoShare:p.savShare)*100,rec=i===recI;
     const np=Math.ceil(p.P*1000/630),tot20=p.save.slice(0,20).reduce((a,b)=>a+b,0);
     const cost=esco0?'<span class="cu" data-n="0" data-d="0">0</span><small>đồng</small>':mbig(p.capex);
-    const mini=esco0?[[p.E?'90 / 10':'90% giá EVN',p.E?'Chia sẻ tiết kiệm':'Đơn giá điện'],[mi(p.escoCust15),'Tiết kiệm 18 năm'],['Chuyển giao','Sau 18 năm']]:[[yr(p.payPost),'Hoàn vốn'],[mi(tot20),'Tiết kiệm 20 năm'],[mi(p.cum[20]),'Lãi ròng sau thuế']];
+    const mini=esco0?[[p.E?'90 / 10':'90% giá EVN',p.E?'Chia sẻ tiết kiệm':'Đơn giá điện'],[mi(sv*12),'Tiết kiệm mỗi năm'],['Chuyển giao','Sau 18 năm']]:[[yr(p.payPost),'Hoàn vốn'],[mi(p.savYear),'Tiết kiệm mỗi năm'],[mi(p.cum[20]),'Lãi ròng sau thuế']];
     return `<div class="card pc${an?' an':''}${rec?' rec':''}${S.sel===i?' sel':''}" data-i="${i}">${rec?'<span class="rt">KHUYẾN NGHỊ</span>':''}<span class="bdg${p.E?' pin':''}">${p.E?'Có pin':'Hòa lưới'}</span>
 <div class="pl"><span class="pill">GÓI ${i}</span>${S.sel===i?'<span class="vwg">Đang xem</span>':''}</div>
 <h3>${i===1?'Điện mặt trời':'Điện mặt trời và pin lưu trữ'}</h3>
 <div class="spec"><span><b>${fmt(p.P)}</b> kWp điện mặt trời</span>${p.E?`<span class="pn"><b>${fmt(p.E)}</b> kWh pin lưu trữ</span>`:''}</div>
 <div class="ctx"><span>${p.roofUsed<roof*0.95?`Dùng ${fmt(p.roofUsed)} / ${fmt(roof)} m² mái`:`Mái ${fmt(roof)} m²`}</span></div>
 <div class="inv"><i>${esco0?'Đầu tư ban đầu của doanh nghiệp':'Vốn đầu tư'}</i><b>${cost}</b><em>${esco0?'Chúng tôi chịu 100% vốn, ước tính '+mi(p.capex):'Chưa VAT, gồm thiết bị, thi công và thủ tục'}</em></div>
-<div class="svl"><i>Tiết kiệm mỗi tháng</i><b>${mbig(sv)}</b></div>
-<div class="sbar"><div class="trk"><i style="width:${Math.max(pc,2)}%"></i></div><div class="sl2"><span>Giảm <b>${fmt(pc,1)}%</b> hóa đơn</span><span>Hóa đơn <b>${mi(bill)}</b>/tháng</span></div></div>
+<div class="svl"><i>Tiết kiệm mỗi tháng</i><b>${mbig(sv)}</b><span class="bl">Hóa đơn <b>${mi(bill)}</b>/tháng</span></div>
+<div class="sbar"><div class="trk"><i style="width:${Math.max(pc,2)}%"></i></div><div class="sl2"><span>Giảm <b>${fmt(pc,1)}%</b> hóa đơn</span></div></div>
 <div class="mini">${mini.map(a=>`<div><b>${a[0]}</b><span>${a[1]}</span></div>`).join('')}</div>
 <ul class="cks"><li>${fmt(np)} tấm TCL 630 Wp</li><li>Biến tần Sungrow, giám sát từ xa</li>${p.E?`<li>${p.bessGrid>p.bessSolar?'Pin nạp giờ thấp điểm, sử dụng giờ cao điểm':'Pin trữ điện dư ban ngày, sử dụng buổi tối'}</li>`:''}<li>Tủ điện, thi công, pháp lý trọn gói</li></ul>
 <button type="button" class="vbtn" data-v="${i}">Xem biểu đồ</button><button type="button" class="cta" data-rq="${i}">Nhận báo giá chi tiết</button></div>`};
@@ -1285,10 +1288,10 @@ function run(){
    $('rc-t').textContent=`Gói ${i}: ${i===1?'Điện mặt trời':'Điện mặt trời và pin lưu trữ'}`;
    $('rc-s').textContent=`${fmt(p.P)} kWp${p.E?`, pin ${fmt(p.E)} kWh`:''}, hình thức ${esco0?'ESCO':'EPC'}`;
    $('rc-c').innerHTML=esco0?'0<small>đồng</small>':mbig(p.capex);
-   $('rc-b').innerHTML=mbig(sv);
+   $('rc-b').innerHTML=mbig(sv);$('rc-bill').innerHTML='Hóa đơn <b>'+mi(bill)+'</b>/tháng';
    $('rc-f').style.width=Math.max(pc,2)+'%';
-   $('rc-l').innerHTML=`<span>Giảm <b>${fmt(pc,1)}%</b> hóa đơn</span><span>Hóa đơn <b>${mi(bill)}</b>/tháng</span>`;
-   const rr=esco0?[p.E?['Thanh toán','Chia sẻ tiết kiệm 90/10']:['Đơn giá điện mặt trời','90% giá EVN'],['Thời hạn hợp đồng','18 năm']]:[['Hoàn vốn sau thuế',yr(p.payPost)],['Tiết kiệm 20 năm',mi(p.save.slice(0,20).reduce((a,b)=>a+b,0))]];
+   $('rc-l').innerHTML=`<span>Giảm <b>${fmt(pc,1)}%</b> hóa đơn</span>`;
+   const rr=esco0?[p.E?['Thanh toán','Chia sẻ tiết kiệm 90/10']:['Đơn giá điện mặt trời','90% giá EVN'],['Thời hạn hợp đồng','18 năm']]:[['Hoàn vốn sau thuế',yr(p.payPost)],['Tiết kiệm mỗi năm',mi(p.savYear)]];
    $('rc-r').innerHTML=rr.map(a=>`<div class="rr"><span>${a[0]}</span><b>${a[1]}</b></div>`).join('')}
   {const rp=recI===2?P2:r.p1,sv2=esco0?rp.escoMonth:rp.savMonth;$('mbt').textContent='~ '+mi(sv2)+' mỗi tháng'}
   S.anim=false;
