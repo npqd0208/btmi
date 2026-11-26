@@ -1047,7 +1047,7 @@ body.nores #esgBar,body.nores #actBar{display:none!important}
 <div><label for="prov">Tỉnh, thành lắp đặt</label><select id="prov"></select></div>
 </div></div>
 <div class="fsec"><div class="cl"><i class="sn">2</i>Thời gian hoạt động</div>
-<div class="sch-presets"><span>Chọn nhanh:</span><button type="button" data-p="hc">Giờ hành chính</button><button type="button" data-p="2">2 ca</button><button type="button" data-p="3">24/7</button></div>
+<div class="sch-presets"><span>Chọn nhanh:</span><button type="button" data-p="hc">Giờ hành chính</button><button type="button" data-p="3">24/7</button><button type="button" data-p="2">2 ca</button></div>
 <div id="sch"></div>
 <div class="idle-row" id="idleBar"><span>Tải duy trì ngoài giờ ca:</span><button type="button" data-idle="0.05">Thấp 5%<small>Tắt gần hết máy</small></button><button type="button" data-idle="0.2" class="on">Vừa 20%<small>Chiếu sáng, làm mát</small></button><button type="button" data-idle="0.35">Cao 35%<small>Kho lạnh, chạy nền</small></button></div>
 <p class="schnote" id="schnote">Bật ngày có hoạt động, chọn giờ bắt đầu và kết thúc của từng ca, thêm tối đa 3 ca. Ca qua đêm chọn giờ kết thúc nhỏ hơn giờ bắt đầu, ví dụ 22h đến 6h. Ngoài giờ ca, mô hình tính tải duy trì <b id="idlePct">20%</b> công suất làm việc.</p>
@@ -1447,7 +1447,7 @@ function showToast(msg){
   const pk=$('pk');
   if(pk&&!$('actBar')){
     const ab=document.createElement('div');ab.id='actBar';ab.className='actbar rv';
-    ab.innerHTML='<button type="button" id="shareBtn"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Chia sẻ link phương án</button><button type="button" id="pdfBtn"><svg viewBox="0 0 24 24"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Xuất tờ trình PDF (A4)</button>';
+    ab.innerHTML='<button type="button" id="shareBtn"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>Chia sẻ link phương án</button>';
     pk.insertAdjacentElement('afterend',ab);
     const eb=document.createElement('div');eb.id='esgBar';eb.className='esg rv';
     ab.insertAdjacentElement('afterend',eb);
