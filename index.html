@@ -862,6 +862,46 @@ body{overflow-x:clip}
   .spec span{font-size:12px;padding:6px 9px}
   .spec span b{font-size:15px}
 }
+/* ===== V1.1: Fix animation, tối ưu GPU mobile & đồng bộ UI ===== */
+@keyframes spinRays{to{transform:rotate(360deg)}}
+@keyframes spinAng{to{--ang:360deg}}
+.sun .rays{animation:spinRays 40s linear infinite;transform-origin:0px 0px}
+.pc.rec:not(.an){animation:spinAng 8s linear infinite}
+
+/* Thay blur(70px) nặng GPU bằng radial-gradient mềm */
+.bgb{filter:none!important;opacity:.85}
+.b1{background:radial-gradient(circle,rgba(228,233,255,.88) 0%,rgba(228,233,255,0) 68%)}
+.b2{background:radial-gradient(circle,rgba(255,240,201,.9) 0%,rgba(255,240,201,0) 68%)}
+
+/* Nhịp animation nhanh, gọn hơn khi chuyển phương án */
+.pc.an{animation-duration:.48s}
+.pc.an+.pc{animation-delay:.08s}
+.pc.an .sbar .trk i{animation-duration:.65s;animation-delay:.15s}
+.fsec-sw{animation:fade .28s ease both}
+
+/* Cân đối lưới 2 cột cho Điều khoản ESCO trên Desktop */
+#finEsco .fg.finf{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(max-width:640px){#finEsco .fg.finf{grid-template-columns:1fr}}
+
+/* Căn giữa dọc & đều chiều cao 3 ô mini */
+.mini>div{display:flex;flex-direction:column;justify-content:center;align-items:center}
+
+/* Ẩn thanh CTA đáy khi đang gõ trên bàn phím ảo điện thoại */
+body.kb #mbar{transform:translateY(130%)!important;pointer-events:none}
+
+/* Thẻ tư vấn ESCO BESS mở */
+.pc.na .cta{margin-top:16px}
+
+@media(max-width:900px){
+  .bgb{animation:none!important}
+  .pc.rec:not(.an){animation:none!important;border:2px solid rgba(242,193,78,.45);background:linear-gradient(165deg,#121d5e 0%,#0b1237 52%,#0b1237 100%)}
+}
+@media(max-width:520px){
+  .sf{width:100%;justify-content:space-between;flex-wrap:nowrap;gap:4px;padding:6px 6px 6px 10px}
+  .sf select{flex:1;min-width:62px}
+  .mini b{font-size:12.5px}
+  .mini span{font-size:10px}
+}
 </style></head>
 <body>
 <div class="prog" id="prog"></div><span id="top"></span><i class="bgb b1"></i><i class="bgb b2"></i>
