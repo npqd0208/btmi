@@ -904,7 +904,7 @@ body{overflow-x:clip}
 <div class="sec" id="s1"><span class="no">01</span><h2>Thông tin của khách hàng</h2><p>Chọn hình thức hợp tác, nhập tiền điện, thời gian hoạt động và diện tích mái. Hệ thống tự cập nhật các gói đề xuất bên dưới.</p></div>
 
 <div class="card mode">
-<div class="mleft"><div class="seg" id="modeSeg"><button data-m="epc" class="on">EPC<small>Tự đầu tư</small></button><button data-m="esco">ESCO<small>Đầu tư 0 đồng</small></button></div><div class="disc" id="disc"><div class="di"><div class="db"><b>Khách hàng được hưởng <select id="escoPct" aria-label="Tỷ lệ khách hàng hưởng"><option value="10">10%</option><option value="20" selected>20%</option></select> chi phí năng lượng tiết kiệm được</b><small>Mức tạm tính trong tính toán, sẽ thay đổi theo tình trạng thực tế sau khảo sát và đàm phán.</small></div></div></div>
+<div class="mleft"><div class="seg" id="modeSeg"><button data-m="epc" class="on">EPC<small>Tự đầu tư</small></button><button data-m="esco">ESCO<small>Đầu tư 0 đồng</small></button></div>
 </div>
 <div class="mexp" id="mexp"></div>
 </div>
@@ -925,7 +925,8 @@ body{overflow-x:clip}
 <div class="idle-row" id="idleBar"><span>Tải duy trì ngoài giờ ca:</span><button type="button" data-idle="0.05">Thấp 5%<small>Tắt gần hết máy</small></button><button type="button" data-idle="0.2" class="on">Vừa 20%<small>Chiếu sáng, làm mát</small></button><button type="button" data-idle="0.35">Cao 35%<small>Kho lạnh, chạy nền</small></button></div>
 <p class="schnote" id="schnote">Bật ngày có hoạt động, chọn giờ bắt đầu và kết thúc của từng ca, thêm tối đa 3 ca. Ca qua đêm chọn giờ kết thúc nhỏ hơn giờ bắt đầu, ví dụ 22h đến 6h. Ngoài giờ ca, mô hình tính tải duy trì <b id="idlePct">20%</b> công suất làm việc.</p>
 </div>
-<div class="fsec" id="fin"><div class="cl"><i class="sn">3</i>Giải pháp tài chính</div>
+<div class="fsec" id="fin"><div class="cl"><i class="sn">3</i><span id="finTitleT">Giải pháp tài chính</span></div>
+<div id="finEpc">
 <div class="fin-pre" id="finPre"><span>Chọn nhanh tỷ lệ vay:</span><button type="button" data-ltv="0">Tự đầu tư</button><button type="button" data-ltv="50">Vay 50%</button><button type="button" data-ltv="70">Vay 70%</button><button type="button" data-ltv="80">Vay 80%</button></div>
 <div class="fg fg3 finf">
 <div><label for="ltv">Tỷ lệ vay (% vốn đầu tư)</label><input id="ltv" type="text" inputmode="numeric" autocomplete="off" maxlength="2" value="0"><input id="ltvr" class="rng" type="range" min="0" max="90" step="5" value="0" aria-label="Tỷ lệ vay"><span class="rh">0 đến 90%</span></div>
@@ -933,6 +934,13 @@ body{overflow-x:clip}
 <div class="fin-dep"><label for="lyears">Thời gian vay (năm)</label><input id="lyears" type="text" inputmode="numeric" autocomplete="off" maxlength="2" value="7"><input id="lyearsr" class="rng" type="range" min="1" max="20" step="1" value="7" aria-label="Thời gian vay"></div>
 </div>
 <p class="fin-note" id="finNote"></p>
+</div>
+<div id="finEsco" hidden>
+<div class="fg fg3 finf">
+<div><label for="escoPct">Khách hàng được hưởng (% tiết kiệm)</label><select id="escoPct" aria-label="Tỷ lệ khách hàng được hưởng"><option value="10">10%</option><option value="15">15%</option><option value="20" selected>20%</option></select><span class="rh">Mức tạm tính, thống nhất sau khảo sát và đàm phán</span></div>
+<div><label for="escoYrs">Thời hạn hợp đồng</label><input id="escoYrs" type="text" value="18 năm + 2 năm chuyển giao" readonly disabled aria-readonly="true"><span class="rh">Tự động theo tỷ lệ, không chỉnh sửa</span></div>
+</div>
+</div>
 </div>
 <div class="warn" id="warn" hidden></div>
 </div>
@@ -1255,6 +1263,7 @@ const fmt=(v,d=0)=>v.toLocaleString('vi-VN',{minimumFractionDigits:d,maximumFrac
 const mi=v=>v>=1e9?fmt(v/1e9,2)+' tỷ':fmt(v/1e6,v>=1e8?0:1)+' triệu';
 const yr=v=>v==null?'trên 20 năm':fmt(v,1)+' năm';
 const S={mode:'epc',sel:1,idle:0.2,lastYrs:7,esco:0.2};
+const ESCO_TERM={10:12,15:14,20:18};;
 const voltTxt=()=>'1 đến 35 kV (trung áp)';
 const num=id=>+(($(id).value||'').replace(/\./g,'').replace(',','.').replace(/[^0-9.]/g,''))||0;
 function groupInput(el,ev){const dec=el.id==='bill';let v=el.value;
@@ -1268,7 +1277,7 @@ function groupInput(el,ev){const dec=el.id==='bill';let v=el.value;
 
 const EXP={
   epc:{t:'Phương án EPC (tự đầu tư)',f:[['Vốn ban đầu','Khách hàng chi trả'],['Phạm vi công việc','Trọn gói từ khảo sát, thi công, bàn giao, vận hành (vận hành có tính phí)'],['Tiền điện tiết kiệm','Toàn bộ thuộc về khách hàng'],['Thời hạn','Theo hợp đồng EPC, hoàn thành khi nghiệm thu và bàn giao'],['Quyền sở hữu','Khách hàng, kể từ ngày nghiệm thu']]},
-  esco:{t:'Phương án ESCO (đầu tư 0 đồng)',f:[['Vốn ban đầu','Khách hàng không cần chi phí ban đầu'],['Phạm vi công việc','Trọn gói từ khảo sát, thi công, bàn giao, vận hành (không tính phí vận hành)'],['Tiền điện tiết kiệm','Khách hàng được hưởng @E% chi phí năng lượng tiết kiệm được (mức tạm tính, thay đổi theo thực tế sau khảo sát và đàm phán)'],['Thời hạn','Tối thiểu 18 năm, phù hợp khách hàng có nhu cầu dùng điện ổn định, bền vững'],['Quyền sở hữu','Chúng tôi sở hữu trong thời hạn hợp đồng, chuyển giao cho khách hàng sau hợp đồng']]}
+  esco:{t:'Phương án ESCO (đầu tư 0 đồng)',f:[['Vốn ban đầu','Khách hàng không cần chi phí ban đầu'],['Phạm vi công việc','Trọn gói từ khảo sát, thi công, bàn giao, vận hành (không tính phí vận hành)'],['Tiền điện tiết kiệm','Khách hàng được hưởng @E% chi phí năng lượng tiết kiệm được (mức tạm tính, thay đổi theo thực tế sau khảo sát và đàm phán)'],['Thời hạn','@Y năm hợp đồng, sau đó chuyển giao hệ thống cho khách hàng, phù hợp khách hàng có nhu cầu dùng điện ổn định, bền vững'],['Quyền sở hữu','Chúng tôi sở hữu trong thời hạn hợp đồng, chuyển giao cho khách hàng sau hợp đồng']]}
 };
 const DAYS=[['wk','Thứ 2 đến thứ 6'],['sat','Thứ 7'],['sun','Chủ nhật']];
 const PRE={hc:{wk:[[8,17]],sat:[],sun:[]},'2':{wk:[[6,14],[14,22]],sat:[[6,14],[14,22]],sun:[]},'3':{wk:[[6,14],[14,22],[22,6]],sat:[[6,14],[14,22],[22,6]],sun:[[6,14],[14,22],[22,6]]}};
@@ -1301,7 +1310,7 @@ function initSch(){
   document.querySelectorAll('.sch-presets button').forEach(b=>b.addEventListener('click',()=>{const p=PRE[b.dataset.p];for(const [d] of DAYS){S.sch[d]={on:p[d].length>0,shifts:p[d].map(s=>s.slice())}}drawSch();run()}));
 }
 function readSched(){const o={};for(const [d] of DAYS){const x=S.sch[d];o[d]={on:x.on,shifts:x.on?x.shifts.filter(s=>s[0]!==s[1]).map(s=>s.slice()):[]}}return o}
-function setMode(m){S.mode=m;S.anim=true;S.userSel=false;$('disc').classList.toggle('on',m==='esco');document.querySelectorAll('.seg button[data-m]').forEach(b=>b.classList.toggle('on',b.dataset.m===m));run();const x=$('mexp');x.classList.remove('sw');void x.offsetWidth;x.classList.add('sw')}
+function setMode(m){S.mode=m;S.anim=true;S.userSel=false;document.querySelectorAll('.seg button[data-m]').forEach(b=>b.classList.toggle('on',b.dataset.m===m));run();const x=$('mexp');x.classList.remove('sw');void x.offsetWidth;x.classList.add('sw')}
 
 const IC={
 bess:`<svg viewBox="0 0 120 90"><rect x="16" y="24" width="82" height="44" rx="6" fill="#e9ecef" stroke="#8b949e" stroke-width="2"/><rect x="98" y="38" width="8" height="16" rx="2" fill="#8b949e"/><rect x="23" y="31" width="14" height="30" rx="2" fill="#2ea043"/><rect x="41" y="31" width="14" height="30" rx="2" fill="#2ea043"/><rect x="59" y="31" width="14" height="30" rx="2" fill="#2ea043"/><rect x="77" y="31" width="14" height="30" rx="2" fill="#c9d1d9"/></svg>`,
@@ -1366,9 +1375,9 @@ function chartBars(v,unit,posC,negC,labelEvery,off=0,W=470,H=210){const l=44,b=2
 function renderContract(r){
   const kwhTxt=fmt(r.kwhMonth),epc=S.mode==='epc';
   const stats=epc?[['Hình thức','Trọn gói','Khảo sát đến nghiệm thu, bàn giao'],['Tiến độ','khoảng 14 tuần','Ước tính, thống nhất lại sau khảo sát'],['Sở hữu','Doanh nghiệp','Toàn quyền hệ thống từ ngày nghiệm thu']]
-   :[['Vốn ban đầu','Khách hàng không cần chi phí ban đầu','Nhà đầu tư chịu toàn bộ vốn'],['Tỷ lệ chia sẻ chi phí điện tiết kiệm',fmt(K.esco*100,0)+'%','Cho khách hàng, tạm tính, thống nhất sau khảo sát và đàm phán'],['Bàn giao hệ thống sau','18 năm','Kể từ ngày hoạt động, tạm tính, thống nhất sau khảo sát và đàm phán']];
+   :[['Vốn ban đầu','Khách hàng không cần chi phí ban đầu','Nhà đầu tư chịu toàn bộ vốn'],['Tỷ lệ chia sẻ chi phí điện tiết kiệm',fmt(K.esco*100,0)+'%','Cho khách hàng, tạm tính, thống nhất sau khảo sát và đàm phán'],['Bàn giao hệ thống sau',K.escoYears+' năm','Kể từ ngày hoạt động, tạm tính, thống nhất sau khảo sát và đàm phán']];
   const lanes=epc?[['Chúng tôi chịu trách nhiệm',['Khảo sát, thiết kế','Thi công, đấu nối','Hoàn thiện pháp lý','Nghiệm thu, bàn giao, hướng dẫn vận hành','Bảo hành theo chính sách của hãng']],['Khách hàng có trách nhiệm',['Cung cấp hồ sơ, giấy tờ, ký hồ sơ','Mặt bằng mái và lối tiếp cận','Thanh toán theo đợt đã thỏa thuận','Sở hữu hệ thống từ ngày nghiệm thu']]]
-   :[['Chúng tôi chịu trách nhiệm',['100% vốn đầu tư','Thiết kế, thi công','Vận hành, bảo trì','Sở hữu hệ thống trong 18 năm','Bảo hành theo chính sách của hãng']],['Khách hàng có trách nhiệm',['Cho sử dụng mái và lối tiếp cận','Thanh toán hằng kỳ chi phí tiết kiệm','Đảm bảo duy trì hoạt động trong 18 năm']]];
+   :[['Chúng tôi chịu trách nhiệm',['100% vốn đầu tư','Thiết kế, thi công','Vận hành, bảo trì','Sở hữu hệ thống trong '+K.escoYears+' năm','Bảo hành theo chính sách của hãng']],['Khách hàng có trách nhiệm',['Cho sử dụng mái và lối tiếp cận','Thanh toán hằng kỳ chi phí tiết kiệm','Đảm bảo duy trì hoạt động trong '+K.escoYears+' năm']]];
   const terms=epc?[
    ['Hợp đồng EPC','Thiết kế, mua sắm, thi công trọn gói','Hợp đồng EPC (Engineering, Procurement, Construction): chúng tôi thực hiện trọn gói từ khảo sát, thiết kế, cung cấp thiết bị, thi công đến nghiệm thu, bàn giao. Khách hàng tự đầu tư vốn và sở hữu hệ thống từ ngày hoàn tất nghiệm thu. (<a href="#" class="lk-form" data-k="epc">Hợp đồng EPC mẫu tham khảo</a>)'],
    ['Giá gồm những gì','Thiết bị, thi công, đấu nối, thủ tục','Giá trọn gói ước tính, chưa VAT, đã gồm thiết bị, thi công, đấu nối, thủ tục pháp lý và nghiệm thu. Thống nhất sau khảo sát thực tế.'],
@@ -1379,14 +1388,14 @@ function renderContract(r){
    ['Nghiệm thu, bàn giao','Hoàn công, hướng dẫn, giám sát từ xa','Biên bản nghiệm thu, hồ sơ hoàn công, hướng dẫn vận hành, tài khoản giám sát từ xa. Doanh nghiệp sở hữu hệ thống từ ngày nghiệm thu.'],
    ['Quyền lợi, trách nhiệm và nghĩa vụ các bên','Vận hành, bảo trì sau bàn giao','Hợp đồng vận hành, bảo trì định kỳ sau bàn giao.']
   ]:[
-   ['Hợp đồng chia sẻ mức tiết kiệm năng lượng (ESCO)','Chúng tôi đầu tư, khách hàng chia sẻ phần tiết kiệm','Hợp đồng chia sẻ mức tiết kiệm năng lượng (ESCO, Energy Service Company): chúng tôi đầu tư 100% vốn, thi công, vận hành và bảo trì hệ thống. Khách hàng thanh toán theo phần chi phí điện tiết kiệm được, thời hạn 18 năm, sau đó hệ thống chuyển giao cho khách hàng. Tỷ lệ chia sẻ và các nội dung chi tiết được thống nhất sau khảo sát và đàm phán. (<a href="#" class="lk-form" data-k="esco">Hợp đồng ESCO mẫu tham khảo</a>)'],
+   ['Hợp đồng chia sẻ mức tiết kiệm năng lượng (ESCO)','Chúng tôi đầu tư, khách hàng chia sẻ phần tiết kiệm','Hợp đồng chia sẻ mức tiết kiệm năng lượng (ESCO, Energy Service Company): chúng tôi đầu tư 100% vốn, thi công, vận hành và bảo trì hệ thống. Khách hàng thanh toán theo phần chi phí điện tiết kiệm được, thời hạn '+K.escoYears+' năm, sau đó hệ thống chuyển giao cho khách hàng. Tỷ lệ chia sẻ và các nội dung chi tiết được thống nhất sau khảo sát và đàm phán. (<a href="#" class="lk-form" data-k="esco">Hợp đồng ESCO mẫu tham khảo</a>)'],
    ['Tỷ lệ phân chia chi phí năng lượng tiết kiệm được','Khách hàng được hưởng '+fmt(K.esco*100,0)+'% chi phí năng lượng tiết kiệm được (tạm tính)','Khách hàng được hưởng '+fmt(K.esco*100,0)+'% trên chi phí năng lượng tiết kiệm được, nhà đầu tư nhận phần còn lại ('+fmt(100-K.esco*100,0)+'%). Đây là mức tạm tính, không phải mức pháp luật quy định, do hai bên thỏa thuận và thống nhất sau khảo sát và đàm phán. Chi phí tiết kiệm tính theo biểu giá EVN tham chiếu (cấp điện áp '+voltTxt(r.volt)+', QĐ 2892/QĐ-BCT) theo từng khung giờ thấp điểm, bình thường, cao điểm, điều chỉnh khi EVN đổi biểu giá, cách áp dụng ghi rõ trong hợp đồng. Với hệ có pin lưu trữ, tiền điện tiết kiệm đo được đã trừ tiền điện nạp pin giờ thấp điểm. Chưa gồm VAT và các khoản phí liên quan.'],
    ['Danh mục thiết bị và vốn đầu tư ban đầu','Nhà đầu tư chịu toàn bộ chi phí','Tấm pin TCL, biến tần và giám sát Sungrow, đồng hồ Chint, cáp Cadivi, pin lưu trữ nếu có. Công suất theo khảo sát mái và phụ tải. Nhà đầu tư chịu toàn bộ vốn đầu tư.'],
    ['Cơ chế đo lường, đối soát, thanh toán theo hằng kỳ','Đo sản lượng để tính chi phí tiết kiệm','Lắp công tơ để đo sản lượng tiêu thụ và sản lượng điện mặt trời, từ đó tính toán chi phí năng lượng tiết kiệm được theo đơn giá điện hiện hành. Hai bên thỏa thuận vị trí đồng hồ, sản lượng tính tiền và quy trình đối soát. Hệ có pin lưu trữ dùng thêm công tơ hai chiều và dữ liệu EMS. Thống nhất chỉ số, thanh toán theo hằng kỳ.'],
-   ['Vận hành, thay thế','Nhà đầu tư chịu chi phí vận hành và thay biến tần','Nhà đầu tư chịu chi phí vận hành, bảo trì và thay biến tần trong thời hạn hợp đồng 18 năm. Với hệ có pin lưu trữ, đời sống kinh tế của pin là 15 năm (tham chiếu QĐ 2987/QĐ-BCT) nên nhà đầu tư thay một phần pin ở năm 12, hệ thống bàn giao theo hiện trạng khi hết hạn. Cam kết hiệu suất, dung lượng pin còn lại và thời gian xử lý sự cố do hai bên thỏa thuận.'],
-   ['Chuyển giao sau 18 năm','Điều kiện do hai bên thỏa thuận','Hết hợp đồng, hệ thống chuyển giao cho doanh nghiệp. Chuyển giao miễn phí hay có phí, tình trạng kỹ thuật khi bàn giao và bảo hành sau chuyển giao do hai bên thỏa thuận trong hợp đồng.'],
-   ['Chấm dứt trước hạn','Phương án mua lại hệ thống','Thống nhất phương án để khách hàng mua lại hệ thống theo nguyên tắc trong hợp đồng. Giá trị khách hàng chi trả để mua lại sẽ giảm dần cho đến năm thứ 18.'],
-   ['Nghĩa vụ hai bên','Phân công thủ tục, đảm bảo duy trì hoạt động','Khách hàng cho phép sử dụng mái và lối tiếp cận trong thời hạn hợp đồng, không tự ý cải tạo mái ảnh hưởng hệ thống. Phân công thủ tục đầu tư, xây dựng, an toàn điện, môi trường, PCCC và giấy phép hoạt động điện lực theo từng trường hợp. Khách hàng đảm bảo duy trì hoạt động trong 18 năm và thanh toán đúng hạn.']
+   ['Vận hành, thay thế','Nhà đầu tư chịu chi phí vận hành và thay biến tần','Nhà đầu tư chịu chi phí vận hành, bảo trì và thay biến tần trong thời hạn hợp đồng '+K.escoYears+' năm. Với hệ có pin lưu trữ, đời sống kinh tế của pin là 15 năm (tham chiếu QĐ 2987/QĐ-BCT) nên nhà đầu tư thay một phần pin ở năm 12, hệ thống bàn giao theo hiện trạng khi hết hạn. Cam kết hiệu suất, dung lượng pin còn lại và thời gian xử lý sự cố do hai bên thỏa thuận.'],
+   ['Chuyển giao sau '+K.escoYears+' năm','Điều kiện do hai bên thỏa thuận','Hết hợp đồng, hệ thống chuyển giao cho doanh nghiệp. Chuyển giao miễn phí hay có phí, tình trạng kỹ thuật khi bàn giao và bảo hành sau chuyển giao do hai bên thỏa thuận trong hợp đồng.'],
+   ['Chấm dứt trước hạn','Phương án mua lại hệ thống','Thống nhất phương án để khách hàng mua lại hệ thống theo nguyên tắc trong hợp đồng. Giá trị khách hàng chi trả để mua lại sẽ giảm dần cho đến năm thứ '+K.escoYears+'.'],
+   ['Nghĩa vụ hai bên','Phân công thủ tục, đảm bảo duy trì hoạt động','Khách hàng cho phép sử dụng mái và lối tiếp cận trong thời hạn hợp đồng, không tự ý cải tạo mái ảnh hưởng hệ thống. Phân công thủ tục đầu tư, xây dựng, an toàn điện, môi trường, PCCC và giấy phép hoạt động điện lực theo từng trường hợp. Khách hàng đảm bảo duy trì hoạt động trong '+K.escoYears+' năm và thanh toán đúng hạn.']
   ];
   const key=S.mode,an=key!==S.ck;S.ck=key;
   const open=an?['0']:[...document.querySelectorAll('#ct .ci.open')].map(e=>e.dataset.k);
@@ -1400,9 +1409,9 @@ function loanBadge(p){
 }
 
 function run(){
-  K.esco=S.esco;
+  K.esco=S.esco;K.escoYears=ESCO_TERM[Math.round(S.esco*100)]||18;
   const bill=num('bill')*1e6,roof=num('roof');
-  {const e=EXP[S.mode];$('mexp').innerHTML='<div class="mh">'+e.t+'</div><ul class="mls">'+e.f.map(r=>'<li><small>'+r[0]+'</small><b>'+r[1].replace(/@E/g,fmt(K.esco*100,0))+'</b></li>').join('')+'</ul>'}
+  {const e=EXP[S.mode];$('mexp').innerHTML='<div class="mh">'+e.t+'</div><ul class="mls">'+e.f.map(r=>'<li><small>'+r[0]+'</small><b>'+r[1].replace(/@E/g,fmt(K.esco*100,0)).replace(/@Y/g,K.escoYears)+'</b></li>').join('')+'</ul>'}
   const w=$('warn');
   const nores=msg=>{w.hidden=false;w.textContent=msg;window.R=null;window.P2A=null;window.LOAN=null;document.body.classList.add('nores');$('pk').innerHTML=`<div class="card pc na"><h3>Chưa có đề xuất giải pháp</h3><p>${msg}</p></div>`};
   if(bill<=0||roof<=0)return nores('Nhập tiền điện và diện tích mái để xem đề xuất giải pháp.');
@@ -1413,7 +1422,7 @@ function run(){
   const loanRate=Math.min(20,Math.max(0,isNaN(lrateV)?9.5:lrateV))/100;
   if(!isNaN(lyrsV)&&lyrsV>=1)S.lastYrs=Math.min(20,Math.round(lyrsV));
   const loanYears=S.lastYrs;
-  const x={group:$('group').value,bill,sched,prov:$('prov').value,roof,idle:S.idle,loanPct,loanRate,loanYears,esco:S.esco};
+  const x={group:$('group').value,bill,sched,prov:$('prov').value,roof,idle:S.idle,loanPct,loanRate,loanYears,esco:S.esco,escoYears:K.escoYears};
   const r=calc2(D,x);window.R=r;
   if(r.err==='roof')return nores('Diện tích mái tối thiểu khoảng 30 m² (hệ 5 kWp). Nhập diện tích mái lớn hơn để xem đề xuất giải pháp.');
   document.body.classList.remove('nores');
@@ -1423,8 +1432,10 @@ function run(){
 
   const esco0=S.mode==='esco',an=S.anim,LN=!esco0&&loanPct>0;window.LOAN=LN?{pct:loanPct,rate:loanRate,yrs:loanYears}:null;
   const finEl=$('fin');
-  finEl.classList.toggle('dim',esco0);
-  finEl.querySelectorAll('input,button').forEach(i=>i.disabled=esco0);
+  finEl.classList.remove('dim');
+  $('finEpc').hidden=esco0;$('finEsco').hidden=!esco0;$('finTitleT').textContent=esco0?'Điều khoản ESCO':'Giải pháp tài chính';
+  $('finEpc').querySelectorAll('input,button').forEach(i=>i.disabled=false);
+  $('escoPct').value=String(Math.round(S.esco*100));$('escoYrs').value=K.escoYears+' năm + 2 năm chuyển giao';
   finEl.querySelectorAll('.fin-dep').forEach(d=>{d.classList.toggle('fin-off',!esco0&&!LN);d.querySelectorAll('input').forEach(i=>i.disabled=esco0||!LN)});
   if($('finPre'))$('finPre').querySelectorAll('button').forEach(b=>b.classList.toggle('on',Math.round(loanPct*100)===+b.dataset.ltv));
   if($('finNote'))$('finNote').textContent=esco0?'Chỉ áp dụng cho hình thức EPC (tự đầu tư). Ở ESCO, BTMI tài trợ 100% vốn nên doanh nghiệp không cần vay.'
@@ -1458,7 +1469,7 @@ function run(){
 <ul class="cks"><li>${fmt(np)} tấm TCL 630 Wp</li><li>Biến tần Sungrow, giám sát từ xa</li>${p.E?`<li>${p.bessGrid>p.bessSolar?'Pin nạp giờ thấp điểm, sử dụng giờ cao điểm':'Pin trữ điện dư ban ngày, sử dụng buổi tối'}</li>`:''}<li>Tủ điện, thi công, pháp lý trọn gói</li></ul>
 <button type="button" class="vbtn" data-v="${i}">Xem biểu đồ</button><button type="button" class="cta" data-rq="${i}">Nhận báo giá chi tiết</button></div>`};
 
-  const na=escoNo?`<div class="card pc na"><h3>ESCO chưa áp dụng cho gói có pin</h3><p>Với lịch vận hành này, hình thức ESCO hiện chưa áp dụng cho gói kèm pin lưu trữ: riêng phần pin, suất sinh lời của bên đầu tư khoảng ${r.p2.escoIrrBess==null?'âm':fmt(r.p2.escoIrrBess*100,1)+'%/năm'} (cả gói ${r.p2.escoIrr==null?'âm':fmt(r.p2.escoIrr*100,1)+'%/năm'}), thấp hơn ngưỡng ${fmt(r.escoIrrMin*100,0)}% trong hợp đồng 18 năm (đã gồm chi phí thay một phần pin ở năm 12, chuyển giao khi hết hạn). Doanh nghiệp vẫn có thể chọn gói có pin theo hình thức EPC.</p></div>`
+  const na=escoNo?`<div class="card pc na"><h3>ESCO chưa áp dụng cho gói có pin</h3><p>Với lịch vận hành này, hình thức ESCO hiện chưa áp dụng cho gói kèm pin lưu trữ: riêng phần pin, suất sinh lời của bên đầu tư khoảng ${r.p2.escoIrrBess==null?'âm':fmt(r.p2.escoIrrBess*100,1)+'%/năm'} (cả gói ${r.p2.escoIrr==null?'âm':fmt(r.p2.escoIrr*100,1)+'%/năm'}), thấp hơn ngưỡng ${fmt(r.escoIrrMin*100,0)}% trong hợp đồng ${K.escoYears} năm (đã gồm chi phí thay một phần pin ở năm 12, chuyển giao khi hết hạn). Doanh nghiệp vẫn có thể chọn gói có pin theo hình thức EPC.</p></div>`
    :r.bessWhy==='nogrid'?`<div class="card pc na"><h3>Pin lưu trữ chưa hiệu quả</h3><p>Điện mặt trời ban ngày gần như được dùng hết, không còn nhiều điện dư để nạp pin. Nạp pin bằng điện lưới giờ thấp điểm để dùng vào giờ cao điểm theo biểu giá ${$('group').value} có chênh lệch giá chưa đủ: riêng phần pin hoàn vốn trên 15 năm hoặc sinh lời dưới 5%/năm. Gói 1 hòa lưới là phương án phù hợp.</p></div>`
    :r.bessWhy==='nopay'?`<div class="card pc na"><h3>Pin lưu trữ chưa có lợi</h3><p>Với lịch hoạt động này, riêng phần pin lưu trữ hoàn vốn trên 15 năm hoặc sinh lời dưới 5%/năm. Gói điện mặt trời hòa lưới là phương án phù hợp.</p></div>`
    :`<div class="card pc na"><h3>Pin lưu trữ chưa cần thiết</h3><p>Sau khi dùng điện mặt trời, giờ cao điểm buổi tối gần như không còn tải cần bù, và không có điện mặt trời dư để nạp. Pin không tạo thêm tiết kiệm đáng kể.</p></div>`;
@@ -1480,7 +1491,7 @@ function run(){
 
   const nt=['Tiết kiệm tính theo biểu giá điện QĐ 2892/QĐ-BCT, cấp điện áp '+voltTxt(r.volt)+', năm đầu, chưa VAT, và sẽ thay đổi theo hiện trạng thực tế sau khảo sát.',
    'Gói 1 không có pin: chọn công suất cho NPV cao nhất, với ít nhất 65% điện mặt trời phát ra được dùng ngay. Gói 2 thử vài mức công suất từ gói 1 đến mức tối đa theo mái (6 m² cho mỗi kWp, đã gồm lối đi kỹ thuật, không vượt tổng điện tiêu thụ) cùng vài cỡ pin, rồi chọn phương án có NPV cao nhất. Phương án pin có thời gian hoàn vốn riêng trên 15 năm hoặc suất sinh lời riêng dưới 5%/năm được loại bỏ.',
-   'Dòng tiền sau thuế thu nhập doanh nghiệp 20%, khấu hao 12 năm. Chi phí thay biến tần năm 11 và thay pin năm 12 (áp dụng cho cả EPC 20 năm và ESCO 18 năm) được khấu hao đến năm 20, lỗ được chuyển tối đa 5 năm.'];
+   'Dòng tiền sau thuế thu nhập doanh nghiệp 20%, khấu hao 12 năm. Chi phí thay biến tần năm 11 và thay pin năm 12 (áp dụng cho cả EPC 20 năm và ESCO '+K.escoYears+' năm) được khấu hao đến năm 20, lỗ được chuyển tối đa 5 năm.'];
   if(P2){const b=P2,gs=b.bessGrid/(b.bessGrid+b.bessSolar||1);
    nt.push('Pin lưu trữ BESS tính theo giả định 4,0 triệu đồng/kWh (gồm thiết bị, bộ biến đổi, nền móng, PCCC và tích hợp; thống nhất khi báo giá). Thông số vận hành lấy tham chiếu từ QĐ 2987/QĐ-BCT ngày 11/11/2026 (khung giá dành cho BESS độc lập từ 110 kV, 10 MW, không áp dụng trực tiếp cho pin đặt tại doanh nghiệp): hiệu suất toàn vòng 85%, suy hao bình quân 2%/năm, 2 giờ sử dụng mỗi chu kỳ (công suất nạp và cấp điện 0,5C). Kết hợp độ sâu sử dụng 90%, công suất nạp từ lưới không vượt công suất trạm biến áp (giả định 1,25 lần phụ tải lớn nhất), dự phòng thay 50% giá trị pin ở năm 12 và phục hồi dung lượng sau thay. Mô phỏng trạng thái pin theo từng giờ, tách riêng nửa giờ cao điểm ở khung 17h và 22h. Điện mặt trời dư được nạp miễn phí và ưu tiên giữ cho giờ cao điểm. Điện lưới chỉ nạp lúc 0h đến 6h, và chỉ để sử dụng vào giờ cao điểm thứ Hai đến thứ Bảy.');
    if(!esco){const pc=v=>v==null?'không xác định':fmt(v*100,1)+'%/năm';
@@ -1532,7 +1543,7 @@ function popHtml(i){const r=window.R;if(!r||!r.p1)return '';const p=i===2?window
   const cumE=[];let c=0;for(let n=0;n<p.saveEsco.length;n++){c+=p.saveEsco[n]*K.esco;cumE.push(c/1e9)}
   return `<button type="button" class="x" aria-label="Đóng">×</button><h4>Gói ${i}: ${p.E?'điện mặt trời và pin lưu trữ':'điện mặt trời hòa lưới'}</h4><p class="ps">${fmt(p.P)} kWp${p.E?`, pin ${fmt(p.E)} kWh`:''}, hình thức ${esco?'ESCO':'EPC'}</p>
 <div class="ch"><b class="t">Nguồn điện trong một ngày làm việc, nắng trung bình (kW)</b>${chartDay({...r,hourPV:p.hourPV,hourBess:p.hourBess,hourCharge:p.hourCharge},!!p.E,340,170)}<div class="lgd"><span><i style="background:#e0a82e"></i>Dùng trực tiếp</span>${p.E?'<span><i style="background:#1c34c8"></i>Pin cấp điện</span>':''}${p.E&&p.hourCharge&&p.hourCharge.some(v=>v>0)?'<span><i style="background:#8a9bf2"></i>Nạp pin từ lưới</span>':''}<span><i style="background:#aab3d1"></i>Mua từ EVN</span><span><i style="background:#0b1237;height:3px;vertical-align:3px"></i>Điện mặt trời phát ra</span><span><i style="background:repeating-linear-gradient(90deg,#c2410c 0 4px,transparent 4px 7px);height:2px;vertical-align:3px"></i>Phụ tải doanh nghiệp</span></div></div>
-<div class="ch"><b class="t">${esco?'Tiết kiệm lũy kế của doanh nghiệp, 18 năm hợp đồng (tỷ đồng)':(window.LOAN?'Dòng tiền lũy kế vốn tự có, sau thuế & trả nợ (tỷ đồng), năm 0 đến 20':'Dòng tiền lũy kế sau thuế (tỷ đồng), năm 0 đến 20')}</b>${esco?chartBars(cumE,'Tiết kiệm lũy kế','#1c34c8','#1c34c8',5,1,340,170):chartBars((window.LOAN?p.cumL:p.cum).map(v=>v/1e9),'Dòng tiền lũy kế','#1c34c8','#e0a82e',5,0,340,170)}</div>`}
+<div class="ch"><b class="t">${esco?'Tiết kiệm lũy kế của khách hàng, '+K.escoYears+' năm hợp đồng (tỷ đồng)':(window.LOAN?'Dòng tiền lũy kế vốn tự có, sau thuế & trả nợ (tỷ đồng), năm 0 đến 20':'Dòng tiền lũy kế sau thuế (tỷ đồng), năm 0 đến 20')}</b>${esco?chartBars(cumE,'Tiết kiệm lũy kế','#1c34c8','#1c34c8',5,1,340,170):chartBars((window.LOAN?p.cumL:p.cum).map(v=>v/1e9),'Dòng tiền lũy kế','#1c34c8','#e0a82e',5,0,340,170)}</div>`}
 
 (function(){const pop=$('pop'),bd=$('bd'),pk=$('pk');let cur=null,sheet=false;
  const wide=()=>matchMedia('(hover:hover) and (min-width:1460px)').matches;
