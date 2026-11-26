@@ -1440,7 +1440,7 @@ function run(){
       :[[yr(p.payPost),'Hoàn vốn'],[mi(p.savYear),'Tiết kiệm mỗi năm']];
     return `<div class="card pc${an?' an':''}${rec?' rec':''}${S.sel===i?' sel':''}" data-i="${i}">${rec?'<span class="rt">KHUYẾN NGHỊ</span>':''}<span class="bdg${p.E?' pin':''}">${p.E?'Có pin':'Hòa lưới'}</span>
 <div class="pl"><span class="pill">GÓI ${i}</span>${S.sel===i?'<span class="vwg">Đang xem</span>':''}</div>
-<h3>${i===1?'Điện mặt trời':'Điện mặt trời và pin lưu trữ'}</h3>
+<h3>${i===1?'Điện mặt trời':'Điện mặt trời và pin lưu trữ (BESS)'}</h3>
 <div class="spec"><span><b>${fmt(p.P)}</b> kWp điện mặt trời</span>${p.E?`<span class="pn"><b>${fmt(p.E)}</b> kWh pin lưu trữ</span>`:''}</div>
 <div class="ctx"><span>${p.roofUsed<roof*0.95?`Dùng ${fmt(p.roofUsed)} / ${fmt(roof)} m² mái`:`Mái ${fmt(roof)} m²`}</span></div>
 <div class="inv"><i>${esco0?'Đầu tư ban đầu của doanh nghiệp':'Vốn đầu tư'}</i><b>${cost}</b><em>${esco0?'Chúng tôi chịu 100% vốn, ước tính '+mi(p.capex):(LN?'Vay '+fmt(loanPct*100,0)+'% ('+mi(p.loan)+'), '+fmt(loanYears)+' năm, lãi '+fmt(loanRate*100,1)+'%/năm':'Chưa VAT, gồm thiết bị, thi công và thủ tục')}</em></div>
@@ -1458,7 +1458,7 @@ function run(){
   if(an)countUp($('pk'));
 
   {const p=recI===2?P2:r.p1,i=recI,sv=esco0?p.escoMonth:p.savMonth,pc=(esco0?p.escoShare:p.savShare)*100;
-   $('rc-t').textContent=`Gói ${i}: ${i===1?'Điện mặt trời':'Điện mặt trời và pin lưu trữ'}`;
+   $('rc-t').textContent=`Gói ${i}: ${i===1?'Điện mặt trời':'Điện mặt trời và pin lưu trữ (BESS)'}`;
    $('rc-s').textContent=`${fmt(p.P)} kWp${p.E?`, pin ${fmt(p.E)} kWh`:''}, hình thức ${esco0?'ESCO':'EPC'}`;
    $('rc-c').innerHTML=esco0?'0<small>đồng</small>':mbig(p.capex);
    $('rc-b').innerHTML=mbig(sv);$('rc-bill').innerHTML='Hóa đơn <b>'+mi(bill)+'</b>/tháng';
