@@ -1314,9 +1314,9 @@ function popHtml(i){const r=window.R;if(!r||!r.p1)return '';const p=i===2?window
 <div class="ch"><b class="t">${esco?'Tiết kiệm lũy kế của doanh nghiệp, 15 năm hợp đồng (tỷ đồng)':'Dòng tiền lũy kế sau thuế (tỷ đồng), năm 0 đến 20'}</b>${esco?chartBars(cumE,'Tiết kiệm lũy kế','#1c34c8','#1c34c8',5,1,340,170):chartBars(p.cum.map(v=>v/1e9),'Dòng tiền lũy kế','#1c34c8','#e0a82e',5,0,340,170)}</div>`}
 (function(){const pop=$('pop'),bd=$('bd'),pk=$('pk');let cur=null,sheet=false;
  const wide=()=>matchMedia('(hover:hover) and (min-width:901px)').matches;
- const place=card=>{const rc=card.getBoundingClientRect(),i=+card.dataset.i,w=Math.min(336,innerWidth-24);let left;
-  const room=i===1?rc.left-20:innerWidth-rc.right-20;
-  if(room>=w){left=i===1?rc.left-w-12:rc.right+12}else{left=i===1?rc.right+12:rc.left-w-12}
+ const place=card=>{const rc=card.getBoundingClientRect(),cs=[...pk.querySelectorAll('.pc[data-i]')],last=cs[cs.length-1].getBoundingClientRect();
+  const avail=innerWidth-last.right-12-10,w=Math.max(264,Math.min(336,avail>0?avail:336,innerWidth-24));let left=last.right+12;
+  if(avail<264)left=innerWidth-w-10;
   pop.style.width=w+'px';left=Math.max(10,Math.min(left,innerWidth-w-10));const h=pop.offsetHeight;
   pop.style.left=left+'px';pop.style.top=Math.max(10,Math.min(rc.top+rc.height/2-h/2,innerHeight-h-10))+'px'};
  const open=(i,sh)=>{pop.innerHTML=popHtml(i);sheet=sh;pop.classList.toggle('sheet',sh);bd.classList.toggle('on',sh);pop.classList.remove('show');void pop.offsetWidth;pop.classList.add('show');cur=sh?null:pk.querySelector(`.pc[data-i="${i}"]`);if(cur)place(cur)};
