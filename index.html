@@ -1470,7 +1470,7 @@ function run(){
    $('rc-b').innerHTML=mbig(sv);$('rc-bill').innerHTML='Hóa đơn <b>'+mi(bill)+'</b>/tháng';
    $('rc-f').style.width=Math.max(pc,2)+'%';
    $('rc-l').innerHTML=`<span>Giảm <b>${fmt(pc,1)}%</b> hóa đơn</span><span>còn <b>${mi(Math.max(0,bill-sv))}</b>/tháng</span>`;
-   const rr=esco0?[['Khách hàng được hưởng','10% chi phí tiết kiệm được'],['Thời hạn hợp đồng','18 năm']]:LN?[['Hoàn vốn',yr(p.payL)],['Tiết kiệm mỗi năm',mi(p.savYear)]]:[['Hoàn vốn sau thuế',yr(p.payPost)],['Tiết kiệm mỗi năm',mi(p.savYear)]];
+   const rr=esco0?[['Tiết kiệm mỗi năm',mi(sv*12)],['NPV 20 năm',mi(p.npvEsco)]]:LN?[['Hoàn vốn',yr(p.payL)],['Tiết kiệm mỗi năm',mi(p.savYear)],['NPV 20 năm',mi(p.npvEq)]]:[['Hoàn vốn sau thuế',yr(p.payPost)],['Tiết kiệm mỗi năm',mi(p.savYear)],['NPV 20 năm',mi(p.npvEq)]];
    $('rc-r').innerHTML=rr.map(a=>`<div class="rr"><span>${a[0]}</span><b>${a[1]}</b></div>`).join('')+(LN?loanBadge(p):'')}
   {const rp=recI===2?P2:r.p1,sv2=esco0?rp.escoMonth:rp.savMonth;$('mbt').textContent='~ '+mi(sv2)+' mỗi tháng'}
   S.anim=false;
