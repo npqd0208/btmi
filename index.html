@@ -938,7 +938,7 @@ body{overflow-x:clip}
 <div id="finEsco" hidden>
 <div class="fg fg3 finf">
 <div><label for="escoPct">Khách hàng được hưởng (% tiết kiệm)</label><select id="escoPct" aria-label="Tỷ lệ khách hàng được hưởng"><option value="10">10%</option><option value="15">15%</option><option value="20" selected>20%</option></select><span class="rh">Mức tạm tính, thống nhất sau khảo sát và đàm phán</span></div>
-<div><label for="escoYrs">Thời hạn hợp đồng</label><input id="escoYrs" type="text" value="18 năm + 2 năm chuyển giao" readonly disabled aria-readonly="true"><span class="rh">Tự động theo tỷ lệ, không chỉnh sửa</span></div>
+<div><label for="escoYrs">Thời hạn hợp đồng</label><input id="escoYrs" type="text" value="18 năm" readonly disabled aria-readonly="true"><span class="rh">Tự động theo tỷ lệ, không chỉnh sửa</span></div>
 </div>
 </div>
 </div>
@@ -1435,7 +1435,7 @@ function run(){
   finEl.classList.remove('dim');
   $('finEpc').hidden=esco0;$('finEsco').hidden=!esco0;$('finTitleT').textContent=esco0?'Điều khoản ESCO':'Giải pháp tài chính';
   $('finEpc').querySelectorAll('input,button').forEach(i=>i.disabled=false);
-  $('escoPct').value=String(Math.round(S.esco*100));$('escoYrs').value=K.escoYears+' năm + 2 năm chuyển giao';
+  $('escoPct').value=String(Math.round(S.esco*100));$('escoYrs').value=K.escoYears+' năm';
   finEl.querySelectorAll('.fin-dep').forEach(d=>{d.classList.toggle('fin-off',!esco0&&!LN);d.querySelectorAll('input').forEach(i=>i.disabled=esco0||!LN)});
   if($('finPre'))$('finPre').querySelectorAll('button').forEach(b=>b.classList.toggle('on',Math.round(loanPct*100)===+b.dataset.ltv));
   if($('finNote'))$('finNote').textContent=esco0?'Chỉ áp dụng cho hình thức EPC (tự đầu tư). Ở ESCO, BTMI tài trợ 100% vốn nên doanh nghiệp không cần vay.'
