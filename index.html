@@ -731,6 +731,9 @@ body.nores #kpi,body.nores #eqw,body.nores #aside,body.nores #ntsw,body.nores #c
 .dv-bar{flex:none;display:flex;align-items:center;gap:12px;padding:12px 16px;background:#fff;border-bottom:1px solid var(--line)}
 .dv-bar i{font-style:normal;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--navy);color:#fff;font-size:12.5px;font-weight:700;flex:none}
 .dv-bt{min-width:0;flex:1}.dv-bt b{display:block;font-size:14.5px;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.dv-bt small{display:block;font-size:11.5px;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dv-dl{flex:none;font-size:12.5px;font-weight:700;color:#fff;background:var(--navy);border-radius:999px;padding:7px 14px;text-decoration:none;white-space:nowrap}
+.dv-dl[hidden]{display:none}
+.dv-dl:hover{background:var(--acc)}
 .dv-cnt{flex:none;font-size:12px;font-weight:600;color:var(--navy);background:var(--soft);border:1px solid var(--line);border-radius:999px;padding:5px 11px}
 .dv-x{flex:none;width:36px;height:36px;border-radius:50%;border:0;background:var(--soft);color:var(--navy);font-size:22px;line-height:1;cursor:pointer}
 .dv-body{flex:1;overflow:auto;-webkit-overflow-scrolling:touch;padding:18px 12px 40px;overscroll-behavior:contain}
@@ -740,7 +743,7 @@ body.nores #kpi,body.nores #eqw,body.nores #aside,body.nores #ntsw,body.nores #c
 .dv-pgs svg{display:block;width:100%;height:auto;background:#fff;padding:14px;box-shadow:0 10px 30px -12px rgba(0,0,0,.5);border-radius:3px}
 .dv-pgs figcaption{margin-top:5px;text-align:center;font-size:11px;color:#cbd5e1}
 .dv-src{max-width:780px;margin:18px auto 0;text-align:center;color:#e2e8f0;font-size:12.5px;line-height:1.5}
-@media(max-width:520px){.dv-body{padding:12px 6px 40px}.dv-bar{padding:10px 12px}}
+@media(max-width:520px){.dv-cnt{display:none}.dv-body{padding:12px 6px 40px}.dv-bar{padding:10px 12px}}
 
 .nts{margin:18px 0 0;background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;transition:box-shadow .2s,border-color .2s}
 .nts:hover{border-color:var(--acc)}
@@ -916,13 +919,14 @@ body.nores #kpi,body.nores #eqw,body.nores #aside,body.nores #ntsw,body.nores #c
           <text x="114" y="283.5" font-size="5" fill="#475569">HỆ ĐMT MÁI NHÀ</text>
           <text x="162" y="283.5" font-size="5" fill="#475569">KHỔ A3</text>
         </svg><span class="dv-pg il">Hình minh họa</span></div></div><div class="dv-m"><b>Bản vẽ thiết kế</b><em>Technical Design</em><small>Mặt bằng mái và sơ đồ đấu nối một sợi, lập sau khảo sát</small></div></button><button type="button" class="dv-c" data-k="m02" data-n="2" data-t="Thông báo lắp đặt" data-s="Installation Notice" data-src="Nguồn: Mẫu số 02, Phụ lục III Nghị định 243/2026/NĐ-CP, thông báo lắp đặt đấu nối từ trung áp trở lên"><div class="dv-no"><i>4</i><span>Mẫu số 02</span></div><div class="dv-st dv-stack"><div class="dv-sheet"><img src="docs/m02/t.webp" alt="Thông báo lắp đặt" loading="lazy" decoding="async"><span class="dv-pg">2 trang</span></div></div><div class="dv-m"><b>Thông báo lắp đặt</b><em>Installation Notice</em><small>Gửi UBND cấp tỉnh trước khi lắp ít nhất 10 ngày làm việc</small></div></button><button type="button" class="dv-c" data-k="m06d" data-n="8" data-t="Thỏa thuận đấu nối" data-s="Grid Connection" data-src="Nguồn: Mẫu số 06d, thỏa thuận đấu nối và hệ thống thu thập, giám sát, điều khiển giữa đơn vị điện lực và khách hàng"><div class="dv-no"><i>5</i><span>Mẫu số 06d</span></div><div class="dv-st dv-stack"><div class="dv-sheet"><img src="docs/m06d/t.webp" alt="Thỏa thuận đấu nối" loading="lazy" decoding="async"><span class="dv-pg">8 trang</span></div></div><div class="dv-m"><b>Thỏa thuận đấu nối</b><em>Grid Connection</em><small>Trung áp, không bán điện dư, khách hàng cấp điện mới</small></div></button></div><div class="dv-ph"><i>Giai đoạn 3</i><b>Nghiệm thu và đóng điện</b><span>Legal &amp; Compliance · PCCC, kiểm tra điều kiện đóng điện</span></div><div class="dv-grid"><button type="button" class="dv-c" data-k="pc18" data-n="1" data-t="Hồ sơ PCCC" data-s="Fire Safety Documents" data-src="Nguồn: Mẫu số PC18, văn bản nghiệm thu về phòng cháy và chữa cháy, căn cứ Nghị định 105/2025/NĐ-CP"><div class="dv-no"><i>6</i><span>Mẫu số PC18</span></div><div class="dv-st"><div class="dv-sheet"><img src="docs/pc18/t.webp" alt="Hồ sơ PCCC" loading="lazy" decoding="async"><span class="dv-pg">1 trang</span></div></div><div class="dv-m"><b>Hồ sơ PCCC</b><em>Fire Safety Documents</em><small>Văn bản nghiệm thu về phòng cháy chữa cháy, nếu công trình thuộc diện</small></div></button><button type="button" class="dv-c" data-k="bm06" data-n="3" data-t="Biên bản nghiệm thu" data-s="Acceptance Report" data-src="Nguồn: Mẫu số BM 06, biên bản kiểm tra điều kiện đóng điện điểm đấu nối nguồn điện mặt trời mái nhà tự sản xuất, tự tiêu thụ"><div class="dv-no"><i>7</i><span>Mẫu số BM 06</span></div><div class="dv-st dv-stack"><div class="dv-sheet"><img src="docs/bm06/t.webp" alt="Biên bản nghiệm thu" loading="lazy" decoding="async"><span class="dv-pg">3 trang</span></div></div><div class="dv-m"><b>Biên bản nghiệm thu</b><em>Acceptance Report</em><small>Kiểm tra điều kiện đóng điện điểm đấu nối với Điện lực</small></div></button></div><p class="dv-note">Hình ảnh hồ sơ mang tính tham khảo, tùy thuộc mô hình đầu tư và đặc điểm dự án.</p></div>
-<div class="dv-v" id="dv" role="dialog" aria-modal="true" aria-label="Xem hồ sơ"><div class="dv-bar"><i id="dvn"></i><div class="dv-bt"><b id="dvt"></b><small id="dvs"></small></div><span class="dv-cnt" id="dvc"></span><button type="button" class="dv-x" id="dvx" aria-label="Đóng">×</button></div><div class="dv-body" id="dvb"><div class="dv-pgs" id="dvp"></div><div class="dv-src" id="dvr"></div></div></div>
+<div class="dv-v" id="dv" role="dialog" aria-modal="true" aria-label="Xem hồ sơ"><div class="dv-bar"><i id="dvn"></i><div class="dv-bt"><b id="dvt"></b><small id="dvs"></small></div><span class="dv-cnt" id="dvc"></span><a class="dv-dl" id="dvd" download hidden>Tải PDF</a><button type="button" class="dv-x" id="dvx" aria-label="Đóng">×</button></div><div class="dv-body" id="dvb"><div class="dv-pgs" id="dvp"></div><div class="dv-src" id="dvr"></div></div></div>
 <script>
 (function(){
   const v=document.getElementById('dv');if(!v)return;
   const p=document.getElementById('dvp'),b=document.getElementById('dvb'),de=document.documentElement;
   let last=null;
   const close=()=>{v.classList.remove('on');de.style.overflow='';p.innerHTML='';if(last)last.focus()};
+  const PDF={epc:'Hop-dong-EPC-mau-tham-khao.pdf',esco:'Hop-dong-ESCO-PPA-mau-tham-khao.pdf',m02:'Thong-bao-lap-dat-Mau-02.pdf',m06d:'Thoa-thuan-dau-noi-Mau-06d.pdf',pc18:'Van-ban-nghiem-thu-PCCC-PC18.pdf',bm06:'Bien-ban-kiem-tra-dong-dien-BM06.pdf'};
   const open=c=>{
     last=c;const k=c.dataset.k,n=+c.dataset.n;
     document.getElementById('dvn').textContent=c.querySelector('.dv-no i').textContent;
@@ -930,6 +934,7 @@ body.nores #kpi,body.nores #eqw,body.nores #aside,body.nores #ntsw,body.nores #c
     document.getElementById('dvs').textContent=c.dataset.s;
     document.getElementById('dvc').textContent=n+(n>1?' trang':' trang');
     document.getElementById('dvr').textContent=c.dataset.src||'';
+    {const a=document.getElementById('dvd');if(PDF[c.dataset.k]){a.href='docs/pdf/'+PDF[c.dataset.k];a.setAttribute('download',PDF[c.dataset.k]);a.hidden=false}else a.hidden=true}
     if(k==='svg'){const s=c.querySelector('svg');p.innerHTML='<figure>'+s.outerHTML+'</figure>'}
     else{let h='';for(let i=1;i<=n;i++){const f=String(i).padStart(2,'0');h+='<figure><img src="docs/'+k+'/'+f+'.webp" alt="'+c.dataset.t+', trang '+i+'" loading="'+(i<3?'eager':'lazy')+'" decoding="async">'+(n>1?'<figcaption>Trang '+i+' / '+n+'</figcaption>':'')+'</figure>'}p.innerHTML=h}
     b.scrollTop=0;v.classList.add('on');de.style.overflow='hidden';document.getElementById('dvx').focus();
