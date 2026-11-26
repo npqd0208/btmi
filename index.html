@@ -858,7 +858,7 @@ body.nores #kpi,body.nores #eqw,body.nores #aside,body.nores #ntsw,body.nores #c
 <div class="fg fg3 finf">
 <div><label for="ltv">Tỷ lệ vay (% vốn đầu tư)</label><input id="ltv" type="text" inputmode="numeric" autocomplete="off" maxlength="2" value="0"><input id="ltvr" class="rng" type="range" min="0" max="90" step="5" value="0" aria-label="Tỷ lệ vay"><span class="rh">0 đến 90%</span></div>
 <div><label for="lrate">Lãi vay (%/năm)</label><input id="lrate" type="text" inputmode="decimal" autocomplete="off" maxlength="4" value="9,5"><input id="lrater" class="rng" type="range" min="0" max="20" step="0.5" value="9.5" aria-label="Lãi vay"><span class="rh">0 đến 20%/năm</span></div>
-<div><label for="lyears">Thời gian vay (năm)</label><input id="lyears" type="text" inputmode="numeric" autocomplete="off" maxlength="2" value="7"><span class="rh rh2">1 đến 15 năm</span></div>
+<div><label for="lyears">Thời gian vay (năm)</label><input id="lyears" type="text" inputmode="numeric" autocomplete="off" maxlength="2" value="7"></div>
 </div>
 </div>
 <div class="warn" id="warn" hidden></div>
@@ -1022,7 +1022,7 @@ function hoursOf(day,idle){if(day.f)return {f:day.f,on:true};const f=Array(24).f
   return {f,on:any}}
 function calc2(D,x0){
   const x={...K,...x0};
-  x.loanPct=Math.min(0.9,Math.max(0,+x.loanPct||0));x.loanRate=Math.min(0.2,Math.max(0,+x.loanRate||0));x.loanYears=Math.min(15,Math.max(1,Math.round(+x.loanYears||1)));
+  x.loanPct=Math.min(0.9,Math.max(0,+x.loanPct||0));x.loanRate=Math.min(0.2,Math.max(0,+x.loanRate||0));x.loanYears=Math.min(20,Math.max(1,Math.round(+x.loanYears||1)));
   const grp=x.group==='Thương mại'?'Kinh doanh':x.group;
   const row=D.tar.find(r=>r[0]===grp&&r[1]===x.volt)||D.tar.find(r=>r[0]===grp&&r[1]===K.volt);const [nor,off,pk]=[row[2],row[3],row[4]];
   const pw=[],ps=[];for(let h=0;h<24;h++){pw.push(D.off[h]*off+D.pk[h]*pk+(1-D.off[h]-D.pk[h])*nor);ps.push(D.off[h]*off+(1-D.off[h])*nor)}
@@ -1295,7 +1295,7 @@ function run(){
   if(bill<=0||roof<=0)return nores('Nhập tiền điện và diện tích mái để xem đề xuất giải pháp.');
   const sched=readSched();
   const pf=id=>parseFloat((($(id).value||'').replace(',','.').replace(/[^0-9.]/g,'')))||0;
-  const loanPct=Math.min(90,Math.max(0,pf('ltv')))/100,loanRate=Math.min(20,Math.max(0,pf('lrate')))/100,loanYears=Math.min(15,Math.max(1,Math.round(pf('lyears'))));
+  const loanPct=Math.min(90,Math.max(0,pf('ltv')))/100,loanRate=Math.min(20,Math.max(0,pf('lrate')))/100,loanYears=Math.min(20,Math.max(1,Math.round(pf('lyears'))));
   const x={group:$('group').value,bill,sched,prov:$('prov').value,roof,idle:S.idle,loanPct,loanRate,loanYears};
   const r=calc2(D,x);window.R=r;
   if(r.err==='roof')return nores('Diện tích mái tối thiểu khoảng 30 m² (hệ 5 kWp). Nhập diện tích mái lớn hơn để xem đề xuất giải pháp.');
@@ -1375,7 +1375,7 @@ document.querySelectorAll('.seg button[data-m]').forEach(b=>b.addEventListener('
 document.querySelectorAll('#bill,#roof').forEach(e=>{groupInput(e);e.addEventListener('input',ev=>groupInput(e,ev))});
 let rT=0;const runSoon=()=>{clearTimeout(rT);rT=setTimeout(run,120)};
 document.querySelectorAll('#bill,#roof').forEach(e=>{e.addEventListener('input',runSoon);e.addEventListener('change',run)});
-(function(){const L={ltv:{min:0,max:90,dec:0,def:'0',sl:'ltvr'},lrate:{min:0,max:20,dec:1,def:'9,5',sl:'lrater'},lyears:{min:1,max:15,dec:0,def:'7'}};
+(function(){const L={ltv:{min:0,max:90,dec:0,def:'0',sl:'ltvr'},lrate:{min:0,max:20,dec:1,def:'9,5',sl:'lrater'},lyears:{min:1,max:20,dec:0,def:'7'}};
   const toN=v=>parseFloat(String(v).replace(',','.'));
   const syncSl=(id)=>{const c=L[id];if(!c.sl)return;const n=toN($(id).value);$(c.sl).value=isNaN(n)?c.min:Math.min(c.max,Math.max(c.min,n))};
   Object.keys(L).forEach(id=>{const c=L[id],e=$(id);
