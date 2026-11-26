@@ -760,6 +760,19 @@ body.nores #kpi,body.nores #eqw,body.nores #aside,body.nores #notes,body.nores #
 .dmod-cap{margin-top:10px;text-align:center;color:#fff;font-size:13px}
 
 .dcard:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+
+.dgrid2{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+@media(max-width:960px){.dgrid2{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:520px){.dgrid2{gap:10px!important}.dcard{padding:10px 10px 10px!important;border-radius:14px!important}.dmeta b{font-size:12.5px!important}.dmeta small{font-size:11px!important}}
+.dcard{position:relative}
+.dno{display:flex;align-items:center;gap:8px;margin-bottom:9px}
+.dno i{font-style:normal;display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--navy);color:#fff;font-size:11.5px;font-weight:700}
+.dno span{font-size:11.5px;font-weight:700;color:var(--navy);background:#fff;border:1px solid var(--line);border-radius:999px;padding:2px 9px}
+.dno span.nm{font-weight:600;color:var(--mute)}
+.paper.raw img{object-position:top}
+.ilt{position:absolute;right:6px;bottom:6px;font:600 8px/1 "Be Vietnam Pro",system-ui,sans-serif;color:#64748b;background:#f1f5f9;border-radius:3px;padding:3px 5px;z-index:2}
+.dmod-in .paper.raw{aspect-ratio:auto}.dmod-in .paper.raw img{height:auto;max-height:84vh;object-fit:contain}
+.dmod-in .ilt{font-size:10px}
 </style></head>
 <body>
 <div class="prog" id="prog"></div><span id="top"></span><i class="bgb b1"></i><i class="bgb b2"></i>
@@ -854,151 +867,14 @@ body.nores #kpi,body.nores #eqw,body.nores #aside,body.nores #notes,body.nores #
 <div class="fr rv"><div class="fl"><em><u>Tùy chọn</u></em><b>Bán điện dư lên lưới</b><p>Chỉ khi doanh nghiệp muốn bán phần điện dư, đăng ký trước khi lắp.</p></div><div class="fg2"><div class="lc rv opt"><h5>Tùy chọn: bán điện dư<span>Giấy chứng nhận 10 ngày làm việc</span></h5><p>Bán tối đa 50% sản lượng phát, cần công tơ hai chiều và thiết bị kết nối Cấp điều độ (trung áp trở lên). Giấy chứng nhận bị thu hồi nếu sau 60 ngày kể từ khi cấp chưa lắp.</p><small>Căn cứ: NĐ 58/2025, Điều 14, 16 đến 20. NĐ 243/2026</small></div></div></div>
 <p class="lnote">Mốc tuần là lịch dự kiến cho hệ thống quy mô vừa, chốt cụ thể sau khảo sát ở tuần 1-2. Chúng tôi lập hồ sơ, nộp và theo dõi, doanh nghiệp cung cấp giấy tờ và ký hồ sơ.</p>
 <div class="docs rv">
-  <div class="docs-h">
-    <b>Hồ sơ pháp lý và kỹ thuật trong bộ thủ tục</b>
-    <span>Hình minh họa các tài liệu chính, bấm để phóng to. Mẫu chính thức theo văn bản pháp luật hiện hành.</span>
-  </div>
+  <div class="docs-h"><b>Bộ hồ sơ pháp lý của một dự án</b><span>Mẫu số 02, 03, 04 là ảnh trang đầu từ Phụ lục III NĐ 243/2026. Ba hồ sơ còn lại chưa có số mẫu cố định. Bấm để phóng to.</span></div>
   <div class="dgrid2" id="docList">
-    <!-- 1. Mẫu số 02 (NĐ 243/2026/NĐ-CP) -->
-    <div class="dcard" tabindex="0" role="button" data-cap="Mẫu số 02, Phụ lục III NĐ 243/2026/NĐ-CP: thông báo lắp đặt nguồn điện mặt trời mái nhà, đấu nối từ trung áp trở lên, gửi UBND cấp tỉnh">
-      <div class="paper">
-        <div class="p-mcode">Mẫu số 02</div>
-        <div class="p-nat">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM<span>Độc lập - Tự do - Hạnh phúc</span></div>
-        <div class="p-date">..., ngày ... tháng ... năm 202...</div>
-        <div class="p-ttl">THÔNG BÁO</div>
-        <div class="p-sub">Lắp đặt nguồn điện mặt trời mái nhà tự sản xuất, tự tiêu thụ, đấu nối từ trung áp trở lên</div>
-        <div class="p-to">Kính gửi: Ủy ban nhân dân tỉnh, thành phố ...............</div>
-        <div class="p-sec">I. THÔNG TIN CHUNG</div>
-        <table class="p-tbl">
-          <tr><td>1. Tổ chức, cá nhân</td><td>Tên, mã số DN, địa chỉ, mã khách hàng</td></tr>
-          <tr><td>2. Vị trí lắp đặt</td><td>........................</td></tr>
-          <tr><td>3. Mô tả công trình</td><td>Kết cấu, chiều cao, diện tích mái</td></tr>
-          <tr><td>4. Công suất lắp đặt</td><td>... kWp / ... kWh / ... kW</td></tr>
-          <tr><td>5. Điện dư</td><td>Không bán lên lưới</td></tr>
-          <tr><td>6. Thời gian</td><td>Dự kiến lắp đặt, hoàn thành</td></tr>
-        </table>
-        <div class="p-sec">II. CAM KẾT</div>
-        <div class="p-ln"><i class="w8"></i><i class="w6"></i></div>
-        <div class="p-sec">III. ĐỀ NGHỊ</div>
-        <div class="p-ln"><i class="w8"></i></div>
-        <div class="p-sig r1"><div></div><div><b>ĐẠI DIỆN TỔ CHỨC THÔNG BÁO</b><em>(Ký, ghi rõ họ tên)</em></div></div>
-      </div>
-      <div class="dmeta"><b>Mẫu số 02, thông báo lắp đặt</b><small>Gửi UBND cấp tỉnh trước khi lắp ít nhất 10 ngày làm việc</small></div>
-    </div>
-
-    <!-- 2. Bản vẽ sơ đồ đấu nối một sợi (SLD) -->
-    <div class="dcard" tabindex="0" role="button" data-cap="Bản vẽ mặt bằng mái và sơ đồ đấu nối một sợi (SLD), kèm thiết bị chống phát ngược">
-      <div class="paper cad">
-        <svg viewBox="0 0 210 297" role="img" aria-label="Sơ đồ đấu nối một sợi">
-          <rect x="6" y="6" width="198" height="285" fill="#fff" stroke="#475569" stroke-width="1.2"/>
-          <rect x="10" y="10" width="190" height="277" fill="none" stroke="#94a3b8" stroke-width=".6"/>
-          <!-- Chuỗi tấm pin -->
-          <rect x="26" y="24" width="44" height="26" fill="#eff6ff" stroke="#1e3a8a" stroke-width="1"/>
-          <path d="M26 37h44M41 24v26M56 24v26" stroke="#93c5fd" stroke-width=".7"/>
-          <text x="48" y="20" text-anchor="middle" font-size="6.5" fill="#334155">PV ARRAY (DC)</text>
-          <rect x="83" y="24" width="44" height="26" fill="#eff6ff" stroke="#1e3a8a" stroke-width="1"/>
-          <path d="M83 37h44M98 24v26M113 24v26" stroke="#93c5fd" stroke-width=".7"/>
-          <rect x="140" y="24" width="44" height="26" fill="#eff6ff" stroke="#1e3a8a" stroke-width="1"/>
-          <path d="M140 37h44M155 24v26M170 24v26" stroke="#93c5fd" stroke-width=".7"/>
-          <!-- Đường DC xuống Inverter -->
-          <path d="M48 50v22M105 50v22M162 50v22" stroke="#b91c1c" stroke-width="1"/>
-          <!-- Inverter -->
-          <rect x="33" y="72" width="30" height="22" fill="#fff" stroke="#0f172a" stroke-width="1"/>
-          <line x1="33" y1="94" x2="63" y2="72" stroke="#94a3b8" stroke-width=".7"/>
-          <text x="48" y="86" text-anchor="middle" font-size="6" fill="#0f172a">INV 1</text>
-          <rect x="90" y="72" width="30" height="22" fill="#fff" stroke="#0f172a" stroke-width="1"/>
-          <line x1="90" y1="94" x2="120" y2="72" stroke="#94a3b8" stroke-width=".7"/>
-          <text x="105" y="86" text-anchor="middle" font-size="6" fill="#0f172a">INV 2</text>
-          <rect x="147" y="72" width="30" height="22" fill="#fff" stroke="#0f172a" stroke-width="1"/>
-          <line x1="147" y1="94" x2="177" y2="72" stroke="#94a3b8" stroke-width=".7"/>
-          <text x="162" y="86" text-anchor="middle" font-size="6" fill="#0f172a">INV n</text>
-          <!-- Gom AC về tủ MDB-PV -->
-          <path d="M48 94v18h114V94M105 94v34" stroke="#0f172a" stroke-width="1.1" fill="none"/>
-          <rect x="74" y="128" width="62" height="24" fill="#f8fafc" stroke="#0f172a" stroke-width="1.1"/>
-          <text x="105" y="139" text-anchor="middle" font-size="6.5" font-weight="bold" fill="#0f172a">TỦ MDB-PV</text>
-          <text x="105" y="147" text-anchor="middle" font-size="5.5" fill="#475569">ACB / MCCB · SPD</text>
-          <!-- Thanh cái chính MSB -->
-          <path d="M105 152v24" stroke="#0f172a" stroke-width="1.2"/>
-          <line x1="28" y1="176" x2="182" y2="176" stroke="#0f172a" stroke-width="2.4"/>
-          <text x="30" y="172" font-size="6" font-weight="bold" fill="#0f172a">MSB 0,4 kV</text>
-          <!-- Phụ tải -->
-          <path d="M54 176v28" stroke="#0f172a" stroke-width="1.1"/>
-          <polygon points="50,204 58,204 54,212" fill="#0f172a"/>
-          <text x="54" y="222" text-anchor="middle" font-size="6.5" fill="#0f172a">PHỤ TẢI</text>
-          <text x="54" y="230" text-anchor="middle" font-size="5.5" fill="#64748b">NHÀ MÁY</text>
-          <!-- Chống phát ngược + CT + Trạm biến áp EVN -->
-          <path d="M150 176v18" stroke="#0f172a" stroke-width="1.1"/>
-          <circle cx="150" cy="202" r="8" fill="none" stroke="#0f172a" stroke-width="1.1"/>
-          <circle cx="150" cy="212" r="8" fill="none" stroke="#0f172a" stroke-width="1.1"/>
-          <path d="M150 220v14" stroke="#0f172a" stroke-width="1.1"/>
-          <text x="150" y="242" text-anchor="middle" font-size="6.5" font-weight="bold" fill="#0f172a">LƯỚI EVN 22 kV</text>
-          <!-- Tín hiệu Zero Export -->
-          <rect x="102" y="192" width="32" height="16" fill="#fef3c7" stroke="#b45309" stroke-width=".9"/>
-          <text x="118" y="201" text-anchor="middle" font-size="5.2" font-weight="bold" fill="#92400e">ZERO-EXP</text>
-          <text x="118" y="206.5" text-anchor="middle" font-size="4.8" fill="#92400e">METER+CT</text>
-          <path d="M134 200h16M118 192v-48h18" stroke="#d97706" stroke-width=".9" stroke-dasharray="3 2" fill="none"/>
-          <!-- Khung tên bản vẽ CAD góc phải dưới -->
-          <rect x="110" y="254" width="90" height="33" fill="#f8fafc" stroke="#475569" stroke-width=".9"/>
-          <line x1="110" y1="265" x2="200" y2="265" stroke="#94a3b8" stroke-width=".6"/>
-          <line x1="110" y1="276" x2="200" y2="276" stroke="#94a3b8" stroke-width=".6"/>
-          <line x1="158" y1="265" x2="158" y2="287" stroke="#94a3b8" stroke-width=".6"/>
-          <text x="114" y="262" font-size="5.5" font-weight="bold" fill="#0f172a">SƠ ĐỒ ĐẤU NỐI 1 SỢI (SLD)</text>
-          <text x="114" y="272.5" font-size="5" fill="#475569">BẢN VẼ: EL-01</text>
-          <text x="162" y="272.5" font-size="5" fill="#475569">TỶ LỆ: NTS</text>
-          <text x="114" y="283.5" font-size="5" fill="#475569">HỆ ĐMT MÁI NHÀ</text>
-          <text x="162" y="283.5" font-size="5" fill="#475569">KHỔ A3</text>
-        </svg>
-      </div>
-      <div class="dmeta"><b>Bản vẽ thiết kế &amp; Sơ đồ 1 sợi</b><small>Đính kèm hồ sơ để Điện lực xem xét lưới và đấu nối</small></div>
-    </div>
-
-    <!-- 3. Chứng chỉ CO / CQ thiết bị -->
-    <div class="dcard" tabindex="0" role="button" data-cap="Chứng nhận xuất xứ (CO), chất lượng (CQ) và tiêu chuẩn của tấm pin, biến tần, thiết bị chống phát ngược">
-      <div class="paper cert">
-        <div class="c-frame">
-          <div class="c-top"><span>REF NO: ..........</span><span>ISO / IEC</span></div>
-          <div class="c-h">CERTIFICATE</div>
-          <div class="c-sh">OF ORIGIN &amp; QUALITY (CO / CQ)</div>
-          <div class="p-ln"><i class="w8"></i><i></i><i class="w6"></i></div>
-          <table class="p-tbl">
-            <tr><th>Thiết bị</th><th>Tiêu chuẩn</th></tr>
-            <tr><td>Tấm pin quang điện</td><td>IEC 61215 / 61730</td></tr>
-            <tr><td>Biến tần hòa lưới</td><td>IEC 62109 / 61727</td></tr>
-            <tr><td>Thiết bị chống phát ngược</td><td>Theo nhà sản xuất</td></tr>
-            <tr><td>Pin lưu trữ (nếu có)</td><td>IEC 62619</td></tr>
-          </table>
-          <div class="p-ln" style="margin-top:4px"><i></i><i class="w8"></i></div>
-          <div class="p-sig r1"><div></div><div><b>MANUFACTURER</b><em>Authorized Signature</em></div></div>
-        </div>
-      </div>
-      <div class="dmeta"><b>Chứng nhận CO, CQ thiết bị</b><small>Tài liệu xuất xứ, chất lượng và chuẩn an toàn hòa lưới</small></div>
-    </div>
-
-    <!-- 4. Biên bản nghiệm thu hoàn công -->
-    <div class="dcard" tabindex="0" role="button" data-cap="Biên bản nghiệm thu kỹ thuật, thử tải chống phát ngược và bàn giao đưa vào sử dụng">
-      <div class="paper">
-        <div class="p-nat">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM<span>Độc lập - Tự do - Hạnh phúc</span></div>
-        <div class="p-date">..., ngày ... tháng ... năm 202...</div>
-        <div class="p-ttl">BIÊN BẢN NGHIỆM THU</div>
-        <div class="p-sub">Hoàn thành lắp đặt và đưa vào sử dụng</div>
-        <div class="p-sec">I. Thành phần tham gia</div>
-        <div class="p-ln"><i class="dot"></i><i class="dot"></i></div>
-        <div class="p-sec">II. Kết quả kiểm tra kỹ thuật</div>
-        <table class="p-tbl">
-          <tr><th>Nội dung kiểm tra</th><th>Kết quả</th></tr>
-          <tr><td>Công suất &amp; sơ đồ đấu nối</td><td>Đạt</td></tr>
-          <tr><td>Thử tải chống phát ngược</td><td>Đạt</td></tr>
-          <tr><td>An toàn điện, tiếp địa, PCCC</td><td>Đạt</td></tr>
-        </table>
-        <div class="p-sec">III. Kết luận</div>
-        <div class="p-ln"><i class="w8"></i><i class="w6"></i></div>
-        <div class="p-sig">
-          <div><b>ĐẠI DIỆN CHỦ ĐẦU TƯ</b><em>(Ký, ghi rõ họ tên)</em></div>
-          <div><b>ĐẠI DIỆN THI CÔNG</b><em>(Ký, ghi rõ họ tên)</em></div>
-        </div>
-      </div>
-      <div class="dmeta"><b>Biên bản nghiệm thu, hoàn công</b><small>Thử tải, PCCC và bàn giao vận hành ở giai đoạn cuối</small></div>
-    </div>
+<div class="dcard" tabindex="0" role="button" data-cap="Mẫu số 02, Phụ lục III NĐ 243/2026/NĐ-CP: thông báo lắp đặt nguồn điện mặt trời mái nhà, đấu nối từ trung áp trở lên, gửi UBND cấp tỉnh"><div class="dno"><i>1</i><span>Mẫu số 02</span></div><div class="paper raw"><img src="docs/m02.jpg" alt="Thông báo lắp đặt" loading="lazy"></div><div class="dmeta"><b>Thông báo lắp đặt</b><small>Gửi UBND cấp tỉnh trước khi lắp ít nhất 10 ngày làm việc</small></div></div>
+<div class="dcard" tabindex="0" role="button" data-cap="Mẫu số 03, Phụ lục III NĐ 243/2026/NĐ-CP: giấy đăng ký phát triển nguồn điện mặt trời mái nhà, dùng khi đăng ký bán điện dư"><div class="dno"><i>2</i><span>Mẫu số 03</span></div><div class="paper raw"><img src="docs/m03.jpg" alt="Giấy đăng ký phát triển" loading="lazy"></div><div class="dmeta"><b>Giấy đăng ký phát triển</b><small>Chỉ khi bán điện dư. Nộp UBND cấp tỉnh kèm sơ đồ đấu nối</small></div></div>
+<div class="dcard" tabindex="0" role="button" data-cap="Mẫu số 04, Phụ lục III NĐ 243/2026/NĐ-CP: giấy chứng nhận đăng ký phát triển do UBND cấp tỉnh cấp"><div class="dno"><i>3</i><span>Mẫu số 04</span></div><div class="paper raw"><img src="docs/m04.jpg" alt="Giấy chứng nhận đăng ký" loading="lazy"></div><div class="dmeta"><b>Giấy chứng nhận đăng ký</b><small>Chỉ khi bán điện dư. UBND cấp tỉnh cấp trong 10 ngày làm việc</small></div></div>
+<div class="dcard" tabindex="0" role="button" data-cap="Thỏa thuận đấu nối với đơn vị quản lý lưới điện, theo quy định của Bộ Công Thương. NĐ 58/2025 không ban hành mẫu số riêng."><div class="dno"><i>4</i><span class="nm">Không có số mẫu</span></div><div class="paper"><span class="ilt">Hình minh họa</span><div class="p-nat">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM<span>Độc lập - Tự do - Hạnh phúc</span></div><div class="p-date">..., ngày ... tháng ... năm 202...</div><div class="p-ttl">THỎA THUẬN ĐẤU NỐI</div><div class="p-sub">Nguồn điện mặt trời mái nhà vào lưới điện</div><div class="p-sec">Bên A: Đơn vị quản lý lưới điện</div><div class="p-ln"><i class="dot"></i></div><div class="p-sec">Bên B: Tổ chức, cá nhân</div><div class="p-ln"><i class="dot"></i></div><table class="p-tbl"><tr><th>Nội dung</th><th>Thỏa thuận</th></tr><tr><td>Điểm đấu nối</td><td>.........</td></tr><tr><td>Cấp điện áp</td><td>Trung áp</td></tr><tr><td>Công suất</td><td>... kW</td></tr></table><div class="p-sig"><div><b>ĐẠI DIỆN BÊN A</b><em>(Ký, đóng dấu)</em></div><div><b>ĐẠI DIỆN BÊN B</b><em>(Ký, đóng dấu)</em></div></div></div><div class="dmeta"><b>Thỏa thuận đấu nối</b><small>Ký với đơn vị quản lý lưới điện, chưa có số mẫu trong NĐ 58 và NĐ 243</small></div></div>
+<div class="dcard" tabindex="0" role="button" data-cap="Văn bản thẩm định thiết kế PCCC hoặc văn bản chấp thuận kết quả nghiệm thu PCCC, nếu công trình thuộc diện phải thẩm định (NĐ 58/2025, Điều 17 khoản 1 điểm c)"><div class="dno"><i>5</i><span class="nm">Không có số mẫu</span></div><div class="paper"><span class="ilt">Hình minh họa</span><div class="p-nat">CƠ QUAN CẢNH SÁT PCCC VÀ CNCH<span>Độc lập - Tự do - Hạnh phúc</span></div><div class="p-date">..., ngày ... tháng ... năm 202...</div><div class="p-ttl">VĂN BẢN THẨM ĐỊNH</div><div class="p-sub">Thiết kế về phòng cháy và chữa cháy</div><div class="p-sec">Công trình</div><div class="p-ln"><i class="dot"></i><i class="dot"></i></div><div class="p-sec">Nội dung thẩm định</div><div class="p-ln"><i class="w8"></i><i></i><i class="w6"></i></div><div class="p-sec">Kết luận</div><div class="p-ln"><i class="w8"></i><i class="w6"></i></div><div class="p-sig r1"><div></div><div><b>THỦ TRƯỞNG CƠ QUAN</b><em>(Ký, đóng dấu)</em></div></div></div><div class="dmeta"><b>Hồ sơ PCCC</b><small>Thẩm định thiết kế hoặc chấp thuận nghiệm thu PCCC, nếu thuộc diện</small></div></div>
+<div class="dcard" tabindex="0" role="button" data-cap="Biên bản nghiệm thu theo pháp luật xây dựng, điện lực, PCCC, môi trường (NĐ 58/2025, Điều 23)"><div class="dno"><i>6</i><span class="nm">Không có số mẫu</span></div><div class="paper"><span class="ilt">Hình minh họa</span><div class="p-nat">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM<span>Độc lập - Tự do - Hạnh phúc</span></div><div class="p-date">..., ngày ... tháng ... năm 202...</div><div class="p-ttl">BIÊN BẢN NGHIỆM THU</div><div class="p-sub">Hoàn thành lắp đặt và đưa vào sử dụng</div><div class="p-sec">I. Thành phần tham gia</div><div class="p-ln"><i class="dot"></i><i class="dot"></i></div><div class="p-sec">II. Kết quả kiểm tra</div><table class="p-tbl"><tr><th>Nội dung</th><th>Kết quả</th></tr><tr><td>Công suất, sơ đồ đấu nối</td><td>Đạt</td></tr><tr><td>Thử tải chống phát ngược</td><td>Đạt</td></tr><tr><td>An toàn điện, PCCC</td><td>Đạt</td></tr></table><div class="p-sig"><div><b>CHỦ ĐẦU TƯ</b><em>(Ký, ghi rõ họ tên)</em></div><div><b>ĐƠN VỊ THI CÔNG</b><em>(Ký, ghi rõ họ tên)</em></div></div></div><div class="dmeta"><b>Biên bản nghiệm thu</b><small>Thử tải, bàn giao đưa vào vận hành, theo Điều 23 NĐ 58/2025</small></div></div>
   </div>
 </div>
 
