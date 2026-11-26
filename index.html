@@ -676,7 +676,7 @@ html{-webkit-text-size-adjust:100%;text-rendering:optimizeLegibility;-webkit-fon
 .kpi tr:last-child td{border-bottom:0}
 @media(max-width:700px){.kpi th,.kpi td{padding:10px 12px}.kpi table{font-size:12.5px;min-width:0}}
 
-body.nores #kpi,body.nores #eqw,body.nores #aside,body.nores #notes,body.nores #ct,body.nores .ctop,body.nores #ctt,body.nores #hstat,body.nores #mbar,body.nores .tar,body.nores .tline{display:none!important}
+body.nores #kpi,body.nores #eqw,body.nores #aside,body.nores #ntsw,body.nores #ct,body.nores .ctop,body.nores #ctt,body.nores #hstat,body.nores #mbar,body.nores .tar,body.nores .tline{display:none!important}
 .pl{display:flex;align-items:center;flex-wrap:wrap;gap:8px;align-self:flex-start}.pl .pill{margin:0}
 .vwg{display:inline-block;padding:6px 11px;border-radius:999px;font:700 11px "Be Vietnam Pro",system-ui,sans-serif;letter-spacing:.04em;background:#e7ebfd;color:var(--acc);vertical-align:middle}
 .pc.rec .vwg{background:rgba(255,255,255,.14);color:#fff}
@@ -737,6 +737,17 @@ body.nores #kpi,body.nores #eqw,body.nores #aside,body.nores #notes,body.nores #
 .dv-pgs figcaption{margin-top:5px;text-align:center;font-size:11px;color:#cbd5e1}
 .dv-src{max-width:780px;margin:18px auto 0;text-align:center;color:#e2e8f0;font-size:12.5px;line-height:1.5}
 @media(max-width:520px){.dv-body{padding:12px 6px 40px}.dv-bar{padding:10px 12px}}
+
+.nts{margin:18px 0 0;background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;transition:box-shadow .2s,border-color .2s}
+.nts:hover{border-color:var(--acc)}
+.nts summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:15px 20px;font-size:14px;font-weight:600;color:var(--navy);-webkit-tap-highlight-color:transparent}
+.nts summary::-webkit-details-marker{display:none}
+.nts summary small{font-weight:500;color:var(--mute);font-size:12.5px}
+.nts summary::after{content:"";margin-left:auto;flex:none;width:8px;height:8px;border-right:2px solid var(--navy);border-bottom:2px solid var(--navy);transform:rotate(45deg) translateY(-2px);transition:transform .2s}
+.nts[open] summary::after{transform:rotate(-135deg) translateY(-2px)}
+.nts .notes{margin:0;border:0;border-top:1px solid var(--line);border-radius:0;animation:ntin .25s ease}
+@keyframes ntin{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+@media(max-width:520px){.nts summary{padding:13px 16px;flex-wrap:wrap;gap:2px 10px}}
 </style></head>
 <body>
 <div class="prog" id="prog"></div><span id="top"></span><i class="bgb b1"></i><i class="bgb b2"></i>
@@ -812,7 +823,7 @@ body.nores #kpi,body.nores #eqw,body.nores #aside,body.nores #notes,body.nores #
 <div class="sec" id="s2"><span class="no">02</span><h2>Gói đề xuất</h2><p>Gói 1 chọn công suất điện mặt trời cho hiệu quả đầu tư (NPV) cao nhất theo phụ tải ban ngày. Gói 2 có thể lắp thêm theo diện tích mái, kèm pin lưu trữ (BESS) nạp từ điện mặt trời dư và từ lưới giờ thấp điểm, rồi sử dụng vào giờ cao điểm buổi tối. Trên máy tính, rê chuột vào gói để xem biểu đồ. Trên điện thoại, bấm nút Xem biểu đồ.</p></div>
 <div class="pk" id="pk"></div>
 <div class="eqd" id="eqw"><button type="button" class="eqs" aria-expanded="false">Xem danh mục thiết bị chi tiết<span class="chev"></span></button><div class="eqb"><div class="eqi"><p class="note" id="eqn"></p><div class="eqgrid" id="eqd"></div></div></div></div>
-<ol class="notes" id="notes"></ol>
+<details class="nts" id="ntsw"><summary>Cách tính và các giả định chính<small id="ntc"></small></summary><ol class="notes" id="notes"></ol></details>
 <div class="card brands"><span>Thiết bị chính</span><img src="logos/tcl.png" alt="TCL Solar"><img src="logos/sungrow.png" alt="Sungrow"><img src="logos/chint.png" alt="Chint"><img src="logos/cadivi.png" alt="Cadivi"></div>
 
 <div class="sec" id="s3"><span class="no">03</span><h2>Phương án hợp tác</h2><p>Các hạng mục chính dự kiến trong hợp đồng. Nội dung chi tiết và số liệu cuối cùng được chốt sau khảo sát, có thể thương lượng.</p></div>
@@ -1283,7 +1294,7 @@ function run(){
        :`Gói 1 được khuyến nghị vì ${lb[0]} sinh lời ${pc(lb[1])}${b.npv<=r.p1.npv?', NPV gói 2 không cao hơn gói 1':''} ở chi phí vốn giả định ${fmt(r.wacc*100,2)}%/năm. Gói 2 vẫn phù hợp nếu doanh nghiệp ưu tiên giảm tiền điện tối đa.`)}}
   if(esco)nt.push('Mức giảm 10% so với giá EVN trong hình thức ESCO là giả định, thay đổi theo khảo sát thực tế, có thể đàm phán, thương lượng lại.'+(P2?' Với gói có pin, hai bên chia sẻ phần tiết kiệm đo được theo tỷ lệ 90/10 thay vì bán điện theo đơn giá; pin vận hành suốt 15 năm, không thay giữa kỳ.':''));
   if(!esco&&P2&&P2.payPost!=null&&r.p1.payPost!=null&&P2.payPost>r.p1.payPost)nt.push(`Gói 2 tiết kiệm tiền điện nhiều hơn nhưng vốn đầu tư cao hơn và thời gian hoàn vốn dài hơn gói 1 (${yr(P2.payPost)} so với ${yr(r.p1.payPost)}).`);
-  $('notes').innerHTML=nt.map(t=>`<li>${t}</li>`).join('');
+  $('notes').innerHTML=nt.map(t=>`<li>${t}</li>`).join('');$('ntc').textContent='Bấm để xem '+nt.length+' ghi chú';
   renderContract(r);renderEq(r,p);
   document.querySelectorAll('.pc[data-i]').forEach(el=>el.onclick=e=>{if(e.target.closest('button'))return;S.sel=+el.dataset.i;S.userSel=true;run()});
 }
@@ -1350,7 +1361,7 @@ function popHtml(i){const r=window.R;if(!r||!r.p1)return '';const p=i===2?window
 $('ct').addEventListener('click',e=>{const b=e.target.closest('.ch2');if(!b)return;const c=b.parentElement,o=c.classList.toggle('open');b.setAttribute('aria-expanded',o)});
 run();
 (function(){const links=[...document.querySelectorAll('#topnav a')],secs=links.map(a=>document.querySelector(a.getAttribute('href')));const f=()=>{let k=-1;secs.forEach((e,i)=>{if(e.getBoundingClientRect().top<window.innerHeight*.4)k=i});links.forEach((a,i)=>a.classList.toggle('on',i===k))};addEventListener('scroll',f,{passive:true});f()})();
-document.querySelectorAll('.sec,.mode,.form,.tar>div,.tline,.eqd,.brands,.ctop,.fh,.fr,.lc,.foot,.notes').forEach(e=>e.classList.add('rv'));
+document.querySelectorAll('.sec,.mode,.form,.tar>div,.tline,.eqd,.brands,.ctop,.fh,.fr,.lc,.foot,.nts').forEach(e=>e.classList.add('rv'));
 (function(){const o=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');o.unobserve(e.target)}}),{threshold:.08,rootMargin:'0px 0px -6% 0px'});
  document.querySelectorAll('.rv').forEach(e=>o.observe(e))})();
 (function(){if(!('IntersectionObserver' in window))return;
