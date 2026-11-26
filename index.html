@@ -797,7 +797,7 @@ body.nores #kpi,body.nores #eqw,body.nores #aside,body.nores #ntsw,body.nores #c
 <div class="sec" id="s1"><span class="no">01</span><h2>Thông tin của doanh nghiệp</h2><p>Chọn hình thức hợp tác, nhập tiền điện, thời gian hoạt động và diện tích mái. Hệ thống tự cập nhật các gói đề xuất bên dưới.</p></div>
 
 <div class="card mode">
-<div class="mleft"><div class="seg" id="modeSeg"><button data-m="epc" class="on">EPC<small>Tự đầu tư</small></button><button data-m="esco">ESCO<small>Đầu tư 0 đồng</small></button></div>
+<div class="mleft"><div class="seg" id="modeSeg"><button data-m="epc" class="on">EPC<small>Tự đầu tư</small></button><button data-m="esco">ESCO<small>Đầu tư 0 đồng</small></button></div><div class="disc" id="disc"><div class="di"><div class="db"><b>Tiết kiệm 10% so với giá điện EVN</b><small>Mức tạm tính trong tính toán, sẽ thay đổi theo tình trạng thực tế sau khảo sát và đàm phán.</small></div></div></div>
 </div>
 <div class="mexp" id="mexp"></div>
 </div>
@@ -813,7 +813,7 @@ body.nores #kpi,body.nores #eqw,body.nores #aside,body.nores #ntsw,body.nores #c
 <div><label for="prov">Tỉnh, thành lắp đặt</label><select id="prov"></select></div>
 </div></div>
 <div class="fsec"><div class="cl">Thời gian hoạt động</div>
-<div class="sch-presets"><span>Chọn nhanh:</span><button type="button" data-p="hc">Giờ hành chính</button><button type="button" data-p="2">2 ca</button><button type="button" data-p="3">3 ca liên tục</button></div>
+<div class="sch-presets"><span>Chọn nhanh:</span><button type="button" data-p="hc">Giờ hành chính</button><button type="button" data-p="2">2 ca</button><button type="button" data-p="3">24/7</button></div>
 <div id="sch"></div>
 <div class="idle-row" id="idleBar"><span>Tải duy trì ngoài giờ ca:</span><button type="button" data-idle="0.05">Thấp 5%<small>Tắt gần hết máy</small></button><button type="button" data-idle="0.2" class="on">Vừa 20%<small>Chiếu sáng, làm mát</small></button><button type="button" data-idle="0.35">Cao 35%<small>Kho lạnh, chạy nền</small></button></div>
 <p class="schnote" id="schnote">Bật ngày có hoạt động, chọn giờ bắt đầu và kết thúc của từng ca, thêm tối đa 3 ca. Ca qua đêm chọn giờ kết thúc nhỏ hơn giờ bắt đầu, ví dụ 22h đến 6h. Ngoài giờ ca, mô hình tính tải duy trì <b id="idlePct">20%</b> công suất làm việc.</p>
@@ -1144,7 +1144,7 @@ function initSch(){
   document.querySelectorAll('.sch-presets button').forEach(b=>b.addEventListener('click',()=>{const p=PRE[b.dataset.p];for(const [d] of DAYS){S.sch[d]={on:p[d].length>0,shifts:p[d].map(s=>s.slice())}}drawSch();run()}));
 }
 function readSched(){const o={};for(const [d] of DAYS){const x=S.sch[d];o[d]={on:x.on,shifts:x.on?x.shifts.filter(s=>s[0]!==s[1]).map(s=>s.slice()):[]}}return o}
-function setMode(m){S.mode=m;S.anim=true;S.userSel=false;document.querySelectorAll('.seg button[data-m]').forEach(b=>b.classList.toggle('on',b.dataset.m===m));run();const x=$('mexp');x.classList.remove('sw');void x.offsetWidth;x.classList.add('sw')}
+function setMode(m){S.mode=m;S.anim=true;S.userSel=false;$('disc').classList.toggle('on',m==='esco');document.querySelectorAll('.seg button[data-m]').forEach(b=>b.classList.toggle('on',b.dataset.m===m));run();const x=$('mexp');x.classList.remove('sw');void x.offsetWidth;x.classList.add('sw')}
 const IC={
 bess:`<svg viewBox="0 0 120 90"><rect x="16" y="24" width="82" height="44" rx="6" fill="#e9ecef" stroke="#8b949e" stroke-width="2"/><rect x="98" y="38" width="8" height="16" rx="2" fill="#8b949e"/><rect x="23" y="31" width="14" height="30" rx="2" fill="#2ea043"/><rect x="41" y="31" width="14" height="30" rx="2" fill="#2ea043"/><rect x="59" y="31" width="14" height="30" rx="2" fill="#2ea043"/><rect x="77" y="31" width="14" height="30" rx="2" fill="#c9d1d9"/></svg>`,
 panel:`<svg viewBox="0 0 120 90"><g transform="skewX(-8) translate(10 0)"><rect x="14" y="8" width="92" height="66" rx="3" fill="#1c3a63" stroke="#9aa7b5" stroke-width="3"/>${[0,1,2,3,4].map(i=>`<line x1="${14+i*18.4+18.4}" y1="8" x2="${14+i*18.4+18.4}" y2="74" stroke="#5f86b8" stroke-width="1"/>`).join('')}${[1,2,3,4,5].map(i=>`<line x1="14" y1="${8+i*11}" x2="106" y2="${8+i*11}" stroke="#5f86b8" stroke-width="1"/>`).join('')}<rect x="14" y="8" width="92" height="66" rx="3" fill="url(#g1)" opacity=".18"/></g><defs><linearGradient id="g1" x1="0" x2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient></defs></svg>`,
