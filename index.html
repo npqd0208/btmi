@@ -1287,12 +1287,14 @@ body:not(.v-about) #about{display:none}
 .ab-key .btn{white-space:nowrap}
 
 /* Hệ sinh thái */
-.ab-eco{border-radius:24px;background:#fff;border:1px solid var(--line);padding:18px 0;overflow:hidden;box-shadow:0 14px 34px -26px rgba(11,18,55,.3)}
+.ab-eco{border-radius:24px;background:linear-gradient(180deg,#f7f9ff,#eef1fb);border:1px solid var(--line);padding:18px 0;overflow:hidden;box-shadow:0 14px 34px -26px rgba(11,18,55,.3)}
 .ab-mq{overflow:hidden;-webkit-mask:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent);mask:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent)}
-.ab-tr{display:flex;width:max-content;gap:14px;animation:abMq 26s linear infinite}
+.ab-tr{display:flex;width:max-content;gap:14px;padding:6px 0;animation:abMq 30s linear infinite}
 .ab-eco:hover .ab-tr{animation-play-state:paused}
-.ab-tr span{flex:none;display:grid;place-items:center;min-width:176px;height:64px;padding:0 22px;border-radius:16px;background:var(--soft);border:1px solid var(--line);font-weight:800;font-size:17px;letter-spacing:.14em;color:var(--navy);transition:background .25s,color .25s,transform .25s}
-.ab-tr span:hover{background:var(--navy);color:#fff;transform:translateY(-3px)}
+.ab-tr span{flex:none;display:grid;place-items:center;width:200px;height:84px;padding:0 22px;border-radius:18px;background:#fff;border:1px solid var(--line);box-shadow:0 8px 20px -16px rgba(11,18,55,.35);transition:transform .3s cubic-bezier(.2,.7,.2,1),box-shadow .3s,border-color .3s}
+.ab-tr span:hover{transform:translateY(-4px);border-color:rgba(28,52,200,.3);box-shadow:0 18px 30px -18px rgba(28,52,200,.45)}
+.ab-tr img{display:block;max-width:150px;max-height:42px;width:auto;height:auto;object-fit:contain}
+.ab-tr .lg-huawei img{max-height:52px}.ab-tr .lg-sungrow img,.ab-tr .lg-skyworth img{max-width:156px}.ab-tr .lg-megarevo img{max-height:46px}
 @keyframes abMq{to{transform:translateX(calc(-50% - 7px))}}
 
 /* Dự án */
@@ -1346,7 +1348,7 @@ body.v-about .endcta{margin-top:22px}
  .ab-key .btn,.ab-next .btn{width:100%;justify-content:center;text-align:center}
  .ab-next{padding:22px 20px}
  .ab-stat{margin-top:56px;padding:24px 20px 20px}
- .ab-tr span{min-width:140px;height:54px;font-size:15px}
+ .ab-tr span{width:156px;height:68px;padding:0 16px}.ab-tr img{max-width:118px;max-height:34px}.ab-tr .lg-huawei img{max-height:42px}.ab-tr .lg-sungrow img,.ab-tr .lg-skyworth img{max-width:122px}
  .ab-why article{display:grid;grid-template-columns:auto 1fr;column-gap:14px;padding:18px}
  .ab-why i{grid-row:1/span 2;width:44px;height:44px}
  .ab-why h3{margin:2px 0 4px;padding-right:44px}
@@ -1373,6 +1375,8 @@ body.v-about .endcta{margin-top:22px}
 .ab-mapc.in .mk-r{animation:mkPulse 2.6s ease-out calc(var(--d) + 1.1s) infinite}
 @keyframes mkPulse{0%{transform:scale(1);opacity:.85}100%{transform:scale(2.5);opacity:0}}
 .ab-svg g[data-p]{cursor:pointer}
+.ab .mk-r,.ab .mk-l,.ab .mk-d{pointer-events:none}
+.ab .mp-nb,.ab .mp-vn,.ab .mp-is{pointer-events:none}
 .ab-svg g.hl .mk-c{fill:#f2c14e;stroke:var(--acc);stroke-width:2.4}
 .ab-svg g.hl .mk-l{stroke:var(--acc);stroke-width:1.8;opacity:1}
 .ab-ml{position:absolute;z-index:2;display:flex;align-items:center;gap:7px;padding:4px 12px 4px 4px;text-align:left;border-radius:999px;background:#fff;border:1px solid var(--line);box-shadow:0 8px 18px -10px rgba(11,18,55,.45);font:inherit;line-height:1.2;cursor:pointer;white-space:nowrap;opacity:0;transform:translate(6px,-50%);transition:opacity .5s var(--d),transform .5s cubic-bezier(.2,.7,.2,1) var(--d),border-color .2s,box-shadow .2s}
@@ -1506,8 +1510,8 @@ body.v-about .endcta{margin-top:22px}
 <div class="sec" id="ab-eco"><span class="no">03</span><h2>Hệ sinh thái đối tác công nghệ</h2><p>Các thương hiệu công nghệ trong hệ sinh thái đối tác của BTMI.</p></div>
 <div class="ab-eco rv" aria-label="Các thương hiệu đối tác công nghệ">
  <div class="ab-mq"><div class="ab-tr">
-  <span>HUAWEI</span><span>SUNGROW</span><span>XSOLAR</span><span>MEGAREVO</span><span>HOYMILES</span><span>SKYWORTH</span>
-  <span aria-hidden="true">HUAWEI</span><span aria-hidden="true">SUNGROW</span><span aria-hidden="true">XSOLAR</span><span aria-hidden="true">MEGAREVO</span><span aria-hidden="true">HOYMILES</span><span aria-hidden="true">SKYWORTH</span>
+  <span class="lg-huawei"><img src="logos/partners/huawei.webp" alt="Huawei" loading="lazy" decoding="async"></span><span class="lg-sungrow"><img src="logos/partners/sungrow.webp" alt="Sungrow" loading="lazy" decoding="async"></span><span class="lg-xsolar"><img src="logos/partners/xsolar.webp" alt="XSolar" loading="lazy" decoding="async"></span><span class="lg-megarevo"><img src="logos/partners/megarevo.webp" alt="Megarevo" loading="lazy" decoding="async"></span><span class="lg-hoymiles"><img src="logos/partners/hoymiles.webp" alt="Hoymiles" loading="lazy" decoding="async"></span><span class="lg-skyworth"><img src="logos/partners/skyworth.webp" alt="Skyworth" loading="lazy" decoding="async"></span>
+  <span class="lg-huawei" aria-hidden="true"><img src="logos/partners/huawei.webp" alt="" loading="lazy" decoding="async"></span><span class="lg-sungrow" aria-hidden="true"><img src="logos/partners/sungrow.webp" alt="" loading="lazy" decoding="async"></span><span class="lg-xsolar" aria-hidden="true"><img src="logos/partners/xsolar.webp" alt="" loading="lazy" decoding="async"></span><span class="lg-megarevo" aria-hidden="true"><img src="logos/partners/megarevo.webp" alt="" loading="lazy" decoding="async"></span><span class="lg-hoymiles" aria-hidden="true"><img src="logos/partners/hoymiles.webp" alt="" loading="lazy" decoding="async"></span><span class="lg-skyworth" aria-hidden="true"><img src="logos/partners/skyworth.webp" alt="" loading="lazy" decoding="async"></span>
  </div></div>
 </div>
 
