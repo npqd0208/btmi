@@ -1579,7 +1579,7 @@ body.kb .vtab.flt,body:has(.dv-v.on) .vtab.flt,body:has(.rq.on) .vtab.flt{displa
 <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
 </defs></svg>
 
-<main id="about" class="ab" aria-label="Về chúng tôi">
+<main id="about" class="ab" aria-label="Về chúng tôi"><nav class="nav" id="abnav" aria-label="Mục lục Về chúng tôi"><a href="#ab-why" data-t="Vì sao chọn chúng tôi">Vì sao chọn chúng tôi</a><a href="#ab-sol" data-t="Danh mục giải pháp">Danh mục giải pháp</a><a href="#ab-eco" data-t="Hệ sinh thái đối tác">Hệ sinh thái đối tác</a><a href="#ab-prj" data-t="Dự án triển khai">Dự án triển khai</a></nav>
 
 <section class="ab-hero">
  <div class="ab-hl">
@@ -2137,6 +2137,9 @@ bars.forEach(b=>{b.addEventListener('mouseenter',()=>hl(b.dataset.p,1));b.addEve
 pills.forEach(b=>b.addEventListener('click',()=>pick(b.dataset.f,0)));
 cards.forEach(c=>{c.addEventListener('mouseenter',()=>hl(c.dataset.p,1));c.addEventListener('mouseleave',()=>hl(0,0));c.addEventListener('click',()=>pick(c.dataset.p,0))});
 })();</script>
+<script>(function(){const nav=document.getElementById('abnav'),ab=document.getElementById('about');if(!nav||!ab)return;const links=[...nav.querySelectorAll('a')],secs=links.map(a=>document.querySelector(a.getAttribute('href'))),hero=ab.querySelector('.ab-hero');
+const f=()=>{if(!document.body.classList.contains('v-about'))return;const t=hero?hero.offsetHeight*.45:240;nav.classList.toggle('vis',scrollY>t);let k=-1;secs.forEach((e,i)=>{if(e&&e.getBoundingClientRect().top<innerHeight*.4)k=i});links.forEach((a,i)=>a.classList.toggle('on',i===k))};
+addEventListener('scroll',f,{passive:true});addEventListener('resize',f);f()})();</script>
 <button type="button" id="totop" aria-label="Lên đầu trang" title="Lên đầu trang"><svg viewBox="0 0 24 24"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></button>
 <script>
 // Mô hình v2.1: Full logic V1.1 + vá lỗi nhỏ V2 (.cstat, scroll-lock iOS, reset nút copy)
