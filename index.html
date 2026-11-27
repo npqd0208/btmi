@@ -1583,12 +1583,12 @@ body.kb .vtab.flt,body:has(.dv-v.on) .vtab.flt,body:has(.rq.on) .vtab.flt{displa
 /* Danh mục giải pháp: 3 cột cao bằng nhau, mục con giãn đều */
 @media(min-width:761px){.ab-cat{align-items:stretch}.ab-col{display:flex;flex-direction:column}.ab-col ul{flex:1;align-content:stretch}.ab-col.c2 ul,.ab-col.c3 ul{grid-auto-rows:1fr}.ab-col.c2 li,.ab-col.c3 li{align-content:center}}
 /* Thanh chấm cuộn: đường tiến độ nối các mục */
-#abnav{padding:10px 7px}
-#abnav::before,#abnav::after{content:"";position:absolute;left:50%;top:26px;width:2px;margin-left:-1px;border-radius:2px;pointer-events:none}
-#abnav::before{bottom:26px;background:#e3e7f6}
-#abnav::after{height:calc((100% - 52px) * var(--pr,0));background:linear-gradient(180deg,var(--acc),var(--gold));transition:height .15s linear}
-#abnav a{z-index:1}
-#abnav a.done{background:var(--acc)}
+#abnav,#topnav{padding:10px 7px}
+#abnav::before,#abnav::after,#topnav::before,#topnav::after{content:"";position:absolute;left:50%;top:26px;width:2px;margin-left:-1px;border-radius:2px;pointer-events:none}
+#abnav::before,#topnav::before{bottom:26px;background:#e3e7f6}
+#abnav::after,#topnav::after{height:calc((100% - 52px) * var(--pr,0));background:linear-gradient(180deg,var(--acc),var(--gold));transition:height .15s linear}
+#abnav a,#topnav a{z-index:1}
+#abnav a.done,#topnav a.done{background:var(--acc)}
 /* Danh sách dự án: lọc tỉnh dính theo khi cuộn, thu gọn tỉnh nhiều hệ thống */
 @media(min-width:1021px){.ab-geo-r .ab-pf{position:sticky;top:76px;z-index:6;margin:-6px;padding:6px;border-radius:22px;background:rgba(246,248,255,.86);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:0 12px 26px -20px rgba(11,18,55,.45)}}
 @media(min-width:701px) and (max-width:1180px){body.v-about .wrap{padding-right:50px}}
@@ -2263,6 +2263,12 @@ ab.querySelectorAll('.ab-plist article').forEach(art=>{const li=[...art.querySel
 const prj=ab.querySelector('.ab-prj');
 if(prj)ab.addEventListener('click',()=>setTimeout(()=>{prj.querySelectorAll('.ab-plist article').forEach(a=>{if(a.classList.contains('psel')&&!a.classList.contains('open')&&a._lab){a.classList.add('open');a._lab()}})},0));
 })();</script>
+<script>(function(){const nav=document.getElementById('topnav');if(!nav)return;const links=[...nav.querySelectorAll('a')],secs=links.map(a=>document.querySelector(a.getAttribute('href')));
+const f=()=>{if(document.body.classList.contains('v-about'))return;const a=secs[0],z=secs[secs.length-1];if(!a||!z)return;
+ const top=a.getBoundingClientRect().top+scrollY-innerHeight*.4,end=z.getBoundingClientRect().top+scrollY+z.offsetHeight-innerHeight*.9;
+ const pr=Math.max(0,Math.min(1,(scrollY-top)/Math.max(1,end-top)));nav.style.setProperty('--pr',pr.toFixed(3));
+ let k=-1;secs.forEach((e,i)=>{if(e&&e.getBoundingClientRect().top<innerHeight*.4)k=i});links.forEach((l,i)=>l.classList.toggle('done',i<k))};
+addEventListener('scroll',f,{passive:true});addEventListener('resize',f);f()})();</script>
 <button type="button" id="totop" aria-label="Lên đầu trang" title="Lên đầu trang"><svg viewBox="0 0 24 24"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></button>
 <script>
 // Mô hình v2.1: Full logic V1.1 + vá lỗi nhỏ V2 (.cstat, scroll-lock iOS, reset nút copy)
