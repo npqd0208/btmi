@@ -1938,7 +1938,7 @@ function run(){
 <div class="inv"><i>${esco0?'Đầu tư ban đầu của doanh nghiệp':'Vốn đầu tư'}</i><b>${cost}</b><em>${esco0?'Chúng tôi chịu 100% vốn, ước tính '+mi(p.capex):(LN?'Vay '+fmt(loanPct*100,0)+'% ('+mi(p.loan)+'), '+fmt(loanYears)+' năm, lãi '+fmt(loanRate*100,1)+'%/năm':'Chưa VAT, gồm thiết bị, thi công và thủ tục')}</em></div>
 <div class="svl"><i>Tiết kiệm mỗi tháng</i><b>${mbig(sv)}</b><span class="bl">Hóa đơn <b>${mi(bill)}</b>/tháng</span></div>
 <div class="sbar"><div class="trk"><i style="width:${Math.max(pc,2)}%"></i></div><div class="sl2"><span>Giảm <b>${fmt(pc,1)}%</b> hóa đơn</span><span>còn <b>${mi(Math.max(0,bill-sv))}</b>/tháng</span></div></div>
-<div class="mini" style="grid-template-columns:repeat(${mini.length},1fr)">${mini.map(a=>`<div><b>${a[0]}</b><span>${a[1]}</span></div>`).join('')}</div>${LN?loanBadge(p):''}
+<div class="mini" style="grid-template-columns:repeat(${mini.length},1fr)">${mini.map(a=>`<div><b>${a[0]}</b><span>${a[1]}</span></div>`).join('')}</div>
 <ul class="cks"><li>${fmt(np)} tấm TCL 630 Wp</li><li>Biến tần Sungrow, giám sát từ xa</li>${p.E?`<li>${p.bessGrid>p.bessSolar?'Pin nạp giờ thấp điểm, sử dụng giờ cao điểm':'Pin trữ điện dư ban ngày, sử dụng buổi tối'}</li>`:''}<li>Tủ điện, thi công, pháp lý trọn gói</li></ul>
 <button type="button" class="vbtn" data-v="${i}">Xem biểu đồ</button><button type="button" class="cta" data-rq="${i}">Nhận báo giá chi tiết</button></div>`};
 
@@ -1957,7 +1957,7 @@ function run(){
    $('rc-f').style.width=Math.max(pc,2)+'%';
    $('rc-l').innerHTML=`<span>Giảm <b>${fmt(pc,1)}%</b> hóa đơn</span><span>còn <b>${mi(Math.max(0,bill-sv))}</b>/tháng</span>`;
    const rr=esco0?[['Khách hàng hưởng',fmt(K.esco*100,0)+'% ('+K.escoYears+' năm)'],['Tiết kiệm/năm',mi(sv*12)],['NPV 20 năm',mi(p.npvEsco)]]:LN?[['Hoàn vốn tự có',yr(p.payL)],['Tiết kiệm/năm',mi(p.savYear)],['NPV 20 năm',mi(p.npvEq)]]:[['Hoàn vốn',yr(p.payPost)],['Tiết kiệm/năm',mi(p.savYear)],['NPV 20 năm',mi(p.npvEq)]];
-   $('rc-r').innerHTML=rr.map(a=>`<div class="rr"><span>${a[0]}</span><b>${a[1]}</b></div>`).join('')+(LN?loanBadge(p):'')}
+   $('rc-r').innerHTML=rr.map(a=>`<div class="rr"><span>${a[0]}</span><b>${a[1]}</b></div>`).join('')}
 
   const selP=S.sel===2&&P2?P2:r.p1,selI=S.sel===2&&P2?2:1;
   // Render khối tác động ESG & Chi phí chờ đợi cho gói đang xem
