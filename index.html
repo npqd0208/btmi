@@ -1548,6 +1548,29 @@ body.kb .vtab.flt,body:has(.dv-v.on) .vtab.flt,body:has(.rq.on) .vtab.flt{displa
   .ab-live i,.w-sig b,.ab-mapc.run .hq-rad{animation:none!important}
   .ab-wave path.w-line{stroke-dashoffset:0;animation:none!important}
 }
+/* ===== V6.2: Hotfix V6.1 + Dynamic Geo-Zoom từng tỉnh ===== */
+/* 1. Vá lỗi .w-sig bị dính selector .ab-why span */
+.ab-why .w-sig{position:static!important;top:auto!important;right:auto!important;font-size:0!important;display:inline-flex!important;color:inherit!important}
+@media(max-width:760px){.ab-why .w-chip{grid-column:2;justify-self:start;margin-top:8px}}
+
+/* 2. Giữ chiều cao .brandbar ổn định khi .vtab chuyển nổi (.flt), chống giật trên mobile */
+.brandbar{min-height:106px}
+@media(max-width:860px){.brandbar{min-height:80px}}
+@media(max-width:520px){.brandbar{min-height:126px}.vtab.flt{padding:5px}.vtab.flt a{padding:9px 13px;font-size:13px}}
+
+/* 3. Dynamic Geo-Zoom cận cảnh từng tỉnh & nổi bật tuyến năng lượng đang chọn */
+.ab-mapc.foc .ab-stage{--s:var(--ps,2.6);--cx:var(--px,var(--zx));--cy:var(--py,var(--zy));transition:--s 1.15s cubic-bezier(.32,.08,.18,1),--cx 1.15s cubic-bezier(.32,.08,.18,1),--cy 1.15s cubic-bezier(.32,.08,.18,1)}
+@container (max-width:480px){.ab-mapc.foc .ab-stage{--s:var(--psm,2.2)}}
+.ab-mapc.foc .ab-svg g[data-p]{transition:opacity .4s ease}
+.ab-mapc.foc .ab-svg g[data-p]:not(.psel){opacity:.22}
+.ab-mapc.foc .ab-svg g[data-p].psel{opacity:1}
+.ab-mapc.foc .ab-svg g[data-p].psel .arc-b{stroke:#ffe08a;stroke-width:calc(2.2px * var(--k))}
+.ab-mapc.foc .ab-svg g[data-p].psel .arc-t{stroke:rgba(255,214,107,.58);stroke-width:calc(6.5px * var(--k))}
+.ab-mapc.foc .ab-svg g[data-p].psel .arc-c{stroke:#fff;stroke-width:calc(2.4px * var(--k))}
+.ab-mapc.foc .ab-ml:not(.psel){opacity:.36}
+.ab-mapc.foc .ab-ml:not(.psel):hover{opacity:.95}
+.ab-mapc.foc .ab-ml.psel{z-index:4;transform:translate(0,-50%) scale(1.04)}
+.ab-mapc.foc .ab-ml.l.psel{transform:translate(-100%,-50%) scale(1.04)}
 </style></head>
 <body>
 <script>(function(h,q){var sol=h==="#giai-phap"||/^#s\d/.test(h)||/[?&](b|r|m)=/.test(q);if(!sol)document.body.classList.add("v-about")})(location.hash,location.search)</script>
@@ -1947,9 +1970,17 @@ const B=document.body,ab=document.getElementById('about'),vt=document.querySelec
 const T_AB='Về BTMI | Giải pháp điện mặt trời cho C&I',T_SOL='Giải pháp điện mặt trời áp mái cho C&I | BTMI';
 let cur=B.classList.contains('v-about')?'about':'sol';
 
-// 1. Nâng cấp cấu trúc công nghệ cho #about (giữ nguyên toàn bộ img & SVG bản đồ gốc)
+// 5 kịch bản đại diện cho Smart Context Handoff (Danh mục giải pháp -> Máy tính)
+const TIER_PRE=[
+  {name:'ESCO Solar (hòa lưới 0đ vốn)',mode:'esco',esco:20,g:'Sản xuất',b:'450',r:'6000',prov:'TP. Hồ Chí Minh',idle:0.2,sch:{wk:[[7,17]],sat:[[7,12]],sun:[]},ltv:0},
+  {name:'ESCO Smart Energy (Solar + BESS)',mode:'esco',esco:20,g:'Thương mại',b:'600',r:'6000',prov:'TP. Hồ Chí Minh',idle:0.2,sch:{wk:[[10,22]],sat:[[10,22]],sun:[[10,22]]},ltv:0},
+  {name:'EPC Start (100–500 kWp)',mode:'epc',g:'Sản xuất',b:'150',r:'2200',prov:'TP. Hồ Chí Minh',idle:0.2,sch:{wk:[[7,17]],sat:[[7,12]],sun:[]},ltv:0},
+  {name:'EPC Scale (500 kWp–2 MWp)',mode:'epc',g:'Sản xuất',b:'450',r:'8000',prov:'TP. Hồ Chí Minh',idle:0.2,sch:{wk:[[7,17]],sat:[[7,12]],sun:[]},ltv:0},
+  {name:'EPC Mega (2–5 MWp)',mode:'epc',g:'Sản xuất',b:'1400',r:'22000',prov:'TP. Hồ Chí Minh',idle:0.2,sch:{wk:[[6,14],[14,22]],sat:[[6,14],[14,22]],sun:[]},ltv:0}
+];
+
+// 1. Nâng cấp & đồng bộ cấu trúc #about (an toàn cho cả HTML gốc lẫn HTML đã lưu DOM)
 (function upgradeAbout(){
-  // 1a. Hero Telemetry Card (Live SCADA badge, sparkline sóng công suất & tác động quy đổi)
   const st=ab.querySelector('.ab-stat');
   if(st&&!st.dataset.tech){
     st.dataset.tech='1';
@@ -1970,37 +2001,41 @@ let cur=B.classList.contains('v-about')?'about':'sol';
     const kpi=st.querySelector('.ab-kpi');
     if(kpi){
       const imp=document.createElement('div');imp.className='ab-imp';
-      imp.innerHTML='<div><b>~34,5 GWh/năm</b><span>Sản lượng điện sạch ước tính</span></div><div><b>~22.700 tấn CO₂</b><span>Cắt giảm mỗi năm (Scope 2)</span></div>';
       kpi.insertAdjacentElement('afterend',imp);
     }
   }
+  // Đồng bộ con số sản lượng & CO2 khớp tuyệt đối với tổng 5 tỉnh (36,8 GWh/năm · ~24.200 tấn CO2)
+  const impEl=ab.querySelector('.ab-imp');
+  if(impEl)impEl.innerHTML='<div><b>~36,8 GWh/năm</b><span>Sản lượng điện sạch ước tính</span></div><div><b>~24.200 tấn CO₂</b><span>Cắt giảm mỗi năm (Scope 2)</span></div>';
 
-  // 1b. Block 01: Tech Bento badges & nổi bật 2 trụ cột công nghệ (#3 BESS, #5 SCADA)
   const whyChips=['C&I · 25,2 MWp','CAPEX 0Đ · LINH HOẠT','SOLAR + BESS · EMS','TIER-1 GLOBAL','SCADA 24/7 <span class="w-sig"><b></b><b></b><b></b></span>','30 NĂM HIỆU SUẤT'];
   ab.querySelectorAll('.ab-why article').forEach((art,idx)=>{
-    if(art.querySelector('.w-chip'))return;
     if(idx===2||idx===4)art.classList.add('tech-hi');
+    if(art.querySelector('.w-chip'))return;
     const c=document.createElement('div');c.className='w-chip';c.innerHTML=whyChips[idx]||'ENERGY TECH';
     art.appendChild(c);
   });
 
-  // 1c. Block 02: Liên kết tương tác từ danh mục giải pháp sang máy tính + nâng cấp sơ đồ dòng năng lượng .ab-kv
+  // Smart Context Handoff: bấm vào từng gói ở Danh mục giải pháp -> mở đúng kịch bản mẫu bên tab Giải pháp
   ab.querySelectorAll('.ab-col.c1 li').forEach((li,idx)=>{
     li.classList.add('jump');li.setAttribute('tabindex','0');li.setAttribute('role','button');
-    const isEsco=idx<2;
+    const pre=TIER_PRE[idx];
     const goCalc=()=>{
       go('#s1',true);
-      setTimeout(()=>{const btn=document.querySelector('#modeSeg [data-m="'+(isEsco?'esco':'epc')+'"]');if(btn&&!btn.classList.contains('on'))btn.click()},80);
+      setTimeout(()=>{
+        if(pre&&window.BTMI_APPLY)window.BTMI_APPLY(pre);
+        else{const btn=document.querySelector('#modeSeg [data-m="'+(idx<2?'esco':'epc')+'"]');if(btn&&!btn.classList.contains('on'))btn.click()}
+      },90);
     };
     li.addEventListener('click',goCalc);
     li.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();goCalc()}});
   });
+
   const kv=ab.querySelector('.ab-kv');
   if(kv){
     kv.innerHTML='<svg viewBox="0 0 156 124" aria-hidden="true"><defs><linearGradient id="kvG" x1="0" x2="1"><stop offset="0" stop-color="#f2c14e"/><stop offset="1" stop-color="#4ade80"/></linearGradient></defs><g class="kv-sun"><circle cx="78" cy="58" r="50"/></g><path class="kv-p" d="M22 46 34 18h46l12 28z"/><path class="kv-l" d="M28 32h58M50 18l-4 28M68 18l4 28"/><rect x="104" y="20" width="38" height="26" rx="5" fill="rgba(11,18,55,.65)" stroke="#9fb1ff" stroke-width="1.6"/><text x="123" y="36" text-anchor="middle" fill="#f2c14e" style="font:700 9px monospace">EMS</text><path class="kv-f" d="M88 33h16"/><path class="kv-f" d="M123 46v22"/><path class="kv-f" d="M56 46v22"/><rect class="kv-b" x="26" y="68" width="56" height="30" rx="6" fill="rgba(11,18,55,.6)"/><rect x="33" y="75" width="9" height="16" rx="1.5" fill="#4ade80"/><rect x="46" y="75" width="9" height="16" rx="1.5" fill="#4ade80"/><rect x="59" y="75" width="9" height="16" rx="1.5" fill="#f2c14e"/><path class="kv-f" d="M82 83h22"/><rect x="104" y="68" width="38" height="30" rx="6" fill="rgba(255,255,255,.1)" stroke="#fff" stroke-width="1.6"/><path class="kv-c" d="M124 74l-6 9h5l-3 8 9-11h-5z"/><text x="54" y="112" text-anchor="middle" fill="#cbd5f5" style="font:600 8px sans-serif">BESS LFP</text><text x="123" y="112" text-anchor="middle" fill="#cbd5f5" style="font:600 8px sans-serif">TẢI C&amp;I</text></svg>';
   }
 
-  // 1d. Block 03: Nhãn vai trò công nghệ cho từng đối tác
   const pRoles={'lg-huawei':'Inverter · BESS','lg-sungrow':'Inverter · BESS','lg-xsolar':'Giải pháp Solar','lg-megarevo':'Hybrid · PCS','lg-hoymiles':'Microinverter','lg-skyworth':'PV Solutions'};
   ab.querySelectorAll('.ab-tr span').forEach(sp=>{
     if(sp.querySelector('small'))return;
@@ -2008,7 +2043,6 @@ let cur=B.classList.contains('v-about')?'about':'sol';
     if(key){const s=document.createElement('small');s.textContent=pRoles[key];sp.appendChild(s)}
   });
 
-  // 1e. Block 04: Tái cấu trúc thành 2 cột Geo-Command Explorer (cân đối chiều cao tuyệt đối)
   const prj=ab.querySelector('.ab-prj');
   if(prj&&!prj.classList.contains('geo2')){
     const mapc=prj.querySelector('.ab-mapc'),sum=prj.querySelector('.ab-sum');
@@ -2021,7 +2055,6 @@ let cur=B.classList.contains('v-about')?'about':'sol';
     const list=document.createElement('div');list.className='ab-plist';
     order.forEach(p=>{if(byP[p]){byP[p].classList.remove('wide');list.appendChild(byP[p])}});
     if(mapc){
-      // Thêm vòng quét radar tại trụ sở TP.HCM
       const hqg=mapc.querySelector('.ab-svg g.hq g.mg');
       if(hqg&&!hqg.querySelector('.hq-rad')){
         const rad=document.createElementNS('http://www.w3.org/2000/svg','circle');
@@ -2029,7 +2062,7 @@ let cur=B.classList.contains('v-about')?'about':'sol';
         hqg.insertBefore(rad,hqg.firstChild);
       }
       const mf=mapc.querySelector('.ab-mf');
-      if(mf)mf.innerHTML='<div class="hud-l"><i class="hud-dot"></i><b id="abHudT">Toàn quốc · 5 tỉnh</b></div><span id="abHudS">25,2 MWp · 23 hệ thống (~34,5 GWh/năm)</span>';
+      if(mf)mf.innerHTML='<div class="hud-l"><i class="hud-dot"></i><b id="abHudT">Toàn quốc · 5 tỉnh</b></div><span id="abHudS">25,2 MWp · 23 hệ thống (~36,8 GWh/năm)</span>';
       left.appendChild(mapc);
     }
     if(sum)right.appendChild(sum);
@@ -2038,15 +2071,18 @@ let cur=B.classList.contains('v-about')?'about':'sol';
     prj.innerHTML='';prj.classList.add('geo2');
     prj.appendChild(left);prj.appendChild(right);
   }
+  const hudS=document.getElementById('abHudS');
+  if(hudS)hudS.textContent='25,2 MWp · 23 hệ thống (~36,8 GWh/năm)';
 })();
 
-// 2. Điều hướng 2 phân hệ + thanh chuyển tab nổi khi cuộn
+// 2. Điều hướng 2 phân hệ + thanh chuyển tab nổi có ngưỡng trễ (chống nhấp nháy trên mobile)
 function viewOf(h){if(!h||h==='#'||h==='#top')return null;if(h==='#ve-chung-toi')return'about';if(h==='#giai-phap')return'sol';let el=null;try{el=document.querySelector(h)}catch(e){}if(!el)return null;return ab.contains(el)?'about':'sol'}
 function ind(){const a=vt.querySelector('[aria-current="page"]');if(!a)return;vt.style.setProperty('--x',a.offsetLeft+'px');vt.style.setProperty('--w',a.offsetWidth+'px')}
 function apply(v,anim){const ch=v!==cur;cur=v;B.classList.toggle('v-about',v==='about');tabs.forEach(a=>a.dataset.v===v?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'));ind();
  document.title=v==='about'?T_AB:T_SOL;
  if(ch&&anim){const w=document.querySelector('.wrap');w.animate&&w.animate([{opacity:.0},{opacity:1}],{duration:360,easing:'cubic-bezier(.2,.7,.2,1)'})}
  if(ch&&v==='sol')setTimeout(()=>dispatchEvent(new Event('resize')),30);
+ if(ch&&v==='about')requestAnimationFrame(()=>dispatchEvent(new Event('scroll')));
  if(ch&&window._onScrollUI)window._onScrollUI();return ch}
 function go(h,push){const v=viewOf(h)||cur,ch=apply(v,true);if(push)history.pushState(null,'',h);
  const t=(h==='#ve-chung-toi'||h==='#giai-phap'||h==='#top')?null:(()=>{try{return document.querySelector(h)}catch(e){return null}})();
@@ -2059,14 +2095,18 @@ addEventListener('resize',ind);document.fonts&&document.fonts.ready.then(ind);
 apply(cur,false);ind();
 if(cur==='about'&&location.hash.indexOf('#ab-')===0){const t=document.querySelector(location.hash);t&&setTimeout(()=>t.scrollIntoView(),50)}
 
-// Floating glass vtab khi cuộn qua brandbar
 (function(){
   const bb=document.querySelector('.brandbar');if(!bb||!vt)return;
-  const onSc=()=>{const show=scrollY>(bb.offsetTop+bb.offsetHeight+24);if(vt.classList.toggle('flt',show))ind();else ind()};
+  let isFlt=false;
+  const onSc=()=>{
+    const y=scrollY,th=bb.offsetTop+bb.offsetHeight+28;
+    if(!isFlt&&y>th+16){isFlt=true;vt.classList.add('flt');ind()}
+    else if(isFlt&&y<th-16){isFlt=false;vt.classList.remove('flt');ind()}
+  };
   addEventListener('scroll',onSc,{passive:true});onSc();
 })();
 
-// 3. Đếm số KPI + Hiệu ứng 3D tilt & spotlight cho các thẻ công nghệ trên desktop
+// 3. Đếm số KPI + 3D tilt & spotlight
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;io.unobserve(e.target);const el=e.target,to=+el.dataset.count,d=+(el.dataset.dec||0),t0=performance.now(),D=1100;
  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
  const f=n=>{const p=Math.min(1,(n-t0)/D),k=1-Math.pow(1-p,3);el.textContent=(to*k).toLocaleString('vi-VN',{minimumFractionDigits:d,maximumFractionDigits:d});if(p<1)requestAnimationFrame(f)};requestAnimationFrame(f)}),{threshold:.45});
@@ -2087,17 +2127,33 @@ if(matchMedia('(hover:hover)').matches){
   if(stEl)stEl.addEventListener('pointerleave',()=>{stEl.style.transform=''});
 }
 
-// 4. Bản đồ dự án (khởi chạy nhanh 350ms, bật arcs ngay khi click sớm, tạm dừng khi khuất)
-const mc=ab.querySelector('.ab-mapc'),sv=mc&&mc.querySelector('.ab-svg');let setZ=()=>{};
+// 4. Bản đồ dự án + Dynamic Geo-Zoom từng tỉnh
+const PGEO={
+  tn:{n:'Tây Ninh',s:'11,2 MWp · 12 hệ thống (~15,6 GWh/năm)',cx:26.5,cy:73.5,z:2.65,zm:2.25},
+  kh:{n:'Khánh Hòa',s:'7 MWp · 6 hệ thống (~11,0 GWh/năm)',cx:47.0,cy:71.5,z:2.55,zm:2.20},
+  vl:{n:'Vĩnh Long',s:'3 MWp · 3 hệ thống (~4,0 GWh/năm)',cx:27.5,cy:77.5,z:2.65,zm:2.25},
+  gl:{n:'Gia Lai',s:'2 MWp · 1 hệ thống (~3,0 GWh/năm)',cx:33.5,cy:64.5,z:2.55,zm:2.20},
+  dn:{n:'Đồng Nai',s:'2 MWp · 1 hệ thống (~3,1 GWh/năm)',cx:41.5,cy:77.0,z:2.70,zm:2.25}
+};
+const mc=ab.querySelector('.ab-mapc'),stMap=mc&&mc.querySelector('.ab-stage'),sv=mc&&mc.querySelector('.ab-svg');
+let setZ=()=>{},zb=[];
 if(mc&&sv&&sv.pauseAnimations){
- const rm=matchMedia('(prefers-reduced-motion:reduce)').matches,zb=[...mc.querySelectorAll('.ab-zt button')];let manual=false,started=0,vis=false;
+ const rm=matchMedia('(prefers-reduced-motion:reduce)').matches;
+ zb=[...mc.querySelectorAll('.ab-zt button')];
+ let manual=false,started=0,vis=false;
  setZ=(on,byUser)=>{
    if(byUser)manual=true;
+   mc.classList.remove('foc');
    mc.classList.toggle('z',!!on);
    if(on){mc.classList.add('arcs');if(started<3&&!rm){started=3;mc.classList.add('run');sv.unpauseAnimations()}}
    zb.forEach(b=>b.setAttribute('aria-pressed',String((b.dataset.z==='1')===!!on)));
  };
- zb.forEach(b=>b.addEventListener('click',()=>setZ(b.dataset.z==='1',true)));setZ(false);
+ zb.forEach(b=>b.addEventListener('click',()=>{
+   const wantSouth=b.dataset.z==='1';
+   if(psel)pick('all',0,true);
+   setZ(wantSouth,true);
+ }));
+ setZ(false);
  sv.pauseAnimations();sv.setCurrentTime(0);
  if(rm){mc.classList.add('arcs');setZ(true)}
  else{
@@ -2106,33 +2162,39 @@ if(mc&&sv&&sv.pauseAnimations){
   new IntersectionObserver(es=>{vis=es[0].isIntersecting;startMap()},{threshold:.15}).observe(mc);document.addEventListener('visibilitychange',startMap)}
 }
 
-// 5. Đồng bộ Bản đồ <-> Thanh công suất <-> Nút lọc tỉnh <-> HUD <-> Danh sách dự án
-const PMETA={
-  tn:{n:'Tây Ninh',s:'11,2 MWp · 12 hệ thống (~15,6 GWh/năm)'},
-  kh:{n:'Khánh Hòa',s:'7 MWp · 6 hệ thống (~11,0 GWh/năm)'},
-  vl:{n:'Vĩnh Long',s:'3 MWp · 3 hệ thống (~4,0 GWh/năm)'},
-  gl:{n:'Gia Lai',s:'2 MWp · 1 hệ thống (~3,0 GWh/năm)'},
-  dn:{n:'Đồng Nai',s:'2 MWp · 1 hệ thống (~3,1 GWh/năm)'}
-};
+// 5. Đồng bộ Bản đồ (Geo-Zoom) <-> Thanh công suất <-> Nút lọc tỉnh <-> HUD <-> Danh sách dự án
 const bars=[...ab.querySelectorAll('.ab-bars button,.ab-map [data-p]')],cards=[...ab.querySelectorAll('.ab-prj article')],pills=[...ab.querySelectorAll('.ab-pf button')],all=[...ab.querySelectorAll('.ab-prj [data-p]')];
 const hl=(p,on)=>all.forEach(e=>e.classList.toggle('pon',!!on&&e.dataset.p===p));
 let psel=null;
-const pick=(p,scroll)=>{
+function pick(p,scroll,keepMap){
   psel=(p==='all'||psel===p)?null:p;
-  if(psel&&mc&&!mc.classList.contains('z'))setZ(true,true);
+  if(mc&&stMap&&!keepMap){
+    if(psel&&PGEO[psel]){
+      const g=PGEO[psel];
+      stMap.style.setProperty('--px',g.cx);stMap.style.setProperty('--py',g.cy);
+      stMap.style.setProperty('--ps',g.z);stMap.style.setProperty('--psm',g.zm);
+      setZ(true,true);mc.classList.add('foc');
+      zb.forEach(b=>b.setAttribute('aria-pressed','false'));
+    }else{
+      setZ(true,true);
+    }
+  }
   all.forEach(e=>e.classList.toggle('psel',!!psel&&e.dataset.p===psel));
   pills.forEach(b=>b.classList.toggle('on',psel?b.dataset.f===psel:b.dataset.f==='all'));
   cards.forEach(c=>{c.hidden=!!psel&&c.dataset.p!==psel});
   const ht=document.getElementById('abHudT'),hs=document.getElementById('abHudS');
   if(ht&&hs){
-    if(psel&&PMETA[psel]){ht.textContent=PMETA[psel].n;hs.textContent=PMETA[psel].s}
-    else{ht.textContent='Toàn quốc · 5 tỉnh';hs.textContent='25,2 MWp · 23 hệ thống (~34,5 GWh/năm)'}
+    if(psel&&PGEO[psel]){ht.textContent=PGEO[psel].n;hs.textContent=PGEO[psel].s}
+    else{ht.textContent='Toàn quốc · 5 tỉnh';hs.textContent='25,2 MWp · 23 hệ thống (~36,8 GWh/năm)'}
   }
-  if(psel&&scroll){
+  const geoR=ab.querySelector('.ab-geo-r');
+  if(geoR&&geoR.getBoundingClientRect().top<0){
+    ab.querySelector('#ab-prj').scrollIntoView({behavior:'smooth',block:'start'});
+  }else if(psel&&scroll){
     const c=cards.find(x=>x.dataset.p===psel);
     if(c){const r=c.getBoundingClientRect();if(r.top<80||r.bottom>innerHeight-20)c.scrollIntoView({behavior:'smooth',block:'nearest'})}
   }
-};
+}
 bars.forEach(b=>{b.addEventListener('mouseenter',()=>hl(b.dataset.p,1));b.addEventListener('mouseleave',()=>hl(0,0));b.addEventListener('click',()=>pick(b.dataset.p,1))});
 pills.forEach(b=>b.addEventListener('click',()=>pick(b.dataset.f,0)));
 cards.forEach(c=>{c.addEventListener('mouseenter',()=>hl(c.dataset.p,1));c.addEventListener('mouseleave',()=>hl(0,0));c.addEventListener('click',()=>pick(c.dataset.p,0))});
@@ -2980,5 +3042,21 @@ document.querySelectorAll('.sec,.mode,.form,.tar>div,.tline,.eqd,.brands,.ctop,.
  new MutationObserver(()=>{if(!raf)raf=requestAnimationFrame(f)}).observe(document.body,{subtree:true,attributes:true,attributeFilter:['class']});
  b.addEventListener('click',()=>{const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;scrollTo({top:0,behavior:rm?'auto':'smooth'});setTimeout(()=>{const t=document.querySelector(document.body.classList.contains('v-about')?'.ab-hero h1':'.hero h1');if(t){t.setAttribute('tabindex','-1');t.focus({preventScroll:true})}},rm?0:600)});
  f()})();
+
+// V6.2: Smart Context Handoff nhận kịch bản tham khảo từ Mục 02 trang Về chúng tôi
+window.BTMI_APPLY=function(p){
+  if(!p)return;
+  clearIndOn();
+  if(p.g)$('group').value=p.g;
+  if(p.b){$('bill').value=p.b;groupInput($('bill'))}
+  if(p.r){$('roof').value=p.r;groupInput($('roof'))}
+  if(p.prov)$('prov').value=p.prov;
+  if(p.sch){for(const [d] of DAYS){S.sch[d]={on:p.sch[d].length>0,shifts:p.sch[d].map(s=>s.slice())}}drawSch()}
+  if(p.idle!=null)setIdleUI(p.idle);
+  if(p.esco&&ESCO_TERM[p.esco]){S.esco=p.esco/100;$('escoPct').value=String(p.esco)}
+  const ltv=p.ltv!=null?p.ltv:0;$('ltv').value=String(ltv);$('ltvr').value=String(ltv);
+  setMode(p.mode||'epc');
+  showToast(`Đang mô phỏng mẫu ${p.name} — hãy nhập số thực tế của doanh nghiệp bạn`);
+};
 </script>
 </body></html>
