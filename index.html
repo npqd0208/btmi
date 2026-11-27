@@ -1357,34 +1357,47 @@ body.v-about .endcta{margin-top:22px}
 @media print{body:not(.v-about) #about{display:none}.vtab{display:none}}
 
 /* Bản đồ dự án (nền thực tế + đường bay) */
-.ab-mapc{position:relative;padding:16px 16px 14px;border-radius:26px;background:linear-gradient(165deg,#0f2a57,#0a1f45 60%,#081a3a);border:1px solid rgba(255,255,255,.08);box-shadow:0 30px 60px -32px rgba(8,26,58,.85);overflow:hidden;color:#fff}
+@property --s{syntax:"<number>";inherits:true;initial-value:1}
+@property --cx{syntax:"<number>";inherits:true;initial-value:50}
+@property --cy{syntax:"<number>";inherits:true;initial-value:50}
+.ab-mapc{position:relative;padding:16px 16px 12px;border-radius:26px;background:linear-gradient(165deg,#0f2a57,#0a1f45 60%,#081a3a);border:1px solid rgba(255,255,255,.08);box-shadow:0 30px 60px -32px rgba(8,26,58,.85);overflow:hidden;color:#fff}
 .ab-mh{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0 2px 10px}
 .ab-mapc .ab-tag{background:rgba(242,193,78,.16);color:var(--gold)}
-.ab-mh small{font-size:12px;color:#9fb4dc}
-.ab-map{position:relative;width:100%;container-type:inline-size;border-radius:18px;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(255,255,255,.07)}
-.ab-mimg{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover;transform:scale(1.04);opacity:0;transition:opacity 1s ease,transform 2.4s cubic-bezier(.2,.7,.2,1)}
-.ab-mapc.in .ab-mimg{opacity:1;transform:none}
-.ab .ab-svg{position:absolute;inset:0;width:100%;height:100%;overflow:hidden;pointer-events:none;stroke-linecap:round;will-change:transform;transform:translateZ(0)}
-.ab .arc-b{fill:none;stroke:rgba(255,224,138,.55);stroke-width:1.1;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.1s cubic-bezier(.45,.05,.2,1) calc(var(--d) + .5s),stroke .25s,stroke-width .25s}
-.ab-mapc.in .arc-b{stroke-dashoffset:0}
-.ab .arc-t{fill:none;stroke:rgba(255,214,107,.35);stroke-width:5.5;opacity:0;transition:opacity .4s}
-.ab .arc-c{fill:none;stroke:#fff3c4;stroke-width:2;opacity:0;transition:opacity .4s}
-.ab .arc-h{fill:#fff;stroke:#f2c14e;stroke-width:2;opacity:0}
+.ab-zt{display:inline-flex;padding:3px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1)}
+.ab-zt button{font:600 12px/1 inherit;font-family:inherit;padding:7px 13px;border-radius:999px;color:#b9c9ea;background:none;border:0;cursor:pointer;transition:background .25s,color .25s}
+.ab-zt button:hover{color:#fff}
+.ab-zt button[aria-pressed=true]{background:#fff;color:var(--navy);box-shadow:0 4px 10px -4px rgba(0,0,0,.5)}
+.ab-mf{margin:9px 4px 0}
+.ab-mf small{font-size:12px;color:#9fb4dc}
+.ab-map{position:relative;width:100%;container-type:inline-size;border-radius:18px;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(255,255,255,.07);background:#0a2a5a}
+.ab-stage{position:absolute;inset:0;--s:1;--cx:50;--cy:50;--u:calc(1 / var(--s));--k:calc((1 + (var(--s) - 1) * .25) / var(--s));transition:--s 2.2s cubic-bezier(.62,0,.2,1),--cx 2.2s cubic-bezier(.62,0,.2,1),--cy 2.2s cubic-bezier(.62,0,.2,1)}
+.ab-mapc.z .ab-stage{--s:2.2;--cx:var(--zx);--cy:var(--zy)}
+@container (max-width:480px){.ab-mapc.z .ab-stage{--s:1.9}}
+.ab-world{position:absolute;inset:0;transform-origin:calc(var(--cx) * 1%) calc(var(--cy) * 1%);transform:translate(calc((50 - var(--cx)) * 1%),calc((50 - var(--cy)) * 1%)) scale(var(--s));will-change:transform}
+.ab-mimg{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover;opacity:0;transition:opacity 1s ease}
+.ab-mapc.in .ab-mimg{opacity:1}
+.ab .ab-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;stroke-linecap:round}
+.ab .mg{transform:scale(var(--k))}
+.ab .arc-b{fill:none;stroke:rgba(255,224,138,.6);stroke-width:calc(1.1px * var(--k));stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .5s,stroke .25s}
+.ab-mapc.arcs .arc-b{stroke-dashoffset:0;transition:stroke-dashoffset 1.2s cubic-bezier(.45,.05,.2,1) calc(var(--d) + .2s),stroke .25s}
+.ab .arc-t{fill:none;stroke:rgba(255,214,107,.35);stroke-width:calc(5px * var(--k));opacity:0;transition:opacity .4s}
+.ab .arc-c{fill:none;stroke:#fff3c4;stroke-width:calc(2px * var(--k));opacity:0;transition:opacity .4s}
+.ab .arc-h{fill:#fff;stroke:#f2c14e;stroke-width:calc(2px * var(--k));r:calc(3px * var(--k));opacity:0}
 .ab-mapc.run .arc-t,.ab-mapc.run .arc-c{opacity:1}
-.ab .mk-l{fill:none;stroke:rgba(255,255,255,.75);stroke-width:1;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .6s cubic-bezier(.2,.7,.2,1) calc(var(--d) + 1.3s),stroke .2s}
-.ab-mapc.in .mk-l{stroke-dashoffset:0}
+.ab .mk-l{fill:none;stroke:rgba(255,255,255,.8);stroke-width:calc(1px * var(--k));stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .3s,stroke .2s}
+.ab-mapc.z .mk-l{stroke-dashoffset:0;transition:stroke-dashoffset .7s cubic-bezier(.2,.7,.2,1) calc(var(--d) + 1.5s),stroke .2s}
 .ab .mk-w{fill:none;stroke:#ffe08a;stroke-width:2;opacity:0}
-.ab .mk-c{fill:#f2c14e;stroke:#fff;stroke-width:2;transform-box:fill-box;transform-origin:center;transform:scale(0);transition:transform .6s cubic-bezier(.3,1.6,.5,1) calc(var(--d) + 1.25s),fill .2s,stroke .2s}
+.ab .mk-c{fill:#f2c14e;stroke:#fff;stroke-width:2;transform-box:fill-box;transform-origin:center;transform:scale(0);transition:transform .6s cubic-bezier(.3,1.6,.5,1) calc(var(--d) + .6s),fill .2s,stroke .2s}
 .ab-mapc.in .mk-c{transform:scale(1)}
-.ab .mk-d{fill:#0b1237;stroke:none;opacity:0;transition:opacity .3s calc(var(--d) + 1.5s)}
+.ab .mk-d{fill:#0b1237;stroke:none;opacity:0;transition:opacity .3s calc(var(--d) + .9s)}
 .ab-mapc.in .mk-d{opacity:1}
 .ab .mk-hit{fill:transparent;stroke:none;pointer-events:auto;cursor:pointer}
-.ab-svg g.pon .arc-b{stroke:#fff;stroke-width:2}
+.ab-svg g.pon .arc-b{stroke:#fff;stroke-width:calc(2px * var(--k))}
 .ab-svg g.pon .mk-c{fill:#ffd66b;stroke:#fff;stroke-width:3}
 .ab-svg g.pon .mk-l{stroke:#fff}
-@keyframes hubPing{0%{transform:scale(1);opacity:.9}100%{transform:scale(1.9);opacity:0}}
-.ab .hq-l{fill:none;stroke:rgba(255,224,138,.85);stroke-width:1;stroke-dasharray:3 3;opacity:0;transition:opacity .5s .9s}
-.ab-mapc.in .hq-l{opacity:1}
+.ab .hq-l{fill:none;stroke:rgba(255,224,138,.9);stroke-width:calc(1px * var(--k));stroke-dasharray:calc(3px * var(--k)) calc(3px * var(--k));opacity:0;transition:opacity .3s}
+.ab-mapc.in:not(.z) .hq-l.hf{opacity:1;transition:opacity .5s .9s}
+.ab-mapc.z .hq-l.hz{opacity:1;transition:opacity .5s 1.8s}
 .ab .hq-c{fill:#0b1237;stroke:#ffe08a;stroke-width:2.4;transform-box:fill-box;transform-origin:center;transform:scale(0);transition:transform .6s cubic-bezier(.3,1.6,.5,1) .3s}
 .ab-mapc.in .hq-c{transform:scale(1)}
 .ab .hq-d{fill:#ffe08a;opacity:0;transition:opacity .3s .6s}
@@ -1392,33 +1405,35 @@ body.v-about .endcta{margin-top:22px}
 .ab .hq-r{fill:none;stroke:#ffe08a;stroke-width:1.6;opacity:0;transform-box:fill-box;transform-origin:center}
 .ab-mapc.run .hq-r{animation:hubPing 2.4s ease-out infinite}
 @keyframes hubPing{0%{transform:scale(1);opacity:.95}100%{transform:scale(2.6);opacity:0}}
-.ab-hq{position:absolute;z-index:2;display:flex;align-items:center;gap:9px;transform:translate(6px,-50%);padding:5px 12px 5px 6px;border-radius:14px;background:#fff;border:1.5px solid #f2c14e;box-shadow:0 0 0 3px rgba(242,193,78,.25),0 12px 24px -10px rgba(0,0,0,.6);line-height:1.2;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .5s .9s,transform .5s cubic-bezier(.3,1.4,.5,1) .9s}
+.ab-hq,.ab-ml{left:calc(50% + (var(--ax) - var(--cx)) * var(--s) * 1%);top:calc(50% + (var(--ay) - var(--cy)) * var(--s) * 1%)}
+.ab-hq{position:absolute;z-index:2;display:flex;align-items:center;gap:9px;padding:5px 12px 5px 6px;border-radius:14px;background:#fff;border:1.5px solid #f2c14e;box-shadow:0 0 0 3px rgba(242,193,78,.25),0 12px 24px -10px rgba(0,0,0,.6);line-height:1.2;white-space:nowrap;pointer-events:none;opacity:0;transform:translate(6px,-50%);transition:opacity .25s,transform .25s}
 .ab-hq em{position:relative;flex:none;width:62px;height:31px;border-radius:9px;background:#f4f7ff}
 .ab-hq em img{position:absolute;inset:2px 4px;width:calc(100% - 8px);height:calc(100% - 4px);object-fit:contain}
 .ab-hq>span{display:grid}
-.ab-mapc.in .ab-hq{opacity:1;transform:translate(0,-50%)}
+.ab-mapc.in:not(.z) .ab-hq.f{opacity:1;transform:translate(0,-50%);transition:opacity .5s .9s,transform .5s cubic-bezier(.3,1.4,.5,1) .9s}
+.ab-mapc.z .ab-hq.z{opacity:1;transform:translate(0,-50%);transition:opacity .5s 1.8s,transform .5s cubic-bezier(.3,1.4,.5,1) 1.8s}
 .ab-hq b{font-size:12px;color:var(--navy)}
 .ab-hq i{font-style:normal;font-size:10.5px;color:var(--mute)}
-.ab-ml{position:absolute;z-index:2;display:flex;align-items:center;gap:7px;padding:4px 12px 4px 4px;text-align:left;border-radius:999px;background:rgba(255,255,255,.96);border:1px solid rgba(255,255,255,.6);box-shadow:0 10px 22px -10px rgba(0,0,0,.55);font:inherit;line-height:1.2;cursor:pointer;white-space:nowrap;opacity:0;transform:translate(8px,-50%);transition:opacity .5s calc(var(--d) + .5s),transform .55s cubic-bezier(.3,1.4,.5,1) calc(var(--d) + .5s),border-color .2s,box-shadow .2s,background .2s}
-.ab-mapc.in .ab-ml{opacity:1;transform:translate(0,-50%)}
+.ab-ml{position:absolute;z-index:2;display:flex;align-items:center;gap:7px;padding:4px 12px 4px 4px;text-align:left;border-radius:999px;background:rgba(255,255,255,.96);border:1px solid rgba(255,255,255,.6);box-shadow:0 10px 22px -10px rgba(0,0,0,.55);font:inherit;line-height:1.2;cursor:pointer;white-space:nowrap;opacity:0;pointer-events:none;transform:translate(8px,-50%);transition:opacity .25s,transform .25s,border-color .2s,box-shadow .2s,background .2s}
+.ab-mapc.z .ab-ml{opacity:1;pointer-events:auto;transform:translate(0,-50%);transition:opacity .5s calc(var(--d) + 1.7s),transform .55s cubic-bezier(.3,1.4,.5,1) calc(var(--d) + 1.7s),border-color .2s,box-shadow .2s,background .2s}
 .ab-ml u{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;text-decoration:none;font-weight:800;font-size:11.5px;color:#3d2d00;background:linear-gradient(140deg,#ffe08a,#e9b949)}
 .ab-ml span{display:grid;line-height:1.15}
 .ab-ml b{font-size:12.5px;color:var(--navy)}
 .ab-ml i{font-style:normal;font-size:11px;font-weight:700;color:var(--g1)}
 .ab-ml.l{flex-direction:row-reverse;padding:4px 4px 4px 12px;text-align:right;transform:translate(calc(-100% - 8px),-50%)}
-.ab-mapc.in .ab-ml.l{transform:translate(-100%,-50%)}
+.ab-mapc.z .ab-ml.l{transform:translate(-100%,-50%)}
 .ab-ml:hover,.ab-ml.pon{background:#fff;border-color:#ffe08a;box-shadow:0 0 0 3px rgba(255,214,107,.45),0 12px 24px -10px rgba(0,0,0,.6)}
-.ab-isl{position:absolute;transform:translate(-50%,-50%);font-size:11px;font-style:italic;font-weight:700;color:#c9f1f3;text-shadow:0 1px 3px rgba(0,0,0,.6);white-space:nowrap;pointer-events:none}
-.ab-isl.re{transform:translate(-100%,-50%)}
-.ab-sea{position:absolute;transform:translate(-50%,-50%);font-size:12px;letter-spacing:.5em;font-weight:700;color:rgba(190,225,240,.5);white-space:nowrap;pointer-events:none}
-.ab-city{position:absolute;display:flex;align-items:center;gap:5px;transform:translate(-4px,-50%);font-size:10.5px;font-weight:600;color:rgba(255,255,255,.88);text-shadow:0 1px 3px rgba(0,0,0,.7);pointer-events:none;white-space:nowrap}
+.ab-isl{position:absolute;transform:translate(-50%,-50%) scale(var(--u));font-size:11px;font-style:italic;font-weight:700;color:#c9f1f3;text-shadow:0 1px 3px rgba(0,0,0,.6);white-space:nowrap;pointer-events:none}
+.ab-isl.re{transform:translate(-100%,-50%) scale(var(--u));transform-origin:100% 50%}
+.ab-sea{position:absolute;transform:translate(-50%,-50%) scale(var(--u));font-size:12px;letter-spacing:.5em;font-weight:700;color:rgba(190,225,240,.5);white-space:nowrap;pointer-events:none}
+.ab-city{position:absolute;display:flex;align-items:center;gap:5px;transform:translate(-4px,-50%) scale(var(--u));transform-origin:0 50%;font-size:10.5px;font-weight:600;color:rgba(255,255,255,.88);text-shadow:0 1px 3px rgba(0,0,0,.7);pointer-events:none;white-space:nowrap}
 .ab-city:before{content:"";width:5px;height:5px;border-radius:50%;background:#fff;box-shadow:0 0 0 2px rgba(0,0,0,.25)}
 @container (max-width:480px){.ab-hq{padding:4px 9px 4px 5px;gap:7px}.ab-hq em{width:48px;height:24px}.ab-hq b{font-size:11px}.ab-hq i{font-size:9.5px}.ab-ml{gap:5px;padding:3px 9px 3px 3px}.ab-ml u{width:19px;height:19px;font-size:10px}.ab-ml b{font-size:11px}.ab-ml i{font-size:10px}.ab-ml.l{padding:3px 3px 3px 9px}.ab-isl{font-size:10px}.ab-city{font-size:9.5px}}
 @container (max-width:455px){.ab-hq i{display:none}}
-@media(max-width:520px){.ab-hq{padding:3px 8px 3px 4px;gap:6px}.ab-hq em{width:40px;height:20px}.ab-hq b{font-size:10.5px}.ab-hq i{display:none}.ab-mapc{padding:12px 10px 10px}.ab-ml{gap:5px;padding:3px 8px 3px 3px}.ab-ml u{width:18px;height:18px;font-size:10px}.ab-ml b{font-size:10.5px}.ab-ml i{display:none}.ab-ml.l{padding:3px 3px 3px 8px}.ab-isl{font-size:9.5px}.ab-sea{font-size:9.5px;letter-spacing:.35em}.ab-mh small{display:none}}
+@media(max-width:520px){.ab-hq{padding:3px 8px 3px 4px;gap:6px}.ab-hq em{width:40px;height:20px}.ab-hq b{font-size:10.5px}.ab-hq i{display:none}.ab-mapc{padding:12px 10px 10px}.ab-ml{gap:5px;padding:3px 8px 3px 3px}.ab-ml u{width:18px;height:18px;font-size:10px}.ab-ml b{font-size:10.5px}.ab-ml i{display:none}.ab-ml.l{padding:3px 3px 3px 8px}.ab-isl{font-size:9.5px}.ab-sea{font-size:9.5px;letter-spacing:.35em}.ab-mf small{font-size:11px}.ab-zt button{padding:6px 10px;font-size:11.5px}}
 @media(max-width:400px){.ab-hq{gap:5px;padding:2px 6px 2px 3px}.ab-hq em{width:32px;height:16px}.ab-hq b{font-size:9.5px}.ab-isl{font-size:9px}.ab-ml{gap:4px}.ab-ml u{width:16px;height:16px;font-size:9px}.ab-ml b{font-size:10px}.ab-ml.l{padding:2px 2px 2px 6px}.ab-ml.r{padding:2px 6px 2px 2px}.ab-city{display:none}}
 @media(max-width:340px){.ab-hq>span{display:none}.ab-hq{padding:2px 3px}.ab-ml u{display:none}.ab-ml,.ab-ml.l,.ab-ml.r{padding:2px 6px}.ab-ml b{font-size:9.5px}.ab-isl{font-size:8.5px}.ab-sea{display:none}}
-@media(prefers-reduced-motion:reduce){.ab-mapc .hq-r{animation:none!important}.ab-mapc .arc-t,.ab-mapc .arc-c,.ab-mapc .arc-h,.ab-mapc .mk-w{display:none}}
+@media(prefers-reduced-motion:reduce){.ab-stage,.ab-ml,.ab-hq,.ab-mapc *{transition:none!important}.ab-mapc .hq-r{animation:none!important}.ab-mapc .arc-t,.ab-mapc .arc-c,.ab-mapc .arc-h,.ab-mapc .mk-w{display:none}}
 
 /* tỉnh đang chọn */
 .ab-prj article{cursor:pointer;position:relative}
@@ -1431,7 +1446,7 @@ body.v-about .endcta{margin-top:22px}
 .ab-bars button.psel{background:#ebf6e4;border-color:#bfe3ac}
 .ab-bars button.psel span{color:var(--g1)}
 .ab-ml.psel{background:#fff6d6;border-color:#f2c14e;box-shadow:0 0 0 3px rgba(242,193,78,.55),0 12px 24px -10px rgba(0,0,0,.6)}
-.ab-svg g.psel .arc-b{stroke:#fff;stroke-width:2}
+.ab-svg g.psel .arc-b{stroke:#fff;stroke-width:calc(2px * var(--k))}
 .ab-svg g.psel .mk-c{fill:#ffd66b;stroke:#fff;stroke-width:3}
 .ab-svg g.psel .mk-l{stroke:#ffe08a}
 </style></head>
@@ -1570,57 +1585,57 @@ body.v-about .endcta{margin-top:22px}
   <article class="rv" data-p="dn"><header><u>4</u><div><h3>Đồng Nai</h3><span>1 hệ thống · 2 MWp</span></div></header><ul><li><span>Chi nhánh Công ty Cổ phần Hàng tiêu dùng Biên Hòa - Nhà máy đường TTC Biên Hòa - Đồng Nai</span><b>2 MWp</b></li></ul></article>
  </div>
  <div class="ab-pc">
-  <div class="ab-mapc rv"><div class="ab-mh"><span class="ab-tag">Bản đồ dự án</span><small>Kích thước điểm theo công suất</small></div><div class="ab-map" style="aspect-ratio:560/606"><img class="ab-mimg" src="img/vn-map.webp" alt="" width="1120" height="1212" decoding="async"><svg class="ab-svg" viewBox="0 0 560 606" role="img" aria-label="Bản đồ Việt Nam với trụ sở BTMI tại TP. Hồ Chí Minh và vị trí 5 tỉnh có dự án, gồm quần đảo Hoàng Sa và quần đảo Trường Sa"><g data-p="gl" style="--d:0.00s">
-<path id="arc-gl" class="arc-b" d="M173.8 489.5Q162.0 415.4 221.8 370.0" pathLength="1"/>
+  <div class="ab-mapc rv"><div class="ab-mh"><span class="ab-tag">Bản đồ dự án</span><div class="ab-zt" role="group" aria-label="Phạm vi bản đồ"><button type="button" data-z="0" aria-pressed="false">Toàn quốc</button><button type="button" data-z="1" aria-pressed="false">Miền Nam</button></div></div><div class="ab-map" style="aspect-ratio:560/606"><div class="ab-stage" style="--zx:38.312;--zy:73.258"><div class="ab-world"><img class="ab-mimg" src="img/vn-map2.webp" alt="" width="1680" height="1818" decoding="async"><svg class="ab-svg" viewBox="0 0 560 606" role="img" aria-label="Bản đồ Việt Nam với trụ sở BTMI tại TP. Hồ Chí Minh và vị trí 5 tỉnh có dự án, gồm quần đảo Hoàng Sa và quần đảo Trường Sa"><g data-p="gl" style="--d:0.00s">
+<path class="arc-b" d="M173.8 489.5Q162.0 415.4 221.8 370.0" pathLength="1"/>
 <path class="arc-t" d="M173.8 489.5Q162.0 415.4 221.8 370.0" pathLength="1" stroke-dasharray="0.16 2"><animate attributeName="stroke-dashoffset" values="0.16;-1;-1" keyTimes="0;0.55;1" dur="3.6s" begin="0.00s" repeatCount="indefinite"/></path>
 <path class="arc-c" d="M173.8 489.5Q162.0 415.4 221.8 370.0" pathLength="1" stroke-dasharray="0.09 2"><animate attributeName="stroke-dashoffset" values="0.09;-1;-1" keyTimes="0;0.55;1" dur="3.6s" begin="0.00s" repeatCount="indefinite"/></path>
 <circle class="arc-h" r="3"><animateMotion dur="3.6s" begin="0.00s" repeatCount="indefinite" keyPoints="0;1;1" keyTimes="0;0.55;1" calcMode="linear" path="M173.8 489.5Q162.0 415.4 221.8 370.0"/><animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;.04;0.54;0.56;1" dur="3.6s" begin="0.00s" repeatCount="indefinite"/></circle>
-<path class="mk-l" d="M221.8 370.0L190.9 346.8" pathLength="1"/>
-<circle class="mk-w" cx="221.8" cy="370.0" r="5.8"><animate attributeName="r" values="5.8;5.8;19.7" keyTimes="0;0.55;1" dur="3.6s" begin="0.00s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0;.95;0" keyTimes="0;0.549;0.55;1" dur="3.6s" begin="0.00s" repeatCount="indefinite"/></circle>
+<path class="mk-l" d="M221.8 370.0L190.9 354.3" pathLength="1"/>
+<g class="mg" style="transform-origin:221.8px 370.0px"><circle class="mk-w" cx="221.8" cy="370.0" r="5.8"><animate attributeName="r" values="5.8;5.8;19.7" keyTimes="0;0.55;1" dur="3.6s" begin="0.00s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0;.95;0" keyTimes="0;0.549;0.55;1" dur="3.6s" begin="0.00s" repeatCount="indefinite"/></circle>
 <circle class="mk-c" cx="221.8" cy="370.0" r="5.8"><animate attributeName="r" values="5.8;5.8;8.4;5.8;5.8" keyTimes="0;0.55;0.6000000000000001;0.7100000000000001;1" dur="3.6s" begin="0.00s" repeatCount="indefinite"/></circle>
 <circle class="mk-d" cx="221.8" cy="370.0" r="2.3"/>
-<circle class="mk-hit" cx="221.8" cy="370.0" r="12.0"/>
+<circle class="mk-hit" cx="221.8" cy="370.0" r="12.0"/></g>
 </g><g data-p="kh" style="--d:0.16s">
-<path id="arc-kh" class="arc-b" d="M173.8 489.5Q236.2 490.5 260.0 432.8" pathLength="1"/>
+<path class="arc-b" d="M173.8 489.5Q236.2 490.5 260.0 432.8" pathLength="1"/>
 <path class="arc-t" d="M173.8 489.5Q236.2 490.5 260.0 432.8" pathLength="1" stroke-dasharray="0.16 2"><animate attributeName="stroke-dashoffset" values="0.16;-1;-1" keyTimes="0;0.55;1" dur="3.6s" begin="0.72s" repeatCount="indefinite"/></path>
 <path class="arc-c" d="M173.8 489.5Q236.2 490.5 260.0 432.8" pathLength="1" stroke-dasharray="0.09 2"><animate attributeName="stroke-dashoffset" values="0.09;-1;-1" keyTimes="0;0.55;1" dur="3.6s" begin="0.72s" repeatCount="indefinite"/></path>
 <circle class="arc-h" r="3"><animateMotion dur="3.6s" begin="0.72s" repeatCount="indefinite" keyPoints="0;1;1" keyTimes="0;0.55;1" calcMode="linear" path="M173.8 489.5Q236.2 490.5 260.0 432.8"/><animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;.04;0.54;0.56;1" dur="3.6s" begin="0.72s" repeatCount="indefinite"/></circle>
-<path class="mk-l" d="M260.0 432.8L310.9 436.5" pathLength="1"/>
-<circle class="mk-w" cx="260.0" cy="432.8" r="7.7"><animate attributeName="r" values="7.7;7.7;26.2" keyTimes="0;0.55;1" dur="3.6s" begin="0.72s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0;.95;0" keyTimes="0;0.549;0.55;1" dur="3.6s" begin="0.72s" repeatCount="indefinite"/></circle>
+<path class="mk-l" d="M260.0 432.8L274.5 408.6" pathLength="1"/>
+<g class="mg" style="transform-origin:260.0px 432.8px"><circle class="mk-w" cx="260.0" cy="432.8" r="7.7"><animate attributeName="r" values="7.7;7.7;26.2" keyTimes="0;0.55;1" dur="3.6s" begin="0.72s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0;.95;0" keyTimes="0;0.549;0.55;1" dur="3.6s" begin="0.72s" repeatCount="indefinite"/></circle>
 <circle class="mk-c" cx="260.0" cy="432.8" r="7.7"><animate attributeName="r" values="7.7;7.7;11.2;7.7;7.7" keyTimes="0;0.55;0.6000000000000001;0.7100000000000001;1" dur="3.6s" begin="0.72s" repeatCount="indefinite"/></circle>
 <circle class="mk-d" cx="260.0" cy="432.8" r="2.3"/>
-<circle class="mk-hit" cx="260.0" cy="432.8" r="12.7"/>
+<circle class="mk-hit" cx="260.0" cy="432.8" r="12.7"/></g>
 </g><g data-p="tn" style="--d:0.32s">
-<path id="arc-tn" class="arc-b" d="M173.8 489.5Q204.5 436.0 152.7 469.6" pathLength="1"/>
+<path class="arc-b" d="M173.8 489.5Q204.5 436.0 152.7 469.6" pathLength="1"/>
 <path class="arc-t" d="M173.8 489.5Q204.5 436.0 152.7 469.6" pathLength="1" stroke-dasharray="0.16 2"><animate attributeName="stroke-dashoffset" values="0.16;-1;-1" keyTimes="0;0.55;1" dur="3.6s" begin="1.44s" repeatCount="indefinite"/></path>
 <path class="arc-c" d="M173.8 489.5Q204.5 436.0 152.7 469.6" pathLength="1" stroke-dasharray="0.09 2"><animate attributeName="stroke-dashoffset" values="0.09;-1;-1" keyTimes="0;0.55;1" dur="3.6s" begin="1.44s" repeatCount="indefinite"/></path>
 <circle class="arc-h" r="3"><animateMotion dur="3.6s" begin="1.44s" repeatCount="indefinite" keyPoints="0;1;1" keyTimes="0;0.55;1" calcMode="linear" path="M173.8 489.5Q204.5 436.0 152.7 469.6"/><animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;.04;0.54;0.56;1" dur="3.6s" begin="1.44s" repeatCount="indefinite"/></circle>
-<path class="mk-l" d="M152.7 469.6L138.2 406.7" pathLength="1"/>
-<circle class="mk-w" cx="152.7" cy="469.6" r="8.8"><animate attributeName="r" values="8.8;8.8;29.9" keyTimes="0;0.55;1" dur="3.6s" begin="1.44s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0;.95;0" keyTimes="0;0.549;0.55;1" dur="3.6s" begin="1.44s" repeatCount="indefinite"/></circle>
+<path class="mk-l" d="M152.7 469.6L147.3 432.8" pathLength="1"/>
+<g class="mg" style="transform-origin:152.7px 469.6px"><circle class="mk-w" cx="152.7" cy="469.6" r="8.8"><animate attributeName="r" values="8.8;8.8;29.9" keyTimes="0;0.55;1" dur="3.6s" begin="1.44s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0;.95;0" keyTimes="0;0.549;0.55;1" dur="3.6s" begin="1.44s" repeatCount="indefinite"/></circle>
 <circle class="mk-c" cx="152.7" cy="469.6" r="8.8"><animate attributeName="r" values="8.8;8.8;12.7;8.8;8.8" keyTimes="0;0.55;0.6000000000000001;0.7100000000000001;1" dur="3.6s" begin="1.44s" repeatCount="indefinite"/></circle>
 <circle class="mk-d" cx="152.7" cy="469.6" r="2.3"/>
-<circle class="mk-hit" cx="152.7" cy="469.6" r="13.8"/>
+<circle class="mk-hit" cx="152.7" cy="469.6" r="13.8"/></g>
 </g><g data-p="dn" style="--d:0.48s">
-<path id="arc-dn" class="arc-b" d="M173.8 489.5Q150.1 435.6 190.9 478.1" pathLength="1"/>
+<path class="arc-b" d="M173.8 489.5Q150.1 435.6 190.9 478.1" pathLength="1"/>
 <path class="arc-t" d="M173.8 489.5Q150.1 435.6 190.9 478.1" pathLength="1" stroke-dasharray="0.16 2"><animate attributeName="stroke-dashoffset" values="0.16;-1;-1" keyTimes="0;0.55;1" dur="3.6s" begin="2.16s" repeatCount="indefinite"/></path>
 <path class="arc-c" d="M173.8 489.5Q150.1 435.6 190.9 478.1" pathLength="1" stroke-dasharray="0.09 2"><animate attributeName="stroke-dashoffset" values="0.09;-1;-1" keyTimes="0;0.55;1" dur="3.6s" begin="2.16s" repeatCount="indefinite"/></path>
 <circle class="arc-h" r="3"><animateMotion dur="3.6s" begin="2.16s" repeatCount="indefinite" keyPoints="0;1;1" keyTimes="0;0.55;1" calcMode="linear" path="M173.8 489.5Q150.1 435.6 190.9 478.1"/><animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;.04;0.54;0.56;1" dur="3.6s" begin="2.16s" repeatCount="indefinite"/></circle>
-<path class="mk-l" d="M190.9 478.1L269.1 481.1" pathLength="1"/>
-<circle class="mk-w" cx="190.9" cy="478.1" r="5.8"><animate attributeName="r" values="5.8;5.8;19.7" keyTimes="0;0.55;1" dur="3.6s" begin="2.16s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0;.95;0" keyTimes="0;0.549;0.55;1" dur="3.6s" begin="2.16s" repeatCount="indefinite"/></circle>
+<path class="mk-l" d="M190.9 478.1L229.1 486.6" pathLength="1"/>
+<g class="mg" style="transform-origin:190.9px 478.1px"><circle class="mk-w" cx="190.9" cy="478.1" r="5.8"><animate attributeName="r" values="5.8;5.8;19.7" keyTimes="0;0.55;1" dur="3.6s" begin="2.16s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0;.95;0" keyTimes="0;0.549;0.55;1" dur="3.6s" begin="2.16s" repeatCount="indefinite"/></circle>
 <circle class="mk-c" cx="190.9" cy="478.1" r="5.8"><animate attributeName="r" values="5.8;5.8;8.4;5.8;5.8" keyTimes="0;0.55;0.6000000000000001;0.7100000000000001;1" dur="3.6s" begin="2.16s" repeatCount="indefinite"/></circle>
 <circle class="mk-d" cx="190.9" cy="478.1" r="2.3"/>
-<circle class="mk-hit" cx="190.9" cy="478.1" r="12.0"/>
+<circle class="mk-hit" cx="190.9" cy="478.1" r="12.0"/></g>
 </g><g data-p="vl" style="--d:0.64s">
-<path id="arc-vl" class="arc-b" d="M173.8 489.5Q218.3 531.7 160.7 510.6" pathLength="1"/>
+<path class="arc-b" d="M173.8 489.5Q218.3 531.7 160.7 510.6" pathLength="1"/>
 <path class="arc-t" d="M173.8 489.5Q218.3 531.7 160.7 510.6" pathLength="1" stroke-dasharray="0.16 2"><animate attributeName="stroke-dashoffset" values="0.16;-1;-1" keyTimes="0;0.55;1" dur="3.6s" begin="2.88s" repeatCount="indefinite"/></path>
 <path class="arc-c" d="M173.8 489.5Q218.3 531.7 160.7 510.6" pathLength="1" stroke-dasharray="0.09 2"><animate attributeName="stroke-dashoffset" values="0.09;-1;-1" keyTimes="0;0.55;1" dur="3.6s" begin="2.88s" repeatCount="indefinite"/></path>
 <circle class="arc-h" r="3"><animateMotion dur="3.6s" begin="2.88s" repeatCount="indefinite" keyPoints="0;1;1" keyTimes="0;0.55;1" calcMode="linear" path="M173.8 489.5Q218.3 531.7 160.7 510.6"/><animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;.04;0.54;0.56;1" dur="3.6s" begin="2.88s" repeatCount="indefinite"/></circle>
-<path class="mk-l" d="M160.7 510.6L258.2 526.2" pathLength="1"/>
-<circle class="mk-w" cx="160.7" cy="510.6" r="6.3"><animate attributeName="r" values="6.3;6.3;21.4" keyTimes="0;0.55;1" dur="3.6s" begin="2.88s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0;.95;0" keyTimes="0;0.549;0.55;1" dur="3.6s" begin="2.88s" repeatCount="indefinite"/></circle>
+<path class="mk-l" d="M160.7 510.6L152.7 536.5" pathLength="1"/>
+<g class="mg" style="transform-origin:160.7px 510.6px"><circle class="mk-w" cx="160.7" cy="510.6" r="6.3"><animate attributeName="r" values="6.3;6.3;21.4" keyTimes="0;0.55;1" dur="3.6s" begin="2.88s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0;.95;0" keyTimes="0;0.549;0.55;1" dur="3.6s" begin="2.88s" repeatCount="indefinite"/></circle>
 <circle class="mk-c" cx="160.7" cy="510.6" r="6.3"><animate attributeName="r" values="6.3;6.3;9.1;6.3;6.3" keyTimes="0;0.55;0.6000000000000001;0.7100000000000001;1" dur="3.6s" begin="2.88s" repeatCount="indefinite"/></circle>
 <circle class="mk-d" cx="160.7" cy="510.6" r="2.3"/>
-<circle class="mk-hit" cx="160.7" cy="510.6" r="12.0"/>
-</g><g class="hq"><path class="hq-l" d="M173.8 489.5L112.7 577.0" pathLength="1"/><circle class="hq-r" cx="173.8" cy="489.5" r="8"/><circle class="hq-c" cx="173.8" cy="489.5" r="7.5"/><circle class="hq-d" cx="173.8" cy="489.5" r="3"/></g></svg><span class="ab-sea" style="left:83.12%;top:48.20%">BIỂN ĐÔNG</span><span class="ab-isl" style="left:65.58%;top:40.37%">QĐ. Hoàng Sa</span><span class="ab-isl re" style="left:98.05%;top:97.03%">QĐ. Trường Sa</span><span class="ab-city" style="left:25.65%;top:16.67%">Hà Nội</span><span class="ab-city" style="left:41.04%;top:48.20%">Đà Nẵng</span><span class="ab-hq" style="left:20.13%;top:95.21%"><em><img src="logos/btmi-text.webp?v=2" alt=""><img src="logos/btmi-leaf.webp" alt=""></em><span><b>Trụ sở BTMI</b><i>63 Cao Thắng, TP.HCM</i></span></span><button type="button" class="ab-ml l" data-p="gl" style="left:34.09%;top:57.22%;--d:0.90s"><u>1</u><span><b>Gia Lai</b><i>2 MWp</i></span></button><button type="button" class="ab-ml r" data-p="kh" style="left:55.52%;top:72.03%;--d:1.06s"><u>2</u><span><b>Khánh Hòa</b><i>7 MWp</i></span></button><button type="button" class="ab-ml l" data-p="tn" style="left:24.68%;top:67.11%;--d:1.22s"><u>3</u><span><b>Tây Ninh</b><i>11,2 MWp</i></span></button><button type="button" class="ab-ml r" data-p="dn" style="left:48.05%;top:79.38%;--d:1.38s"><u>4</u><span><b>Đồng Nai</b><i>2 MWp</i></span></button><button type="button" class="ab-ml r" data-p="vl" style="left:46.10%;top:86.82%;--d:1.54s"><u>5</u><span><b>Vĩnh Long</b><i>3 MWp</i></span></button></div></div>
+<circle class="mk-hit" cx="160.7" cy="510.6" r="12.0"/></g>
+</g><g class="hq"><path class="hq-l hf" d="M173.8 489.5L112.7 577.0"/><path class="hq-l hz" d="M173.8 489.5L185.5 536.5"/><g class="mg" style="transform-origin:173.8px 489.5px"><circle class="hq-r" cx="173.8" cy="489.5" r="8"/><circle class="hq-c" cx="173.8" cy="489.5" r="7.5"/><circle class="hq-d" cx="173.8" cy="489.5" r="3"/></g></g></svg><span class="ab-sea" style="left:83.12%;top:48.20%">BIỂN ĐÔNG</span><span class="ab-isl" style="left:65.58%;top:40.37%">QĐ. Hoàng Sa</span><span class="ab-isl re" style="left:98.05%;top:97.03%">QĐ. Trường Sa</span><span class="ab-city" style="left:25.65%;top:16.67%">Hà Nội</span><span class="ab-city" style="left:41.04%;top:48.20%">Đà Nẵng</span></div><span class="ab-hq f" style="--ax:20.130;--ay:95.211"><em><img src="logos/btmi-text.webp?v=2" alt=""><img src="logos/btmi-leaf.webp" alt=""></em><span><b>Trụ sở BTMI</b><i>63 Cao Thắng, TP.HCM</i></span></span><span class="ab-hq z" style="--ax:33.117;--ay:88.529"><em><img src="logos/btmi-text.webp?v=2" alt=""><img src="logos/btmi-leaf.webp" alt=""></em><span><b>Trụ sở BTMI</b><i>63 Cao Thắng, TP.HCM</i></span></span><button type="button" class="ab-ml l" data-p="gl" style="--ax:34.091;--ay:58.464;--d:0.00s"><u>1</u><span><b>Gia Lai</b><i>2 MWp</i></span></button><button type="button" class="ab-ml r" data-p="kh" style="--ax:49.026;--ay:67.419;--d:0.12s"><u>2</u><span><b>Khánh Hòa</b><i>7 MWp</i></span></button><button type="button" class="ab-ml l" data-p="tn" style="--ax:26.299;--ay:71.416;--d:0.24s"><u>3</u><span><b>Tây Ninh</b><i>11,2 MWp</i></span></button><button type="button" class="ab-ml r" data-p="dn" style="--ax:40.909;--ay:80.298;--d:0.36s"><u>4</u><span><b>Đồng Nai</b><i>2 MWp</i></span></button><button type="button" class="ab-ml l" data-p="vl" style="--ax:27.273;--ay:88.529;--d:0.48s"><u>5</u><span><b>Vĩnh Long</b><i>3 MWp</i></span></button></div></div><div class="ab-mf"><small>Kích thước điểm theo công suất</small></div></div>
   <aside class="ab-sum rv">
   <span class="ab-tag">Công suất theo tỉnh</span>
   <div class="ab-tot"><b>25,2</b><span>MWp · 23 hệ thống</span></div>
@@ -1854,15 +1869,22 @@ const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return
  const f=n=>{const p=Math.min(1,(n-t0)/D),k=1-Math.pow(1-p,3);el.textContent=(to*k).toLocaleString('vi-VN',{minimumFractionDigits:d,maximumFractionDigits:d});if(p<1)requestAnimationFrame(f)};requestAnimationFrame(f)}),{threshold:.6});
 ab.querySelectorAll('[data-count]').forEach(el=>io.observe(el));
 // bản đồ: chạy đường bay khi nhìn thấy, tạm dừng khi khuất
-(function(){const mc=ab.querySelector('.ab-mapc'),sv=mc&&mc.querySelector('.ab-svg');if(!sv||!sv.pauseAnimations)return;sv.pauseAnimations();sv.setCurrentTime(0);
- const rm=matchMedia('(prefers-reduced-motion:reduce)').matches;let started=false,vis=false;
- const go=()=>{if(rm)return;if(vis&&!document.hidden){if(!started){started=1;setTimeout(()=>{started=2;go()},1700)}else if(started===2){mc.classList.add('run');sv.unpauseAnimations()}}else sv.pauseAnimations()};
- const reset=()=>{if(started!==2){sv.pauseAnimations();sv.setCurrentTime(0)}};if(document.readyState==='complete')reset();else addEventListener('load',reset);
- new IntersectionObserver(es=>{vis=es[0].isIntersecting;go()},{threshold:.2}).observe(mc);document.addEventListener('visibilitychange',go)})();
+const mc=ab.querySelector('.ab-mapc'),sv=mc&&mc.querySelector('.ab-svg');let setZ=()=>{};
+if(mc&&sv&&sv.pauseAnimations){
+ const rm=matchMedia('(prefers-reduced-motion:reduce)').matches,zb=[...mc.querySelectorAll('.ab-zt button')];let manual=false,started=0,vis=false;
+ setZ=(on,byUser)=>{if(byUser)manual=true;mc.classList.toggle('z',!!on);zb.forEach(b=>b.setAttribute('aria-pressed',String((b.dataset.z==='1')===!!on)))};
+ zb.forEach(b=>b.addEventListener('click',()=>setZ(b.dataset.z==='1',true)));setZ(false);
+ sv.pauseAnimations();sv.setCurrentTime(0);
+ if(rm){mc.classList.add('arcs');setZ(true)}
+ else{
+  const go=()=>{if(vis&&!document.hidden){if(!started){started=1;setTimeout(()=>{started=2;mc.classList.add('arcs');if(!manual)setZ(true);setTimeout(()=>{started=3;go()},1800)},1500)}else if(started===3){mc.classList.add('run');sv.unpauseAnimations()}}else sv.pauseAnimations()};
+  const reset=()=>{if(started<3){sv.pauseAnimations();sv.setCurrentTime(0)}};if(document.readyState==='complete')reset();else addEventListener('load',reset);
+  new IntersectionObserver(es=>{vis=es[0].isIntersecting;go()},{threshold:.2}).observe(mc);document.addEventListener('visibilitychange',go)}
+}
 // thanh công suất <-> thẻ tỉnh
 const bars=[...ab.querySelectorAll('.ab-bars button,.ab-map [data-p]')],cards=[...ab.querySelectorAll('.ab-prj article')],all=[...ab.querySelectorAll('.ab-prj [data-p]')];
 const hl=(p,on)=>all.forEach(e=>e.classList.toggle('pon',!!on&&e.dataset.p===p));
-let psel=null;const pick=(p,scroll)=>{psel=psel===p?null:p;all.forEach(e=>e.classList.toggle('psel',!!psel&&e.dataset.p===psel));if(psel&&scroll){const c=cards.find(c=>c.dataset.p===psel),r=c.getBoundingClientRect();if(r.top<70||r.bottom>innerHeight-20)c.scrollIntoView({behavior:'smooth',block:r.height>innerHeight-120?'start':'center'})}};
+let psel=null;const pick=(p,scroll)=>{psel=psel===p?null:p;if(psel&&mc&&!mc.classList.contains('z'))setZ(true,true);all.forEach(e=>e.classList.toggle('psel',!!psel&&e.dataset.p===psel));if(psel&&scroll){const c=cards.find(c=>c.dataset.p===psel),r=c.getBoundingClientRect();if(r.top<70||r.bottom>innerHeight-20)c.scrollIntoView({behavior:'smooth',block:r.height>innerHeight-120?'start':'center'})}};
 bars.forEach(b=>{b.addEventListener('mouseenter',()=>hl(b.dataset.p,1));b.addEventListener('mouseleave',()=>hl(0,0));b.addEventListener('click',()=>pick(b.dataset.p,1))});
 cards.forEach(c=>{c.addEventListener('mouseenter',()=>hl(c.dataset.p,1));c.addEventListener('mouseleave',()=>hl(0,0));c.addEventListener('click',()=>pick(c.dataset.p,0))});
 })();</script>
