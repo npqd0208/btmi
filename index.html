@@ -1873,6 +1873,26 @@ html.vt-run.vt-top .brandbar{view-transition-name:bb}
 .hv,.ab-hv{animation-fill-mode:backwards}
 /* sau lần chuyển đầu tiên, không chạy lại hiệu ứng mở màn của phần đầu trang */
 .vt-seen .hl,.vt-seen .hv,.vt-seen .pillars>div,.vt-seen .ab-hl,.vt-seen .ab-hv,.vt-seen .ab-hero h1,.vt-seen .ab-hero .lead,.vt-seen .ab-pil div,.vt-seen .ab-hero .hcta{animation:none}
+
+/* ===== V9.3: chân trang tràn hết chiều ngang, sát đáy trang ===== */
+.sitef.xf{margin:0;padding:0;border-radius:0;box-shadow:none;border:0;background:radial-gradient(760px 380px at 88% -8%,rgba(28,52,200,.5),transparent 62%),radial-gradient(640px 320px at 30% 112%,rgba(87,168,58,.2),transparent 60%),linear-gradient(165deg,#0e1849,#0a1236 58%,#070d29)}
+.xf-in{max-width:1240px;margin:0 auto;padding:40px 20px 38px;grid-template-columns:minmax(340px,440px) minmax(0,1fr);gap:52px}
+.tw-v{min-height:370px}
+.xf-main{display:flex;flex-direction:column;justify-content:center;gap:34px;padding:2px 0 0}
+.xf-head{display:flex;flex-direction:row;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:20px}
+.xf-contact{align-items:flex-end;gap:10px}
+.xf-nav{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 40px;padding:26px 0 0;border:0;border-top:1px solid rgba(159,177,255,.16)}
+.xf-nav>div>a{font-size:15px;padding:10px 0}
+.xf-nav h4{margin-bottom:12px;font-size:11.5px}
+.xf-bot{margin:0;background:rgba(3,7,28,.4);border-top:1px solid rgba(159,177,255,.14)}
+.xf-bw{max-width:1240px;margin:0 auto;padding:20px 20px calc(22px + env(safe-area-inset-bottom));display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px 48px;align-items:center}
+.sitef.xf .xf-bot p{max-width:none}
+.xf-meta{margin:0;flex-direction:column;align-items:flex-end;gap:12px}
+@media(max-width:1340px){.xf-in,.xf-bw{padding-right:58px}}
+@media(max-width:1000px){.xf-in{grid-template-columns:minmax(300px,360px) minmax(0,1fr);gap:34px}.xf-head{flex-direction:column;align-items:flex-start}.xf-contact{align-items:flex-start}}
+@media(max-width:900px){body{padding-bottom:0}.xf-bw{padding-bottom:calc(100px + env(safe-area-inset-bottom))}}
+@media(max-width:820px){.xf-in{grid-template-columns:1fr;gap:28px;padding-top:28px}.xf-main{padding:0}.tw-v{min-height:0}.xf-head{flex-direction:row;align-items:flex-start}.xf-contact{align-items:flex-end}.xf-bw{grid-template-columns:1fr}.xf-meta{flex-direction:row;align-items:center;justify-content:space-between}}
+@media(max-width:700px){.xf-in,.xf-bw{padding-left:16px;padding-right:34px}.xf-head{flex-direction:column}.xf-contact{align-items:flex-start}}
 </style></head>
 <body>
 <script>(function(h,q){var sol=h==="#giai-phap"||/^#s\d/.test(h)||/[?&](b|r|m)=/.test(q);if(!sol)document.body.classList.add("v-about")})(location.hash,location.search)</script>
@@ -2244,7 +2264,9 @@ html.vt-run.vt-top .brandbar{view-transition-name:bb}
 </script>
 </div>
 <section class="endcta rv"><div><h2>Nhận khảo sát mái và báo giá chi tiết</h2><p>Để lại họ tên và số điện thoại. Đội kỹ thuật BTMI sẽ liên hệ khảo sát mái và gửi cấu hình, vốn đầu tư, dòng tiền 20 năm cho doanh nghiệp của bạn.</p></div><button type="button" class="btn gold" id="endrq" style="border:0;cursor:pointer;font-family:inherit">Gửi yêu cầu báo giá</button></section>
-<footer class="sitef xf rv" aria-label="Thông tin công ty">
+
+</div>
+<footer class="sitef xf" aria-label="Thông tin công ty">
 <div class="xf-in">
  <figure class="tw" aria-label="Mô hình 3D trụ sở Betrimex Tower">
   <div class="tw-v">
@@ -2256,7 +2278,7 @@ html.vt-run.vt-top .brandbar{view-transition-name:bb}
    <figcaption class="tw-cap">
     <b>Betrimex Tower</b>
     <span>63 Cao Thắng, Phường Bàn Cờ, TP. Hồ Chí Minh</span>
-    <div class="tw-act"><a class="xf-go" href="https://www.google.com/maps/search/?api=1&amp;query=10.770949295879984,106.6805716210112" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Chỉ đường</a><button type="button" class="xf-cp t" data-cp="Betrimex Tower, 63 Cao Thắng, Phường Bàn Cờ, TP. Hồ Chí Minh" data-msg="Đã sao chép địa chỉ">Sao chép địa chỉ</button></div>
+    <div class="tw-act"><a class="xf-go" href="https://maps.app.goo.gl/Kq2DogJUHdys9cCZ7" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Chỉ đường</a><button type="button" class="xf-cp t" data-cp="Betrimex Tower, 63 Cao Thắng, Phường Bàn Cờ, TP. Hồ Chí Minh" data-msg="Đã sao chép địa chỉ">Sao chép địa chỉ</button></div>
    </figcaption>
   </div>
   <div class="tw-time">
@@ -2277,15 +2299,13 @@ html.vt-run.vt-top .brandbar{view-transition-name:bb}
    <div><h4><a href="#ve-chung-toi">Về chúng tôi</a></h4><a href="#ab-why"><u>01</u>Vì sao chọn chúng tôi</a><a href="#ab-sol"><u>02</u>Danh mục giải pháp</a><a href="#ab-eco"><u>03</u>Hệ sinh thái đối tác</a><a href="#ab-prj"><u>04</u>Dự án triển khai</a></div>
    <div><h4><a href="#giai-phap">Giải pháp</a></h4><a href="#s1"><u>01</u>Tính lại tiết kiệm</a><a href="#s2"><u>02</u>Đề xuất giải pháp</a><a href="#s3"><u>03</u>Phương án hợp tác</a><a href="#s4"><u>04</u>Quy trình và pháp lý</a></div>
   </nav>
-  <div class="xf-bot">
-   <p>Số liệu là ước tính theo biểu giá điện QĐ 2892/QĐ-BCT, cấp điện áp 1 đến 35 kV (trung áp), chưa VAT, và sẽ thay đổi theo hiện trạng thực tế sau khảo sát. Hệ thống điện mặt trời tự sản xuất, tự tiêu thụ thực hiện theo Nghị định 58/2025/NĐ-CP, được sửa đổi bởi Nghị định 243/2026/NĐ-CP.</p>
-   <div class="xf-meta"><span>© 2026 Công ty Cổ phần Đầu tư Betrimex (BTMI)</span><a href="#top" class="xf-top-l">Lên đầu trang<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></a></div>
-  </div>
  </div>
 </div>
+<div class="xf-bot"><div class="xf-bw">
+   <p>Số liệu là ước tính theo biểu giá điện QĐ 2892/QĐ-BCT, cấp điện áp 1 đến 35 kV (trung áp), chưa VAT, và sẽ thay đổi theo hiện trạng thực tế sau khảo sát. Hệ thống điện mặt trời tự sản xuất, tự tiêu thụ thực hiện theo Nghị định 58/2025/NĐ-CP, được sửa đổi bởi Nghị định 243/2026/NĐ-CP.</p>
+   <div class="xf-meta"><span>© 2026 Công ty Cổ phần Đầu tư Betrimex (BTMI)</span><a href="#top" class="xf-top-l">Lên đầu trang<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></a></div>
+</div></div>
 </footer>
-</div>
-
 
 <div id="mbar"><div>Giải pháp đề xuất tiết kiệm khoảng<b id="mbt">...</b></div><button type="button" id="mbb">Nhận báo giá</button></div>
 <div id="bd"></div>
@@ -2510,9 +2530,15 @@ if(mc&&sv&&sv.pauseAnimations){
  sv.pauseAnimations();sv.setCurrentTime(0);
  if(rm){mc.classList.add('arcs');setZ(true)}
  else{
-  const startMap=()=>{if(vis&&!document.hidden){if(!started){started=1;setTimeout(()=>{if(started>=3)return;started=2;mc.classList.add('arcs');if(!manual)setZ(true);setTimeout(()=>{started=3;startMap()},1050)},350)}else if(started===3){mc.classList.add('run');sv.unpauseAnimations()}}else sv.pauseAnimations()};
+  let tids=[];const T=(f,ms)=>{const i=setTimeout(f,ms);tids.push(i);return i};
+  const startMap=()=>{if(vis&&!document.hidden){if(!started){started=1;T(()=>{if(started>=3)return;started=2;mc.classList.add('arcs');if(!manual)setZ(true);T(()=>{started=3;startMap()},1050)},350)}else if(started===3){mc.classList.add('run');sv.unpauseAnimations()}}else sv.pauseAnimations()};
+  const replayMap=()=>{tids.forEach(clearTimeout);tids=[];started=0;manual=false;
+   if(psel)pick('all',0,true);
+   mc.classList.remove('arcs','run','z','foc','psel');setZ(false);
+   sv.pauseAnimations();sv.setCurrentTime(0)};
   const reset=()=>{if(started<3){sv.pauseAnimations();sv.setCurrentTime(0)}};if(document.readyState==='complete')reset();else addEventListener('load',reset);
-  new IntersectionObserver(es=>{vis=es[0].isIntersecting;startMap()},{threshold:.15}).observe(mc);document.addEventListener('visibilitychange',startMap)}
+  new IntersectionObserver(es=>{vis=es[0].isIntersecting;startMap()},{threshold:.15}).observe(mc);document.addEventListener('visibilitychange',startMap);
+  new IntersectionObserver(es=>{if(!es[0].isIntersecting&&started)replayMap()},{threshold:0}).observe(mc)}
 }
 
 // 5. Đồng bộ Bản đồ (Geo-Zoom) <-> Thanh công suất <-> Nút lọc tỉnh <-> HUD <-> Danh sách dự án
@@ -2620,7 +2646,7 @@ if(tw&&st){
  const load=()=>{if(loading||!gl)return;loading=true;import('./js/tower3d.js').then(m=>{api=m.mount(st,{onDrag:()=>tw.classList.add('used'),date:new Date(dayStart()+mins*60000)});marks(api.sunPos);apply();requestAnimationFrame(()=>tw.classList.add('ok'));setTimeout(()=>tw.classList.add('used'),7500);run()}).catch(()=>{})};
  clk.textContent=fmt(mins);rg.value=mins;
  new IntersectionObserver(es=>{if(es[0].isIntersecting)load()},{rootMargin:'600px 0px'}).observe(tw);
- new IntersectionObserver(es=>{vis=es[0].isIntersecting;run()},{threshold:.05}).observe(tw);
+ new IntersectionObserver(es=>{vis=es[0].isIntersecting;run();if(!vis&&api&&api.reset)api.reset()},{threshold:.05}).observe(tw);
  document.addEventListener('visibilitychange',run)}
 </script>
 <script>(function(){
