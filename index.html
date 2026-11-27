@@ -1392,10 +1392,13 @@ body.v-about .endcta{margin-top:22px}
 .ab .hq-r{fill:none;stroke:#ffe08a;stroke-width:1.6;opacity:0;transform-box:fill-box;transform-origin:center}
 .ab-mapc.run .hq-r{animation:hubPing 2.4s ease-out infinite}
 @keyframes hubPing{0%{transform:scale(1);opacity:.95}100%{transform:scale(2.6);opacity:0}}
-.ab-hq{position:absolute;z-index:2;display:grid;transform:translate(6px,-50%);padding:5px 12px;border-radius:12px;background:rgba(11,18,55,.92);border:1px solid rgba(255,224,138,.65);box-shadow:0 10px 22px -10px rgba(0,0,0,.6);line-height:1.2;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .5s .9s,transform .5s cubic-bezier(.3,1.4,.5,1) .9s}
+.ab-hq{position:absolute;z-index:2;display:flex;align-items:center;gap:9px;transform:translate(6px,-50%);padding:5px 12px 5px 6px;border-radius:14px;background:#fff;border:1.5px solid #f2c14e;box-shadow:0 0 0 3px rgba(242,193,78,.25),0 12px 24px -10px rgba(0,0,0,.6);line-height:1.2;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .5s .9s,transform .5s cubic-bezier(.3,1.4,.5,1) .9s}
+.ab-hq em{position:relative;flex:none;width:62px;height:31px;border-radius:9px;background:#f4f7ff}
+.ab-hq em img{position:absolute;inset:2px 4px;width:calc(100% - 8px);height:calc(100% - 4px);object-fit:contain}
+.ab-hq>span{display:grid}
 .ab-mapc.in .ab-hq{opacity:1;transform:translate(0,-50%)}
-.ab-hq b{font-size:12px;color:#ffe08a}
-.ab-hq i{font-style:normal;font-size:10.5px;color:#cdd6f5}
+.ab-hq b{font-size:12px;color:var(--navy)}
+.ab-hq i{font-style:normal;font-size:10.5px;color:var(--mute)}
 .ab-ml{position:absolute;z-index:2;display:flex;align-items:center;gap:7px;padding:4px 12px 4px 4px;text-align:left;border-radius:999px;background:rgba(255,255,255,.96);border:1px solid rgba(255,255,255,.6);box-shadow:0 10px 22px -10px rgba(0,0,0,.55);font:inherit;line-height:1.2;cursor:pointer;white-space:nowrap;opacity:0;transform:translate(8px,-50%);transition:opacity .5s calc(var(--d) + .5s),transform .55s cubic-bezier(.3,1.4,.5,1) calc(var(--d) + .5s),border-color .2s,box-shadow .2s,background .2s}
 .ab-mapc.in .ab-ml{opacity:1;transform:translate(0,-50%)}
 .ab-ml u{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;text-decoration:none;font-weight:800;font-size:11.5px;color:#3d2d00;background:linear-gradient(140deg,#ffe08a,#e9b949)}
@@ -1406,14 +1409,31 @@ body.v-about .endcta{margin-top:22px}
 .ab-mapc.in .ab-ml.l{transform:translate(-100%,-50%)}
 .ab-ml:hover,.ab-ml.pon{background:#fff;border-color:#ffe08a;box-shadow:0 0 0 3px rgba(255,214,107,.45),0 12px 24px -10px rgba(0,0,0,.6)}
 .ab-isl{position:absolute;transform:translate(-50%,-50%);font-size:11px;font-style:italic;font-weight:700;color:#c9f1f3;text-shadow:0 1px 3px rgba(0,0,0,.6);white-space:nowrap;pointer-events:none}
+.ab-isl.re{transform:translate(-100%,-50%)}
 .ab-sea{position:absolute;transform:translate(-50%,-50%);font-size:12px;letter-spacing:.5em;font-weight:700;color:rgba(190,225,240,.5);white-space:nowrap;pointer-events:none}
 .ab-city{position:absolute;display:flex;align-items:center;gap:5px;transform:translate(-4px,-50%);font-size:10.5px;font-weight:600;color:rgba(255,255,255,.88);text-shadow:0 1px 3px rgba(0,0,0,.7);pointer-events:none;white-space:nowrap}
 .ab-city:before{content:"";width:5px;height:5px;border-radius:50%;background:#fff;box-shadow:0 0 0 2px rgba(0,0,0,.25)}
-@container (max-width:480px){.ab-hq{padding:4px 9px}.ab-hq b{font-size:11px}.ab-hq i{font-size:9.5px}.ab-ml{gap:5px;padding:3px 9px 3px 3px}.ab-ml u{width:19px;height:19px;font-size:10px}.ab-ml b{font-size:11px}.ab-ml i{font-size:10px}.ab-ml.l{padding:3px 3px 3px 9px}.ab-isl{font-size:10px}.ab-city{font-size:9.5px}}
-@media(max-width:520px){.ab-hq{padding:3px 8px}.ab-hq b{font-size:10.5px}.ab-hq i{display:none}.ab-mapc{padding:12px 10px 10px}.ab-ml{gap:5px;padding:3px 8px 3px 3px}.ab-ml u{width:18px;height:18px;font-size:10px}.ab-ml b{font-size:10.5px}.ab-ml i{display:none}.ab-ml.l{padding:3px 3px 3px 8px}.ab-isl{font-size:9.5px}.ab-sea{font-size:9.5px;letter-spacing:.35em}.ab-mh small{display:none}}
-@media(max-width:400px){.ab-ml{gap:4px}.ab-ml u{width:16px;height:16px;font-size:9px}.ab-ml b{font-size:10px}.ab-ml.l{padding:2px 2px 2px 6px}.ab-ml.r{padding:2px 6px 2px 2px}.ab-city{display:none}}
-@media(max-width:340px){.ab-ml u{display:none}.ab-ml,.ab-ml.l,.ab-ml.r{padding:2px 6px}.ab-ml b{font-size:9.5px}.ab-isl{font-size:8.5px}.ab-sea{display:none}}
+@container (max-width:480px){.ab-hq{padding:4px 9px 4px 5px;gap:7px}.ab-hq em{width:48px;height:24px}.ab-hq b{font-size:11px}.ab-hq i{font-size:9.5px}.ab-ml{gap:5px;padding:3px 9px 3px 3px}.ab-ml u{width:19px;height:19px;font-size:10px}.ab-ml b{font-size:11px}.ab-ml i{font-size:10px}.ab-ml.l{padding:3px 3px 3px 9px}.ab-isl{font-size:10px}.ab-city{font-size:9.5px}}
+@container (max-width:455px){.ab-hq i{display:none}}
+@media(max-width:520px){.ab-hq{padding:3px 8px 3px 4px;gap:6px}.ab-hq em{width:40px;height:20px}.ab-hq b{font-size:10.5px}.ab-hq i{display:none}.ab-mapc{padding:12px 10px 10px}.ab-ml{gap:5px;padding:3px 8px 3px 3px}.ab-ml u{width:18px;height:18px;font-size:10px}.ab-ml b{font-size:10.5px}.ab-ml i{display:none}.ab-ml.l{padding:3px 3px 3px 8px}.ab-isl{font-size:9.5px}.ab-sea{font-size:9.5px;letter-spacing:.35em}.ab-mh small{display:none}}
+@media(max-width:400px){.ab-hq{gap:5px;padding:2px 6px 2px 3px}.ab-hq em{width:32px;height:16px}.ab-hq b{font-size:9.5px}.ab-isl{font-size:9px}.ab-ml{gap:4px}.ab-ml u{width:16px;height:16px;font-size:9px}.ab-ml b{font-size:10px}.ab-ml.l{padding:2px 2px 2px 6px}.ab-ml.r{padding:2px 6px 2px 2px}.ab-city{display:none}}
+@media(max-width:340px){.ab-hq>span{display:none}.ab-hq{padding:2px 3px}.ab-ml u{display:none}.ab-ml,.ab-ml.l,.ab-ml.r{padding:2px 6px}.ab-ml b{font-size:9.5px}.ab-isl{font-size:8.5px}.ab-sea{display:none}}
 @media(prefers-reduced-motion:reduce){.ab-mapc .hq-r{animation:none!important}.ab-mapc .arc-t,.ab-mapc .arc-c,.ab-mapc .arc-h,.ab-mapc .mk-w{display:none}}
+
+/* tỉnh đang chọn */
+.ab-prj article{cursor:pointer;position:relative}
+.ab-prj article.psel{background:linear-gradient(180deg,#eef8e8,#fff 60%);border-color:var(--g2);box-shadow:0 0 0 3px rgba(87,168,58,.28),0 20px 40px -24px rgba(47,125,27,.55)}
+.ab-prj article.psel:after{content:"Đang chọn";position:absolute;top:14px;right:14px;font:700 11px "Be Vietnam Pro",sans-serif;letter-spacing:.03em;color:#fff;background:linear-gradient(140deg,var(--g2),var(--g1));padding:4px 10px;border-radius:999px;animation:pselIn .35s cubic-bezier(.3,1.5,.5,1)}
+.ab-prj article.psel header u{transform:scale(1.12);box-shadow:0 0 0 4px rgba(87,168,58,.22)}
+.ab-prj article header u{transition:transform .3s cubic-bezier(.3,1.5,.5,1),box-shadow .3s}
+.ab-prj article.psel li b{background:#d7efc9}
+@keyframes pselIn{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:none}}
+.ab-bars button.psel{background:#ebf6e4;border-color:#bfe3ac}
+.ab-bars button.psel span{color:var(--g1)}
+.ab-ml.psel{background:#fff6d6;border-color:#f2c14e;box-shadow:0 0 0 3px rgba(242,193,78,.55),0 12px 24px -10px rgba(0,0,0,.6)}
+.ab-svg g.psel .arc-b{stroke:#fff;stroke-width:2}
+.ab-svg g.psel .mk-c{fill:#ffd66b;stroke:#fff;stroke-width:3}
+.ab-svg g.psel .mk-l{stroke:#ffe08a}
 </style></head>
 <body>
 <script>(function(h,q){var sol=h==="#giai-phap"||/^#s\d/.test(h)||/[?&](b|r|m)=/.test(q);if(!sol)document.body.classList.add("v-about")})(location.hash,location.search)</script>
@@ -1463,7 +1483,7 @@ body.v-about .endcta{margin-top:22px}
   <div class="ab-grid" aria-hidden="true"></div>
   <div class="ab-stat">
    <span class="ab-tag">Dự án đã triển khai</span>
-   <div class="ab-big"><b data-count="25.176" data-dec="3">25,176</b><span>MWp</span></div>
+   <div class="ab-big"><b data-count="25.2" data-dec="1">25,2</b><span>MWp</span></div>
    <p>Tổng công suất điện mặt trời áp mái đã triển khai tại Việt Nam</p>
    <div class="ab-kpi">
     <div><b data-count="23">23</b><span>hệ thống</span></div>
@@ -1536,7 +1556,7 @@ body.v-about .endcta{margin-top:22px}
  </div></div>
 </div>
 
-<div class="sec" id="ab-prj"><span class="no">04</span><h2>Dự án triển khai tại Việt Nam</h2><p>Hệ thống điện mặt trời áp mái BTMI đã triển khai tại 5 tỉnh, tổng công suất 25,176 MWp.</p></div>
+<div class="sec" id="ab-prj"><span class="no">04</span><h2>Dự án triển khai tại Việt Nam</h2><p>Hệ thống điện mặt trời áp mái BTMI đã triển khai tại 5 tỉnh, tổng công suất 25,2 MWp.</p></div>
 <div class="ab-prj">
  <div class="ab-pl">
   <article class="rv" data-p="gl"><header><u>1</u><div><h3>Gia Lai</h3><span>1 hệ thống · 2 MWp</span></div></header><ul><li><span>Công ty TNHH MTV Thành Công Gia Lai (2019-2020)</span><b>2 MWp</b></li></ul></article>
@@ -1600,12 +1620,12 @@ body.v-about .endcta{margin-top:22px}
 <circle class="mk-c" cx="160.7" cy="510.6" r="6.3"><animate attributeName="r" values="6.3;6.3;9.1;6.3;6.3" keyTimes="0;0.55;0.6000000000000001;0.7100000000000001;1" dur="3.6s" begin="2.88s" repeatCount="indefinite"/></circle>
 <circle class="mk-d" cx="160.7" cy="510.6" r="2.3"/>
 <circle class="mk-hit" cx="160.7" cy="510.6" r="12.0"/>
-</g><g class="hq"><path class="hq-l" d="M173.8 489.5L241.8 577.0" pathLength="1"/><circle class="hq-r" cx="173.8" cy="489.5" r="8"/><circle class="hq-c" cx="173.8" cy="489.5" r="7.5"/><circle class="hq-d" cx="173.8" cy="489.5" r="3"/></g></svg><span class="ab-sea" style="left:83.12%;top:48.20%">BIỂN ĐÔNG</span><span class="ab-isl" style="left:65.58%;top:40.37%">QĐ. Hoàng Sa</span><span class="ab-isl" style="left:86.36%;top:96.73%">QĐ. Trường Sa</span><span class="ab-city" style="left:25.65%;top:16.67%">Hà Nội</span><span class="ab-city" style="left:41.04%;top:48.20%">Đà Nẵng</span><span class="ab-hq" style="left:43.18%;top:95.21%"><b>Trụ sở BTMI</b><i>63 Cao Thắng, TP.HCM</i></span><button type="button" class="ab-ml l" data-p="gl" style="left:34.09%;top:57.22%;--d:0.90s"><u>1</u><span><b>Gia Lai</b><i>2 MWp</i></span></button><button type="button" class="ab-ml r" data-p="kh" style="left:55.52%;top:72.03%;--d:1.06s"><u>2</u><span><b>Khánh Hòa</b><i>7 MWp</i></span></button><button type="button" class="ab-ml l" data-p="tn" style="left:24.68%;top:67.11%;--d:1.22s"><u>3</u><span><b>Tây Ninh</b><i>11,176 MWp</i></span></button><button type="button" class="ab-ml r" data-p="dn" style="left:48.05%;top:79.38%;--d:1.38s"><u>4</u><span><b>Đồng Nai</b><i>2 MWp</i></span></button><button type="button" class="ab-ml r" data-p="vl" style="left:46.10%;top:86.82%;--d:1.54s"><u>5</u><span><b>Vĩnh Long</b><i>3 MWp</i></span></button></div></div>
+</g><g class="hq"><path class="hq-l" d="M173.8 489.5L209.1 577.0" pathLength="1"/><circle class="hq-r" cx="173.8" cy="489.5" r="8"/><circle class="hq-c" cx="173.8" cy="489.5" r="7.5"/><circle class="hq-d" cx="173.8" cy="489.5" r="3"/></g></svg><span class="ab-sea" style="left:83.12%;top:48.20%">BIỂN ĐÔNG</span><span class="ab-isl" style="left:65.58%;top:40.37%">QĐ. Hoàng Sa</span><span class="ab-isl re" style="left:98.05%;top:97.03%">QĐ. Trường Sa</span><span class="ab-city" style="left:25.65%;top:16.67%">Hà Nội</span><span class="ab-city" style="left:41.04%;top:48.20%">Đà Nẵng</span><span class="ab-hq" style="left:37.34%;top:95.21%"><em><img src="logos/btmi-text.webp?v=2" alt=""><img src="logos/btmi-leaf.webp" alt=""></em><span><b>Trụ sở BTMI</b><i>63 Cao Thắng, TP.HCM</i></span></span><button type="button" class="ab-ml l" data-p="gl" style="left:34.09%;top:57.22%;--d:0.90s"><u>1</u><span><b>Gia Lai</b><i>2 MWp</i></span></button><button type="button" class="ab-ml r" data-p="kh" style="left:55.52%;top:72.03%;--d:1.06s"><u>2</u><span><b>Khánh Hòa</b><i>7 MWp</i></span></button><button type="button" class="ab-ml l" data-p="tn" style="left:24.68%;top:67.11%;--d:1.22s"><u>3</u><span><b>Tây Ninh</b><i>11,2 MWp</i></span></button><button type="button" class="ab-ml r" data-p="dn" style="left:48.05%;top:79.38%;--d:1.38s"><u>4</u><span><b>Đồng Nai</b><i>2 MWp</i></span></button><button type="button" class="ab-ml r" data-p="vl" style="left:46.10%;top:86.82%;--d:1.54s"><u>5</u><span><b>Vĩnh Long</b><i>3 MWp</i></span></button></div></div>
   <aside class="ab-sum rv">
   <span class="ab-tag">Công suất theo tỉnh</span>
-  <div class="ab-tot"><b>25,176</b><span>MWp · 23 hệ thống</span></div>
+  <div class="ab-tot"><b>25,2</b><span>MWp · 23 hệ thống</span></div>
   <div class="ab-bars">
-   <button type="button" data-p="tn" style="--w:100%"><span>Tây Ninh</span><i></i><b>11,176 MWp</b></button>
+   <button type="button" data-p="tn" style="--w:100%"><span>Tây Ninh</span><i></i><b>11,2 MWp</b></button>
    <button type="button" data-p="kh" style="--w:62.6%"><span>Khánh Hòa</span><i></i><b>7 MWp</b></button>
    <button type="button" data-p="vl" style="--w:26.8%"><span>Vĩnh Long</span><i></i><b>3 MWp</b></button>
    <button type="button" data-p="gl" style="--w:17.9%"><span>Gia Lai</span><i></i><b>2 MWp</b></button>
@@ -1615,7 +1635,7 @@ body.v-about .endcta{margin-top:22px}
  </aside>
  </div>
  <div class="ab-pr">
-  <article class="rv wide" data-p="tn"><header><u>3</u><div><h3>Tây Ninh</h3><span>12 hệ thống · 11,176 MWp</span></div></header><ul>
+  <article class="rv wide" data-p="tn"><header><u>3</u><div><h3>Tây Ninh</h3><span>12 hệ thống · 11,2 MWp</span></div></header><ul>
    <li><span>Công ty TNHH Nghiên cứu, Ứng dụng Mía đường TTC</span><b>176 kWp</b></li>
    <li><span>Công ty Cổ phần Phát triển Nông nghiệp AgriS</span><b>1 MWp</b></li>
    <li><span>Công ty TNHH MTV Thành Công Xanh</span><b>1 MWp</b></li>
@@ -1842,8 +1862,9 @@ ab.querySelectorAll('[data-count]').forEach(el=>io.observe(el));
 // thanh công suất <-> thẻ tỉnh
 const bars=[...ab.querySelectorAll('.ab-bars button,.ab-map [data-p]')],cards=[...ab.querySelectorAll('.ab-prj article')],all=[...ab.querySelectorAll('.ab-prj [data-p]')];
 const hl=(p,on)=>all.forEach(e=>e.classList.toggle('pon',!!on&&e.dataset.p===p));
-bars.forEach(b=>{b.addEventListener('mouseenter',()=>hl(b.dataset.p,1));b.addEventListener('mouseleave',()=>hl(0,0));b.addEventListener('click',()=>{const c=cards.find(c=>c.dataset.p===b.dataset.p);if(!c)return;c.scrollIntoView({behavior:'smooth',block:'center'});hl(b.dataset.p,1);setTimeout(()=>hl(0,0),1800)})});
-cards.forEach(c=>{c.addEventListener('mouseenter',()=>hl(c.dataset.p,1));c.addEventListener('mouseleave',()=>hl(0,0))});
+let psel=null;const pick=(p,scroll)=>{psel=psel===p?null:p;all.forEach(e=>e.classList.toggle('psel',!!psel&&e.dataset.p===psel));if(psel&&scroll){const c=cards.find(c=>c.dataset.p===psel),r=c.getBoundingClientRect();if(r.top<70||r.bottom>innerHeight-20)c.scrollIntoView({behavior:'smooth',block:r.height>innerHeight-120?'start':'center'})}};
+bars.forEach(b=>{b.addEventListener('mouseenter',()=>hl(b.dataset.p,1));b.addEventListener('mouseleave',()=>hl(0,0));b.addEventListener('click',()=>pick(b.dataset.p,1))});
+cards.forEach(c=>{c.addEventListener('mouseenter',()=>hl(c.dataset.p,1));c.addEventListener('mouseleave',()=>hl(0,0));c.addEventListener('click',()=>pick(c.dataset.p,0))});
 })();</script>
 <button type="button" id="totop" aria-label="Lên đầu trang" title="Lên đầu trang"><svg viewBox="0 0 24 24"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></button>
 <script>
