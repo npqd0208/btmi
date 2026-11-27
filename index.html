@@ -1168,6 +1168,11 @@ body.kb #totop{opacity:0;pointer-events:none}
 @media(max-width:420px){.blogo{height:56px}}
 @media(prefers-reduced-motion:reduce){.bl-t,.bl-l,.bl-sh,.blogo:hover .bl-l,.blogo:hover .bl-sh{animation:none!important}.bl-sh{display:none}}
 @media print{.bl-l,.bl-t{animation:none!important}.bl-sh{display:none}.brandbar{padding-top:0}.blogo{height:56px}}
+
+.sfb .blogo.sm{height:64px;margin-bottom:8px}
+.blogo.sm .bl-t,.blogo.sm .bl-l,.blogo.sm .bl-sh{animation-play-state:paused}
+.blogo.sm.in .bl-t,.blogo.sm.in .bl-l,.blogo.sm.in .bl-sh{animation-play-state:running}
+@media(max-width:860px){.sfb .blogo.sm{height:54px}}
 </style></head>
 <body>
 <div class="prog" id="prog"></div><span id="top"></span><i class="bgb b1"></i><i class="bgb b2"></i>
@@ -1317,7 +1322,7 @@ body.kb #totop{opacity:0;pointer-events:none}
 </script>
 </div>
 <section class="endcta rv"><div><h2>Nhận khảo sát mái và báo giá chi tiết</h2><p>Để lại họ tên và số điện thoại. Đội kỹ thuật BTMI sẽ liên hệ khảo sát mái và gửi cấu hình, vốn đầu tư, dòng tiền 20 năm cho doanh nghiệp của bạn.</p></div><button type="button" class="btn gold" id="endrq" style="border:0;cursor:pointer;font-family:inherit">Gửi yêu cầu báo giá</button></section>
-<footer class="sitef"><div class="sf1"><div class="sfb"><b>BTMI</b><span>Điện mặt trời áp mái cho C&amp;I</span></div><div class="sfl"><a href="mailto:ptda@btmi.com.vn">ptda@btmi.com.vn</a><a href="#s1">Tính lại tiết kiệm</a><a href="#top">Lên đầu trang</a></div></div><p>Số liệu là ước tính theo biểu giá điện QĐ 2892/QĐ-BCT, cấp điện áp 1 đến 35 kV (trung áp), chưa VAT, và sẽ thay đổi theo hiện trạng thực tế sau khảo sát. Hệ thống điện mặt trời tự sản xuất, tự tiêu thụ thực hiện theo Nghị định 58/2025/NĐ-CP, được sửa đổi bởi Nghị định 243/2026/NĐ-CP.</p></footer>
+<footer class="sitef"><div class="sf1"><div class="sfb"><a class="blogo sm" href="#top" aria-label="BTMI, Hạ tầng cho tương lai, về đầu trang"><img class="bl-t" src="logos/btmi-text.webp" alt="BTMI, Hạ tầng cho tương lai" width="720" height="358" loading="lazy"><img class="bl-l" src="logos/btmi-leaf.webp" alt="" width="720" height="358" aria-hidden="true" loading="lazy"><i class="bl-sh" aria-hidden="true"></i></a><span>Điện mặt trời áp mái cho C&amp;I</span></div><div class="sfl"><a href="mailto:ptda@btmi.com.vn">ptda@btmi.com.vn</a><a href="#s1">Tính lại tiết kiệm</a><a href="#top">Lên đầu trang</a></div></div><p>Số liệu là ước tính theo biểu giá điện QĐ 2892/QĐ-BCT, cấp điện áp 1 đến 35 kV (trung áp), chưa VAT, và sẽ thay đổi theo hiện trạng thực tế sau khảo sát. Hệ thống điện mặt trời tự sản xuất, tự tiêu thụ thực hiện theo Nghị định 58/2025/NĐ-CP, được sửa đổi bởi Nghị định 243/2026/NĐ-CP.</p></footer>
 </div>
 
 
@@ -1339,6 +1344,7 @@ body.kb #totop{opacity:0;pointer-events:none}
 <div class="ok"><b>Đã mở thư gửi BTMI</b><p>Bấm Gửi trong ứng dụng email để hoàn tất. Nếu email không tự mở, sao chép nội dung và gửi đến ptda@btmi.com.vn.</p><button type="button" id="rqcp">Sao chép nội dung</button><button type="button" id="rqcl">Đóng</button></div>
 </div></div>
 
+<script>(function(){var f=document.querySelector('.blogo.sm');if(!f)return;if(!('IntersectionObserver' in window)){f.classList.add('in');return}var io=new IntersectionObserver(function(e){if(e[0].isIntersecting){f.classList.add('in');io.disconnect()}},{threshold:.6});io.observe(f)})();</script>
 <button type="button" id="totop" aria-label="Lên đầu trang" title="Lên đầu trang"><svg viewBox="0 0 24 24"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></button>
 <script>
 // Mô hình v2.1: Full logic V1.1 + vá lỗi nhỏ V2 (.cstat, scroll-lock iOS, reset nút copy)
