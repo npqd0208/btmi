@@ -1173,11 +1173,357 @@ body.kb #totop{opacity:0;pointer-events:none}
 .blogo.sm .bl-t,.blogo.sm .bl-l,.blogo.sm .bl-sh{animation-play-state:paused}
 .blogo.sm.in .bl-t,.blogo.sm.in .bl-l,.blogo.sm.in .bl-sh{animation-play-state:running}
 @media(max-width:860px){.sfb .blogo.sm{height:54px}}
+
+/* ===== Hai phần lớn: Về chúng tôi / Giải pháp ===== */
+.brandbar{justify-content:space-between;gap:14px 20px;flex-wrap:wrap}
+.vtab{position:relative;display:inline-grid;grid-auto-flow:column;grid-auto-columns:auto;padding:5px;border-radius:999px;background:rgba(255,255,255,.9);border:1px solid var(--line);box-shadow:0 10px 26px -18px rgba(11,18,55,.35);backdrop-filter:blur(8px)}
+.vtab:before{content:"";position:absolute;top:5px;bottom:5px;left:var(--x,5px);width:var(--w,0);border-radius:999px;background:linear-gradient(100deg,var(--navy),#1c2a8a);box-shadow:0 8px 18px -10px rgba(11,18,55,.7);transition:left .45s cubic-bezier(.3,1.3,.5,1),width .45s cubic-bezier(.3,1.3,.5,1)}
+.vtab a{position:relative;z-index:1;padding:10px 20px;border-radius:999px;font-weight:700;font-size:14px;color:var(--navy);text-decoration:none;white-space:nowrap;transition:color .3s}
+.vtab a[aria-current="page"]{color:#fff}
+.vtab a:not([aria-current="page"]):hover{color:var(--acc)}
+body.v-about .wrap>:not(.brandbar):not(#about):not(.sitef):not(.endcta){display:none!important}
+body.v-about #mbar{display:none!important}
+body.v-about{padding-bottom:0}
+body:not(.v-about) #about{display:none}
+@media(max-width:520px){.vtab a{padding:9px 13px;font-size:13px}}
+
+/* ===== About ===== */
+.ab{--g1:#2f7d1b;--g2:#57a83a}
+.ab svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ab-tag{display:inline-block;font:700 11.5px "Be Vietnam Pro",system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--acc);background:#eef1fb;border-radius:999px;padding:6px 12px}
+.ab-tag.gold{color:#7a5a00;background:var(--gold)}
+
+.ab-hero{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:44px;align-items:center;padding:26px 0 8px}
+.ab-hl{animation:rise .8s cubic-bezier(.2,.7,.2,1) both}
+.ab-hero h1{margin:0 0 16px;font-size:clamp(32px,4.4vw,52px);line-height:1.08;letter-spacing:-.035em;color:var(--navy)}
+.ab-hero h1 em{font-style:normal;background:linear-gradient(100deg,var(--g1),var(--g2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.ab-hero .lead{font-size:16.5px;margin:0 0 22px;max-width:600px;color:var(--mute)}
+.ab-pil{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0 0 26px;max-width:600px}
+.ab-pil div{display:flex;align-items:center;gap:10px;padding:12px 14px;background:#fff;border:1px solid var(--line);border-radius:16px;transition:transform .25s,border-color .25s}
+.ab-pil div:hover{transform:translateY(-3px);border-color:var(--g2)}
+.ab-pil i{flex:none;display:grid;place-items:center;width:36px;height:36px;border-radius:11px;color:var(--g1);background:#ebf6e4}
+.ab-pil b{font-size:13.5px;line-height:1.3;color:var(--navy)}
+
+.ab-hv{position:relative;animation:rise .9s .15s cubic-bezier(.2,.7,.2,1) both;padding:26px 0 26px 26px}
+.ab-grid{position:absolute;right:0;top:0;width:78%;height:72%;border-radius:26px;background:
+ linear-gradient(115deg,transparent 40%,rgba(255,255,255,.55) 50%,transparent 60%) no-repeat,
+ repeating-linear-gradient(90deg,transparent 0 2px,rgba(255,255,255,.0) 2px 100%),
+ repeating-linear-gradient(0deg,#cfe0ff 0 2px,transparent 2px 34px),
+ repeating-linear-gradient(90deg,#cfe0ff 0 2px,transparent 2px 46px),
+ linear-gradient(160deg,#3150e6,#1c2a8a);background-size:300% 100%,auto,auto,auto,auto;transform:perspective(900px) rotateX(18deg) rotateZ(-4deg);transform-origin:top right;opacity:.9;animation:abSweep 6s ease-in-out 1s infinite}
+@keyframes abSweep{0%{background-position:120% 0,0 0,0 0,0 0,0 0}55%,100%{background-position:-60% 0,0 0,0 0,0 0,0 0}}
+.ab-hv:before{content:"";position:absolute;right:6%;top:-14px;width:92px;height:92px;border-radius:50%;background:radial-gradient(circle,#ffd66b 0 44%,rgba(242,193,78,.35) 45% 62%,transparent 63%);animation:abGlow 4s ease-in-out infinite;z-index:1}
+@keyframes abGlow{50%{transform:scale(1.08)}}
+.ab-stat{position:relative;z-index:2;margin-top:70px;max-width:420px;padding:28px 28px 22px;border-radius:26px;color:#fff;background:linear-gradient(160deg,#121d5e,#0b1237 60%);box-shadow:0 30px 60px -30px rgba(11,18,55,.7);border:1px solid rgba(255,255,255,.08)}
+.ab-stat .ab-tag{background:rgba(242,193,78,.16);color:var(--gold)}
+.ab-big{display:flex;align-items:baseline;gap:10px;margin:14px 0 6px}
+.ab-big b{font-size:clamp(46px,5.4vw,64px);line-height:1;letter-spacing:-.04em;color:var(--gold);font-variant-numeric:tabular-nums}
+.ab-big span{font-size:20px;font-weight:700;color:#fff}
+.ab-stat p{margin:0 0 18px;color:#aeb7e6;font-size:14px}
+.ab-kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:14px 0;border-top:1px solid rgba(255,255,255,.12);border-bottom:1px solid rgba(255,255,255,.12)}
+.ab-kpi div{text-align:center}
+.ab-kpi b{display:block;font-size:26px;line-height:1.1;color:#fff}
+.ab-kpi span{font-size:12px;color:#aeb7e6}
+.ab-more{display:inline-flex;align-items:center;gap:8px;margin-top:14px;color:var(--gold);font-weight:700;font-size:14px;text-decoration:none}
+.ab-more svg{width:18px;height:18px;transition:transform .25s}
+.ab-more:hover svg{transform:translateX(4px)}
+
+/* Vì sao chọn */
+.ab-why{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.ab-why article{position:relative;overflow:hidden;padding:24px 22px 22px;background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:0 12px 32px -22px rgba(11,18,55,.25);transition:transform .3s cubic-bezier(.2,.7,.2,1),border-color .3s,box-shadow .3s,opacity .8s}
+.ab-why article:nth-child(3n+2){transition-delay:0s,0s,0s,.08s}.ab-why article:nth-child(3n){transition-delay:0s,0s,0s,.16s}
+.ab-why article:hover{transform:translateY(-6px);border-color:rgba(28,52,200,.35);box-shadow:0 24px 40px -24px rgba(28,52,200,.45)}
+.ab-why i{display:grid;place-items:center;width:50px;height:50px;border-radius:15px;color:#fff;background:linear-gradient(140deg,var(--acc),#0b1237);box-shadow:0 10px 20px -10px rgba(28,52,200,.7);transition:transform .35s cubic-bezier(.3,1.4,.5,1)}
+.ab-why article:hover i{transform:rotate(-8deg) scale(1.06)}
+.ab-why svg{width:24px;height:24px}
+.ab-why span{position:absolute;top:14px;right:18px;font-size:44px;font-weight:800;letter-spacing:-.04em;color:#eef1fb;line-height:1}
+.ab-why h3{margin:16px 0 6px;font-size:16.5px;line-height:1.3;color:var(--navy)}
+.ab-why p{margin:0;font-size:14px;color:var(--mute)}
+
+/* Danh mục */
+.ab-cat{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:start}
+.ab-col{background:#fff;border:1px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:0 14px 34px -24px rgba(11,18,55,.3)}
+.ab-col:nth-child(2){transition-delay:.08s}.ab-col:nth-child(3){transition-delay:.16s}
+.ab-col header{display:flex;align-items:center;gap:14px;padding:20px 20px;color:#fff;background:linear-gradient(130deg,#0b1237,#1c2a8a)}
+.ab-col.c2 header{background:linear-gradient(130deg,#1a2a9a,#3150e6)}
+.ab-col.c3 header{background:linear-gradient(130deg,#0b4f33,#0d7a4e)}
+.ab-col header i{flex:none;display:grid;place-items:center;width:46px;height:46px;border-radius:14px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.2)}
+.ab-col header svg{width:24px;height:24px}
+.ab-col h3{margin:0;font-size:18px;line-height:1.2}
+.ab-col header p{margin:3px 0 0;font-size:13px;color:rgba(255,255,255,.75)}
+.ab-col ul{list-style:none;margin:0;padding:14px;display:grid;gap:8px}
+.ab-col li{position:relative;display:grid;grid-template-columns:1fr auto;column-gap:10px;align-items:center;padding:12px 14px;border-radius:14px;background:var(--soft);border:1px solid transparent;transition:transform .25s,border-color .25s,background .25s}
+.ab-col li:hover{transform:translateX(4px);border-color:var(--line);background:#fff}
+.ab-col li b{grid-column:1;font-size:14.5px;color:var(--navy);line-height:1.3}
+.ab-col li span{grid-column:1;font-size:12.5px;color:var(--mute);line-height:1.4}
+.ab-col li em{grid-column:2;grid-row:1/span 2;font-style:normal;font:700 11px "Be Vietnam Pro",sans-serif;letter-spacing:.04em;padding:5px 10px;border-radius:999px;color:#7a5a00;background:var(--gold)}
+.ab-col li.hot{background:linear-gradient(120deg,#fff8e4,#fdf0c8);border-color:#f6dc8f}
+.ab-col li.ic{grid-template-columns:auto 1fr auto}
+.ab-col li.ic>i{grid-row:1/span 2;display:grid;place-items:center;width:38px;height:38px;border-radius:11px;background:#fff;color:var(--acc);border:1px solid var(--line)}
+.ab-col.c3 li.ic>i{color:var(--ok)}
+.ab-col li.ic b,.ab-col li.ic span{grid-column:2}
+.ab-col li.ic em{grid-column:3}
+.ab-col li.tier s{grid-column:1/-1;display:block;position:relative;height:6px;margin-top:9px;border-radius:6px;background:#dfe4f5;text-decoration:none;overflow:hidden}
+.ab-col li.tier s:after{content:"";position:absolute;top:0;bottom:0;left:var(--a);width:0;border-radius:6px;background:linear-gradient(90deg,var(--acc),var(--gold));transition:width 1.1s .3s cubic-bezier(.2,.7,.2,1)}
+.ab-col.in li.tier s:after{width:calc(var(--b) - var(--a))}
+.ab-col small{display:block;padding:0 20px 16px;color:var(--mute);font-size:12px}
+
+/* Giải pháp mũi nhọn */
+.ab-key{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:22px 30px;margin-top:22px;padding:26px 32px;border-radius:28px;color:#fff;background:linear-gradient(120deg,#0b1237 0%,#13265f 25%,#0b4f33 50%,#13265f 75%,#0b1237 100%);background-size:200% 100%;animation:slide 12s ease-in-out infinite alternate;box-shadow:0 30px 60px -34px rgba(11,18,55,.8)}
+.ab-kv svg{width:104px;height:104px;stroke:none}
+.kv-sun circle{fill:rgba(242,193,78,.18);transform-origin:60px 60px;animation:abGlow 3s ease-in-out infinite}
+.kv-p{fill:#3150e6;stroke:#9fb1ff!important;stroke-width:1.5!important}
+.kv-l{fill:none;stroke:#9fb1ff!important;stroke-width:1.5!important}
+.kv-b{fill:none;stroke:#fff!important;stroke-width:2!important}
+.kv-c{fill:none;stroke:var(--gold)!important;stroke-width:2!important;animation:abBlink 1.6s ease-in-out infinite}
+.kv-f{fill:none;stroke:var(--gold)!important;stroke-width:2!important;stroke-dasharray:3 3;animation:abFlow .8s linear infinite}
+@keyframes abBlink{50%{opacity:.25}}
+@keyframes abFlow{to{stroke-dashoffset:-6}}
+.ab-key h3{margin:10px 0 10px;font-size:clamp(22px,2.6vw,30px);line-height:1.15;letter-spacing:-.02em}
+.ab-key h3 em{font-style:normal;color:var(--gold)}
+.ab-key ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.ab-key li{display:inline-flex;align-items:center;gap:8px;padding:7px 13px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);font-size:13.5px;color:#e6eaff}
+.ab-key li:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 3px rgba(242,193,78,.25)}
+.ab-key .btn{white-space:nowrap}
+
+/* Hệ sinh thái */
+.ab-eco{border-radius:24px;background:#fff;border:1px solid var(--line);padding:18px 0;overflow:hidden;box-shadow:0 14px 34px -26px rgba(11,18,55,.3)}
+.ab-mq{overflow:hidden;-webkit-mask:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent);mask:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent)}
+.ab-tr{display:flex;width:max-content;gap:14px;animation:abMq 26s linear infinite}
+.ab-eco:hover .ab-tr{animation-play-state:paused}
+.ab-tr span{flex:none;display:grid;place-items:center;min-width:176px;height:64px;padding:0 22px;border-radius:16px;background:var(--soft);border:1px solid var(--line);font-weight:800;font-size:17px;letter-spacing:.14em;color:var(--navy);transition:background .25s,color .25s,transform .25s}
+.ab-tr span:hover{background:var(--navy);color:#fff;transform:translateY(-3px)}
+@keyframes abMq{to{transform:translateX(calc(-50% - 7px))}}
+
+/* Dự án */
+.ab-prj{display:grid;grid-template-columns:330px minmax(0,1fr);gap:18px;align-items:start}
+.ab-sum{position:sticky;top:18px;padding:24px 22px;border-radius:24px;background:#fff;border:1px solid var(--line);box-shadow:0 14px 34px -24px rgba(11,18,55,.3)}
+.ab-tot{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 10px;margin:14px 0 16px}
+.ab-tot b{font-size:40px;line-height:1;letter-spacing:-.04em;color:var(--navy)}
+.ab-tot span{font-size:13px;color:var(--mute);font-weight:600}
+.ab-bars{display:grid;gap:6px}
+.ab-bars button{display:grid;grid-template-columns:86px 1fr auto;align-items:center;gap:10px;padding:8px 10px;border:1px solid transparent;border-radius:12px;background:none;font:inherit;text-align:left;cursor:pointer;transition:background .2s,border-color .2s}
+.ab-bars button:hover,.ab-bars button.hl{background:var(--soft);border-color:var(--line)}
+.ab-bars span{font-size:13px;font-weight:600;color:var(--navy)}
+.ab-bars i{display:block;height:9px;border-radius:9px;background:#e9edf8;position:relative;overflow:hidden}
+.ab-bars i:after{content:"";position:absolute;inset:0 auto 0 0;width:0;border-radius:9px;background:linear-gradient(90deg,var(--g1),var(--g2));transition:width 1.2s cubic-bezier(.2,.7,.2,1)}
+.ab-sum.in .ab-bars i:after{width:var(--w)}
+.ab-bars button:nth-child(2) i:after{transition-delay:.08s}.ab-bars button:nth-child(3) i:after{transition-delay:.16s}.ab-bars button:nth-child(4) i:after{transition-delay:.24s}.ab-bars button:nth-child(5) i:after{transition-delay:.32s}
+.ab-bars b{font-size:12.5px;color:var(--navy);white-space:nowrap;font-variant-numeric:tabular-nums}
+.ab-sum small{display:block;margin-top:14px;color:var(--mute);font-size:12px}
+.ab-pv{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:start}
+.ab-pv article{padding:18px 18px 14px;border-radius:22px;background:#fff;border:1px solid var(--line);box-shadow:0 12px 30px -24px rgba(11,18,55,.3);scroll-margin-top:90px;transition:border-color .3s,box-shadow .3s,opacity .8s,transform .8s}
+.ab-pv article.wide{grid-column:1/-1}
+.ab-pv article.hl{border-color:var(--g2);box-shadow:0 0 0 4px rgba(87,168,58,.14),0 18px 36px -24px rgba(11,18,55,.35)}
+.ab-pv header{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.ab-pv u{flex:none;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;text-decoration:none;font-weight:800;font-size:14px;color:#fff;background:linear-gradient(140deg,var(--g2),var(--g1));box-shadow:0 6px 14px -6px rgba(47,125,27,.8)}
+.ab-pv h3{margin:0;font-size:17px;color:var(--navy);line-height:1.2}
+.ab-pv header span{font-size:12.5px;color:var(--mute);font-weight:600}
+.ab-pv ul{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.ab-pv article.wide ul{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:18px}
+.ab-pv li{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:8px 0;border-top:1px dashed var(--line);font-size:13.5px;line-height:1.45;color:var(--ink)}
+.ab-pv li b{flex:none;font-size:12px;padding:3px 9px;border-radius:999px;color:var(--g1);background:#ebf6e4;white-space:nowrap}
+
+.ab-next{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 26px;margin-top:56px;padding:26px 30px;border-radius:26px;background:#fff;border:1px solid var(--line);box-shadow:0 14px 34px -24px rgba(11,18,55,.3)}
+.ab-next h3{margin:0 0 6px;font-size:21px;color:var(--navy)}
+.ab-next p{margin:0;max-width:640px;color:var(--mute);font-size:14.5px}
+.ab-next .btn{display:inline-flex;align-items:center;gap:10px;white-space:nowrap}
+.ab-next .btn svg{width:18px;height:18px}
+body.v-about .endcta{margin-top:22px}
+
+@media(max-width:1020px){.ab-why,.ab-cat{grid-template-columns:repeat(2,minmax(0,1fr))}.ab-col.c3{grid-column:1/-1}.ab-prj{grid-template-columns:1fr}.ab-sum{position:static}}
+@media(max-width:980px){.ab-hero{grid-template-columns:1fr;gap:10px}.ab-hv{max-width:560px;width:100%;justify-self:center;padding-left:0}.ab-stat{max-width:none}}
+@media(max-width:760px){
+ .ab-why,.ab-cat,.ab-pv{grid-template-columns:1fr}.ab-col.c3{grid-column:auto}
+ .ab-pv article.wide ul{grid-template-columns:1fr}
+ .ab-pil{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+ .ab-pil div{flex-direction:column;text-align:center;gap:7px;padding:12px 6px}
+ .ab-pil b{font-size:12.5px}
+ .ab-key{grid-template-columns:1fr;padding:24px 20px;text-align:left}
+ .ab-kv svg{width:76px;height:76px}
+ .ab-key .btn,.ab-next .btn{width:100%;justify-content:center;text-align:center}
+ .ab-next{padding:22px 20px}
+ .ab-stat{margin-top:56px;padding:24px 20px 20px}
+ .ab-tr span{min-width:140px;height:54px;font-size:15px}
+ .ab-why article{display:grid;grid-template-columns:auto 1fr;column-gap:14px;padding:18px}
+ .ab-why i{grid-row:1/span 2;width:44px;height:44px}
+ .ab-why h3{margin:2px 0 4px;padding-right:44px}
+ .ab-why span{font-size:30px;top:12px;right:14px}
+}
+@media(prefers-reduced-motion:reduce){.ab-grid,.ab-hv:before,.ab-tr,.ab-key,.kv-c,.kv-f,.kv-sun circle{animation:none!important}}
+@media print{body:not(.v-about) #about{display:none}.vtab{display:none}}
 </style></head>
 <body>
+<script>(function(h){if(h==="#ve-chung-toi"||/^#ab-/.test(h))document.body.classList.add("v-about")})(location.hash)</script>
 <div class="prog" id="prog"></div><span id="top"></span><i class="bgb b1"></i><i class="bgb b2"></i>
 <div class="wrap">
-<div class="brandbar"><a class="blogo" href="#top" aria-label="BTMI, Hạ tầng cho tương lai, về đầu trang"><img class="bl-t" src="logos/btmi-text.webp?v=2" alt="BTMI, Hạ tầng cho tương lai" width="720" height="358"><img class="bl-l" src="logos/btmi-leaf.webp" alt="" width="720" height="358" aria-hidden="true"><i class="bl-sh" aria-hidden="true"></i></a></div>
+<div class="brandbar"><a class="blogo" href="#top" aria-label="BTMI, Hạ tầng cho tương lai, về đầu trang"><img class="bl-t" src="logos/btmi-text.webp?v=2" alt="BTMI, Hạ tầng cho tương lai" width="720" height="358"><img class="bl-l" src="logos/btmi-leaf.webp" alt="" width="720" height="358" aria-hidden="true"><i class="bl-sh" aria-hidden="true"></i></a><nav class="vtab" aria-label="Chuyển phần"><a href="#ve-chung-toi" data-v="about">Về chúng tôi</a><a href="#giai-phap" data-v="sol" aria-current="page">Giải pháp</a></nav></div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-award" viewBox="0 0 24 24"><circle cx="12" cy="9" r="5"/><path d="M8.5 13.5 7 21l5-2.5 5 2.5-1.5-7.5"/></symbol>
+<symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></symbol>
+<symbol id="i-chip" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></symbol>
+<symbol id="i-net" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2.5"/><circle cx="5" cy="19" r="2.5"/><circle cx="19" cy="19" r="2.5"/><path d="M12 7.5v4M12 11.5 6.7 17M12 11.5l5.3 5.5"/></symbol>
+<symbol id="i-mon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4M12 7.5v3.5M12 13.2v.1"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 4.5 3 8.3 7 10 4-1.7 7-5.5 7-10V6z"/><path d="m9 12 2 2 4-4"/></symbol>
+<symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01"/></symbol>
+<symbol id="i-helmet" viewBox="0 0 24 24"><path d="M3.5 17h17v2.5h-17zM5.5 17v-2.5a6.5 6.5 0 0 1 13 0V17"/><path d="M10 8.5V5h4v3.5"/></symbol>
+<symbol id="i-leaf" viewBox="0 0 24 24"><path d="M5 19C5 11 10 5 20 4c-1 10-7 15-15 15z"/><path d="M5 19c3-4 6.5-7 10-9"/></symbol>
+<symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+<symbol id="i-box" viewBox="0 0 24 24"><path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="m3 8 9 5 9-5M12 13v8"/></symbol>
+<symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/><circle cx="12" cy="12" r="6.5"/></symbol>
+<symbol id="i-panel" viewBox="0 0 24 24"><path d="M3 16 6 6h12l3 10z"/><path d="M4.5 11h15M9.7 6 8.7 16M14.3 6l1 10M12 16v4M8 20h8"/></symbol>
+<symbol id="i-bat" viewBox="0 0 24 24"><rect x="2.5" y="7" width="17" height="10" rx="2"/><path d="M21.5 10.5v3"/><path d="m11.5 9-2 3h4l-2 3"/></symbol>
+<symbol id="i-inv" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 7.5h6M8.5 14c1.2-1.6 2.3-1.6 3.5 0s2.3 1.6 3.5 0"/></symbol>
+<symbol id="i-cab" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="1.5"/><path d="M12 3v18M9.5 10v2.5M14.5 10v2.5"/></symbol>
+<symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></symbol>
+<symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18M9 15.5l2 2 4-4"/></symbol>
+<symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/><path d="M9.5 14.5a2.5 2.5 0 0 0 2.5 2.5"/></symbol>
+<symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></symbol>
+<symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
+<symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+</defs></svg>
+
+<main id="about" class="ab" aria-label="Về chúng tôi">
+
+<section class="ab-hero">
+ <div class="ab-hl">
+  <span class="eyebrow">VỀ BTMI · SOLAR SOLUTIONS</span>
+  <h1>Giải pháp điện mặt trời <em>tối ưu</em> cho thị trường C&amp;I</h1>
+  <p class="lead">BTMI cung cấp giải pháp điện mặt trời trọn gói theo hình thức EPC và ESCO, tích hợp lưu trữ thông minh, giúp doanh nghiệp tối ưu chi phí điện, nâng cao hiệu quả vận hành và linh hoạt đầu tư theo nhu cầu thực tế.</p>
+  <div class="ab-pil">
+   <div><i><svg><use href="#i-chat"/></svg></i><b>Tư vấn toàn diện</b></div>
+   <div><i><svg><use href="#i-helmet"/></svg></i><b>Thi công chất lượng</b></div>
+   <div><i><svg><use href="#i-leaf"/></svg></i><b>Vận hành bền vững</b></div>
+  </div>
+  <div class="hcta"><a class="btn" href="#ab-sol">Xem danh mục giải pháp</a><a class="btn2" href="#giai-phap">Tính tiết kiệm cho doanh nghiệp</a></div>
+ </div>
+ <div class="ab-hv">
+  <div class="ab-grid" aria-hidden="true"></div>
+  <div class="ab-stat">
+   <span class="ab-tag">Dự án đã triển khai</span>
+   <div class="ab-big"><b data-count="25.176" data-dec="3">25,176</b><span>MWp</span></div>
+   <p>Tổng công suất điện mặt trời áp mái đã triển khai tại Việt Nam</p>
+   <div class="ab-kpi">
+    <div><b data-count="23">23</b><span>hệ thống</span></div>
+    <div><b data-count="5">5</b><span>tỉnh, thành</span></div>
+    <div><b data-count="3">3</b><span>nhóm dịch vụ</span></div>
+   </div>
+   <a class="ab-more" href="#ab-prj">Xem danh sách dự án<svg><use href="#i-arrow"/></svg></a>
+  </div>
+ </div>
+</section>
+
+<div class="sec" id="ab-why"><span class="no">01</span><h2>Vì sao chọn chúng tôi?</h2><p>Sáu năng lực cốt lõi giúp BTMI đồng hành cùng doanh nghiệp từ khâu tư vấn đến vận hành suốt vòng đời dự án.</p></div>
+<div class="ab-why">
+ <article class="rv"><i><svg><use href="#i-award"/></svg></i><span>01</span><h3>Kinh nghiệm triển khai C&amp;I</h3><p>Am hiểu đặc thù doanh nghiệp, đa dạng quy mô và loại hình dự án.</p></article>
+ <article class="rv"><i><svg><use href="#i-bulb"/></svg></i><span>02</span><h3>Giải pháp EPC &amp; ESCO linh hoạt</h3><p>Đa dạng mô hình đầu tư, tối ưu chi phí và hiệu quả tài chính.</p></article>
+ <article class="rv"><i><svg><use href="#i-chip"/></svg></i><span>03</span><h3>Công nghệ Solar &amp; BESS tích hợp</h3><p>Tích hợp lưu trữ và quản lý năng lượng, tối ưu hiệu suất sử dụng điện.</p></article>
+ <article class="rv"><i><svg><use href="#i-net"/></svg></i><span>04</span><h3>Hệ sinh thái thiết bị tin cậy</h3><p>Hợp tác cùng các thương hiệu hàng đầu, đảm bảo chất lượng và tính đồng bộ.</p></article>
+ <article class="rv"><i><svg><use href="#i-mon"/></svg></i><span>05</span><h3>O&amp;M số hóa &amp; cảnh báo sớm</h3><p>Giám sát thời gian thực, phát hiện rủi ro và xử lý sự cố kịp thời.</p></article>
+ <article class="rv"><i><svg><use href="#i-shield"/></svg></i><span>06</span><h3>Đồng hành dài hạn</h3><p>Bảo hành, bảo trì và tối ưu hiệu quả suốt vòng đời dự án.</p></article>
+</div>
+
+<div class="sec" id="ab-sol"><span class="no">02</span><h2>Danh mục giải pháp C&amp;I</h2><p>Ba nhóm dịch vụ bổ trợ cho nhau: đầu tư và triển khai, cung cấp thiết bị, vận hành và tối ưu hiệu quả.</p></div>
+<div class="ab-cat">
+ <section class="ab-col c1 rv">
+  <header><i><svg><use href="#i-sun"/></svg></i><div><h3>EPC / ESCO</h3><p>Giải pháp đầu tư &amp; triển khai trọn gói</p></div></header>
+  <ul>
+   <li class="hot"><b>ESCO Solar</b><span>Solar On-grid</span><em>Nổi bật</em></li>
+   <li class="hot"><b>ESCO Smart Energy</b><span>Solar + BESS</span><em>Nổi bật</em></li>
+   <li class="tier"><b>EPC Start</b><span>100 - 500 kWp</span><s style="--a:2%;--b:10%"></s></li>
+   <li class="tier"><b>EPC Scale</b><span>500 kWp - 2 MWp</span><s style="--a:10%;--b:40%"></s></li>
+   <li class="tier"><b>EPC Mega</b><span>2 - 5 MWp</span><s style="--a:40%;--b:100%"></s></li>
+  </ul>
+  <small>Thang công suất EPC từ 0 đến 5 MWp</small>
+ </section>
+ <section class="ab-col c2 rv">
+  <header><i><svg><use href="#i-box"/></svg></i><div><h3>Cung cấp &amp; phân phối</h3><p>Thiết bị Solar</p></div></header>
+  <ul>
+   <li class="hot ic"><i><svg><use href="#i-bat"/></svg></i><b>BESS</b><span>Lưu trữ năng lượng</span><em>Nổi bật</em></li>
+   <li class="ic"><i><svg><use href="#i-panel"/></svg></i><b>Module</b><span>Tấm pin</span></li>
+   <li class="ic"><i><svg><use href="#i-inv"/></svg></i><b>Inverter</b><span>Biến tần</span></li>
+   <li class="ic"><i><svg><use href="#i-cab"/></svg></i><b>Phụ kiện hệ thống, tủ điện</b><span>Khung, cáp, combiner, AC/DC, tủ điện</span></li>
+  </ul>
+ </section>
+ <section class="ab-col c3 rv">
+  <header><i><svg><use href="#i-gear"/></svg></i><div><h3>Dịch vụ O&amp;M</h3><p>Vận hành &amp; tối ưu hiệu quả</p></div></header>
+  <ul>
+   <li class="ic"><i><svg><use href="#i-chart"/></svg></i><b>Theo dõi hiệu suất</b><span>Giám sát 24/7, báo cáo trực quan</span></li>
+   <li class="ic"><i><svg><use href="#i-cal"/></svg></i><b>Bảo trì</b><span>Kiểm tra định kỳ, đảm bảo hệ thống ổn định</span></li>
+   <li class="ic"><i><svg><use href="#i-drop"/></svg></i><b>Vệ sinh</b><span>Làm sạch tấm pin, duy trì hiệu suất tối ưu</span></li>
+   <li class="ic"><i><svg><use href="#i-alert"/></svg></i><b>Cảnh báo sự cố</b><span>Phát hiện sớm, thông báo và xử lý kịp thời</span></li>
+  </ul>
+ </section>
+</div>
+
+<section class="ab-key rv">
+ <div class="ab-kv" aria-hidden="true"><svg viewBox="0 0 120 120"><g class="kv-sun"><circle cx="60" cy="60" r="44"/></g><path class="kv-p" d="M26 74 36 44h48l10 30z"/><path class="kv-l" d="M31 59h58M51 44l-3 30M69 44l3 30"/><rect class="kv-b" x="40" y="84" width="40" height="20" rx="4"/><path class="kv-c" d="M57 87.5 53 94h7l-4 6.5"/><path class="kv-f" d="M60 74v10"/></svg></div>
+ <div class="ab-kt">
+  <span class="ab-tag gold">Giải pháp mũi nhọn</span>
+  <h3>ESCO linh hoạt + Lưu trữ <em>BESS</em></h3>
+  <ul><li>Giảm áp lực vốn đầu tư</li><li>Tối ưu chi phí điện</li><li>Nâng cao khả năng tự chủ năng lượng</li></ul>
+ </div>
+ <a class="btn gold ab-go" href="#s1" data-esco="1">Tính thử phương án ESCO</a>
+</section>
+
+<div class="sec" id="ab-eco"><span class="no">03</span><h2>Hệ sinh thái đối tác công nghệ</h2><p>Các thương hiệu công nghệ trong hệ sinh thái đối tác của BTMI.</p></div>
+<div class="ab-eco rv" aria-label="Các thương hiệu đối tác công nghệ">
+ <div class="ab-mq"><div class="ab-tr">
+  <span>HUAWEI</span><span>SUNGROW</span><span>XSOLAR</span><span>MEGAREVO</span><span>HOYMILES</span><span>SKYWORTH</span>
+  <span aria-hidden="true">HUAWEI</span><span aria-hidden="true">SUNGROW</span><span aria-hidden="true">XSOLAR</span><span aria-hidden="true">MEGAREVO</span><span aria-hidden="true">HOYMILES</span><span aria-hidden="true">SKYWORTH</span>
+ </div></div>
+</div>
+
+<div class="sec" id="ab-prj"><span class="no">04</span><h2>Dự án triển khai tại Việt Nam</h2><p>Hệ thống điện mặt trời áp mái BTMI đã triển khai tại 5 tỉnh, tổng công suất 25,176 MWp.</p></div>
+<div class="ab-prj">
+ <aside class="ab-sum rv">
+  <span class="ab-tag">Công suất theo tỉnh</span>
+  <div class="ab-tot"><b>25,176</b><span>MWp · 23 hệ thống</span></div>
+  <div class="ab-bars">
+   <button type="button" data-p="tn" style="--w:100%"><span>Tây Ninh</span><i></i><b>11,176 MWp</b></button>
+   <button type="button" data-p="kh" style="--w:62.6%"><span>Khánh Hòa</span><i></i><b>7 MWp</b></button>
+   <button type="button" data-p="vl" style="--w:26.8%"><span>Vĩnh Long</span><i></i><b>3 MWp</b></button>
+   <button type="button" data-p="gl" style="--w:17.9%"><span>Gia Lai</span><i></i><b>2 MWp</b></button>
+   <button type="button" data-p="dn" style="--w:17.9%"><span>Đồng Nai</span><i></i><b>2 MWp</b></button>
+  </div>
+  <small>Số liệu tổng hợp từ danh sách dự án của BTMI.</small>
+ </aside>
+ <div class="ab-pv">
+  <article class="rv" data-p="gl"><header><u>1</u><div><h3>Gia Lai</h3><span>1 hệ thống · 2 MWp</span></div></header><ul><li><span>Công ty TNHH MTV Thành Công Gia Lai (2019-2020)</span><b>2 MWp</b></li></ul></article>
+  <article class="rv" data-p="kh"><header><u>2</u><div><h3>Khánh Hòa</h3><span>6 hệ thống · 7 MWp</span></div></header><ul>
+   <li><span>Công ty Cổ phần Đường Biên Hòa - Phan Rang</span><b>2 MWp</b></li>
+   <li><span>Công ty TNHH MTV Nhiệt Điện Ninh Hòa</span><b>1 MWp</b></li>
+   <li><span>Công ty TNHH MTV Đường Biên Hòa - Ninh Hòa</span><b>1 MWp</b></li>
+   <li><span>Công ty TNHH MTV Năng lượng Sạch Ninh Hòa</span><b>1 MWp</b></li>
+   <li><span>Công ty TNHH MTV Năng lượng Xanh Ninh Hòa</span><b>1 MWp</b></li>
+   <li><span>Công ty TNHH MTV Đường Biên Hòa - Ninh Hòa</span><b>1 MWp</b></li></ul></article>
+  <article class="rv wide" data-p="tn"><header><u>3</u><div><h3>Tây Ninh</h3><span>12 hệ thống · 11,176 MWp</span></div></header><ul>
+   <li><span>Công ty TNHH Nghiên cứu, Ứng dụng Mía đường TTC</span><b>176 kWp</b></li>
+   <li><span>Công ty Cổ phần Phát triển Nông nghiệp AgriS</span><b>1 MWp</b></li>
+   <li><span>Công ty TNHH MTV Thành Công Xanh</span><b>1 MWp</b></li>
+   <li><span>Công ty TNHH MTV Nông nghiệp Xanh Thành Công</span><b>1 MWp</b></li>
+   <li><span>Công ty TNHH MTV Đầu tư Nông nghiệp Thành Công</span><b>1 MWp</b></li>
+   <li><span>Công ty TNHH Nghiên cứu, Ứng dụng Mía đường TTC</span><b>1 MWp</b></li>
+   <li><span>Công ty TNHH Hải Vi</span><b>1 MWp</b></li>
+   <li><span>Công ty Cổ phần Thành Thành Công - Biên Hòa</span><b>1 MWp</b></li>
+   <li><span>Công ty Cổ phần Thành Thành Công - Biên Hòa</span><b>1 MWp</b></li>
+   <li><span>Công ty TNHH MTV Nước Miaqua</span><b>1 MWp</b></li>
+   <li><span>Công ty TNHH MTV Ý Tưởng Xanh Thành Công</span><b>1 MWp</b></li>
+   <li><span>Công ty Cổ phần Đường Nước Trong</span><b>1 MWp</b></li></ul></article>
+  <article class="rv" data-p="dn"><header><u>4</u><div><h3>Đồng Nai</h3><span>1 hệ thống · 2 MWp</span></div></header><ul><li><span>Chi nhánh Công ty Cổ phần Hàng tiêu dùng Biên Hòa - Nhà máy đường TTC Biên Hòa - Đồng Nai</span><b>2 MWp</b></li></ul></article>
+  <article class="rv" data-p="vl"><header><u>5</u><div><h3>Vĩnh Long</h3><span>3 hệ thống · 3 MWp</span></div></header><ul>
+   <li><span>Nhà máy Betrimex Phong Nẫm</span><b>1 MWp</b></li>
+   <li><span>Khu kho 1/5</span><b>1 MWp</b></li>
+   <li><span>Khu kho 6000</span><b>1 MWp</b></li></ul></article>
+ </div>
+</div>
+
+<section class="ab-next rv">
+ <div><h3>Tính thử phương án cho nhà máy của bạn</h3><p>Nhập hóa đơn điện, thời gian hoạt động và diện tích mái để xem công suất đề xuất, vốn đầu tư và tiền điện tiết kiệm theo biểu giá điện mới.</p></div>
+ <a class="btn" href="#giai-phap">Chuyển sang phần Giải pháp<svg><use href="#i-arrow"/></svg></a>
+</section>
+</main>
+
 <header class="hero">
 <div class="hl">
 <span class="eyebrow">GIẢI PHÁP ĐIỆN MẶT TRỜI ÁP MÁI CHO C&amp;I</span>
@@ -1322,7 +1668,7 @@ body.kb #totop{opacity:0;pointer-events:none}
 </script>
 </div>
 <section class="endcta rv"><div><h2>Nhận khảo sát mái và báo giá chi tiết</h2><p>Để lại họ tên và số điện thoại. Đội kỹ thuật BTMI sẽ liên hệ khảo sát mái và gửi cấu hình, vốn đầu tư, dòng tiền 20 năm cho doanh nghiệp của bạn.</p></div><button type="button" class="btn gold" id="endrq" style="border:0;cursor:pointer;font-family:inherit">Gửi yêu cầu báo giá</button></section>
-<footer class="sitef"><div class="sf1"><div class="sfb"><a class="blogo sm" href="#top" aria-label="BTMI, Hạ tầng cho tương lai, về đầu trang"><img class="bl-t" src="logos/btmi-text.webp?v=2" alt="BTMI, Hạ tầng cho tương lai" width="720" height="358" loading="lazy"><img class="bl-l" src="logos/btmi-leaf.webp" alt="" width="720" height="358" aria-hidden="true" loading="lazy"><i class="bl-sh" aria-hidden="true"></i></a><span>Điện mặt trời áp mái cho C&amp;I</span></div><div class="sfl"><a href="mailto:ptda@btmi.com.vn">ptda@btmi.com.vn</a><a href="#s1">Tính lại tiết kiệm</a><a href="#top">Lên đầu trang</a></div></div><p>Số liệu là ước tính theo biểu giá điện QĐ 2892/QĐ-BCT, cấp điện áp 1 đến 35 kV (trung áp), chưa VAT, và sẽ thay đổi theo hiện trạng thực tế sau khảo sát. Hệ thống điện mặt trời tự sản xuất, tự tiêu thụ thực hiện theo Nghị định 58/2025/NĐ-CP, được sửa đổi bởi Nghị định 243/2026/NĐ-CP.</p></footer>
+<footer class="sitef"><div class="sf1"><div class="sfb"><a class="blogo sm" href="#top" aria-label="BTMI, Hạ tầng cho tương lai, về đầu trang"><img class="bl-t" src="logos/btmi-text.webp?v=2" alt="BTMI, Hạ tầng cho tương lai" width="720" height="358" loading="lazy"><img class="bl-l" src="logos/btmi-leaf.webp" alt="" width="720" height="358" aria-hidden="true" loading="lazy"><i class="bl-sh" aria-hidden="true"></i></a><span>Điện mặt trời áp mái cho C&amp;I</span></div><div class="sfl"><a href="mailto:ptda@btmi.com.vn">ptda@btmi.com.vn</a><a href="#ve-chung-toi">Về chúng tôi</a><a href="#s1">Tính lại tiết kiệm</a><a href="#top">Lên đầu trang</a></div></div><p>Số liệu là ước tính theo biểu giá điện QĐ 2892/QĐ-BCT, cấp điện áp 1 đến 35 kV (trung áp), chưa VAT, và sẽ thay đổi theo hiện trạng thực tế sau khảo sát. Hệ thống điện mặt trời tự sản xuất, tự tiêu thụ thực hiện theo Nghị định 58/2025/NĐ-CP, được sửa đổi bởi Nghị định 243/2026/NĐ-CP.</p></footer>
 </div>
 
 
@@ -1345,6 +1691,37 @@ body.kb #totop{opacity:0;pointer-events:none}
 </div></div>
 
 <script>(function(){var f=document.querySelector('.blogo.sm');if(!f)return;if(!('IntersectionObserver' in window)){f.classList.add('in');return}var io=new IntersectionObserver(function(e){if(e[0].isIntersecting){f.classList.add('in');io.disconnect()}},{threshold:.6});io.observe(f)})();</script>
+<script>(function(){
+const B=document.body,ab=document.getElementById('about'),vt=document.querySelector('.vtab'),tabs=[...vt.querySelectorAll('a')],T0=document.title;
+let cur=B.classList.contains('v-about')?'about':'sol';
+function viewOf(h){if(!h||h==='#'||h==='#top')return null;if(h==='#ve-chung-toi')return'about';if(h==='#giai-phap')return'sol';let el=null;try{el=document.querySelector(h)}catch(e){}if(!el)return null;return ab.contains(el)?'about':'sol'}
+function ind(){const a=vt.querySelector('[aria-current="page"]');if(!a)return;vt.style.setProperty('--x',a.offsetLeft+'px');vt.style.setProperty('--w',a.offsetWidth+'px')}
+function apply(v,anim){const ch=v!==cur;cur=v;B.classList.toggle('v-about',v==='about');tabs.forEach(a=>a.dataset.v===v?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'));ind();
+ document.title=v==='about'?'Về BTMI | Giải pháp điện mặt trời cho C&I':T0;
+ if(ch&&anim){const w=document.querySelector('.wrap');w.animate&&w.animate([{opacity:.0},{opacity:1}],{duration:420,easing:'cubic-bezier(.2,.7,.2,1)'})}
+ if(ch&&v==='sol')setTimeout(()=>dispatchEvent(new Event('resize')),30);
+ if(ch&&window._onScrollUI)window._onScrollUI();return ch}
+function go(h,push){const v=viewOf(h)||cur,ch=apply(v,true);if(push)history.pushState(null,'',h);
+ const t=(h==='#ve-chung-toi'||h==='#giai-phap'||h==='#top')?null:(()=>{try{return document.querySelector(h)}catch(e){return null}})();
+ requestAnimationFrame(()=>{if(t){if(ch)scrollTo({top:0,behavior:'instant'});requestAnimationFrame(()=>t.scrollIntoView({behavior:'smooth'}))}else scrollTo({top:0,behavior:ch?'instant':'smooth'})})}
+document.addEventListener('click',e=>{const a=e.target.closest('a[href^="#"]');if(!a||e.defaultPrevented)return;const h=a.getAttribute('href');if(h==='#'||h.length<2)return;const v=viewOf(h);const isTab=h==='#ve-chung-toi'||h==='#giai-phap';
+ if(!isTab&&(!v||v===cur))return;e.preventDefault();go(h,true);
+ if(a.dataset.esco){setTimeout(()=>{const b=document.querySelector('#modeSeg [data-m="esco"]');if(b&&!b.classList.contains('on'))b.click()},60)}});
+addEventListener('popstate',()=>{const v=viewOf(location.hash);if(v&&v!==cur)apply(v,true)});
+addEventListener('resize',ind);document.fonts&&document.fonts.ready.then(ind);
+apply(cur,false);ind();
+if(cur==='about'&&location.hash.indexOf('#ab-')===0){const t=document.querySelector(location.hash);t&&setTimeout(()=>t.scrollIntoView(),50)}
+// đếm số
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;io.unobserve(e.target);const el=e.target,to=+el.dataset.count,d=+(el.dataset.dec||0),t0=performance.now(),D=1300;
+ if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+ const f=n=>{const p=Math.min(1,(n-t0)/D),k=1-Math.pow(1-p,3);el.textContent=(to*k).toLocaleString('vi-VN',{minimumFractionDigits:d,maximumFractionDigits:d});if(p<1)requestAnimationFrame(f)};requestAnimationFrame(f)}),{threshold:.6});
+ab.querySelectorAll('[data-count]').forEach(el=>io.observe(el));
+// thanh công suất <-> thẻ tỉnh
+const bars=[...ab.querySelectorAll('.ab-bars button')],cards=[...ab.querySelectorAll('.ab-pv article')];
+const hl=(p,on)=>{bars.forEach(b=>b.classList.toggle('hl',on&&b.dataset.p===p));cards.forEach(c=>c.classList.toggle('hl',on&&c.dataset.p===p))};
+bars.forEach(b=>{b.addEventListener('mouseenter',()=>hl(b.dataset.p,1));b.addEventListener('mouseleave',()=>hl(0,0));b.addEventListener('click',()=>{const c=cards.find(c=>c.dataset.p===b.dataset.p);if(!c)return;c.scrollIntoView({behavior:'smooth',block:'center'});hl(b.dataset.p,1);setTimeout(()=>hl(0,0),1800)})});
+cards.forEach(c=>{c.addEventListener('mouseenter',()=>hl(c.dataset.p,1));c.addEventListener('mouseleave',()=>hl(0,0))});
+})();</script>
 <button type="button" id="totop" aria-label="Lên đầu trang" title="Lên đầu trang"><svg viewBox="0 0 24 24"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></button>
 <script>
 // Mô hình v2.1: Full logic V1.1 + vá lỗi nhỏ V2 (.cstat, scroll-lock iOS, reset nút copy)
