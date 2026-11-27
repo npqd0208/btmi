@@ -3584,7 +3584,7 @@ function tr0(s){
  window.__i18nMiss&&window.__i18nMiss.add(core);
  return s;
 }
-const ATTRS=['placeholder','title','aria-label','alt'];
+const ATTRS=['placeholder','title','aria-label','alt','data-t'];
 let lang='vi',busy=false;
 const skip=el=>!el||el.closest('script,style,[data-noi18n]')||el.isContentEditable;
 function doText(n){const p=n.parentElement;if(skip(p)||p.tagName==='TEXTAREA')return;
