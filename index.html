@@ -1571,6 +1571,38 @@ body.kb .vtab.flt,body:has(.dv-v.on) .vtab.flt,body:has(.rq.on) .vtab.flt{displa
 .ab-mapc.foc .ab-ml:not(.psel):hover{opacity:.95}
 .ab-mapc.foc .ab-ml.psel{z-index:4;transform:translate(0,-50%) scale(1.04)}
 .ab-mapc.foc .ab-ml.l.psel{transform:translate(-100%,-50%) scale(1.04)}
+/* ===== V7: Rà soát UI/UX trang Về chúng tôi ===== */
+/* Sửa: sparkline công suất bị co còn 22px do quy tắc svg chung */
+.ab-stat .ab-wave{display:block;width:100%!important;height:auto!important;aspect-ratio:320/42;margin:8px 0 12px;overflow:visible}
+.ab-wave .w-dot{fill:#fff;stroke:#f2c14e;stroke-width:2;opacity:0;transition:opacity .4s}
+.ab-wave .w-glow{fill:rgba(242,193,78,.35);opacity:0;transition:opacity .4s}
+.ab-stat.wv .w-dot,.ab-stat.wv .w-glow{opacity:1}
+/* Thanh chuyển tab nổi: ẩn khi cuộn xuống, hiện lại khi cuộn lên, không che nội dung */
+.vtab.flt{transition:transform .38s cubic-bezier(.2,.8,.2,1),opacity .3s;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.vtab.flt.hid{transform:translate(-50%,calc(-100% - 24px));opacity:0;pointer-events:none}
+/* Danh mục giải pháp: 3 cột cao bằng nhau, mục con giãn đều */
+@media(min-width:761px){.ab-cat{align-items:stretch}.ab-col{display:flex;flex-direction:column}.ab-col ul{flex:1;align-content:stretch}.ab-col.c2 ul,.ab-col.c3 ul{grid-auto-rows:1fr}.ab-col.c2 li,.ab-col.c3 li{align-content:center}}
+/* Thanh chấm cuộn: đường tiến độ nối các mục */
+#abnav{padding:10px 7px}
+#abnav::before,#abnav::after{content:"";position:absolute;left:50%;top:26px;width:2px;margin-left:-1px;border-radius:2px;pointer-events:none}
+#abnav::before{bottom:26px;background:#e3e7f6}
+#abnav::after{height:calc((100% - 52px) * var(--pr,0));background:linear-gradient(180deg,var(--acc),var(--gold));transition:height .15s linear}
+#abnav a{z-index:1}
+#abnav a.done{background:var(--acc)}
+/* Danh sách dự án: lọc tỉnh dính theo khi cuộn, thu gọn tỉnh nhiều hệ thống */
+@media(min-width:1021px){.ab-geo-r .ab-pf{position:sticky;top:76px;z-index:6;margin:-6px;padding:6px;border-radius:22px;background:rgba(246,248,255,.86);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:0 12px 26px -20px rgba(11,18,55,.45)}}
+@media(min-width:701px) and (max-width:1180px){body.v-about .wrap{padding-right:50px}}
+.ab-plist article{order:0!important}
+.ab-plist article li.xm{display:none}
+.ab-plist article.open li.xm{display:flex;animation:fade .35s ease both}
+.ab-xm{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;margin-top:8px;padding:9px 12px;border:1px dashed var(--line);border-radius:12px;background:var(--soft);color:var(--acc);font:700 12.5px "Be Vietnam Pro",sans-serif;cursor:pointer;transition:background .2s,border-color .2s}
+.ab-xm:hover{background:#fff;border-color:var(--acc)}
+.ab-xm i{display:inline-block;width:7px;height:7px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:translateY(-2px) rotate(45deg);transition:transform .25s}
+.ab-plist article.open .ab-xm i{transform:translateY(1px) rotate(225deg)}
+@media(max-width:700px){.ab-pf{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;margin:0 -14px;padding:2px 14px 4px;scroll-snap-type:x proximity;scroll-padding-inline:14px}.ab-pf::-webkit-scrollbar{display:none}.ab-pf button{flex:none;scroll-snap-align:start}}
+/* Nút lên đầu trang gọn hơn trên điện thoại để bớt che nội dung */
+@media(max-width:520px){#totop{width:42px;height:42px;right:max(10px,env(safe-area-inset-right));bottom:calc(14px + env(safe-area-inset-bottom))}#totop svg{width:18px;height:18px}}
+@media(prefers-reduced-motion:reduce){.ab-wave .w-dot,.ab-wave .w-glow{display:none}.vtab.flt{transition:none}}
 </style></head>
 <body>
 <script>(function(h,q){var sol=h==="#giai-phap"||/^#s\d/.test(h)||/[?&](b|r|m)=/.test(q);if(!sol)document.body.classList.add("v-about")})(location.hash,location.search)</script>
@@ -2202,6 +2234,35 @@ cards.forEach(c=>{c.addEventListener('mouseenter',()=>hl(c.dataset.p,1));c.addEv
 <script>(function(){const nav=document.getElementById('abnav'),ab=document.getElementById('about');if(!nav||!ab)return;const links=[...nav.querySelectorAll('a')],secs=links.map(a=>document.querySelector(a.getAttribute('href'))),hero=ab.querySelector('.ab-hero');
 const f=()=>{if(!document.body.classList.contains('v-about'))return;const t=hero?hero.offsetHeight*.45:240;nav.classList.toggle('vis',scrollY>t);let k=-1;secs.forEach((e,i)=>{if(e&&e.getBoundingClientRect().top<innerHeight*.4)k=i});links.forEach((a,i)=>a.classList.toggle('on',i===k))};
 addEventListener('scroll',f,{passive:true});addEventListener('resize',f);f()})();</script>
+<script>(function(){
+const ab=document.getElementById('about');if(!ab)return;const rm=matchMedia('(prefers-reduced-motion:reduce)').matches;
+// 1. Hạt sáng chạy dọc sparkline công suất
+const wv=ab.querySelector('.ab-wave'),ln=wv&&wv.querySelector('.w-line'),st=ab.querySelector('.ab-stat');
+if(wv&&ln&&!rm&&!wv.querySelector('.w-dot')){const d=ln.getAttribute('d'),NS='http://www.w3.org/2000/svg';
+ const mk=(c,r)=>{const e=document.createElementNS(NS,'circle');e.setAttribute('class',c);e.setAttribute('r',r);const m=document.createElementNS(NS,'animateMotion');m.setAttribute('dur','5.5s');m.setAttribute('repeatCount','indefinite');m.setAttribute('path',d);m.setAttribute('calcMode','paced');e.appendChild(m);wv.appendChild(e);return e};
+ mk('w-glow','8');mk('w-dot','3.4');setTimeout(()=>st&&st.classList.add('wv'),2100)}
+// 2. Thanh chuyển tab nổi: ẩn khi cuộn xuống, hiện khi cuộn lên
+const vt=document.querySelector('.vtab');let ly=scrollY,acc=0;
+addEventListener('scroll',()=>{const y=scrollY,d=y-ly;ly=y;if(!vt)return;if(!vt.classList.contains('flt')){vt.classList.remove('hid');acc=0;return}
+ acc=(d>0)===(acc>0)?acc+d:d;if(acc>70)vt.classList.add('hid');else if(acc<-24)vt.classList.remove('hid')},{passive:true});
+// 3. Tiến độ trên thanh chấm cuộn
+const nav=document.getElementById('abnav');
+if(nav){const links=[...nav.querySelectorAll('a')],secs=links.map(a=>document.querySelector(a.getAttribute('href')));
+ const f=()=>{if(!document.body.classList.contains('v-about'))return;const a=secs[0],z=ab.querySelector('#ab-prj');if(!a||!z)return;
+  const top=a.getBoundingClientRect().top+scrollY-innerHeight*.4,end=z.getBoundingClientRect().top+scrollY+z.offsetHeight-innerHeight*.9;
+  const pr=Math.max(0,Math.min(1,(scrollY-top)/Math.max(1,end-top)));nav.style.setProperty('--pr',pr.toFixed(3));
+  let k=-1;secs.forEach((e,i)=>{if(e&&e.getBoundingClientRect().top<innerHeight*.4)k=i});links.forEach((l,i)=>l.classList.toggle('done',i<k))};
+ addEventListener('scroll',f,{passive:true});addEventListener('resize',f);f()}
+// 4. Thu gọn tỉnh có nhiều hệ thống, tự mở khi chọn tỉnh
+const LIM=5;
+ab.querySelectorAll('.ab-plist article').forEach(art=>{const li=[...art.querySelectorAll('ul li')];if(li.length<=LIM+1||art.querySelector('.ab-xm'))return;
+ li.slice(LIM).forEach(x=>x.classList.add('xm'));const n=li.length-LIM,b=document.createElement('button');b.type='button';b.className='ab-xm';
+ const lab=()=>{const o=art.classList.contains('open');b.innerHTML=(o?'Thu gọn':'Xem thêm '+n+' hệ thống')+'<i></i>';b.setAttribute('aria-expanded',String(o))};lab();
+ b.addEventListener('click',e=>{e.stopPropagation();const o=art.classList.toggle('open');lab();if(!o){const r=art.getBoundingClientRect();if(r.top<0)art.scrollIntoView({behavior:'smooth',block:'start'})}});
+ art.querySelector('ul').after(b);art._lab=lab});
+const prj=ab.querySelector('.ab-prj');
+if(prj)ab.addEventListener('click',()=>setTimeout(()=>{prj.querySelectorAll('.ab-plist article').forEach(a=>{if(a.classList.contains('psel')&&!a.classList.contains('open')&&a._lab){a.classList.add('open');a._lab()}})},0));
+})();</script>
 <button type="button" id="totop" aria-label="Lên đầu trang" title="Lên đầu trang"><svg viewBox="0 0 24 24"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></button>
 <script>
 // Mô hình v2.1: Full logic V1.1 + vá lỗi nhỏ V2 (.cstat, scroll-lock iOS, reset nút copy)
