@@ -1603,6 +1603,76 @@ body.kb .vtab.flt,body:has(.dv-v.on) .vtab.flt,body:has(.rq.on) .vtab.flt{displa
 /* Nút lên đầu trang gọn hơn trên điện thoại để bớt che nội dung */
 @media(max-width:520px){#totop{width:42px;height:42px;right:max(10px,env(safe-area-inset-right));bottom:calc(14px + env(safe-area-inset-bottom))}#totop svg{width:18px;height:18px}}
 @media(prefers-reduced-motion:reduce){.ab-wave .w-dot,.ab-wave .w-glow{display:none}.vtab.flt{transition:none}}
+/* ===== V7.1: Chân trang thông tin công ty ===== */
+@property --xa{syntax:"<angle>";inherits:false;initial-value:0deg}
+.sitef.xf{position:relative;overflow:hidden;isolation:isolate;margin-top:56px;padding:34px 34px 22px;border:0;border-radius:28px;color:#b9c4e6;font-size:13px;background:radial-gradient(620px 320px at 88% -10%,rgba(28,52,200,.5),transparent 62%),radial-gradient(520px 280px at -5% 105%,rgba(87,168,58,.24),transparent 60%),linear-gradient(160deg,#0e1849,#0a1236 55%,#070d29);box-shadow:0 34px 70px -38px rgba(11,18,55,.85)}
+.xf::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background-image:linear-gradient(rgba(159,177,255,.075) 1px,transparent 1px),linear-gradient(90deg,rgba(159,177,255,.075) 1px,transparent 1px);background-size:34px 34px;-webkit-mask-image:radial-gradient(ellipse 80% 90% at 30% 20%,#000 20%,transparent 75%);mask-image:radial-gradient(ellipse 80% 90% at 30% 20%,#000 20%,transparent 75%)}
+.xf::after{content:"";position:absolute;left:0;right:0;top:0;height:2px;pointer-events:none;background:linear-gradient(90deg,transparent,#f2c14e,#7fa6ff,transparent) no-repeat;background-size:40% 100%;animation:xfLine 7s linear infinite}
+@keyframes xfLine{from{background-position:-70% 0}to{background-position:170% 0}}
+.xf-top{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr) minmax(0,1.25fr);gap:26px;align-items:stretch}
+.xf-brand{display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+.xf-logo{padding:10px 14px;border-radius:16px;background:#fff;box-shadow:0 0 0 1px rgba(255,255,255,.4),0 14px 30px -16px rgba(0,0,0,.7)}
+.xf-logo{padding:8px 12px 6px}.xf-logo .blogo.sm{height:56px!important;margin:0}
+.xf-tag{font-size:13px;color:#9fb0dc}
+.xf-co{font-size:15.5px;line-height:1.35;color:#fff;max-width:300px}
+.xf-row{display:flex;align-items:center;gap:6px;margin-top:4px}
+.xf-mail{display:inline-flex;align-items:center;gap:9px;padding:9px 14px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);color:#fff;text-decoration:none;font-weight:600;font-size:13.5px;transition:background .2s,border-color .2s}
+.xf-mail:hover{background:rgba(255,255,255,.12);border-color:rgba(242,193,78,.6)}
+.xf svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.xf-cp{display:inline-grid;place-items:center;min-width:38px;height:38px;padding:0 10px;border-radius:999px;border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.05);color:#cfd8f5;cursor:pointer;font:600 12.5px "Be Vietnam Pro",sans-serif;transition:background .2s,color .2s,border-color .2s}
+.xf-cp:hover{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.3)}
+.xf-cp.ok{color:#8ff0b8;border-color:rgba(110,231,168,.5)}
+.xf-clock{display:inline-flex;align-items:center;gap:8px;margin-top:auto;padding:7px 12px;border-radius:12px;background:rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.08);font-size:12px;color:#9fb0dc}
+.xf-clock i{width:7px;height:7px;border-radius:50%;background:#4ade80;animation:liveDot 1.8s ease-out infinite}
+.xf-clock b,.xf-hud{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-variant-numeric:tabular-nums}
+.xf-clock b{color:#fff;font-size:13px;letter-spacing:.04em}
+.xf-clock span{white-space:nowrap}.xf-clock em{font-style:normal;font-size:10.5px;letter-spacing:.08em;color:#f2c14e}
+.xf-nav{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.xf-nav>div{display:flex;flex-direction:column;gap:2px}
+.xf-nav h4{margin:0 0 8px;font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+.xf-nav h4 a{color:#f2c14e;text-decoration:none;padding:0}
+.xf-nav a{display:flex;align-items:center;gap:9px;padding:7px 0;color:#d5ddf7;text-decoration:none;font-size:13.5px;line-height:1.3;transition:color .2s,transform .2s}
+.xf-nav a u{text-decoration:none;font:600 10px ui-monospace,Menlo,Consolas,monospace;color:#6f80b8;transition:color .2s}
+.xf-nav>div>a:hover{color:#fff;transform:translateX(4px)}
+.xf-nav>div>a:hover u{color:#f2c14e}
+.xf-loc{position:relative;min-height:310px;border-radius:22px;overflow:hidden;border:1px solid rgba(159,177,255,.18);box-shadow:inset 0 0 0 1px rgba(255,255,255,.03),0 20px 40px -26px rgba(0,0,0,.8);background:#0a2a5a}
+.xf-radar{position:absolute;inset:0;overflow:hidden}
+.xf-radar img{position:absolute;left:50%;top:34%;width:2400px;max-width:none;height:auto;transform:translate(-31.04%,-80.78%);filter:saturate(.75) brightness(.72) contrast(1.05)}
+.xf-radar:after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 34%,transparent 0,rgba(7,13,41,.25) 45%,rgba(7,13,41,.85) 100%)}
+.xf-grid{position:absolute;inset:0;z-index:1;background-image:linear-gradient(rgba(127,166,255,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(127,166,255,.12) 1px,transparent 1px);background-size:28px 28px;background-position:center}
+.xf-rings{position:absolute;left:50%;top:34%;z-index:1}
+.xf-rings i{position:absolute;left:0;top:0;border-radius:50%;border:1px solid rgba(242,193,78,.28);transform:translate(-50%,-50%)}
+.xf-rings i:nth-child(1){width:70px;height:70px}.xf-rings i:nth-child(2){width:150px;height:150px;border-style:dashed;border-color:rgba(127,166,255,.3)}.xf-rings i:nth-child(3){width:240px;height:240px}.xf-rings i:nth-child(4){width:340px;height:340px;border-color:rgba(127,166,255,.18)}
+.xf-sweep{position:absolute;left:50%;top:34%;z-index:1;width:520px;height:520px;margin:-260px 0 0 -260px;border-radius:50%;background:conic-gradient(from var(--xa),transparent 0deg,transparent 290deg,rgba(127,166,255,.06) 300deg,rgba(242,193,78,.34) 358deg,transparent 360deg);animation:xfSpin 6s linear infinite}
+@keyframes xfSpin{to{--xa:360deg}}
+.xf-cross{position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,transparent calc(50% - .5px),rgba(242,193,78,.35) 50%,transparent calc(50% + .5px)),linear-gradient(180deg,transparent calc(34% - .5px),rgba(242,193,78,.35) 34%,transparent calc(34% + .5px))}
+.xf-pin{position:absolute;left:50%;top:34%;z-index:2}
+.xf-pin b{position:absolute;left:-7px;top:-7px;width:14px;height:14px;border-radius:50%;background:#0b1237;border:3px solid #ffe08a;box-shadow:0 0 18px 4px rgba(255,224,138,.55)}
+.xf-pin i{position:absolute;left:-7px;top:-7px;width:14px;height:14px;border-radius:50%;border:2px solid #ffe08a;animation:xfPing 2.4s ease-out infinite}
+.xf-pin i+i{animation-delay:1.2s}
+@keyframes xfPing{from{transform:scale(1);opacity:.9}to{transform:scale(4.2);opacity:0}}
+.xf-hud{position:absolute;top:12px;z-index:2;font-size:11px;line-height:1.5;color:#dbe4ff;padding:7px 10px;border-radius:10px;background:rgba(7,13,41,.55);border:1px solid rgba(159,177,255,.2);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.xf-hud.l{left:12px;display:grid;grid-template-columns:auto auto;column-gap:8px}
+.xf-hud.l span{color:#f2c14e;font-size:9.5px;letter-spacing:.1em;align-self:center}
+.xf-hud.r{right:12px;letter-spacing:.14em;font-size:10px;color:#f2c14e}
+.xf-info{position:absolute;left:12px;right:12px;bottom:12px;z-index:3;padding:14px 16px;border-radius:16px;background:rgba(9,16,48,.72);border:1px solid rgba(159,177,255,.2);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.xf-lbl{display:inline-block;margin-bottom:4px;font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#f2c14e}
+.xf-info b{display:block;font-size:16px;color:#fff;line-height:1.25}
+.xf-info p{margin:2px 0 10px;font-size:13px;color:#c3cdee}
+.xf-act{display:flex;flex-wrap:wrap;gap:8px}
+.xf-go{display:inline-flex;align-items:center;gap:7px;height:38px;padding:0 16px;border-radius:999px;background:linear-gradient(90deg,#f6d77a,#e9b949);color:#3d2d00;text-decoration:none;font-weight:700;font-size:13px;box-shadow:0 10px 22px -12px rgba(233,185,73,.8);transition:transform .2s}
+.xf-go:hover{transform:translateY(-2px)}
+.xf-bot{margin-top:26px;padding-top:18px;border-top:1px solid rgba(159,177,255,.14)}
+.sitef.xf .xf-bot p{margin:0;max-width:960px;font-size:12px;line-height:1.65;color:#8f9cc8}
+.xf-meta{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin-top:14px;font-size:12px;color:#7f8cbb}
+.xf-top-l{display:inline-flex;align-items:center;gap:6px;color:#d5ddf7;text-decoration:none;font-weight:600;padding:6px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.12);transition:border-color .2s,color .2s}
+.xf-top-l:hover{color:#fff;border-color:#f2c14e}
+.xf-top-l svg{width:14px;height:14px}
+@media(min-width:701px) and (max-width:1180px){.xf-info{right:auto;width:min(440px,calc(100% - 24px))}}
+@media(max-width:1180px){.xf-top{grid-template-columns:1fr 1fr}.xf-loc{grid-column:1/-1;min-height:300px}}
+@media(max-width:700px){.sitef.xf{margin-top:40px;padding:24px 18px 18px;border-radius:24px}.xf-top{grid-template-columns:1fr;gap:24px}.xf-loc{min-height:0;display:flex;flex-direction:column}.xf-radar{position:relative;inset:auto;height:240px;flex:none}.xf-info{position:relative;left:auto;right:auto;bottom:auto;margin:-46px 10px 10px}.xf-clock{margin-top:6px}}
+@media(max-width:400px){.xf-nav{grid-template-columns:1fr}.xf-hud.r{display:none}}
+@media(prefers-reduced-motion:reduce){.xf::after,.xf-sweep,.xf-pin i,.xf-clock i{animation:none!important}}
 </style></head>
 <body>
 <script>(function(h,q){var sol=h==="#giai-phap"||/^#s\d/.test(h)||/[?&](b|r|m)=/.test(q);if(!sol)document.body.classList.add("v-about")})(location.hash,location.search)</script>
@@ -1974,7 +2044,40 @@ body.kb .vtab.flt,body:has(.dv-v.on) .vtab.flt,body:has(.rq.on) .vtab.flt{displa
 </script>
 </div>
 <section class="endcta rv"><div><h2>Nhận khảo sát mái và báo giá chi tiết</h2><p>Để lại họ tên và số điện thoại. Đội kỹ thuật BTMI sẽ liên hệ khảo sát mái và gửi cấu hình, vốn đầu tư, dòng tiền 20 năm cho doanh nghiệp của bạn.</p></div><button type="button" class="btn gold" id="endrq" style="border:0;cursor:pointer;font-family:inherit">Gửi yêu cầu báo giá</button></section>
-<footer class="sitef"><div class="sf1"><div class="sfb"><a class="blogo sm" href="#top" aria-label="BTMI, Hạ tầng cho tương lai, về đầu trang"><img class="bl-t" src="logos/btmi-text.webp?v=2" alt="BTMI, Hạ tầng cho tương lai" width="720" height="358" loading="lazy"><img class="bl-l" src="logos/btmi-leaf.webp" alt="" width="720" height="358" aria-hidden="true" loading="lazy"><i class="bl-sh" aria-hidden="true"></i></a><span>Điện mặt trời áp mái cho C&amp;I</span></div><div class="sfl"><a href="mailto:ptda@btmi.com.vn">ptda@btmi.com.vn</a><a href="#ve-chung-toi">Về chúng tôi</a><a href="#s1">Tính lại tiết kiệm</a><a href="#top">Lên đầu trang</a></div></div><p>Số liệu là ước tính theo biểu giá điện QĐ 2892/QĐ-BCT, cấp điện áp 1 đến 35 kV (trung áp), chưa VAT, và sẽ thay đổi theo hiện trạng thực tế sau khảo sát. Hệ thống điện mặt trời tự sản xuất, tự tiêu thụ thực hiện theo Nghị định 58/2025/NĐ-CP, được sửa đổi bởi Nghị định 243/2026/NĐ-CP.</p></footer>
+<footer class="sitef xf rv" aria-label="Thông tin công ty">
+<div class="xf-top">
+ <div class="xf-brand">
+  <div class="xf-logo"><a class="blogo sm" href="#top" aria-label="BTMI, Hạ tầng cho tương lai, về đầu trang"><img class="bl-t" src="logos/btmi-text.webp?v=2" alt="BTMI, Hạ tầng cho tương lai" width="720" height="358" loading="lazy"><img class="bl-l" src="logos/btmi-leaf.webp" alt="" width="720" height="358" aria-hidden="true" loading="lazy"><i class="bl-sh" aria-hidden="true"></i></a></div>
+  <span class="xf-tag">Điện mặt trời áp mái cho C&amp;I</span>
+  <b class="xf-co">Công ty Cổ phần Đầu tư Betrimex (BTMI)</b>
+  <div class="xf-row"><a class="xf-mail" href="mailto:ptda@btmi.com.vn"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>ptda@btmi.com.vn</a><button type="button" class="xf-cp" data-cp="ptda@btmi.com.vn" data-msg="Đã sao chép email" aria-label="Sao chép email"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg></button></div>
+  <div class="xf-clock"><i></i><span>Giờ TP.HCM</span><b id="xfClock">--:--:--</b><em>UTC+07</em></div>
+ </div>
+ <nav class="xf-nav" aria-label="Liên kết nhanh">
+  <div><h4><a href="#ve-chung-toi">Về chúng tôi</a></h4><a href="#ab-why"><u>01</u>Vì sao chọn chúng tôi</a><a href="#ab-sol"><u>02</u>Danh mục giải pháp</a><a href="#ab-eco"><u>03</u>Hệ sinh thái đối tác</a><a href="#ab-prj"><u>04</u>Dự án triển khai</a></div>
+  <div><h4><a href="#giai-phap">Giải pháp</a></h4><a href="#s1"><u>01</u>Tính lại tiết kiệm</a><a href="#s2"><u>02</u>Đề xuất giải pháp</a><a href="#s3"><u>03</u>Phương án hợp tác</a><a href="#s4"><u>04</u>Quy trình và pháp lý</a></div>
+ </nav>
+ <div class="xf-loc">
+  <div class="xf-radar" aria-hidden="true">
+   <img src="img/vn-map2.webp" alt="" width="1680" height="1818" loading="lazy" decoding="async">
+   <div class="xf-grid"></div><div class="xf-rings"><i></i><i></i><i></i><i></i></div><div class="xf-sweep"></div><div class="xf-cross"></div>
+   <div class="xf-pin"><i></i><i></i><b></b></div>
+   <div class="xf-hud l"><span>LAT</span>10.7709° N<span>LON</span>106.6806° E</div>
+   <div class="xf-hud r">TP. HỒ CHÍ MINH</div>
+  </div>
+  <div class="xf-info">
+   <span class="xf-lbl">Trụ sở chính</span>
+   <b>Betrimex Tower</b>
+   <p>63 Cao Thắng, Phường Bàn Cờ, TP. Hồ Chí Minh</p>
+   <div class="xf-act"><a class="xf-go" href="https://www.google.com/maps/search/?api=1&amp;query=10.770949295879984,106.6805716210112" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Chỉ đường</a><button type="button" class="xf-cp t" data-cp="Betrimex Tower, 63 Cao Thắng, Phường Bàn Cờ, TP. Hồ Chí Minh" data-msg="Đã sao chép địa chỉ">Sao chép địa chỉ</button></div>
+  </div>
+ </div>
+</div>
+<div class="xf-bot">
+ <p>Số liệu là ước tính theo biểu giá điện QĐ 2892/QĐ-BCT, cấp điện áp 1 đến 35 kV (trung áp), chưa VAT, và sẽ thay đổi theo hiện trạng thực tế sau khảo sát. Hệ thống điện mặt trời tự sản xuất, tự tiêu thụ thực hiện theo Nghị định 58/2025/NĐ-CP, được sửa đổi bởi Nghị định 243/2026/NĐ-CP.</p>
+ <div class="xf-meta"><span>© 2026 Công ty Cổ phần Đầu tư Betrimex (BTMI)</span><a href="#top" class="xf-top-l">Lên đầu trang<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></a></div>
+</div>
+</footer>
 </div>
 
 
@@ -2269,6 +2372,9 @@ const f=()=>{if(document.body.classList.contains('v-about'))return;const a=secs[
  const pr=Math.max(0,Math.min(1,(scrollY-top)/Math.max(1,end-top)));nav.style.setProperty('--pr',pr.toFixed(3));
  let k=-1;secs.forEach((e,i)=>{if(e&&e.getBoundingClientRect().top<innerHeight*.4)k=i});links.forEach((l,i)=>l.classList.toggle('done',i<k))};
 addEventListener('scroll',f,{passive:true});addEventListener('resize',f);f()})();</script>
+<script>(function(){const c=document.getElementById('xfClock');if(c){const F=new Intl.DateTimeFormat('vi-VN',{timeZone:'Asia/Ho_Chi_Minh',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});const t=()=>{c.textContent=F.format(new Date())};t();setInterval(t,1000)}
+document.querySelectorAll('.xf-cp').forEach(b=>b.addEventListener('click',()=>{const v=b.dataset.cp,done=()=>{b.classList.add('ok');setTimeout(()=>b.classList.remove('ok'),1600);if(typeof showToast==='function')showToast(b.dataset.msg)};
+ if(navigator.clipboard)navigator.clipboard.writeText(v).then(done,()=>{});else{const x=document.createElement('textarea');x.value=v;document.body.appendChild(x);x.select();try{document.execCommand('copy');done()}catch(_){}x.remove()}}))})();</script>
 <button type="button" id="totop" aria-label="Lên đầu trang" title="Lên đầu trang"><svg viewBox="0 0 24 24"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg></button>
 <script>
 // Mô hình v2.1: Full logic V1.1 + vá lỗi nhỏ V2 (.cstat, scroll-lock iOS, reset nút copy)
