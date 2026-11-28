@@ -944,7 +944,7 @@ body.nores #esgBar,body.nores #actBar{display:none!important}
 /* Toast thông báo gọn */
 #toast{position:fixed;left:50%;bottom:24px;z-index:110;transform:translate(-50%,20px);background:var(--navy);color:#fff;padding:11px 18px;border-radius:999px;font:600 13px "Be Vietnam Pro",sans-serif;box-shadow:0 16px 36px -12px rgba(11,18,55,.6);opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;max-width:calc(100vw - 28px);text-align:center}
 #toast.on{opacity:1;transform:translate(-50%,0)}
-@media(max-width:900px){#toast{bottom:calc(84px + env(safe-area-inset-bottom))}}
+@media(max-width:900px){#toast{bottom:calc(112px + env(safe-area-inset-bottom))}}
 
 @media(max-width:700px){
   .esg{padding:14px 16px}
@@ -1910,6 +1910,25 @@ body.v-about .xf-bw{padding-bottom:calc(30px + env(safe-area-inset-bottom))}
 @media(max-width:380px){.tw-chip,.tw-sun{padding:5px 7px;font-size:10px}.tw-chip{letter-spacing:0}.tw-sun svg{display:none}}
 @media(max-width:340px){.tw-top{flex-wrap:wrap;justify-content:flex-start}.tw-hint{top:84px}}
 @media(hover:none){.pc,.pc:hover{transform:none}}
+
+h1[tabindex="-1"]:focus,h1[tabindex="-1"]:focus-visible,[tabindex="-1"]:focus{outline:none}
+
+/* V9.7: thiết bị nhỏ, ngang, notch */
+.fr>*,.fg2,.fl,.lc,.fl p,.fl b,.lc p,.lc li,.dv-body,.dv-pgs{min-width:0;overflow-wrap:anywhere}
+.dv-v{max-width:100vw}
+@media(max-width:340px){
+ .btn,.btn.gold,.ab-go{white-space:normal;text-align:center;padding-left:14px;padding-right:14px;line-height:1.25}
+ .fg2{padding-left:26px}.fnone{margin-left:26px}
+}
+@media(max-width:900px){#totop{bottom:calc(112px + env(safe-area-inset-bottom))}}
+@media(max-height:520px) and (orientation:landscape){#abnav,#topnav,.dotnav{display:none!important}#totop{bottom:calc(112px + env(safe-area-inset-bottom))}}
+@supports(padding:max(0px)){
+ .wrap,.xf-in{padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right))}
+ .xf-bw{padding-left:max(18px,env(safe-area-inset-left));padding-right:max(18px,env(safe-area-inset-right))}
+ #mbar{left:max(10px,env(safe-area-inset-left));right:max(10px,env(safe-area-inset-right))}
+}
+@media(max-width:380px){#toast{bottom:calc(128px + env(safe-area-inset-bottom));max-width:calc(100vw - 24px);white-space:normal;text-align:center;border-radius:18px}}
+@media(max-width:300px){.btn,.btn.gold,.ab-go{font-size:13px;padding:11px 12px;max-width:100%;box-sizing:border-box;white-space:normal}.wrap span{overflow-wrap:anywhere}}
 </style></head>
 <body>
 <script>(function(h,q){var sol=h==="#giai-phap"||/^#s\d/.test(h)||/[?&](b|r|m|k)=/.test(q);if(!sol)document.body.classList.add("v-about")})(location.hash,location.search)</script>
@@ -2473,7 +2492,7 @@ function go(h,push){const v=viewOf(h)||cur;
   const R=document.documentElement,vt=document.querySelector('.vtab'),cls=['vt-run',v==='sol'?'vt-l':'vt-r'];
   R.classList.add(...cls);R.classList.toggle('vt-top',scrollY<140);
   let tr=null;try{tr=document.startViewTransition(()=>{B.classList.add('vt-seen');if(vt)vt.classList.remove('flt','hid');apply(v,false);if(push)history.pushState(null,'',h);scrollTo({top:0,behavior:'instant'})})}catch(e){}
-  if(tr){const done=()=>{R.classList.remove(...cls,'vt-top');dispatchEvent(new Event('resize'));if(t)t.scrollIntoView({behavior:'smooth'})};tr.finished.then(done,done);return}
+  if(tr){const done=()=>{R.classList.remove(...cls,'vt-top');dispatchEvent(new Event('resize'));if(t)t.scrollIntoView({behavior:'smooth'})};try{tr.ready&&tr.ready.catch(()=>{});tr.updateCallbackDone&&tr.updateCallbackDone.catch(()=>{})}catch(_){}tr.finished.then(done,done);return}
   R.classList.remove(...cls,'vt-top')}
  const ch=apply(v,true);if(push)history.pushState(null,'',h);
  requestAnimationFrame(()=>{if(t){if(ch)scrollTo({top:0,behavior:'instant'});requestAnimationFrame(()=>t.scrollIntoView({behavior:'smooth'}))}else scrollTo({top:0,behavior:ch?'instant':'smooth'})})}
