@@ -1993,27 +1993,6 @@ h1[tabindex="-1"]:focus,h1[tabindex="-1"]:focus-visible,[tabindex="-1"]:focus{ou
   }
 }
 
-/* 4. Vá lỗi chấm xanh đè đơn giá biểu giá EVN (.tar) */
-.tar[data-now="off"] > div:nth-child(1)::before,
-.tar[data-now="nor"] > div:nth-child(2)::before,
-.tar[data-now="pk"] > div:nth-child(3)::before { display: none; }
-
-.tar[data-now="off"] > div:nth-child(1) i::after,
-.tar[data-now="nor"] > div:nth-child(2) i::after,
-.tar[data-now="pk"] > div:nth-child(3) i::after {
-  content: " · Đang áp dụng";
-  color: #15803d;
-  font-weight: 700;
-  letter-spacing: .04em;
-  text-transform: none;
-}
-html.en .tar[data-now="off"] > div:nth-child(1) i::after,
-html.en .tar[data-now="nor"] > div:nth-child(2) i::after,
-html.en .tar[data-now="pk"] > div:nth-child(3) i::after {
-  content: " · Active now";
-}
-.tar[data-now="pk"] .pkc i::after { color: #4ade80; }
-
 /* 5. Cải thiện độ tương phản WCAG AA trên nền tối Footer */
 .tw-tk { color: #9eb0dc; font-size: 10.5px; }
 .tw-th span { color: #a9b8e2; }
