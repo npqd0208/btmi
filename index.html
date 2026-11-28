@@ -3050,14 +3050,30 @@ function setMode(m){
 
 // Đóng gói & khôi phục trạng thái qua URL Deep-Link
 const DEFSCH='7-17~7-12~0';
+// Mã chia sẻ: nén toàn bộ số liệu thành một chuỗi chữ và số (cơ số 36)
 function buildShareUrl(){
+  let v=0n,n=0n;const put=(x,b)=>{v|=BigInt(Math.max(0,Math.min((1<<b)-1,Math.round(x))))<<n;n+=BigInt(b)};
   const sch=DAYS.map(([d])=>{const o=S.sch[d];return o.on&&o.shifts.length?o.shifts.map(x=>x[0]+'-'+x[1]).join('.'):'0'}).join('~');
-  const pi=D.prov.findIndex(x=>x[0]===$('prov').value),idle=Math.round(S.idle*100);
-  const x=S.mode==='esco'?'E'+Math.round(S.esco*100):(window.LOAN?'L'+Math.round(window.LOAN.pct*100)+'x'+(+(window.LOAN.rate*100).toFixed(1))+'x'+window.LOAN.yrs:'');
-  const f=[S.mode==='esco'?'e':'p',$('group').value==='Thương mại'?'1':'0',String(num('bill')),String(num('roof')),pi>=0?String(pi):'',idle===20?'':String(idle),x,sch===DEFSCH?'':sch,S.userSel?String(S.sel):''];
-  while(f.length&&f[f.length-1]==='')f.pop();
+  const esco=S.mode==='esco',loan=!esco&&!!window.LOAN,hasSch=sch!==DEFSCH;
+  const pi=D.prov.findIndex(x=>x[0]===$('prov').value),ii=[5,20,35].indexOf(Math.round(S.idle*100));
+  put(esco?1:0,1);put($('group').value==='Thương mại'?1:0,1);put(ii<0?1:ii,2);put(pi<0?127:pi,7);put(S.userSel?S.sel:0,2);put(loan?1:0,1);put(hasSch?1:0,1);
+  put(num('bill')*100,24);put(num('roof'),20);
+  if(esco)put(S.esco*100,7);
+  else if(loan){put(window.LOAN.pct*100,7);put(window.LOAN.rate*1000,8);put(window.LOAN.yrs,5)}
+  if(hasSch)DAYS.forEach(([d])=>{const o=S.sch[d],sh=o.on?o.shifts.slice(0,3):[];put(sh.length,2);sh.forEach(x=>{put(x[0],5);put(x[1],5)})});
   const base=location.href.split('?')[0].split('#')[0];
-  return base+'?k='+f.join('_')+'#s2';
+  return base+'?k='+v.toString(36);
+}
+function decodeK(k){
+  let v=0n;for(const c of k){const d=parseInt(c,36);if(isNaN(d))throw 0;v=v*36n+BigInt(d)}
+  const get=b=>{const x=Number(v&((1n<<BigInt(b))-1n));v>>=BigInt(b);return x};
+  const p=new URLSearchParams(),esco=get(1),grp=get(1),ii=get(2),pi=get(7),sel=get(2),loan=get(1),hasSch=get(1);
+  p.set('m',esco?'esco':'epc');p.set('g',grp?'1':'0');p.set('i',String([5,20,35][ii]||20));if(pi!==127)p.set('p',String(pi));if(sel)p.set('sel',String(sel));
+  p.set('b',String(get(24)/100));p.set('r',String(get(20)));
+  if(esco)p.set('ep',String(get(7)));
+  else if(loan){p.set('ltv',String(get(7)));p.set('lr',String(get(8)/10));p.set('ly',String(get(5)))}
+  if(hasSch)p.set('s',DAYS.map(()=>{const c=get(2);if(!c)return '0';const a=[];for(let i=0;i<c;i++){const x=get(5),y=get(5);a.push(x+'-'+y)}return a.join(',')}).join('|'));
+  return p;
 }
 function expandK(k){
   const f=k.split('_'),p=new URLSearchParams();
@@ -3072,7 +3088,7 @@ function expandK(k){
 }
 function loadFromUrl(){
   let p=new URLSearchParams(location.search);
-  if(p.has('k'))p=expandK(p.get('k'));
+  if(p.has('k')){const kv=p.get('k');try{p=kv.indexOf('_')>=0?expandK(kv):decodeK(kv.toLowerCase())}catch(_){return false}}
   if(!p.has('b')&&!p.has('r')&&!p.has('m'))return false;
   if(p.get('m')==='esco'||p.get('m')==='epc'){S.mode=p.get('m');document.querySelectorAll('.seg button[data-m]').forEach(b=>b.classList.toggle('on',b.dataset.m===S.mode))}
   if(p.get('g')==='1')$('group').value='Thương mại';else if(p.get('g')==='0')$('group').value='Sản xuất';
