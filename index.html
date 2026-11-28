@@ -1210,7 +1210,7 @@ body:not(.v-about) #about{display:none}
  repeating-linear-gradient(90deg,transparent 0 2px,rgba(255,255,255,.0) 2px 100%),
  repeating-linear-gradient(0deg,#cfe0ff 0 2px,transparent 2px 34px),
  repeating-linear-gradient(90deg,#cfe0ff 0 2px,transparent 2px 46px),
- linear-gradient(160deg,#3150e6,#1c2a8a);background-size:300% 100%,auto,auto,auto,auto;transform:perspective(900px) rotateX(18deg) rotateZ(-4deg);transform-origin:top right;opacity:.9;animation:abSweep 6s ease-in-out 1s infinite}
+ linear-gradient(160deg,#3150e6,#1c2a8a);background-size:300% 100%,auto,auto,auto,auto;transform:rotate(-4deg) skewX(-5deg) scaleY(.94);transform-origin:top right;opacity:.9;z-index:0;animation:abSweep 6s ease-in-out 1s infinite}
 @keyframes abSweep{0%{background-position:120% 0,0 0,0 0,0 0,0 0}55%,100%{background-position:-60% 0,0 0,0 0,0 0,0 0}}
 .ab-hv:before{content:"";position:absolute;right:6%;top:-14px;width:92px;height:92px;border-radius:50%;background:radial-gradient(circle,#ffd66b 0 44%,rgba(242,193,78,.35) 45% 62%,transparent 63%);animation:abGlow 4s ease-in-out infinite;z-index:1}
 @keyframes abGlow{50%{transform:scale(1.08)}}
@@ -1901,6 +1901,15 @@ html.vt-run.vt-top .brandbar{view-transition-name:bb}
 @keyframes twRay{to{transform:rotate(360deg)}}
 .tw-om{width:30px;height:30px;filter:drop-shadow(0 0 7px rgba(190,205,255,.6))}
 @media(prefers-reduced-motion:reduce){.tw-os::after{animation:none}}
+
+/* ===== V9.6: sửa riêng cho iPhone và màn hình nhỏ ===== */
+.tw-top{gap:6px}
+@media(max-width:430px){.tw-chip,.tw-sun{padding:5px 9px;font-size:11px;letter-spacing:.02em;gap:5px;white-space:nowrap}.tw-chip{letter-spacing:.06em}.tw-sun svg{width:13px;height:13px}}
+body.v-about .xf-bw{padding-bottom:calc(30px + env(safe-area-inset-bottom))}
+#mbar{bottom:max(10px,env(safe-area-inset-bottom))}
+@media(max-width:380px){.tw-chip,.tw-sun{padding:5px 7px;font-size:10px}.tw-chip{letter-spacing:0}.tw-sun svg{display:none}}
+@media(max-width:340px){.tw-top{flex-wrap:wrap;justify-content:flex-start}.tw-hint{top:84px}}
+@media(hover:none){.pc,.pc:hover{transform:none}}
 </style></head>
 <body>
 <script>(function(h,q){var sol=h==="#giai-phap"||/^#s\d/.test(h)||/[?&](b|r|m|k)=/.test(q);if(!sol)document.body.classList.add("v-about")})(location.hash,location.search)</script>
@@ -2696,7 +2705,7 @@ if(fine)ab.querySelectorAll('.ab-why article').forEach(c=>{c.addEventListener('p
 // parallax nhẹ khi cuộn: khối số liệu hero và số mục cỡ lớn
 const hv=ab.querySelector('.ab-hv'),secs=[...document.querySelectorAll('.sec[data-n]')];let tk=0;
 const onS=()=>{tk=0;const y=scrollY,h=innerHeight,va=document.body.classList.contains('v-about');
- if(va&&hv&&y<h*1.2){const k=Math.min(1,y/(h*.9));hv.style.transform=`perspective(1200px) translateY(${(y*0.07).toFixed(1)}px) rotateX(${(k*7).toFixed(2)}deg) scale(${(1-k*.04).toFixed(3)})`;hv.style.opacity=(1-k*.35).toFixed(3)}
+ if(va&&hv&&y<h*1.2){const k=Math.min(1,y/(h*.9));hv.style.transform=fine?`perspective(1200px) translateY(${(y*0.07).toFixed(1)}px) rotateX(${(k*7).toFixed(2)}deg) scale(${(1-k*.04).toFixed(3)})`:`translateY(${(y*0.04).toFixed(1)}px)`}
  if(!va){const sh=document.querySelector('.hero .hv');if(sh&&y<h*1.2){const k=Math.min(1,y/(h*.9));sh.style.transform=`translateY(${(y*0.06).toFixed(1)}px) scale(${(1-k*.03).toFixed(3)})`}}
  secs.forEach(s=>{if(!s.offsetParent)return;const r=s.getBoundingClientRect();if(r.bottom<-200||r.top>h+200)return;s.style.setProperty('--sp',((r.top+r.height/2)/h-.5).toFixed(3))})};
 addEventListener('scroll',()=>{if(!tk)tk=requestAnimationFrame(onS)},{passive:true});onS();
